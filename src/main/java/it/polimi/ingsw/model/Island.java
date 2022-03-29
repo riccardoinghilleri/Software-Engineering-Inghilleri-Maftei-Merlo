@@ -6,10 +6,19 @@ import it.polimi.ingsw.model.enums.PlayerColor;
 import java.util.*;
 import java.lang.*;
 
-public abstract class Island {
+public class Island {
     private boolean hasNatureMother;
     private Map<CharacterColor,List<Student>> students;
+    private List<Tower> towers;
     private boolean isLocked;
+
+    public Island(boolean hasNatureMother) {
+
+    }
+
+    public Island(Student firstStudent) {
+
+    }
 
     //---GETTER---//
 
@@ -21,11 +30,18 @@ public abstract class Island {
         return students;
     }
 
+    public List<Tower> getTowers() {
+        return towers;
+    }
+
     public boolean isLocked() {
         return isLocked;
     }
 
-    public abstract PlayerColor getColorTower();
+    public PlayerColor getColorTower() {
+        if(!towers.isEmpty()) return towers.get(0).getColor();
+        return null;
+    }
 
     //---SETTER---//
 
@@ -37,6 +53,14 @@ public abstract class Island {
         isLocked = locked;
     }
 
+    public void addTower(Tower tower) {
+
+    }
+
+    public void addTowers(List<Tower> towers) {
+
+    }
+
     public void addStudent(Student student) {
         if(!(students.containsKey(student.getColor())))
         {
@@ -44,8 +68,14 @@ public abstract class Island {
         }
         students.get(student.getColor()).add(student);
     }
-    /*
-    public String getInfluence(boolean useTower, CharacterColor excludedColor) {
 
-    }*/
+    public void addStudents(List<Student> students) { //TODO il parametro in teoria è una collection perchè la values() ritorna una collection
+
+    }
+
+    public List<Tower> removeTowers() {
+        List<Tower> tempTowers = new ArrayList<>(towers);
+        towers.clear();
+        return tempTowers;
+    }
 }

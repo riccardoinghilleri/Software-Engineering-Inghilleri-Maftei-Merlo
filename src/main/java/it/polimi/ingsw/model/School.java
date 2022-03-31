@@ -3,6 +3,8 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.enums.CharacterColor;
 import it.polimi.ingsw.model.enums.PlayerColor;
 import it.polimi.ingsw.model.board.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,10 +15,10 @@ public class School {
     private List<Tower> towers;
     private PlayerColor playerColor;
     private Board observerBoard;
-    public School(String owner, PlayerColor playerColor, List<Student> hall, Board observerBoard) {
+    public School(String owner, PlayerColor playerColor,Board observerBoard) {
         this.owner = owner;
         this.playerColor= playerColor;
-        this.hall=hall;
+        this.hall=new ArrayList<>();
         this.observerBoard=observerBoard;
     }
 
@@ -82,7 +84,7 @@ public class School {
     //TODO  LANCIARE ECC SE NON è PRESENTE UNO STUDENTE DEL COLORE DESIDERATO
     {
         addClassroomStudent(removeHallStudent(studentColor));
-        observerBoard.updateProfessor();
+        observerBoard.updateProfessor(studentColor);
     }
 
     //---TOWERSMOVEMENT---//
@@ -101,7 +103,7 @@ public class School {
     public String toString() {
         String professors =new String() ;
         for( CharacterColor c: CharacterColor.values()){
-            if(observerBoard.getProfessorbyColor().getOwner().equals(owner)){
+            if(observerBoard.getProfessorByColor(c.toString()).getOwner().equals(owner)){
                 professors = professors + c.toString() + "\n";
             }
         }

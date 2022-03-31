@@ -3,22 +3,39 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.enums.CharacterColor;
 import it.polimi.ingsw.model.enums.PlayerColor;
 
+import javax.swing.*;
 import java.util.*;
 import java.lang.*;
 
 public class Island {
     private boolean hasNatureMother;
-    private Map<CharacterColor,List<Student>> students;
+    private Map<CharacterColor, List<Student>> students;
     private List<Tower> towers;
     private boolean isLocked;
 
-    public Island(boolean hasNatureMother) {
+    public Island(boolean hasNatureMother)
+    {
+
+        this.hasNatureMother = hasNatureMother;
+        isLocked=false;
+        towers=new ArrayList<>();
+        students=new HashMap<>();
 
     }
+
 
     public Island(Student firstStudent) {
+        this.hasNatureMother=false;
+        isLocked=false;
+        towers=new ArrayList<>();
+        students=new HashMap<>();
+        students.put(firstStudent.getColor(), new ArrayList<>());
+        students.get(firstStudent.getColor()).add(firstStudent);
+
 
     }
+
+
 
     //---GETTER---//
 
@@ -54,10 +71,11 @@ public class Island {
     }
 
     public void addTower(Tower tower) {
-
+        towers.add(tower);
     }
 
     public void addTowers(List<Tower> towers) {
+        this.towers.addAll(towers);
 
     }
 
@@ -69,7 +87,12 @@ public class Island {
         students.get(student.getColor()).add(student);
     }
 
-    public void addStudents(List<Student> students) { //TODO il parametro in teoria è una collection perchè la values() ritorna una collection
+    public void addStudents(List<Student> students) {
+        for( Student s: students)
+        {
+            addStudent(s);
+
+        }
 
     }
 
@@ -77,5 +100,25 @@ public class Island {
         List<Tower> tempTowers = new ArrayList<>(towers);
         towers.clear();
         return tempTowers;
+
+        }
+    @Override
+    public String toString() {
+        String result;
+        if(towers.isEmpty()){
+            result ="Towers: NONE";
+        }
+        else{
+            result=  "Towers: " +  towers.size() +towers.get(0).getColor();
+        }
+
+        return  result +
+                "\nRedStudents: " + students.get(CharacterColor.RED).size() +
+                "\nBlueStudents: " + students.get(CharacterColor.BLUE).size() +
+                "\nYellowStudents: " + students.get(CharacterColor.YELLOW).size() +
+                "\nPinkStudents: " + students.get(CharacterColor.PINK).size() +
+                "\nGreenStudents: " + students.get(CharacterColor.GREEN).size() +
+                "\nNatureMother: " +hasNatureMother();
+
     }
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.board.Board;
+import it.polimi.ingsw.model.board.BoardImpl;
 import it.polimi.ingsw.model.enums.Magician;
 
 import java.util.ArrayList;
@@ -25,9 +26,9 @@ public class GameModel {
     //---CREAZIONE OGGETTI---//
     //TODO FARE BOARD
     public void createBoard(){
-        /*if (!isHardcore)
+        if (!isHardcore)
         board=new BoardImpl(players.size());
-        else board=new BoardHardImpl(players.size());*/
+        //else board=new BoardHardImpl(players.size());
     };
 
     public void createPlayer(String nickname, int clientID){

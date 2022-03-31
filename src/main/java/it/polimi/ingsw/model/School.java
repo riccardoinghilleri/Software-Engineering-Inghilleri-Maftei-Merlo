@@ -2,9 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.enums.CharacterColor;
 import it.polimi.ingsw.model.enums.PlayerColor;
-
-
-import java.util.ArrayList;
+import it.polimi.ingsw.model.board.*;
 import java.util.List;
 import java.util.Map;
 
@@ -46,8 +44,6 @@ public class School {
 
     //---STUDENTSMOVEMENT---//
 
-
-
     public void addClassroomStudent(Student student) {
         classroom.get(student.getColor()).add(student);
     }
@@ -62,14 +58,12 @@ public class School {
 
     }
 
-    public Student removeHallStudent(CharacterColor studentColor)
-    {
+    public Student removeHallStudent(CharacterColor studentColor) {
         //TODO lanciare un'eccezione se non è presente nella hall uno studente del colore desiderato
-
-            Student student = null;
-            for(int i=0; i<hall.size() && student == null; i++) {
-                if(hall.get(i).getColor().equals(studentColor)) {
-                    student = hall.remove(i);
+        Student student = null;
+        for(int i=0; i<hall.size() && student == null; i++) {
+            if(hall.get(i).getColor().equals(studentColor)) {
+                student = hall.remove(i);
             }
         }
         return student;}
@@ -83,6 +77,7 @@ public class School {
         }
         return student;
     }
+
     public void fromHalltoClassroom(CharacterColor studentColor)
     //TODO  LANCIARE ECC SE NON è PRESENTE UNO STUDENTE DEL COLORE DESIDERATO
     {
@@ -93,15 +88,14 @@ public class School {
     //---TOWERSMOVEMENT---//
 
     public Tower removeTower() {
-        return towers.remove(towers.size() - 1);
+        return towers.remove(towers.size()-1);
     }
 
     public void restockTower(List<Tower> towers) {
       //TODO se towers.isEmpty() c'è un vincitore
         this.towers.addAll(towers);
 
-        }
-
+    }
 
     @Override
     public String toString() {
@@ -130,6 +124,3 @@ public class School {
 
     }
 }
-
-
-

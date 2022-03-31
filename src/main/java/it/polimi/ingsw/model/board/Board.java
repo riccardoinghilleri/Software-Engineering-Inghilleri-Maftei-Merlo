@@ -1,12 +1,8 @@
 package it.polimi.ingsw.model.board;
 
-import com.sun.source.tree.Scope;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.enums.CharacterColor;
 import it.polimi.ingsw.model.enums.PlayerColor;
-
-import javax.security.auth.callback.CallbackHandler;
-import javax.swing.event.ChangeListener;
 import java.util.*;
 
 public abstract class Board {
@@ -147,16 +143,16 @@ public abstract class Board {
     }
 
 
-    private void moveTower(String fromSchool, int toIsland){
+    protected void moveTower(String fromSchool, int toIsland){
         islands.get(toIsland).addTower(getSchoolByOwner(fromSchool).removeTower());
     }
 
-    private void moveTower(int fromIsland,String toSchool){
+    protected void moveTower(int fromIsland,String toSchool){
         getSchoolByOwner(toSchool).restockTower(islands.get(fromIsland).removeTowers());
     }
 
     // TODO ECCEZIONE QUANNO IL NUMERO DI STUDENTI E' 0 --> FINE DEL GIOCO
-    private List<Student> removeRandomStudent (int num){
+    protected List<Student> removeRandomStudent (int num){
         List<Student> result= new ArrayList<>();
         for(int i=0;i < num;i++)
         {
@@ -165,11 +161,11 @@ public abstract class Board {
         return result;
     }
 
-    private Student removeRandomStudent() {
+    protected Student removeRandomStudent() {
         return students.remove(students.size()-1);
     }
 
-     private void checkNearIsland(int islandPosition){
+     protected void checkNearIsland(int islandPosition){
          if(islands.get(islandPosition).getColorTower().equals(islands.get((islandPosition+1)%islands.size()).getColorTower()));
          {
              for(CharacterColor c : CharacterColor.values()) {

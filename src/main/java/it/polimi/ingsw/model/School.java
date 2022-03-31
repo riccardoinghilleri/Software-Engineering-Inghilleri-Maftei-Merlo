@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.enums.CharacterColor;
 import it.polimi.ingsw.model.enums.PlayerColor;
-
+import it.polimi.ingsw.model.board.*;
 import java.util.List;
 import java.util.Map;
 

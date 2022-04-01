@@ -18,7 +18,7 @@ public abstract class BoardHard extends Board {
         createBoard(playersNumber);
         coins = 20;
         specialCards = createThreeRandomSpecialCards();
-        playerCoins=new HashMap<>();
+        playerCoins = new HashMap<>();
     }
 
     public void setPlayerCoins(String player){
@@ -61,7 +61,7 @@ public abstract class BoardHard extends Board {
                     break;
                 case QUEEN:
                     cards[i]=new SpecialCardwithStudents(SpecialCardName.QUEEN,2,
-                            "Prendi uno studente dal questa carta e piazzalo nella tua Sala." +
+                            "Prendi uno studente da questa carta e piazzalo nella tua Sala." +
                                     "Poi pesca un nuovo studente dal sacchetto e posizionalo su questa carta",removeRandomStudent(4));
                     break;
                 case THIEF:

@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.enums.PlayerColor;
 import java.util.*;
 
 public class Board {
-    private int playersNumber;
+    private final int playersNumber;
     private int natureMotherPosition;
     private Cloud[] clouds;
     private List<Island> islands;
@@ -15,10 +15,11 @@ public class Board {
     private Professor[] professors;
     //TODO metodo int getInfluencePlayer(String Player, int islandPosition) RITORNA L'INFLUENZA DI UN PLAYER SULL'ISOLA E NON CHI HA PIU INFLUENZA
 
-
+    //TODO rivedere questa classe e la sua sottoclasse BoardHard poichè con la rimozione di BoardImpl and BoardHardImpl è stata modificata
     public Board(int playersNumber) {
         this.playersNumber = playersNumber;
         this.islands = new ArrayList<>();
+        this.natureMotherPosition = 0;
         for (int i = 0; i < 12; i++) {
             if (i == 0)
                 islands.add(new Island(true));
@@ -27,9 +28,11 @@ public class Board {
             else
                 islands.add(new Island(removeRandomStudent()));
         }
+
         for (CharacterColor c : CharacterColor.values()) {
             professors[c.ordinal()] = new Professor(c);
         }
+
         for (int j = 0; j< 26; j++) {
             this.students.add(new Student(CharacterColor.RED));
             this.students.add(new Student(CharacterColor.BLUE));
@@ -40,10 +43,9 @@ public class Board {
         Collections.shuffle(students);
     }
 
-    public void createSchool(String owner, int clientID, PlayerColor playerColor){
-        schools[clientID]=new School(owner,playerColor,this);
+    public void createSchool(String owner, int clientID, PlayerColor playerColor) {
+        schools[clientID] = new School(owner,playerColor,this);
     }
-
 
     public int getNatureMotherPosition() {
         return natureMotherPosition;
@@ -74,34 +76,32 @@ public class Board {
     }
 
     //TODO ECCEZIONE SE NICKNAME E' SBAGLIATO - NON SO SE SERVE
-    public Professor getProfessorByColor(String color){
+    public Professor getProfessorByColor(String color) {
         return professors[CharacterColor.valueOf(color).ordinal()];
-
     }
 
-    public void setClouds(){
-        for(int i=0;i< clouds.length;i++){
+    public void setClouds() {
+        for(int i=0;i< clouds.length;i++) {
             if(playersNumber==2|| playersNumber==4)
                 clouds[i].addStudents(removeRandomStudent(3));
             else clouds[i].addStudents(removeRandomStudent(4));
         }
     }
 
-    public void setInitialHall(){
-        for(int i=0;i<schools.length;i++){
+    public void setInitialHall() {
+        for(int i=0;i<schools.length;i++) {
             if(playersNumber==2 || playersNumber==4)
                 schools[i].addHallStudents(removeRandomStudent(7));
             else schools[i].addHallStudents(removeRandomStudent(9));
         }
     }
 
-    public void moveStudent(String fromSchool,int toIsland, String color){
+    public void moveStudent(String fromSchool,int toIsland, String color) {
         islands.get(toIsland).addStudent(getSchoolByOwner(fromSchool).removeHallStudent(CharacterColor.valueOf(color)));
     }
 
-    public void moveStudent(int fromCloud,String toSchool, String color){
+    public void moveStudent(int fromCloud,String toSchool, String color) {
         getSchoolByOwner(toSchool).addHallStudents(clouds[fromCloud].removeStudents());
-
     }
 
     public void moveNatureMother(int choosenSteps) {
@@ -112,7 +112,7 @@ public class Board {
     }
 
     //TODO ECCEZIONE SE L'OWNER NON VIENE SETTATO
-    public void updateProfessor(CharacterColor color){
+    public void updateProfessor(CharacterColor color) {
         String owner=null;
         int max=0;
         for(School s: schools){
@@ -122,10 +122,9 @@ public class Board {
             }
         }
         professors[color.ordinal()].setOwner(owner);
-
     }
 
-    public String getInfluence(int islandPosition){
+    public String getInfluence(int islandPosition) {
         Map<CharacterColor,List<Student>> students=islands.get(islandPosition).getStudents();
         Map<String,Integer> owners = new HashMap<>();
         for (CharacterColor c: CharacterColor.values())
@@ -143,16 +142,16 @@ public class Board {
     }
 
 
-    protected void moveTower(String fromSchool, int toIsland){
+    protected void moveTower(String fromSchool, int toIsland) {
         islands.get(toIsland).addTower(getSchoolByOwner(fromSchool).removeTower());
     }
 
-    protected void moveTower(int fromIsland,String toSchool){
+    protected void moveTower(int fromIsland,String toSchool) {
         getSchoolByOwner(toSchool).restockTower(islands.get(fromIsland).removeTowers());
     }
 
     // TODO ECCEZIONE QUANNO IL NUMERO DI STUDENTI E' 0 --> FINE DEL GIOCO
-    protected List<Student> removeRandomStudent (int num){
+    protected List<Student> removeRandomStudent (int num) {
         List<Student> result= new ArrayList<>();
         for(int i=0;i < num;i++)
         {
@@ -165,7 +164,7 @@ public class Board {
         return students.remove(students.size()-1);
     }
 
-     protected void checkNearIsland(int islandPosition){
+     protected void checkNearIsland(int islandPosition) {
          if(islands.get(islandPosition).getColorTower().equals(islands.get((islandPosition+1)%islands.size()).getColorTower()));
          {
              for(CharacterColor c : CharacterColor.values()) {
@@ -180,7 +179,7 @@ public class Board {
          if(islands.get(islandPosition).getColorTower().equals(islands.get(position).getColorTower()));
          {
 
-             for(CharacterColor c : CharacterColor.values()){
+             for(CharacterColor c : CharacterColor.values()) {
                  islands.get(islandPosition).addStudents(islands.get(position).getStudents().get(c));
              }
              islands.get(islandPosition).addTowers(islands.get(position).getTowers());
@@ -189,7 +188,7 @@ public class Board {
 
      }
 
-     //FIX checkNearIsland
+     //TODO FIX checkNearIsland
      //TODO checkEndgame()
 
 

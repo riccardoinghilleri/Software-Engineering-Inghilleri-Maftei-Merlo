@@ -9,13 +9,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public abstract class BoardHard extends Board {
+public class BoardHard extends Board {
     int coins;
     Map<String, Integer> playerCoins;
     SpecialCard[] specialCards;
 
-    public void createBoardHard(int playersNumber) {
-        createBoard(playersNumber);
+    public BoardHard(int playersNumber) {
+        super(playersNumber);
         coins = 20;
         specialCards = createThreeRandomSpecialCards();
         playerCoins = new HashMap<>();

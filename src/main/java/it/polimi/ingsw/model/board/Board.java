@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.enums.CharacterColor;
 import it.polimi.ingsw.model.enums.PlayerColor;
 import java.util.*;
 
-public abstract class Board {
+public class Board {
     private int playersNumber;
     private int natureMotherPosition;
     private Cloud[] clouds;
@@ -16,7 +16,7 @@ public abstract class Board {
     //TODO metodo int getInfluencePlayer(String Player, int islandPosition) RITORNA L'INFLUENZA DI UN PLAYER SULL'ISOLA E NON CHI HA PIU INFLUENZA
 
 
-    public void createBoard(int playersNumber) {
+    public Board(int playersNumber) {
         this.playersNumber = playersNumber;
         this.islands = new ArrayList<>();
         for (int i = 0; i < 12; i++) {

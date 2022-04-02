@@ -10,37 +10,51 @@ import java.util.Map;
 import java.util.Random;
 
 public class BoardHard extends Board {
-    int coins;
+    int boardCoins;
     Map<String, Integer> playerCoins;
     SpecialCard[] specialCards;
 
     public BoardHard(int playersNumber) {
         super(playersNumber);
-        coins = 20;
+        boardCoins = 20;
         specialCards = createThreeRandomSpecialCards();
         playerCoins = new HashMap<>();
     }
 
-    public void setPlayerCoins(String player){
-        playerCoins.put(player,1);
-        coins--;
+    public Integer getPlayerCoins(String playerNickname) {
+        return playerCoins.get(playerNickname);
     }
 
-    public int getCoins() {
-        return coins;
+    public void setPlayerCoins(String player){
+        playerCoins.put(player,1);
+        boardCoins--;
+    }
+
+    public int getBoardCoins() {
+        return boardCoins;
     }
 
     public SpecialCard[] getSpecialCards() {
         return specialCards;
     }
+
+    public SpecialCard getSpecialCardbyName(String name) {
+        //TODO forse bisogna lanciare eccezione se non si trova la carta
+        SpecialCard specialCard = null;
+        for(int i=0; i<3 && specialCard==null; i++) {
+            if(name.equals(specialCards[i].getName().toString()))  specialCard = specialCards[i];
+        }
+        return specialCard;
+    }
+
     public void moveCoin(String player, SpecialCard card){
         playerCoins.replace(player,playerCoins.get(player)-1);
-        coins+=(card.getCost())-1;
+        boardCoins+=(card.getCost())-1;
         card.updateCost();
     }
     public void moveCoin(String player){
         playerCoins.replace(player,playerCoins.get(player)+1);
-        coins--;
+        boardCoins--;
     }
 
     public void removeLock(int islandPosition){

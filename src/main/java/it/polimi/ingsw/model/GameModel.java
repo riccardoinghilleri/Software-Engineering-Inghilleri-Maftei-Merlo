@@ -44,7 +44,7 @@ public class GameModel {
 
     public List<Player> getPlayers(){ return players; }
 
-    public Player getCurrentPlayer(){return players.get(0); }
+    //public Player getCurrentPlayer(){ return players.get(0); }
 
     public Player getPlayerByNickname(String nickname) {
         Player result = null;

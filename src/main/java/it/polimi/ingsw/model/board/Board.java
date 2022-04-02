@@ -82,7 +82,7 @@ public class Board {
 
     public void setClouds() {
         for(int i=0;i< clouds.length;i++) {
-            if(playersNumber==2|| playersNumber==4)
+            if(playersNumber==2 || playersNumber==4)
                 clouds[i].addStudents(removeRandomStudent(3));
             else clouds[i].addStudents(removeRandomStudent(4));
         }

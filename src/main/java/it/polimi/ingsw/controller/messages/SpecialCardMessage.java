@@ -7,8 +7,8 @@ public class SpecialCardMessage implements Message{
     private final Action action;
     private final String specialCardName;
 
-    public SpecialCardMessage(Action action, String specialCardName) {
-        this.action = action;
+    public SpecialCardMessage(String specialCardName) {
+        this.action = Action.USE_SPECIAL_CARD;
         this.specialCardName = specialCardName;
     }
 

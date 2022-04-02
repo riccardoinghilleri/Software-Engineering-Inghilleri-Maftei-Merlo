@@ -2,15 +2,18 @@ package it.polimi.ingsw.controller.messages;
 
 import it.polimi.ingsw.controller.Action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StudentsMessage implements Message {
     private final Action action;
     private int islandPosition;
-    private String[] studentsColor;
+    private List<String> studentsColor;
     private String schoolOwner;
 
     public StudentsMessage(Action action) {
         this.action = action;
-        //TODO Credo che per i colori mi serva la lista perchè non so se l'utente ne inserisce 1 o 2
+        studentsColor = new ArrayList<String>();
     }
 
     @Override
@@ -26,11 +29,11 @@ public class StudentsMessage implements Message {
         this.islandPosition = islandPosition;
     }
 
-    public String[] getStudentsColor() {
+    public List<String> getStudentsColor() {
         return studentsColor;
     }
 
-    public void setStudentsColor(String[] studentsColor) {
+    public void setStudentsColor(List<String> studentsColor) {
         this.studentsColor = studentsColor;
     }
 

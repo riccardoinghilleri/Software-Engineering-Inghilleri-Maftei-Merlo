@@ -7,8 +7,8 @@ public class InfluenceMessage implements Message {
     private String data;
     private int islandPosition;
 
-    public InfluenceMessage(Action action) {
-        this.action = action;
+    public InfluenceMessage() {
+        this.action = Action.GET_INFLUENCE;
     }
 
     @Override

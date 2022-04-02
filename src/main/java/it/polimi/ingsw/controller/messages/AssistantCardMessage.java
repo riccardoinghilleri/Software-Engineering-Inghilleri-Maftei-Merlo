@@ -6,8 +6,8 @@ public class AssistantCardMessage implements Message{
     private final Action action;
     private final int priority;
 
-    public AssistantCardMessage(Action action, int priority) {
-        this.action = action;
+    public AssistantCardMessage(int priority) {
+        this.action = Action.CHOOSE_ASSISTANT_CARD;
         this.priority = priority;
     }
 

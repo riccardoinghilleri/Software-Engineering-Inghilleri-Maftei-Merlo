@@ -6,8 +6,8 @@ public class CloudMessage {
     private final Action action;
     private final int cloudPosition;
 
-    public CloudMessage(Action action, int cloudPosition) {
-        this.action = action;
+    public CloudMessage(int cloudPosition) {
+        this.action = Action.CHOOSE_CLOUD;
         this.cloudPosition = cloudPosition;
     }
 

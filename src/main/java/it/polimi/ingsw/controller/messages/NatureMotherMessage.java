@@ -6,8 +6,8 @@ public class NatureMotherMessage {
     private final Action action;
     private final int choosenSteps;
 
-    public NatureMotherMessage(Action action, int choosenSteps) {
-        this.action = action;
+    public NatureMotherMessage(int choosenSteps) {
+        this.action = Action.MOVE_NATURE_MOTHER;
         this.choosenSteps = choosenSteps;
     }
 

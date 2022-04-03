@@ -1,13 +1,14 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.actioncontroller.ActionController;
-import it.polimi.ingsw.controller.messages.AssistantCardMessage;
-import it.polimi.ingsw.controller.messages.Message;
-import it.polimi.ingsw.controller.messages.SpecialCardMessage;
+import it.polimi.ingsw.controller.messages.*;
+import it.polimi.ingsw.exceptions.EmptyCloudException;
 import it.polimi.ingsw.exceptions.NotEnoughCoinsException;
 import it.polimi.ingsw.exceptions.SameAssistantCardException;
+import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.SpecialCard;
+import it.polimi.ingsw.model.SpecialCardwithProhibitions;
 import it.polimi.ingsw.model.board.BoardHard;
 
 public class Controller {
@@ -20,7 +21,6 @@ public class Controller {
     public Controller(GameModel gameModel) {
         this.gameModel = gameModel;
         this.phase = Phase.SET_CLOUD;
-        actionController = new ActionController(gameModel);
         playerTurnNumber = 0;
     }
 
@@ -41,37 +41,54 @@ public class Controller {
         }
         gameModel.getPlayers().get(playerTurnNumber).setAssistantCard(((AssistantCardMessage)message).getPriority());
         playerTurnNumber++;
-        if(playerTurnNumber==gameModel.getPlayersNumber()-1) {
-            playerTurnNumber=0;
-            phase=Phase.ACTION;
+        if(playerTurnNumber==gameModel.getPlayersNumber()) {
+            playerTurnNumber = 0;
+            phase = Phase.ACTION;
             gameModel.setPlayersOrder();
         }
     }
 
     public void startTurn() {
-        //TODO da vedere
+        actionController = new ActionController(gameModel,gameModel.getPlayers().get(playerTurnNumber).getNickname());
     }
 
     public void nextAction(Message message) {
         switch (message.getAction()) {
             case USE_SPECIAL_CARD:
-                try{
-                    checkCoins((SpecialCardMessage) message);
+                try {
+                    checkCoins((SpecialCardMessage)message);
                 } catch (NotEnoughCoinsException e) {
                     System.out.println(e.getMessage());
                 }
+                actionController.useSpecialCard(((SpecialCardMessage)message).getSpecialCardName());
             case SPECIAL_MOVEMENTS:
             case DEFAULT_MOVEMENTS:
             case GET_INFLUENCE:
+                if(gameModel.isHardcore()) {
+                    int islandPosition = ((InfluenceMessage) message).getIslandPosition();
+                    BoardHard boardHard = (BoardHard) gameModel.getBoard();
+                    if (gameModel.getBoard().getIslands().get(islandPosition).isLocked()) {
+                        boardHard.removeLock(islandPosition);
+                        ((SpecialCardwithProhibitions) (boardHard.getSpecialCardbyName("Herbolaria"))).restockProhibitionsNumber();
+                        //TODO va bene che se l'isola è bloccata, il controller la sblocca e non ritorna nulla?
+                    }
+                    else actionController.getInfluence(message);
+                }
+                else actionController.getInfluence(message);
             case MOVE_NATURE_MOTHER:
             case CHOOSE_CLOUD:
+                try {
+                    checkCloud(message);
+                } catch (EmptyCloudException e) {
+                    System.out.println(e.getMessage());
+                }
+                actionController.moveStudent(((CloudMessage)message).getCloudPosition());
         }
-
     }
 
     public void endPlayerTurn() {
         playerTurnNumber++;
-        actionController = new ActionController(gameModel);
+
     }
 
     public void endTurn() {
@@ -93,6 +110,15 @@ public class Controller {
         if(boardhard.getPlayerCoins(gameModel.getPlayers().get(playerTurnNumber).getNickname())<cost)
         {
             throw new NotEnoughCoinsException();
+        }
+    }
+
+    private void checkCloud(Message message) throws EmptyCloudException {
+        //TODO conviene usare un'array di cloud? Meglio una lista??
+        Cloud[] cloud = gameModel.getBoard().getClouds() ;
+        if(cloud[((CloudMessage)message).getCloudPosition()].getStudents().isEmpty())
+        {
+            throw new EmptyCloudException();
         }
     }
 }

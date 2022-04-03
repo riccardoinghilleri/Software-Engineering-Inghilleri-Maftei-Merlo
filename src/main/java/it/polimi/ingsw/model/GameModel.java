@@ -36,6 +36,10 @@ public class GameModel {
 
     //---GETTER---//
 
+    public boolean isHardcore() {
+        return isHardcore;
+    }
+
     public int getPlayersNumber() {
         return playersNumber;
     }

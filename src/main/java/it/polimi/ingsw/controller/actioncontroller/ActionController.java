@@ -7,11 +7,13 @@ public class ActionController {
     private final GameModel gameModel;
     private String specialCardName;
     private int cardMovements;
+    private String player;
 
-    public ActionController(GameModel gameModel) {
+    public ActionController(GameModel gameModel, String player) {
         this.gameModel = gameModel;
         this.specialCardName = null;
         this.cardMovements = 0;
+        this.player = player;
     }
 
     public String getSpecialCardName() {
@@ -35,6 +37,10 @@ public class ActionController {
     }
 
     public void moveStudent(String schoolOwner,int islandPosition, String studentColor) {
+
+    }
+
+    public void moveStudent(int cloudPosition) {
 
     }
 

@@ -100,7 +100,7 @@ public class Board {
         islands.get(toIsland).addStudent(getSchoolByOwner(fromSchool).removeHallStudent(CharacterColor.valueOf(color)));
     }
 
-    public void moveStudent(int fromCloud,String toSchool, String color) {
+    public void moveStudent(int fromCloud,String toSchool) {
         getSchoolByOwner(toSchool).addHallStudents(clouds[fromCloud].removeStudents());
     }
 
@@ -142,11 +142,11 @@ public class Board {
     }
 
 
-    protected void moveTower(String fromSchool, int toIsland) {
+    public void moveTower(String fromSchool, int toIsland) {
         islands.get(toIsland).addTower(getSchoolByOwner(fromSchool).removeTower());
     }
 
-    protected void moveTower(int fromIsland,String toSchool) {
+    public void moveTower(int fromIsland,String toSchool) {
         getSchoolByOwner(toSchool).restockTower(islands.get(fromIsland).removeTowers());
     }
 

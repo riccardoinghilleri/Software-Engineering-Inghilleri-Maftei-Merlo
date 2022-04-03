@@ -34,7 +34,7 @@ public class BoardHard extends Board {
         return specialCards;
     }
     public void moveCoin(String player, SpecialCard card){
-        playerCoins.replace(player,playerCoins.get(player)-1);
+        playerCoins.replace(player,playerCoins.get(player)-card.getCost());
         coins+=(card.getCost())-1;
         card.updateCost();
     }

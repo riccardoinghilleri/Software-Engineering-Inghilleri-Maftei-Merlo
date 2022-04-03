@@ -3,15 +3,21 @@ package it.polimi.ingsw.controller.actioncontroller;
 import it.polimi.ingsw.controller.messages.Message;
 import it.polimi.ingsw.model.GameModel;
 
-public class ActionController {
-    private final GameModel gameModel;
+public class  ActionController {
+   protected final GameModel gameModel;
     private String specialCardName;
     private int cardMovements;
+    protected String player;
 
-    public ActionController(GameModel gameModel) {
+    public ActionController(GameModel gameModel, String player) {
         this.gameModel = gameModel;
         this.specialCardName = null;
         this.cardMovements = 0;
+        this.player=player;
+    }
+
+    public GameModel getGameModel() {
+        return gameModel;
     }
 
     public String getSpecialCardName() {

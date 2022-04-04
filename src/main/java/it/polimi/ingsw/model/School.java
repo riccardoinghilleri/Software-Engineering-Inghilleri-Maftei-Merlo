@@ -44,6 +44,16 @@ public class School {
         return playerColor;
     }
 
+    //metodo che controlla se ho un studente di un determinato colore nella hall
+    public boolean hasHallStudentColor(String color) {
+        for(Student s : hall) {
+            if(s.getColor().toString().equals(color)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     //---STUDENTSMOVEMENT---//
 
     public void addClassroomStudent(Student student) {

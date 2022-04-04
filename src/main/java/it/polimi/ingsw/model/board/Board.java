@@ -104,11 +104,10 @@ public class Board {
         getSchoolByOwner(toSchool).addHallStudents(clouds[fromCloud].removeStudents());
     }
 
-    public void moveNatureMother(int choosenSteps) {
+    public void moveNatureMother(int chosenSteps) {
         islands.get(natureMotherPosition).setNatureMother(false);
-        natureMotherPosition+=choosenSteps%islands.size();
+        natureMotherPosition = (natureMotherPosition + chosenSteps) % islands.size();
         islands.get(natureMotherPosition).setNatureMother(true);
-
     }
 
     //TODO ECCEZIONE SE L'OWNER NON VIENE SETTATO

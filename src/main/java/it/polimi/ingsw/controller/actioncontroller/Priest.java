@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
-import it.polimi.ingsw.controller.messages.Message;
 import it.polimi.ingsw.model.GameModel;
 
 public class Priest extends ActionController {

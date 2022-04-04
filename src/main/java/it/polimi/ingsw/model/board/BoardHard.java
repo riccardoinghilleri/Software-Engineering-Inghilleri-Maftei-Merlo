@@ -33,6 +33,14 @@ public class BoardHard extends Board {
     public SpecialCard[] getSpecialCards() {
         return specialCards;
     }
+    public SpecialCard getSpecialCardbyName(String name) {
+        //TODO forse bisogna lanciare eccezione se non si trova la carta
+        SpecialCard specialCard = null;
+        for(int i=0; i<3 && specialCard==null; i++) {
+            if(name.equals(specialCards[i].getName().toString()))  specialCard = specialCards[i];
+        }
+        return specialCard;
+    }
     public void moveCoin(String player, SpecialCard card){
         playerCoins.replace(player,playerCoins.get(player)-card.getCost());
         coins+=(card.getCost())-1;
@@ -46,6 +54,7 @@ public class BoardHard extends Board {
     public void removeLock(int islandPosition){
         getIslands().get(islandPosition).setLock(false);
     }
+
 
     protected SpecialCard[] createThreeRandomSpecialCards(){
         SpecialCard[] cards= new SpecialCard[3];

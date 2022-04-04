@@ -151,7 +151,7 @@ public class Board {
     }
 
     // TODO ECCEZIONE QUANNO IL NUMERO DI STUDENTI E' 0 --> FINE DEL GIOCO
-    protected List<Student> removeRandomStudent (int num) {
+    public List<Student> removeRandomStudent (int num) {
         List<Student> result= new ArrayList<>();
         for(int i=0;i < num;i++)
         {
@@ -160,7 +160,7 @@ public class Board {
         return result;
     }
 
-    protected Student removeRandomStudent() {
+    public Student removeRandomStudent() {
         return students.remove(students.size()-1);
     }
 

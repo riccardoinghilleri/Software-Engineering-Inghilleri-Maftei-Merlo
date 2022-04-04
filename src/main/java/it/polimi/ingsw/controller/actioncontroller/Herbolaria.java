@@ -1,16 +1,23 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
+import it.polimi.ingsw.controller.Message;
 import it.polimi.ingsw.model.GameModel;
+import it.polimi.ingsw.model.SpecialCardwithProhibitions;
+import it.polimi.ingsw.model.board.BoardHard;
 
-public class Herbolaria extends ActionController {
+public class Herbolaria implements CharacterCardStrategy {
 
+    GameModel gameModel;
+    BoardHard board;
     public Herbolaria(GameModel gameModel) {
-        super(gameModel);
-        //TODO da finire
+        this.gameModel=gameModel;
+        board=(BoardHard) gameModel.getBoard();
     }
 
     @Override
-    public void toggle(int islandPosition) {
+    public void useEffect(Message message) {
+        ((SpecialCardwithProhibitions)board.getSpecialCardbyName("HERBOLARIA")).subProhibitionCard();
+        board.getIslands().get(message.getData()).setLock(true);
 
     }
 }

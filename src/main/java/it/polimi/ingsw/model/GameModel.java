@@ -14,6 +14,7 @@ public class GameModel {
     Board board;
     List<Player> players;
     List<String> winners;
+    Player currentPlayer;
 
     public GameModel(boolean isHardcore)
     {
@@ -44,7 +45,11 @@ public class GameModel {
 
     public List<Player> getPlayers(){ return players; }
 
-    public Player getCurrentPlayer(){return players.get(0); }
+    public Player getCurrentPlayer(){return currentPlayer; }
+
+    public void setCurrentPlayer(int position){
+        currentPlayer=players.get(position);
+    }
 
     public Player getPlayerByNickname(String nickname) {
         Player result = null;

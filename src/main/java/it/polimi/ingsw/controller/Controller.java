@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.actioncontroller.ActionController;
-import it.polimi.ingsw.controller.messages.Message;
 import it.polimi.ingsw.model.GameModel;
 
 public class Controller {

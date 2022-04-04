@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
+import it.polimi.ingsw.controller.Message;
 import it.polimi.ingsw.model.GameModel;
 
 public class Performer extends ActionController {

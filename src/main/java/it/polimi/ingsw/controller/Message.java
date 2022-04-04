@@ -1,6 +1,4 @@
-package it.polimi.ingsw.controller.actioncontroller;
-
-import it.polimi.ingsw.controller.Action;
+package it.polimi.ingsw.controller;
 
 public class Message {
     private final Action action;

@@ -14,11 +14,11 @@ public class Controller {
     private int characterCardMovements;
     private int defaultMovements;
     private boolean alreadyUsedCharacterCard;
-    private Phase phase;
+    private Action phase;
 
     public Controller(GameModel gameModel) {
         this.gameModel = gameModel;
-        this.phase = Phase.SET_CLOUD;
+        this.phase = Action.SETUP_CLOUD;
         playerTurnNumber = 0;
         characterCardMovements = 0;
         defaultMovements = 0;
@@ -27,7 +27,7 @@ public class Controller {
 
     public void setCloud() {
         gameModel.getBoard().setClouds();
-        phase = Phase.SET_ASSISTANT_CARD;
+        phase = Action.CHOOSE_ASSISTANT_CARD;
     }
 
     public void setAssistantCard(Message message) {
@@ -35,7 +35,7 @@ public class Controller {
         if(playerTurnNumber>0)
         {
             try {
-                checkSameAssistantCard(message.getData());
+                checkSameAssistantCard(message.getData()); //TODO sistemare per più di 2 giocatori
             } catch (SameAssistantCardException e) {
                 System.out.println(e.getMessage());
             }
@@ -44,21 +44,23 @@ public class Controller {
         playerTurnNumber++;
         if(playerTurnNumber==gameModel.getPlayersNumber()) {
             playerTurnNumber = 0;
-            phase = Phase.ACTION;
             gameModel.setPlayersOrder();
+            startPlayerTurn();
         }
     }
 
-    public void startPlayerTurn() {
+    private void startPlayerTurn() {
         actionController = new ActionController(gameModel,gameModel.getPlayers().get(playerTurnNumber).getNickname());
         characterCardMovements = 0;
         defaultMovements = 0;
         alreadyUsedCharacterCard = false;
+        phase = Action.DEFAULT_MOVEMENTS;
+        //TODO aggiungere gamemodel.setcurrentplayer(playerturnnumber) dopo il merge
     }
 
     public void nextAction(Message message) {
         switch (message.getAction()) {
-            case USE_SPECIAL_CARD:
+            case USE_SPECIAL_CARD: //TODO in questo modo la specialcard si può usare in qualunque momento del proprio turno tranne dopo aver scelto la nuvola
                 try {
                     if(alreadyUsedCharacterCard) checkAlreadyUsedCharacterCard(message);
                     else checkCoins(message);
@@ -77,7 +79,10 @@ public class Controller {
                 characterCardMovements++; // incremento il numero di volte che è stata usata la carta personaggio scelta
             case DEFAULT_MOVEMENTS:
                 try {
+                    checkPhase(message); //TODO sistemare
                     checkDefaultMovements(message);
+                } catch (IncorrectPhaseException e) {
+                    System.out.println(e.getMessage());
                 } catch (DefaultMovementsNumberException e) {
                     System.out.println(e.getMessage());
                 } catch (DefaultMovementsColorException e) {
@@ -90,15 +95,23 @@ public class Controller {
                     actionController.moveStudent(message.getData(),message.getFirstParameter());
                 }
                 defaultMovements++;
+                if(defaultMovements>=4
+                        || (defaultMovements>=3 && gameModel.getPlayers().size()%2==0 )) {
+                    phase = Action.MOVE_NATURE_MOTHER;
+                }
             case GET_INFLUENCE: //TODO non so se è necessario
                 actionController.getInfluence(message);
             case MOVE_NATURE_MOTHER:
-                try { //TODO corrispondenza con una fase
+                try {
+                    checkPhase(message);
                     checkChosenSteps(message);
-                } catch (InvalidChosenStepsException e) {
+                } catch (IncorrectPhaseException e) {
+                    System.out.println(e.getMessage());
+                }catch (InvalidChosenStepsException e) {
                     System.out.println(e.getMessage());
                 }
                 actionController.moveNatureMother(message);
+                phase = Action.CHOOSE_CLOUD;
                 /*if(gameModel.isHardcore()) {
                     int newIslandPosition = (gameModel.getBoard().getNatureMotherPosition()
                                             + ((NatureMotherMessage) message).getChoosenSteps())
@@ -113,26 +126,34 @@ public class Controller {
                 else actionController.getInfluence(message);*/
             case CHOOSE_CLOUD:
                 try {
+                    checkPhase(message);
                     checkCloud(message);
-                } catch (EmptyCloudException e) {
+                } catch (IncorrectPhaseException e) {
+                    System.out.println(e.getMessage());
+                }catch (EmptyCloudException e) {
                     System.out.println(e.getMessage());
                 }
                 actionController.moveStudent(message.getData());
+                endPlayerTurn(); // in questo modo dopo la scelta della nuvola non si può giocare la carta personaggio
         }
     }
 
-    public void endPlayerTurn() {
+    private void endPlayerTurn() {
         playerTurnNumber++;
         if(playerTurnNumber==gameModel.getPlayersNumber())
         {
-            phase= Phase.SET_CLOUD;
+            phase = Action.SETUP_CLOUD;
+        }
+        else
+        {
+            startPlayerTurn();
         }
     }
 
-    private void setCharacterCardEffect(Message message)
+    private void setCharacterCardEffect(Message message) //setta la strategy oppure crea l'actioncontroller giusto
     {
         boolean strategy = false;
-        switch (message.getCharacterCardName().toUpperCase()) {
+        switch (message.getCharacterCardName().toUpperCase()) { //TODO ormai il current player è nel gamemodel quindi nel costruttore dell'actioncontroller e dello strategyfactory il player non serve più
             case "CENTAUR":
                 actionController = new Centaur(gameModel, gameModel.getPlayers().get(playerTurnNumber).getNickname());
                 break;
@@ -143,7 +164,7 @@ public class Controller {
                 actionController = new Knight(gameModel, gameModel.getPlayers().get(playerTurnNumber).getNickname());
                 break;
             case "LUMBERJACK":
-                actionController = new Lumberjack(gameModel, gameModel.getPlayers().get(playerTurnNumber).getNickname());
+                actionController = new Lumberjack(gameModel, gameModel.getPlayers().get(playerTurnNumber).getNickname(), message.getFirstParameter());
                 break;
             default:
                 strategy = true; //setta strategia e usa effetto
@@ -160,7 +181,7 @@ public class Controller {
             }
         }
     }
-
+    //TODO sostituire dopo il merge getPlayers().get(playerTurnNumber) con getCurrentPlayer()
     private void checkCoins(Message message) throws NotEnoughCoinsException {
         BoardHard boardhard = (BoardHard) gameModel.getBoard();
         int cost = boardhard.getSpecialCardbyName(message.getCharacterCardName()).getCost();
@@ -200,11 +221,15 @@ public class Controller {
 
     private void checkDefaultMovements(Message message) throws DefaultMovementsNumberException, DefaultMovementsColorException {
         if(defaultMovements>=4
-                || (defaultMovements>=3 && (gameModel.getPlayers().size()==2 || gameModel.getPlayers().size()==4)))
+                || (defaultMovements>=3 && gameModel.getPlayers().size()%2==0 ))
             throw new DefaultMovementsNumberException();
         else if(!(gameModel.getBoard().getSchoolByOwner(gameModel.getPlayers().get(playerTurnNumber)
                 .getNickname()).hasHallStudentColor(message.getFirstParameter()))) {
             throw new DefaultMovementsColorException();
         }
+    }
+
+    private void checkPhase(Message message) throws IncorrectPhaseException {
+        if(!message.getAction().equals(phase)) throw new IncorrectPhaseException();
     }
 }

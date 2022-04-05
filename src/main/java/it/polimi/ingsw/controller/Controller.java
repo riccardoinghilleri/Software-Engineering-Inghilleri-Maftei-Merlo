@@ -59,12 +59,12 @@ public class Controller {
         defaultMovements = 0;
         alreadyUsedCharacterCard = false;
         phase = Action.DEFAULT_MOVEMENTS;
-        //TODO aggiungere gamemodel.setcurrentplayer(playerturnnumber) dopo il merge
+        gameModel.setCurrentPlayer(playerTurnNumber);
     }
 
     public void nextAction(Message message) {
         switch (message.getAction()) {
-            case USE_SPECIAL_CARD: //TODO in questo modo la specialcard si può usare in qualunque momento del proprio turno tranne dopo aver scelto la nuvola
+            case USE_SPECIAL_CARD: // in questo modo la specialcard si può usare in qualunque momento del proprio turno tranne dopo aver scelto la nuvola
                 try {
                     if(alreadyUsedCharacterCard) checkAlreadyUsedCharacterCard(message);
                     else checkCoins(message);

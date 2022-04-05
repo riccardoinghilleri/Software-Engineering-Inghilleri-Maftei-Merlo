@@ -3,9 +3,13 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.controller.actioncontroller.*;
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.board.BoardHard;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Controller {
     private final GameModel gameModel;
@@ -35,7 +39,7 @@ public class Controller {
         if(playerTurnNumber>0)
         {
             try {
-                checkSameAssistantCard(message.getData()); //TODO sistemare per più di 2 giocatori
+                checkSameAssistantCard(message.getData());
             } catch (SameAssistantCardException e) {
                 System.out.println(e.getMessage());
             }
@@ -174,13 +178,18 @@ public class Controller {
     }
 
     private void checkSameAssistantCard(int priority) throws SameAssistantCardException {
-        for(int i=0; i<playerTurnNumber; i++) { //TODO sistemare il caso in cui ho più di 1 carta in mano però sono state tutte gia scelte
-            if(priority==gameModel.getPlayers().get(i).getChoosenAssistantCard().getPriority()
-                    && gameModel.getPlayers().get(playerTurnNumber).getDeck().getAssistantCards().size()!=1) {
-                throw new SameAssistantCardException();
+        //TODO forse sarebbe utile avere una lista con le assistantcards scelte nel turno corrente nella board e non nel player
+        List<Integer> chosenAssistantCards = new ArrayList<>(); //lista contenente le assistantcards già scelte nel turno corrente
+        for(int i=0; i<playerTurnNumber; i++) {
+            chosenAssistantCards.add(gameModel.getPlayers().get(i).getChoosenAssistantCard().getPriority());
+        }
+        if(chosenAssistantCards.contains(priority)) { //casting automatico da int a integer
+            for(AssistantCard assistantCard: gameModel.getCurrentPlayer().getDeck().getAssistantCards()) {
+                if(!chosenAssistantCards.contains(assistantCard.getPriority())) throw new SameAssistantCardException();
             }
         }
     }
+
     //TODO sostituire dopo il merge getPlayers().get(playerTurnNumber) con getCurrentPlayer()
     private void checkCoins(Message message) throws NotEnoughCoinsException {
         BoardHard boardhard = (BoardHard) gameModel.getBoard();

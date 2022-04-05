@@ -17,20 +17,19 @@ public class Knight extends ActionController {
     }
 
     @Override
-    public String getInfluence(Message influenceMessage) {
-        InfluenceMessage m = (InfluenceMessage) influenceMessage;
-        Map<CharacterColor, List<Student>> students = gameModel.getBoard().getIslands().get(m.getIslandPosition()).getStudents();
+    public String getInfluence(Message message) {
+        Map<CharacterColor, List<Student>> students = super.getGameModel().getBoard().getIslands().get(message.getData()).getStudents();
         Map<String, Integer> owners = new HashMap<>();
         for (CharacterColor c : CharacterColor.values()) {
-            String owner = gameModel.getBoard().getProfessorByColor(c.toString()).getOwner();
+            String owner = super.getGameModel().getBoard().getProfessorByColor(c.toString()).getOwner();
             if (owners.containsKey(owner))
-                owners.replace(owner, owners.get(owner) + students.get(owner).size());
-            else owners.put(owner, students.get(owner).size());
-            if (owner.equals(gameModel.getBoard().getIslands().get((m.getIslandPosition())).getTowers().get(0).getOwner()))
+                owners.replace(owner, owners.get(owner) + students.get(c).size());
+            else owners.put(owner, students.get(c).size());
+            if (owner.equals(super.getGameModel().getBoard().getIslands().get(message.getData()).getTowers().get(0).getOwner()))
             {
-                owners.replace(owner, owners.get(owner) + students.get(owner).size() + gameModel.getBoard().getIslands().get((m.getIslandPosition())).getTowers().size());
+                owners.replace(owner, owners.get(owner) + students.get(c).size() + super.getGameModel().getBoard().getIslands().get(message.getData()).getTowers().size());
             }
-            if(owner.equals(player))
+            if(owner.equals(super.getGameModel().getCurrentPlayer().getNickname()))
             {
                 owners.replace(owner, owners.get(owner) +2);
             }

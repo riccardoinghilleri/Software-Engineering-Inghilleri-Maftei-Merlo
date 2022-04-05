@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.actioncontroller;
 
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.School;
+import it.polimi.ingsw.model.enums.CharacterColor;
 
 public class Diner extends ActionController {
 
@@ -11,14 +12,16 @@ public class Diner extends ActionController {
 
     @Override
     public void updateProfessor(String color) {
-        String owner=null;
+        CharacterColor c = CharacterColor.valueOf(color);
+        String owner = null;
         int max=0;
+        GameModel gameModel = super.getGameModel();
         for(School s: gameModel.getBoard().getSchools()){
-            if(max<s.getClassroom().get(color).size()){
-                max=s.getClassroom().get(color).size();
+            if(max<s.getClassroom().get(c).size()){
+                max=s.getClassroom().get(c).size();
                 owner=s.getOwner();
             }
-            else if (max<=s.getClassroom().get(color).size() && s.getOwner().equals(gameModel.getCurrentPlayer().getNickname()))
+            else if (max<=s.getClassroom().get(c).size() && s.getOwner().equals(gameModel.getCurrentPlayer().getNickname()))
                 owner=gameModel.getCurrentPlayer().getNickname();
         }
         gameModel.getBoard().getProfessorByColor(color).setOwner(owner);

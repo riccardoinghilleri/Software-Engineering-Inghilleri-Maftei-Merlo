@@ -7,6 +7,8 @@ import it.polimi.ingsw.model.SpecialCardwithProhibitions;
 import it.polimi.ingsw.model.board.BoardHard;
 import it.polimi.ingsw.model.enums.CharacterColor;
 
+import static it.polimi.ingsw.controller.StrategyFactory.strategyFactory;
+
 public class ActionController {
     private final GameModel gameModel;
     private String specialCardName;
@@ -19,7 +21,11 @@ public class ActionController {
         this.player=gameModel.getCurrentPlayer().getNickname();
     }
 
-    public CharacterCardStrategy getStrategy(){
+    public GameModel getGameModel() {
+        return gameModel;
+    }
+
+    public CharacterCardStrategy getCharacterCardStrategy(){
         return strategy;
     }
     public String getSpecialCardName() {

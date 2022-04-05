@@ -50,7 +50,7 @@ public class Controller {
     }
 
     private void startPlayerTurn() {
-        actionController = new ActionController(gameModel,gameModel.getPlayers().get(playerTurnNumber).getNickname());
+        actionController = new ActionController(gameModel);
         characterCardMovements = 0;
         defaultMovements = 0;
         alreadyUsedCharacterCard = false;
@@ -155,16 +155,16 @@ public class Controller {
         boolean strategy = false;
         switch (message.getCharacterCardName().toUpperCase()) { //TODO ormai il current player è nel gamemodel quindi nel costruttore dell'actioncontroller e dello strategyfactory il player non serve più
             case "CENTAUR":
-                actionController = new Centaur(gameModel, gameModel.getPlayers().get(playerTurnNumber).getNickname());
+                actionController = new Centaur(gameModel);
                 break;
             case "DINER":
-                actionController = new Diner(gameModel, gameModel.getPlayers().get(playerTurnNumber).getNickname());
+                actionController = new Diner(gameModel);
                 break;
             case "KNIGHT":
-                actionController = new Knight(gameModel, gameModel.getPlayers().get(playerTurnNumber).getNickname());
+                actionController = new Knight(gameModel);
                 break;
             case "LUMBERJACK":
-                actionController = new Lumberjack(gameModel, gameModel.getPlayers().get(playerTurnNumber).getNickname(), message.getFirstParameter());
+                actionController = new Lumberjack(gameModel, message.getFirstParameter());
                 break;
             default:
                 strategy = true; //setta strategia e usa effetto

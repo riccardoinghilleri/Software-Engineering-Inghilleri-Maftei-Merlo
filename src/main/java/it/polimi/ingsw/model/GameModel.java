@@ -36,6 +36,10 @@ public class GameModel {
 
     //---GETTER---//
 
+    public boolean isHardcore() {
+        return isHardcore;
+    }
+
     public int getPlayersNumber() {
         return playersNumber;
     }
@@ -44,7 +48,7 @@ public class GameModel {
 
     public List<Player> getPlayers(){ return players; }
 
-    public Player getCurrentPlayer(){return players.get(0); }
+    //public Player getCurrentPlayer(){ return players.get(0); }
 
     public Player getPlayerByNickname(String nickname) {
         Player result = null;

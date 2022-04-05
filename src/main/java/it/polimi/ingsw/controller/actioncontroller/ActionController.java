@@ -1,23 +1,19 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
-import it.polimi.ingsw.controller.messages.Message;
+import it.polimi.ingsw.controller.Message;
 import it.polimi.ingsw.model.GameModel;
 
-public class  ActionController {
-   protected final GameModel gameModel;
+public class ActionController {
+    private final GameModel gameModel;
     private String specialCardName;
     private int cardMovements;
-    protected String player;
+    private String player;
 
-    public ActionController(GameModel gameModel, String player) {
+    public ActionController(GameModel gameModel) {
         this.gameModel = gameModel;
         this.specialCardName = null;
         this.cardMovements = 0;
-        this.player=player;
-    }
-
-    public GameModel getGameModel() {
-        return gameModel;
+        this.player = player;
     }
 
     public String getSpecialCardName() {
@@ -28,23 +24,23 @@ public class  ActionController {
         return cardMovements;
     }
 
-    public void useSpecialCard(String specialCardName) {
+    public void useSpecialCard(Message message, boolean strategy) {
 
     }
 
-    public String getInfluence(Message influenceMessage) {
+    public String getInfluence(Message message) {
         return "a"; //TODO da fare
     }
 
-    public void moveStudent(String schoolOwner, String studentColor) {
+    public void moveStudent(String studentColor) {
 
     }
 
-    public void moveStudent(String schoolOwner,int islandPosition, String studentColor) {
+    public void moveStudent(int islandPosition, String studentColor) {
 
     }
 
-    public void specialMovement(Message studentsMessage) {
+    public void moveStudent(int cloudPosition) {
 
     }
 

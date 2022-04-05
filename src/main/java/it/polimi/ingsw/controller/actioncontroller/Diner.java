@@ -4,8 +4,8 @@ import it.polimi.ingsw.model.GameModel;
 
 public class Diner extends ActionController {
 
-    public Diner(GameModel gameModel) {
-        super(gameModel);
+    public Diner(GameModel gameModel, String player) {
+        super(gameModel,player);
         //TODO da finire
     }
 

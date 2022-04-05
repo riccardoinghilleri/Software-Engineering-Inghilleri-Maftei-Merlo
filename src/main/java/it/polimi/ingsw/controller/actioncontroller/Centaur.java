@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller.actioncontroller;
 import it.polimi.ingsw.controller.Action;
 import it.polimi.ingsw.controller.messages.InfluenceMessage;
 import it.polimi.ingsw.controller.messages.Message;
+import it.polimi.ingsw.controller.Message;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.enums.CharacterColor;
@@ -13,10 +14,10 @@ import java.util.Map;
 
 public class Centaur extends ActionController {
 
-    public Centaur(GameModel gameModel, String player) {
-        super(gameModel, player);
+    public Centaur(GameModel gameModel) {
+        super(gameModel);
+        //TODO da finire
     }
-
 
     @Override
     public String getInfluence(Message influenceMessage) { //da aggiungere un getModel in actionController

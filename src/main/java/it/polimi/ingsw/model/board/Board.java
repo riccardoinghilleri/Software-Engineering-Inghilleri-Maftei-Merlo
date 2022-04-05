@@ -82,7 +82,7 @@ public class Board {
 
     public void setClouds() {
         for(int i=0;i< clouds.length;i++) {
-            if(playersNumber==2|| playersNumber==4)
+            if(playersNumber==2 || playersNumber==4)
                 clouds[i].addStudents(removeRandomStudent(3));
             else clouds[i].addStudents(removeRandomStudent(4));
         }
@@ -104,11 +104,10 @@ public class Board {
         getSchoolByOwner(toSchool).addHallStudents(clouds[fromCloud].removeStudents());
     }
 
-    public void moveNatureMother(int choosenSteps) {
+    public void moveNatureMother(int chosenSteps) {
         islands.get(natureMotherPosition).setNatureMother(false);
-        natureMotherPosition+=choosenSteps%islands.size();
+        natureMotherPosition = (natureMotherPosition + chosenSteps) % islands.size();
         islands.get(natureMotherPosition).setNatureMother(true);
-
     }
 
     //TODO ECCEZIONE SE L'OWNER NON VIENE SETTATO

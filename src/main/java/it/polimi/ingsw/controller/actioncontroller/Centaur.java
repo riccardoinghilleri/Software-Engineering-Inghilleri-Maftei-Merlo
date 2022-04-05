@@ -1,8 +1,6 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
 import it.polimi.ingsw.controller.Action;
-import it.polimi.ingsw.controller.messages.InfluenceMessage;
-import it.polimi.ingsw.controller.messages.Message;
 import it.polimi.ingsw.controller.Message;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.Student;

@@ -1,16 +1,27 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
 import it.polimi.ingsw.model.GameModel;
+import it.polimi.ingsw.model.School;
 
 public class Diner extends ActionController {
 
-    public Diner(GameModel gameModel, String player) {
-        super(gameModel,player);
-        //TODO da finire
+    public Diner(GameModel gameModel) {
+        super(gameModel);
     }
 
     @Override
-    public void updateProfessor() {
+    public void updateProfessor(String color) {
+        String owner=null;
+        int max=0;
+        for(School s: gameModel.getBoard().getSchools()){
+            if(max<s.getClassroom().get(color).size()){
+                max=s.getClassroom().get(color).size();
+                owner=s.getOwner();
+            }
+            else if (max<=s.getClassroom().get(color).size() && s.getOwner().equals(gameModel.getCurrentPlayer().getNickname()))
+                owner=gameModel.getCurrentPlayer().getNickname();
+        }
+        gameModel.getBoard().getProfessorByColor(color).setOwner(owner);
 
     }
 }

@@ -7,7 +7,7 @@ public class Professor {
     private final CharacterColor color;
 
     public Professor(CharacterColor color) {
-        owner = null;
+        owner = "NONE";
         this.color = color;
     }
 

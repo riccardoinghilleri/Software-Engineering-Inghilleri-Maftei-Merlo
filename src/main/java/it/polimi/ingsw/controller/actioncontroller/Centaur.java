@@ -2,9 +2,11 @@ package it.polimi.ingsw.controller.actioncontroller;
 
 import it.polimi.ingsw.controller.Message;
 import it.polimi.ingsw.model.GameModel;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.enums.CharacterColor;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,34 +15,16 @@ public class Centaur extends ActionController {
 
     public Centaur(GameModel gameModel) {
         super(gameModel);
-        //TODO da finire
     }
 
     //metodo che calcola l'inlfuenza senza tenere conto delle torri
     @Override
     public String getInfluence(Message message) { //da aggiungere un getModel in actionController
-
-        Map<CharacterColor, List<Student>> students= super.getGameModel().getBoard().getIslands().get(message.getData()).getStudents();
         Map<String,Integer> owners = new HashMap<>();
-        for (CharacterColor c: CharacterColor.values()){
-
-            String owner=super.getGameModel().getBoard().getProfessorByColor(c.toString()).getOwner();
-            if(owners.containsKey(owner))
-                owners.replace(owner,owners.get(owner)+students.get(c).size());
-            else owners.put(owner,students.get(c).size());
+        for(Player player : getGameModel().getPlayers()) {
+            owners.put(player.getNickname(),0);
         }
-
-        int max=0;
-        String result="NONE";
-        for(String s : owners.keySet())
-        {
-            if(owners.get(s)>max) {
-                max = owners.get(s);
-                result = s;
-            }
-            else if(owners.get(s)==max)
-                result="NONE";
-        }
-        return result;
+        owners = getGameModel().getBoard().getStudentInfluence(message.getData(),owners, Arrays.asList(CharacterColor.values()));
+        return getGameModel().getBoard().getMaxInfluence(owners);
     }
 }

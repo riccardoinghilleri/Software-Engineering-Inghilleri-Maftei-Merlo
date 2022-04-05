@@ -15,13 +15,15 @@ public class Board {
     private School[] schools;
     private List<Student> students;
     private Professor[] professors;
+    private final GameModel gameModel;
     //TODO metodo int getInfluencePlayer(String Player, int islandPosition) RITORNA L'INFLUENZA DI UN PLAYER SULL'ISOLA E NON CHI HA PIU INFLUENZA
 
     //TODO rivedere questa classe e la sua sottoclasse BoardHard poichè con la rimozione di BoardImpl and BoardHardImpl è stata modificata
-    public Board(int playersNumber) {
+    public Board(int playersNumber, GameModel gameModel) {
         this.playersNumber = playersNumber;
         this.islands = new ArrayList<>();
         this.natureMotherPosition = 0;
+        this.gameModel = gameModel;
         for (int i = 0; i < 12; i++) {
             if (i == 0)
                 islands.add(new Island(true));
@@ -114,8 +116,11 @@ public class Board {
 
     //TODO ECCEZIONE SE L'OWNER NON VIENE SETTATO
     public void updateProfessor(CharacterColor color) {
-        String owner=null;
+        String owner = professors[color.ordinal()].getOwner();
         int max=0;
+        if(!owner.equalsIgnoreCase("NONE")) {
+            max = getSchoolByOwner(owner).getClassroom().get(color).size();
+        }
         for(School s: schools){
             if(max<s.getClassroom().get(color).size()){
                 max=s.getClassroom().get(color).size();
@@ -125,18 +130,41 @@ public class Board {
         professors[color.ordinal()].setOwner(owner);
     }
 
-    public String getInfluence(int islandPosition) {
-        Map<CharacterColor,List<Student>> students=islands.get(islandPosition).getStudents();
+    public String getTotalInfluence(int islandPosition) {
         Map<String,Integer> owners = new HashMap<>();
-        for (CharacterColor c: CharacterColor.values())
+        for(Player player : gameModel.getPlayers()) {
+            owners.put(player.getNickname(),0);
+        }
+        owners = getStudentInfluence(islandPosition, owners,Arrays.asList(CharacterColor.values()));
+        // Aggiungo l'influenza delle torri
+        if(!islands.get(islandPosition).getTowers().isEmpty())
         {
-            String owner=professors[c.ordinal()].getOwner();
+            owners = getTowersInfluence(islandPosition, owners);
+        }
+        return getMaxInfluence(owners);
+    }
+
+    //Calcolo influenza degli studenti presenti sull'isola
+    public Map<String,Integer> getStudentInfluence(int islandPosition, Map<String,Integer> owners, List<CharacterColor> characterColors) {
+        Map<CharacterColor,List<Student>> students=islands.get(islandPosition).getStudents();
+        String owner = null;
+        for (CharacterColor c: characterColors)
+        {
+            owner = professors[c.ordinal()].getOwner();
             if(owners.containsKey(owner))
                 owners.replace(owner,owners.get(owner)+students.get(c).size());
             else owners.put(owner,students.get(c).size());
-            if(owner.equals(islands.get(islandPosition).getTowers().get(0).getOwner()))
-                owners.replace(owner,owners.get(owner)+students.get(c).size()+islands.get(islandPosition).getTowers().size());
         }
+        return owners;
+    }
+
+    public Map<String,Integer> getTowersInfluence(int islandPosition, Map<String,Integer> owners) {
+        String owner = islands.get(islandPosition).getTowers().get(0).getOwner();
+        owners.replace(owner,owners.get(owner)+islands.get(islandPosition).getTowers().size());
+        return owners;
+    }
+
+    public String getMaxInfluence(Map<String, Integer> owners) {
         int max=0;
         String result="NONE";
         for(String s : owners.keySet())

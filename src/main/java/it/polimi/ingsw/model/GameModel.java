@@ -27,7 +27,7 @@ public class GameModel {
     //TODO FARE BOARD
     public void createBoard(){
         if (!isHardcore)
-        board=new Board(players.size());
+        board=new Board(players.size(),this);
         //else board=new BoardHardImpl(players.size());
     };
 

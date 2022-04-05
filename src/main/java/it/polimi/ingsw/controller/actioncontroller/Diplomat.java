@@ -15,7 +15,7 @@ public class Diplomat implements CharacterCardStrategy{
 
     @Override
     public void useEffect(Message message) {
-        String newOwner = board.getInfluence(message.getData());
+        String newOwner = board.getTotalInfluence(message.getData());
         String oldOwner = gameModel.getBoard().getIslands().get(message.getData()).getTowers().get(0).getOwner();
         //se nessuno controlla isola non faccio cambiamenti
         if (newOwner != "NONE") {

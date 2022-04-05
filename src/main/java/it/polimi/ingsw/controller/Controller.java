@@ -44,7 +44,7 @@ public class Controller {
                 System.out.println(e.getMessage());
             }
         }
-        gameModel.getPlayers().get(playerTurnNumber).setAssistantCard(message.getData());
+        gameModel.getCurrentPlayer().setAssistantCard(message.getData());
         playerTurnNumber++;
         if(playerTurnNumber==gameModel.getPlayersNumber()) {
             playerTurnNumber = 0;
@@ -183,6 +183,10 @@ public class Controller {
         for(int i=0; i<playerTurnNumber; i++) {
             chosenAssistantCards.add(gameModel.getPlayers().get(i).getChoosenAssistantCard().getPriority());
         }
+        /*if(chosenAssistantCards.contains(priority)
+                && !chosenAssistantCards.containsAll(gameModel.getCurrentPlayer().getDeck().getAssistantCards())) {
+            throw new SameAssistantCardException();
+        }*/
         if(chosenAssistantCards.contains(priority)) { //casting automatico da int a integer
             for(AssistantCard assistantCard: gameModel.getCurrentPlayer().getDeck().getAssistantCards()) {
                 if(!chosenAssistantCards.contains(assistantCard.getPriority())) throw new SameAssistantCardException();
@@ -190,11 +194,11 @@ public class Controller {
         }
     }
 
-    //TODO sostituire dopo il merge getPlayers().get(playerTurnNumber) con getCurrentPlayer()
+    
     private void checkCoins(Message message) throws NotEnoughCoinsException {
         BoardHard boardhard = (BoardHard) gameModel.getBoard();
         int cost = boardhard.getSpecialCardbyName(message.getCharacterCardName()).getCost();
-        if(boardhard.getPlayerCoins(gameModel.getPlayers().get(playerTurnNumber).getNickname())<cost)
+        if(boardhard.getPlayerCoins(gameModel.getCurrentPlayer().getNickname())<cost)
         {
             throw new NotEnoughCoinsException();
         }
@@ -210,7 +214,7 @@ public class Controller {
     }
 
     private void checkChosenSteps(Message message) throws InvalidChosenStepsException {
-        int steps = gameModel.getPlayers().get(playerTurnNumber).getChoosenAssistantCard().getNatureMotherSteps();
+        int steps = gameModel.getCurrentPlayer().getChoosenAssistantCard().getNatureMotherSteps();
         if(actionController.getSpecialCardName().equalsIgnoreCase("POSTMAN")) {
             steps += 2;
         }
@@ -232,7 +236,7 @@ public class Controller {
         if(defaultMovements>=4
                 || (defaultMovements>=3 && gameModel.getPlayers().size()%2==0 ))
             throw new DefaultMovementsNumberException();
-        else if(!(gameModel.getBoard().getSchoolByOwner(gameModel.getPlayers().get(playerTurnNumber)
+        else if(!(gameModel.getBoard().getSchoolByOwner(gameModel.getCurrentPlayer()
                 .getNickname()).hasHallStudentColor(message.getFirstParameter()))) {
             throw new DefaultMovementsColorException();
         }

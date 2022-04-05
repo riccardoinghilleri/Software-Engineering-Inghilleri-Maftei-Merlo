@@ -11,13 +11,13 @@ import static it.polimi.ingsw.controller.StrategyFactory.strategyFactory;
 
 public class ActionController {
     private final GameModel gameModel;
-    private String specialCardName;
+    //private String specialCardName;
     private String player;
     private CharacterCardStrategy strategy;
 
     public ActionController(GameModel gameModel) {
         this.gameModel = gameModel;
-        this.specialCardName = null;
+        //this.specialCardName = null;
         this.player=gameModel.getCurrentPlayer().getNickname();
     }
 
@@ -28,9 +28,10 @@ public class ActionController {
     public CharacterCardStrategy getCharacterCardStrategy(){
         return strategy;
     }
-    public String getSpecialCardName() {
+
+    /*public String getSpecialCardName() {
         return specialCardName;
-    }
+    }*/
 
     //se strategy è true, setto la strategy e la uso una volta
     //aggiorno le monete dei player , della carta e della board
@@ -50,8 +51,7 @@ public class ActionController {
 
     //metodo che ritorna il player con più influenza sull'isola specificata
     public String getInfluence(Message message) {
-        int index=message.getData();
-        return gameModel.getBoard().getInfluence(index);
+        return gameModel.getBoard().getTotalInfluence(message.getData());
     }
 
     //metodo che muove gli studenti dalla sala all'ingresso

@@ -174,7 +174,7 @@ public class Board {
         return students.remove(students.size()-1);
     }
 
-     protected void checkNearIsland(int islandPosition) {
+     public void checkNearIsland(int islandPosition) {
          if(islands.get(islandPosition).getColorTower().equals(islands.get((islandPosition+1)%islands.size()).getColorTower()));
          {
              for(CharacterColor c : CharacterColor.values()) {

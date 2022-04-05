@@ -110,6 +110,7 @@ public class ActionController {
                     gameModel.getBoard().moveTower(index, oldOwner);
                     gameModel.getBoard().moveTower(newOwner, index);
                 }
+                gameModel.getBoard().checkNearIsland(message.getData());
             }
         }
 

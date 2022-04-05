@@ -15,7 +15,7 @@ public class Knight extends ActionController {
         super(gameModel);
         //TODO da finire
     }
-
+    //metodo che calcola l'influenza aggiungenddo due punti addizionali al currentPlayer
     @Override
     public String getInfluence(Message message) {
         Map<CharacterColor, List<Student>> students = super.getGameModel().getBoard().getIslands().get(message.getData()).getStudents();
@@ -36,9 +36,17 @@ public class Knight extends ActionController {
 
         }
 
-
-        String result = owners.entrySet().stream().max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1).get().getKey();
-
+        int max=0;
+        String result="NONE";
+        for(String s : owners.keySet())
+        {
+            if(owners.get(s)>max) {
+                max = owners.get(s);
+                result = s;
+            }
+            else if(owners.get(s)==max)
+                result="NONE";
+        }
         return result;
 
 

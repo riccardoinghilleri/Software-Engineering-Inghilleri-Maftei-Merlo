@@ -3,7 +3,9 @@ package it.polimi.ingsw.model.board;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.enums.CharacterColor;
 import it.polimi.ingsw.model.enums.PlayerColor;
+
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Board {
     private final int playersNumber;
@@ -130,13 +132,22 @@ public class Board {
         {
             String owner=professors[c.ordinal()].getOwner();
             if(owners.containsKey(owner))
-                owners.replace(owner,owners.get(owner)+students.get(owner).size());
-            else owners.put(owner,students.get(owner).size());
+                owners.replace(owner,owners.get(owner)+students.get(c).size());
+            else owners.put(owner,students.get(c).size());
             if(owner.equals(islands.get(islandPosition).getTowers().get(0).getOwner()))
-                owners.replace(owner,owners.get(owner)+students.get(owner).size()+islands.get(islandPosition).getTowers().size());
+                owners.replace(owner,owners.get(owner)+students.get(c).size()+islands.get(islandPosition).getTowers().size());
         }
-        String result= owners.entrySet().stream().max((entry1, entry2) -> entry1.getValue()>entry2.getValue() ? 1 : -1).get().getKey();
-
+        int max=0;
+        String result="NONE";
+        for(String s : owners.keySet())
+        {
+            if(owners.get(s)>max) {
+                max = owners.get(s);
+                result = s;
+            }
+            else if(owners.get(s)==max)
+                result="NONE";
+        }
         return result;
     }
 

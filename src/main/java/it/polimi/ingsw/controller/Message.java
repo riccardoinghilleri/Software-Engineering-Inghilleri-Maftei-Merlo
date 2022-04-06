@@ -1,8 +1,6 @@
 package it.polimi.ingsw.controller;
 
 
-import it.polimi.ingsw.controller.Action;
-
 public class Message {
     private final Action action;
     private String characterCardName;

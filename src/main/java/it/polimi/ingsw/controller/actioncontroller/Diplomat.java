@@ -18,7 +18,7 @@ public class Diplomat implements CharacterCardStrategy{
         String newOwner = board.getTotalInfluence(message.getData());
         String oldOwner = gameModel.getBoard().getIslands().get(message.getData()).getTowers().get(0).getOwner();
         //se nessuno controlla isola non faccio cambiamenti
-        if (newOwner != "NONE") {
+        if (!newOwner.equalsIgnoreCase("NONE")) {
             //se l'isola non contiene torri sposto le torri dalla scuola all'isola
             if (gameModel.getBoard().getIslands().get(message.getData()).getTowers().isEmpty()) {
                 gameModel.getBoard().moveTower(gameModel.getPlayerByNickname(newOwner).getNickname(),message.getData());

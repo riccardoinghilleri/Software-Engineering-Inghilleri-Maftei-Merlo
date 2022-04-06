@@ -29,7 +29,7 @@ public class GameModel {
         if (!isExpertGame)
         board=new Board(players,this);
         else board=new BoardExpert(players,this);
-    };
+    }
 
     public void createPlayer(String nickname, int clientID){
         players.add(new Player(nickname,clientID));
@@ -69,14 +69,11 @@ public class GameModel {
         return winners;
     }
 
-    public int getPossibleNatureMotherSteps(String nicknamePlayer){
-        return getPlayerByNickname(nicknamePlayer).getChoosenAssistantCard().getNatureMotherSteps();
-    }
-
     //---SETTER---//
 
     public void setPlayersOrder(){
         Collections.sort(players,new PlayerComparator());
+
     }
 
     public void setPlayersDeck( String nickname, String wizard){
@@ -94,11 +91,13 @@ public class GameModel {
 class PlayerComparator implements Comparator<Player> {
     @Override
     public int compare(Player p1,Player p2){
-        if(p1.getChoosenAssistantCard().getPriority()<p2.getChoosenAssistantCard().getPriority())
+        return Integer.compare(p1.getChoosenAssistantCard().getPriority(),p2.getChoosenAssistantCard().getPriority());
+        /*if(p1.getChoosenAssistantCard().getPriority()<p2.getChoosenAssistantCard().getPriority())
             return -1;
         else if (p1.getChoosenAssistantCard().getPriority()>p2.getChoosenAssistantCard().getPriority())
             return 1;
-        else return 0;
+        else return 0;*/
+
     }
 
 }

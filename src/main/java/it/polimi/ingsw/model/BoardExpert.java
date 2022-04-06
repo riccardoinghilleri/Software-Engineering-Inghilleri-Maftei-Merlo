@@ -1,7 +1,6 @@
-package model.board;
+package it.polimi.ingsw.model;
 
-import model.*;
-import model.enums.CharacterCardName;
+import it.polimi.ingsw.model.enums.CharacterCardName;
 
 import java.util.HashMap;
 import java.util.List;

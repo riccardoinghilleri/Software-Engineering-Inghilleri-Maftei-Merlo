@@ -1,6 +1,6 @@
-package model;
+package it.polimi.ingsw.model;
 
-import model.enums.CharacterColor;
+import it.polimi.ingsw.model.enums.CharacterColor;
 
 public class Student {
     private final CharacterColor color;

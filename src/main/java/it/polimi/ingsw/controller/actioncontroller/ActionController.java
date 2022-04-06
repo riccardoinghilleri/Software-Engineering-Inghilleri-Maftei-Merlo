@@ -2,10 +2,10 @@ package it.polimi.ingsw.controller.actioncontroller;
 
 import it.polimi.ingsw.controller.Action;
 import it.polimi.ingsw.controller.Message;
-import model.GameModel;
-import model.CharacterCardwithProhibitions;
-import model.board.BoardExpert;
-import model.enums.CharacterColor;
+import it.polimi.ingsw.model.GameModel;
+import it.polimi.ingsw.model.CharacterCardwithProhibitions;
+import it.polimi.ingsw.model.BoardExpert;
+import it.polimi.ingsw.model.enums.CharacterColor;
 
 import static it.polimi.ingsw.controller.StrategyFactory.strategyFactory;
 

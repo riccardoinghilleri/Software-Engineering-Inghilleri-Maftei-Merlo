@@ -1,6 +1,6 @@
-package model;
+package it.polimi.ingsw.model;
 
-import model.enums.Wizard;
+import it.polimi.ingsw.model.enums.Wizard;
 
 import java.util.*;
 

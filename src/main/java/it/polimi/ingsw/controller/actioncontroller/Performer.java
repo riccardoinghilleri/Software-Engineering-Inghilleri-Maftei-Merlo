@@ -1,10 +1,10 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
 import it.polimi.ingsw.controller.Message;
-import model.GameModel;
-import model.Student;
-import model.board.BoardExpert;
-import model.enums.CharacterColor;
+import it.polimi.ingsw.model.GameModel;
+import it.polimi.ingsw.model.Student;
+import it.polimi.ingsw.model.BoardExpert;
+import it.polimi.ingsw.model.enums.CharacterColor;
 
 public class Performer implements CharacterCardStrategy {
 

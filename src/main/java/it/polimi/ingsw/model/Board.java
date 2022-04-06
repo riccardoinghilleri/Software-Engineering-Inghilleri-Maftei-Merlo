@@ -1,6 +1,6 @@
-package model.board;
-import model.*;
-import model.enums.CharacterColor;
+package it.polimi.ingsw.model;
+
+import it.polimi.ingsw.model.enums.CharacterColor;
 import java.util.*;
 
 

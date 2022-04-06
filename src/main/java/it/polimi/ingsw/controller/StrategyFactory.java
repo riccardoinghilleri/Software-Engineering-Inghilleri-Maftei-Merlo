@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.actioncontroller.CharacterCardStrategy;
 import it.polimi.ingsw.controller.actioncontroller.*;
-import model.GameModel;
+import it.polimi.ingsw.model.GameModel;
 
 public class StrategyFactory {
 

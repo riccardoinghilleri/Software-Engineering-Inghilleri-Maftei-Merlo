@@ -1,8 +1,6 @@
-package model;
+package it.polimi.ingsw.model;
 
-import model.board.Board;
-import model.board.BoardExpert;
-import model.enums.Wizard;
+import it.polimi.ingsw.model.enums.Wizard;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,16 +17,16 @@ public class GameModel {
 
     public GameModel(boolean isExpertGame)
     {
-        playersNumber=0;
-        this.isExpertGame=isExpertGame;
-        players=new ArrayList<>();
-        winners=new ArrayList<>();
+        playersNumber = 0;
+        this.isExpertGame = isExpertGame;
+        players = new ArrayList<>();
+        winners = new ArrayList<>();
     }
     //---CREAZIONE OGGETTI---//
     public void createBoard(){
         if (!isExpertGame)
-        board=new Board(players,this);
-        else board=new BoardExpert(players,this);
+        board = new Board(players,this);
+        else board = new BoardExpert(players,this);
     }
 
     public void createPlayer(String nickname, int clientID){
@@ -45,13 +43,13 @@ public class GameModel {
         return playersNumber;
     }
 
-    public Board getBoard(){ return board; }
+    public Board getBoard() { return board; }
 
-    public List<Player> getPlayers(){ return players; }
+    public List<Player> getPlayers() { return players; }
 
-    public Player getCurrentPlayer(){return currentPlayer; }
+    public Player getCurrentPlayer() {return currentPlayer; }
 
-    public void setCurrentPlayer(int position){
+    public void setCurrentPlayer(int position) {
         currentPlayer=players.get(position);
     }
 
@@ -60,7 +58,7 @@ public class GameModel {
         for(Player p:players)
         {
             if(p.getNickname().equals(nickname))
-                result=p;
+                result = p;
         }
         return result;
     }
@@ -85,7 +83,6 @@ public class GameModel {
         winners.add(winner);
 
     }
-
 }
 
 class PlayerComparator implements Comparator<Player> {
@@ -97,8 +94,6 @@ class PlayerComparator implements Comparator<Player> {
         else if (p1.getChoosenAssistantCard().getPriority()>p2.getChoosenAssistantCard().getPriority())
             return 1;
         else return 0;*/
-
     }
-
 }
 

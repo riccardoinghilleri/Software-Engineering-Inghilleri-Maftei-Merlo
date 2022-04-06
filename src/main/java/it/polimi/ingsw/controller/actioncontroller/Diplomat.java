@@ -1,8 +1,8 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
 import it.polimi.ingsw.controller.Message;
-import model.GameModel;
-import model.board.BoardExpert;
+import it.polimi.ingsw.model.GameModel;
+import it.polimi.ingsw.model.BoardExpert;
 
 public class Diplomat implements CharacterCardStrategy{
 

@@ -1,4 +1,4 @@
-package model.enums;
+package it.polimi.ingsw.model.enums;
 
 public enum CharacterColor {
     BLUE,

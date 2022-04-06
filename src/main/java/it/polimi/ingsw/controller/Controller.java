@@ -3,10 +3,10 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.controller.actioncontroller.*;
 
 import it.polimi.ingsw.exceptions.*;
-import model.AssistantCard;
-import model.Cloud;
-import model.GameModel;
-import model.board.BoardExpert;
+import it.polimi.ingsw.model.AssistantCard;
+import it.polimi.ingsw.model.Cloud;
+import it.polimi.ingsw.model.GameModel;
+import it.polimi.ingsw.model.BoardExpert;
 
 import java.util.ArrayList;
 import java.util.List;

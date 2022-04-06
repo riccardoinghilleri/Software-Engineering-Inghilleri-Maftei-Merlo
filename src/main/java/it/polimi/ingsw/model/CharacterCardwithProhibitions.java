@@ -1,6 +1,6 @@
-package model;
+package it.polimi.ingsw.model;
 
-import model.enums.CharacterCardName;
+import it.polimi.ingsw.model.enums.CharacterCardName;
 
 public class CharacterCardwithProhibitions extends CharacterCard {
     private int prohibitionsNumber;

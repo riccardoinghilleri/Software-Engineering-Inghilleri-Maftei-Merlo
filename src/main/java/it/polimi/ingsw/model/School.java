@@ -1,7 +1,8 @@
-package model;
+package it.polimi.ingsw.model;
 
-import model.enums.CharacterColor;
-import model.enums.PlayerColor;
+import it.polimi.ingsw.model.enums.CharacterColor;
+import it.polimi.ingsw.model.enums.PlayerColor;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

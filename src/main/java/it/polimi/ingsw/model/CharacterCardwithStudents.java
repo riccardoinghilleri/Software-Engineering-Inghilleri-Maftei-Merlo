@@ -1,9 +1,10 @@
-package model;
+package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.enums.CharacterCardName;
-import model.enums.CharacterColor;
+
+import it.polimi.ingsw.model.enums.CharacterCardName;
+import it.polimi.ingsw.model.enums.CharacterColor;
 
 public class CharacterCardwithStudents extends CharacterCard {
     private List<Student> students;

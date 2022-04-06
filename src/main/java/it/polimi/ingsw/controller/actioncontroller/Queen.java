@@ -1,11 +1,11 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
 import it.polimi.ingsw.controller.Message;
-import model.GameModel;
-import model.CharacterCardwithStudents;
-import model.Student;
-import model.board.BoardExpert;
-import model.enums.CharacterColor;
+import it.polimi.ingsw.model.GameModel;
+import it.polimi.ingsw.model.CharacterCardwithStudents;
+import it.polimi.ingsw.model.Student;
+import it.polimi.ingsw.model.BoardExpert;
+import it.polimi.ingsw.model.enums.CharacterColor;
 
 public class Queen implements CharacterCardStrategy {
 

@@ -1,8 +1,8 @@
-package it.polimi.ingsw.model.board;
+package model.board;
 
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.enums.CharacterColor;
-import it.polimi.ingsw.model.enums.PlayerColor;
+import model.*;
+import model.enums.CharacterColor;
+import model.enums.PlayerColor;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
@@ -92,20 +92,20 @@ public class Board {
         }
     }
 
-    public void setInitialHall() {
+    public void setInitialEntrance() {
         for(int i=0;i<schools.length;i++) {
             if(playersNumber==2 || playersNumber==4)
-                schools[i].addHallStudents(removeRandomStudent(7));
-            else schools[i].addHallStudents(removeRandomStudent(9));
+                schools[i].addEntranceStudents(removeRandomStudent(7));
+            else schools[i].addEntranceStudents(removeRandomStudent(9));
         }
     }
 
     public void moveStudent(String fromSchool,int toIsland, String color) {
-        islands.get(toIsland).addStudent(getSchoolByOwner(fromSchool).removeHallStudent(CharacterColor.valueOf(color)));
+        islands.get(toIsland).addStudent(getSchoolByOwner(fromSchool).removeEntranceStudent(CharacterColor.valueOf(color)));
     }
 
     public void moveStudent(int fromCloud,String toSchool) {
-        getSchoolByOwner(toSchool).addHallStudents(clouds[fromCloud].removeStudents());
+        getSchoolByOwner(toSchool).addEntranceStudents(clouds[fromCloud].removeStudents());
     }
 
     public void moveNatureMother(int chosenSteps) {
@@ -119,11 +119,11 @@ public class Board {
         String owner = professors[color.ordinal()].getOwner();
         int max=0;
         if(!owner.equalsIgnoreCase("NONE")) {
-            max = getSchoolByOwner(owner).getClassroom().get(color).size();
+            max = getSchoolByOwner(owner).getDiningRoom().get(color).size();
         }
         for(School s: schools){
-            if(max<s.getClassroom().get(color).size()){
-                max=s.getClassroom().get(color).size();
+            if(max<s.getDiningRoom().get(color).size()){
+                max=s.getDiningRoom().get(color).size();
                 owner=s.getOwner();
             }
         }

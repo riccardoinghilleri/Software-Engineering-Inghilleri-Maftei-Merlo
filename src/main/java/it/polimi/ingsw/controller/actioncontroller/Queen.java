@@ -1,27 +1,27 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
 import it.polimi.ingsw.controller.Message;
-import it.polimi.ingsw.model.GameModel;
-import it.polimi.ingsw.model.SpecialCardwithStudents;
-import it.polimi.ingsw.model.Student;
-import it.polimi.ingsw.model.board.BoardHard;
-import it.polimi.ingsw.model.enums.CharacterColor;
+import model.GameModel;
+import model.CharacterCardwithStudents;
+import model.Student;
+import model.board.BoardExpert;
+import model.enums.CharacterColor;
 
 public class Queen implements CharacterCardStrategy {
 
     GameModel gameModel;
-    BoardHard board;
+    BoardExpert board;
 
     public Queen(GameModel gameModel) {
         this.gameModel = gameModel;
-        board = (BoardHard) gameModel.getBoard();
+        board = (BoardExpert) gameModel.getBoard();
     }
 
     @Override
     public void useEffect(Message message) {
-        SpecialCardwithStudents character = (SpecialCardwithStudents)board.getSpecialCardbyName("QUEEN");
+        CharacterCardwithStudents character = (CharacterCardwithStudents)board.getCharacterCardbyName("QUEEN");
         Student s = character.removeStudent(CharacterColor.valueOf(message.getFirstParameter()));
-        board.getSchoolByOwner(gameModel.getCurrentPlayer().getNickname()).addClassroomStudent(s);
+        board.getSchoolByOwner(gameModel.getCurrentPlayer().getNickname()).addDiningRoomStudent(s);
         character.addStudent(board.removeRandomStudent());
     }
 }

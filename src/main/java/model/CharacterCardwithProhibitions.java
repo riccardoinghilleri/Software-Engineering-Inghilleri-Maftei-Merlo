@@ -1,11 +1,11 @@
-package it.polimi.ingsw.model;
+package model;
 
-import it.polimi.ingsw.model.enums.SpecialCardName;
+import model.enums.CharacterCardName;
 
-public class SpecialCardwithProhibitions extends SpecialCard {
+public class CharacterCardwithProhibitions extends CharacterCard {
     private int prohibitionsNumber;
 
-    public SpecialCardwithProhibitions(SpecialCardName name, int cost, String description, int prohibitionsNumber) {
+    public CharacterCardwithProhibitions(CharacterCardName name, int cost, String description, int prohibitionsNumber) {
         super(name,cost,description);
         this.prohibitionsNumber=prohibitionsNumber;
     }

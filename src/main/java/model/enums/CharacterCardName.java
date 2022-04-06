@@ -1,6 +1,6 @@
-package it.polimi.ingsw.model.enums;
+package model.enums;
 
-public enum SpecialCardName {
+public enum CharacterCardName {
     CENTAUR,
     CLOWN,
     DINER,

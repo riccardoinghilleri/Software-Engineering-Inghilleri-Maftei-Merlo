@@ -1,8 +1,5 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.board.Board;
-import it.polimi.ingsw.model.enums.CharacterColor;
-
 /**
  * Hello world!
  *

@@ -2,16 +2,16 @@ package it.polimi.ingsw.controller.actioncontroller;
 
 import it.polimi.ingsw.controller.Action;
 import it.polimi.ingsw.controller.Message;
-import it.polimi.ingsw.model.GameModel;
-import it.polimi.ingsw.model.SpecialCardwithProhibitions;
-import it.polimi.ingsw.model.board.BoardHard;
-import it.polimi.ingsw.model.enums.CharacterColor;
+import model.GameModel;
+import model.CharacterCardwithProhibitions;
+import model.board.BoardExpert;
+import model.enums.CharacterColor;
 
 import static it.polimi.ingsw.controller.StrategyFactory.strategyFactory;
 
 public class ActionController {
     private final GameModel gameModel;
-    //private String specialCardName;
+    private String characterCardName;
     private String player;
     private CharacterCardStrategy strategy;
 
@@ -29,14 +29,14 @@ public class ActionController {
         return strategy;
     }
 
-    /*public String getSpecialCardName() {
-        return specialCardName;
-    }*/
+    public String getCharacterCardName() {
+        return characterCardName;
+    }
 
     //se strategy è true, setto la strategy e la uso una volta
     //aggiorno le monete dei player , della carta e della board
     //se la carta è Diner, aggiorno tutti i professori
-    public void useSpecialCard(Message message,boolean strategy) {
+    public void useCharacterCard(Message message,boolean strategy) {
         if(strategy){
             this.strategy=strategyFactory(message.getCharacterCardName(),gameModel);
             this.strategy.useEffect(message);
@@ -44,8 +44,8 @@ public class ActionController {
         else if(message.getCharacterCardName().equalsIgnoreCase("DINER")){
             updateAllProfessors();
         }
-        BoardHard boardHard=(BoardHard)gameModel.getBoard();
-        boardHard.moveCoin(player,boardHard.getSpecialCardbyName(message.getCharacterCardName()));
+        BoardExpert boardExpert=(BoardExpert)gameModel.getBoard();
+        boardExpert.moveCoin(player,boardExpert.getCharacterCardbyName(message.getCharacterCardName()));
 
     }
 
@@ -57,10 +57,10 @@ public class ActionController {
     //metodo che muove gli studenti dalla sala all'ingresso
     //dopo il movimento viene aggiornato il professore di quel colore
     public void moveStudent(String studentColor) {
-        gameModel.getBoard().getSchoolByOwner(player).fromHalltoClassroom(CharacterColor.valueOf(studentColor));
-        if(gameModel.isHardcore() && gameModel.getBoard().getSchoolByOwner(player).getClassroom().get(CharacterColor.valueOf(studentColor)).size()%3==0){
-            BoardHard boardHard=(BoardHard) gameModel.getBoard();
-            boardHard.moveCoin(player);
+        gameModel.getBoard().getSchoolByOwner(player).fromEntrancetoDiningRoom(CharacterColor.valueOf(studentColor));
+        if(gameModel.isExpertGame() && gameModel.getBoard().getSchoolByOwner(player).getDiningRoom().get(CharacterColor.valueOf(studentColor)).size()%3==0){
+            BoardExpert boardExpert=(BoardExpert) gameModel.getBoard();
+            boardExpert.moveCoin(player);
         }
         updateProfessor(studentColor);
     }
@@ -86,9 +86,9 @@ public class ActionController {
         int index = gameModel.getBoard().getNatureMotherPosition();
         if(gameModel.getBoard().getIslands().get(index).isLocked()) //Se L'isola è bloccata, tolgo il divieto e lo rimetto nella carta senza calcolare l'influenza
         {
-            BoardHard boardHard= (BoardHard) gameModel.getBoard();
-            boardHard.removeLock(index);
-            ((SpecialCardwithProhibitions) boardHard.getSpecialCardbyName("HERBOLARIA")).restockProhibitionsNumber();
+            BoardExpert boardExpert= (BoardExpert) gameModel.getBoard();
+            boardExpert.removeLock(index);
+            ((CharacterCardwithProhibitions) boardExpert.getCharacterCardbyName("HERBOLARIA")).restockProhibitionsNumber();
         }
         else{
             Message m = new Message(Action.GET_INFLUENCE);

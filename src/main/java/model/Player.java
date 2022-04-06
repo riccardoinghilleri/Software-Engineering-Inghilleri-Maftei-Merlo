@@ -1,9 +1,6 @@
-package it.polimi.ingsw.model;
+package model;
 
-import it.polimi.ingsw.model.enums.CharacterColor;
-import it.polimi.ingsw.model.enums.PlayerColor;
-
-import java.util.Locale;
+import model.enums.PlayerColor;
 
 public class Player {
     String nickname;

@@ -1,9 +1,8 @@
-package it.polimi.ingsw.model;
+package model;
 
-import it.polimi.ingsw.model.enums.CharacterColor;
-import it.polimi.ingsw.model.enums.PlayerColor;
+import model.enums.CharacterColor;
+import model.enums.PlayerColor;
 
-import javax.swing.*;
 import java.util.*;
 import java.lang.*;
 
@@ -11,13 +10,13 @@ public class Island {
     private boolean hasNatureMother;
     private Map<CharacterColor, List<Student>> students;
     private List<Tower> towers;
-    private boolean isLocked;
+    private boolean NoEntryTiles; // prima c'era isLocked
 
     public Island(boolean hasNatureMother)
     {
 
         this.hasNatureMother = hasNatureMother;
-        isLocked=false;
+        NoEntryTiles=false;
         towers=new ArrayList<>();
         students=new HashMap<>();
 
@@ -26,7 +25,7 @@ public class Island {
 
     public Island(Student firstStudent) {
         this.hasNatureMother=false;
-        isLocked=false;
+        NoEntryTiles=false;
         towers=new ArrayList<>();
         students=new HashMap<>();
         students.put(firstStudent.getColor(), new ArrayList<>());
@@ -51,9 +50,9 @@ public class Island {
         return towers;
     }
 
-    public boolean isLocked() {
-        return isLocked;
-    }
+    public boolean isLocked() {  //forse da cambiare nome al metodo
+        return NoEntryTiles;
+    } //prima era isLocked
 
     public PlayerColor getColorTower() {
         if(!towers.isEmpty()) return towers.get(0).getColor();
@@ -67,8 +66,8 @@ public class Island {
     }
 
     public void setLock(boolean locked) {
-        isLocked = locked;
-    }
+        NoEntryTiles = locked;
+    } //forse da cambiare nome al metodo
 
     public void addTower(Tower tower) {
         towers.add(tower);

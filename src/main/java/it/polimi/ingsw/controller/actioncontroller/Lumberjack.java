@@ -1,10 +1,9 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
 import it.polimi.ingsw.controller.Message;
-import it.polimi.ingsw.model.GameModel;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.Student;
-import it.polimi.ingsw.model.enums.CharacterColor;
+import model.GameModel;
+import model.Player;
+import model.enums.CharacterColor;
 
 import java.util.*;
 

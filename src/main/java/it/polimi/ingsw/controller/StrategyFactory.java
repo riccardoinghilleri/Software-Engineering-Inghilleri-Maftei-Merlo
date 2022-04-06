@@ -2,13 +2,13 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.actioncontroller.CharacterCardStrategy;
 import it.polimi.ingsw.controller.actioncontroller.*;
-import it.polimi.ingsw.model.GameModel;
+import model.GameModel;
 
 public class StrategyFactory {
 
-    public static CharacterCardStrategy strategyFactory(String specialCardName, GameModel gameModel) {
+    public static CharacterCardStrategy strategyFactory(String characterCardName, GameModel gameModel) {
         CharacterCardStrategy strategy = null; //TODO non so se è giusto inizializzarla a null
-        switch (specialCardName){
+        switch (characterCardName){
             case "CLOWN" :
                 strategy= new Clown(gameModel);
                 break;

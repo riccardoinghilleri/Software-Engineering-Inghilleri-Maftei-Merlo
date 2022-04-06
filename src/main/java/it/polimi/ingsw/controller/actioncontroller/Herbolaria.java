@@ -1,22 +1,22 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
 import it.polimi.ingsw.controller.Message;
-import it.polimi.ingsw.model.GameModel;
-import it.polimi.ingsw.model.SpecialCardwithProhibitions;
-import it.polimi.ingsw.model.board.BoardHard;
+import model.GameModel;
+import model.CharacterCardwithProhibitions;
+import model.board.BoardExpert;
 
 public class Herbolaria implements CharacterCardStrategy {
 
     GameModel gameModel;
-    BoardHard board;
+    BoardExpert board;
     public Herbolaria(GameModel gameModel) {
         this.gameModel=gameModel;
-        board=(BoardHard) gameModel.getBoard();
+        board=(BoardExpert) gameModel.getBoard();
     }
 
     @Override
     public void useEffect(Message message) {
-        ((SpecialCardwithProhibitions)board.getSpecialCardbyName("HERBOLARIA")).subProhibitionCard();
+        ((CharacterCardwithProhibitions)board.getCharacterCardbyName("HERBOLARIA")).subProhibitionCard();
         board.getIslands().get(message.getData()).setLock(true);
 
     }

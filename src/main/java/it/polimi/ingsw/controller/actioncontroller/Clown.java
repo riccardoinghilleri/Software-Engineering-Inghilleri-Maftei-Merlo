@@ -1,28 +1,28 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
 import it.polimi.ingsw.controller.Message;
-import it.polimi.ingsw.model.GameModel;
-import it.polimi.ingsw.model.SpecialCardwithStudents;
-import it.polimi.ingsw.model.Student;
-import it.polimi.ingsw.model.board.BoardHard;
-import it.polimi.ingsw.model.enums.CharacterColor;
+import model.GameModel;
+import model.CharacterCardwithStudents;
+import model.Student;
+import model.board.BoardExpert;
+import model.enums.CharacterColor;
 
 public class Clown implements CharacterCardStrategy{
 
     GameModel gameModel;
-    BoardHard board;
+    BoardExpert board;
     public Clown(GameModel gameModel) {
         this.gameModel=gameModel;
-        board=(BoardHard) gameModel.getBoard();
+        board=(BoardExpert) gameModel.getBoard();
     }
 
     @Override
     public void useEffect(Message message) {
         String player = gameModel.getCurrentPlayer().getNickname();
-        Student s1 = board.getSchoolByOwner(player).removeHallStudent(CharacterColor.valueOf(message.getFirstParameter()));
-        Student s2 = ((SpecialCardwithStudents)board.getSpecialCardbyName("PEFORMER")).removeStudent(CharacterColor.valueOf(message.getSecondParameter()));
-        board.getSchoolByOwner(player).getHall().add(s2);
-        ((SpecialCardwithStudents)board.getSpecialCardbyName("PEFORMER")).addStudent(s1);
+        Student s1 = board.getSchoolByOwner(player).removeEntranceStudent(CharacterColor.valueOf(message.getFirstParameter()));
+        Student s2 = ((CharacterCardwithStudents)board.getCharacterCardbyName("PEFORMER")).removeStudent(CharacterColor.valueOf(message.getSecondParameter()));
+        board.getSchoolByOwner(player).getEntrance().add(s2);
+        ((CharacterCardwithStudents)board.getCharacterCardbyName("PEFORMER")).addStudent(s1);
 
     }
 }

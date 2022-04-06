@@ -1,16 +1,16 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
 import it.polimi.ingsw.controller.Message;
-import it.polimi.ingsw.model.GameModel;
-import it.polimi.ingsw.model.board.BoardHard;
+import model.GameModel;
+import model.board.BoardExpert;
 
 public class Diplomat implements CharacterCardStrategy{
 
     GameModel gameModel;
-    BoardHard board;
+    BoardExpert board;
     public Diplomat(GameModel gameModel) {
         this.gameModel=gameModel;
-        board=(BoardHard) gameModel.getBoard();
+        board=(BoardExpert) gameModel.getBoard();
     }
 
     @Override

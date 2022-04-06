@@ -1,8 +1,9 @@
-package it.polimi.ingsw.model;
+package model;
 
-import it.polimi.ingsw.model.enums.CharacterColor;
-import it.polimi.ingsw.model.enums.PlayerColor;
+import model.enums.CharacterColor;
+import model.enums.PlayerColor;
 import it.polimi.ingsw.model.board.*;
+import model.board.Board;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,15 +11,15 @@ import java.util.Map;
 
 public class School {
     private final String owner;
-    private List<Student> hall;
-    private Map<CharacterColor,List<Student>> classroom;
+    private List<Student> entrance;
+    private Map<CharacterColor,List<Student>> diningRoom;
     private List<Tower> towers;
     private PlayerColor playerColor;
     private Board observerBoard;
     public School(String owner, PlayerColor playerColor,Board observerBoard) {
         this.owner = owner;
         this.playerColor= playerColor;
-        this.hall=new ArrayList<>();
+        this.entrance=new ArrayList<>();
         this.observerBoard=observerBoard;
     }
 
@@ -28,12 +29,12 @@ public class School {
         return owner;
     }
 
-    public List<Student> getHall() {
-        return hall;
+    public List<Student> getEntrance() {
+        return entrance;
     }
 
-    public Map<CharacterColor, List<Student>> getClassroom() {
-        return classroom;
+    public Map<CharacterColor, List<Student>> getDiningRoom() {
+        return diningRoom;
     }
 
     public int getTowersNumber() {
@@ -44,9 +45,9 @@ public class School {
         return playerColor;
     }
 
-    //metodo che controlla se ho un studente di un determinato colore nella hall
-    public boolean hasHallStudentColor(String color) {
-        for(Student s : hall) {
+    //metodo che controlla se ho un studente di un determinato colore nella entrance
+    public boolean hasEntranceStudentColor(String color) {
+        for(Student s : entrance) {
             if(s.getColor().toString().equals(color)) {
                 return true;
             }
@@ -56,44 +57,44 @@ public class School {
 
     //---STUDENTSMOVEMENT---//
 
-    public void addClassroomStudent(Student student) {
-        classroom.get(student.getColor()).add(student);
+    public void addDiningRoomStudent(Student student) {
+        diningRoom.get(student.getColor()).add(student);
     }
 
-    public void addHallStudent(Student student) {
-        hall.add(student);
-
-    }
-
-    public void addHallStudents(List<Student> students) {
-        hall.addAll(students);
+    public void addEntranceStudent(Student student) {
+        entrance.add(student);
 
     }
 
-    public Student removeHallStudent(CharacterColor studentColor) {
-        //TODO lanciare un'eccezione se non è presente nella hall uno studente del colore desiderato
+    public void addEntranceStudents(List<Student> students) {
+        entrance.addAll(students);
+
+    }
+
+    public Student removeEntranceStudent(CharacterColor studentColor) {
+        //TODO lanciare un'eccezione se non è presente nella entrance uno studente del colore desiderato
         Student student = null;
-        for(int i=0; i<hall.size() && student == null; i++) {
-            if(hall.get(i).getColor().equals(studentColor)) {
-                student = hall.remove(i);
+        for(int i=0; i<entrance.size() && student == null; i++) {
+            if(entrance.get(i).getColor().equals(studentColor)) {
+                student = entrance.remove(i);
             }
         }
         return student;}
 
-    public Student removeClassroomStudent(CharacterColor studentColor) {
+    public Student removeDiningRoomStudent(CharacterColor studentColor) {
         //TODO  LANCIARE ECC SE NON è PRESENTE UNO STUDENTE DEL COLORE DESIDERATO
         Student student= null;
-        if (classroom.containsKey(studentColor))
+        if (diningRoom.containsKey(studentColor))
         {
-            student= classroom.get(studentColor).remove(0);
+            student= diningRoom.get(studentColor).remove(0);
         }
         return student;
     }
 
-    public void fromHalltoClassroom(CharacterColor studentColor)
+    public void fromEntrancetoDiningRoom(CharacterColor studentColor)
     //TODO  LANCIARE ECC SE NON è PRESENTE UNO STUDENTE DEL COLORE DESIDERATO
     {
-        addClassroomStudent(removeHallStudent(studentColor));
+        addDiningRoomStudent(removeEntranceStudent(studentColor));
         observerBoard.updateProfessor(studentColor);
     }
 
@@ -118,20 +119,20 @@ public class School {
             }
         }
         String students = new String();
-        for( Student s: hall){
+        for( Student s: entrance){
             students= students + s.toString() + "\t";
         }
 
         return
                 "Owner: " +getOwner() +
                 "Towers: " + towers.size() + getTowerColor() +
-                "\nHall: " +students +
-                "\nClassroom:" +
-                "\nRED:"+ classroom.get(CharacterColor.RED).size() +
-                "\nBLUE:" + classroom.get(CharacterColor.BLUE).size() +
-                "\nYElLOW"+ classroom.get(CharacterColor.YELLOW).size() +
-                 "\nPINK" + classroom.get(CharacterColor.PINK).size() +
-                 "\nGREEN" + classroom.get(CharacterColor.GREEN).size() +
+                "\nEntrance: " +students +
+                "\nDiningRoom:" +
+                "\nRED:"+ diningRoom.get(CharacterColor.RED).size() +
+                "\nBLUE:" + diningRoom.get(CharacterColor.BLUE).size() +
+                "\nYElLOW"+ diningRoom.get(CharacterColor.YELLOW).size() +
+                 "\nPINK" + diningRoom.get(CharacterColor.PINK).size() +
+                 "\nGREEN" + diningRoom.get(CharacterColor.GREEN).size() +
                  "\n" + professors;
 
     }

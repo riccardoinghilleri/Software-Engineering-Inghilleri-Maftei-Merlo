@@ -1,6 +1,6 @@
-package it.polimi.ingsw.model;
+package model;
 
-import it.polimi.ingsw.model.enums.PlayerColor;
+import model.enums.PlayerColor;
 
 public class Tower {
     private final PlayerColor color;

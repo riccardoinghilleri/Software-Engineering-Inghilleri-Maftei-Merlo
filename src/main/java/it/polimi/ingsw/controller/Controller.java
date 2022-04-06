@@ -3,10 +3,10 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.controller.actioncontroller.*;
 
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.model.AssistantCard;
-import it.polimi.ingsw.model.Cloud;
-import it.polimi.ingsw.model.GameModel;
-import it.polimi.ingsw.model.board.BoardHard;
+import model.AssistantCard;
+import model.Cloud;
+import model.GameModel;
+import model.board.BoardExpert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -174,7 +174,7 @@ public class Controller {
                 strategy = true; //setta strategia e usa effetto
                 break;
         }
-        actionController.useSpecialCard(message, strategy);
+        actionController.useCharacterCard(message, strategy);
     }
 
     private void checkSameAssistantCard(int priority) throws SameAssistantCardException {
@@ -196,9 +196,9 @@ public class Controller {
 
     
     private void checkCoins(Message message) throws NotEnoughCoinsException {
-        BoardHard boardhard = (BoardHard) gameModel.getBoard();
-        int cost = boardhard.getSpecialCardbyName(message.getCharacterCardName()).getCost();
-        if(boardhard.getPlayerCoins(gameModel.getCurrentPlayer().getNickname())<cost)
+        BoardExpert boardexpert = (BoardExpert) gameModel.getBoard();
+        int cost = boardexpert.getCharacterCardbyName(message.getCharacterCardName()).getCost();
+        if(boardexpert.getPlayerCoins(gameModel.getCurrentPlayer().getNickname())<cost)
         {
             throw new NotEnoughCoinsException();
         }
@@ -212,10 +212,10 @@ public class Controller {
             throw new EmptyCloudException();
         }
     }
-
+    //TODO controllare se usare characterCardName e i suoi metodi
     private void checkChosenSteps(Message message) throws InvalidChosenStepsException {
         int steps = gameModel.getCurrentPlayer().getChoosenAssistantCard().getNatureMotherSteps();
-        if(actionController.getSpecialCardName().equalsIgnoreCase("POSTMAN")) {
+        if(actionController.getCharacterCardName().equalsIgnoreCase("POSTMAN")) {
             steps += 2;
         }
         if(message.getData() > steps) {
@@ -237,7 +237,7 @@ public class Controller {
                 || (defaultMovements>=3 && gameModel.getPlayers().size()%2==0 ))
             throw new DefaultMovementsNumberException();
         else if(!(gameModel.getBoard().getSchoolByOwner(gameModel.getCurrentPlayer()
-                .getNickname()).hasHallStudentColor(message.getFirstParameter()))) {
+                .getNickname()).hasEntranceStudentColor(message.getFirstParameter()))) {
             throw new DefaultMovementsColorException();
         }
     }

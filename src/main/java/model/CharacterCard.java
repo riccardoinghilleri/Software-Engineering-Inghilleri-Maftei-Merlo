@@ -1,20 +1,20 @@
-package it.polimi.ingsw.model;
+package model;
 
-import it.polimi.ingsw.model.enums.SpecialCardName;
+import model.enums.CharacterCardName;
 
-public class SpecialCard {
+public class CharacterCard {
     private int cost;
     private final String description;
-    private final SpecialCardName name;
+    private final CharacterCardName name;
 
-    public SpecialCard(SpecialCardName name, int cost, String description)
+    public CharacterCard(CharacterCardName name, int cost, String description)
     {
         this.name = name;
         this.cost = cost;
         this.description = description;
     }
 
-    public SpecialCardName getName() {
+    public CharacterCardName getName() {
         return name;
     }
 

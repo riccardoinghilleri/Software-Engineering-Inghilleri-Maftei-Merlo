@@ -1,6 +1,6 @@
-package it.polimi.ingsw.model;
+package model;
 
-import it.polimi.ingsw.model.enums.CharacterColor;
+import model.enums.CharacterColor;
 
 public class Professor {
     private String owner;

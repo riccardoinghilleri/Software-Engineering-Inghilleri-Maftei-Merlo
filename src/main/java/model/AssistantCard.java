@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package model;
 
 public class AssistantCard {
     int priority;

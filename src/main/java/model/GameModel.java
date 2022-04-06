@@ -1,7 +1,7 @@
-package it.polimi.ingsw.model;
+package model;
 
-import it.polimi.ingsw.model.board.Board;
-import it.polimi.ingsw.model.enums.Magician;
+import model.board.Board;
+import model.enums.Wizard;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,25 +10,25 @@ import java.util.List;
 
 public class GameModel {
     int playersNumber;
-    boolean isHardcore;
+    boolean isExpertGame;
     Board board;
     List<Player> players;
     List<String> winners;
     Player currentPlayer;
 
-    public GameModel(boolean isHardcore)
+    public GameModel(boolean isExpertGame)
     {
         playersNumber=0;
-        this.isHardcore=isHardcore;
+        this.isExpertGame=isExpertGame;
         players=new ArrayList<>();
         winners=new ArrayList<>();
     }
     //---CREAZIONE OGGETTI---//
     //TODO FARE BOARD
     public void createBoard(){
-        if (!isHardcore)
+        if (!isExpertGame)
         board=new Board(players.size(),this);
-        //else board=new BoardHardImpl(players.size());
+        //else board=new BoardExpertImpl(players.size());
     };
 
     public void createPlayer(String nickname, int clientID){
@@ -37,8 +37,8 @@ public class GameModel {
 
     //---GETTER---//
 
-    public boolean isHardcore() {
-        return isHardcore;
+    public boolean isExpertGame() {
+        return isExpertGame;
     }
 
     public int getPlayersNumber() {
@@ -79,8 +79,8 @@ public class GameModel {
         Collections.sort(players,new PlayerComparator());
     }
 
-    public void setPlayersDeck( String nickname, String magician){
-        getPlayerByNickname(nickname).getDeck().setMagician(Magician.valueOf(magician));
+    public void setPlayersDeck( String nickname, String wizard){
+        getPlayerByNickname(nickname).getDeck().setWizard(Wizard.valueOf(wizard));
 
     }
 

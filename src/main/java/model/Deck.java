@@ -1,11 +1,11 @@
-package it.polimi.ingsw.model;
+package model;
 
-import it.polimi.ingsw.model.enums.Magician;
+import model.enums.Wizard;
 
 import java.util.*;
 
 public class Deck {
-    Magician magician;
+    Wizard wizard;
     List<AssistantCard> assistantCards;
 
     public Deck(){
@@ -18,16 +18,16 @@ public class Deck {
         }
     }
 
-    public Magician getMagician() {
-        return magician;
+    public Wizard getWizard() {
+        return wizard;
     }
 
     public List<AssistantCard> getAssistantCards() {
         return assistantCards;
     }
 
-    public void setMagician(Magician magician) {
-        this.magician = magician;
+    public void setWizard(Wizard wizard) {
+        this.wizard = wizard;
     }
 
     //TODO ECCEZIONE SE LA PRIORITA' NON PUO' ESSERE SCELTA

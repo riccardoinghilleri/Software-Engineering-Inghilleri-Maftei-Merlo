@@ -1,13 +1,15 @@
-package it.polimi.ingsw.model;
+package model;
 
 import java.util.ArrayList;
 import java.util.List;
 import it.polimi.ingsw.model.enums.*;
+import model.enums.CharacterCardName;
+import model.enums.CharacterColor;
 
-public class SpecialCardwithStudents extends SpecialCard {
+public class CharacterCardwithStudents extends CharacterCard {
     private List<Student> students;
 
-    public SpecialCardwithStudents(SpecialCardName name, int cost, String description, List<Student> students)
+    public CharacterCardwithStudents(CharacterCardName name, int cost, String description, List<Student> students)
     {
         super(name, cost, description);
         this.students = new ArrayList<Student>(students);

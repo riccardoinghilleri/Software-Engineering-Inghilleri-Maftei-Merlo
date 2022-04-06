@@ -17,7 +17,7 @@ public class Herbolaria implements CharacterCardStrategy {
     @Override
     public void useEffect(Message message) {
         ((CharacterCardwithProhibitions)board.getCharacterCardbyName("HERBOLARIA")).subProhibitionCard();
-        board.getIslands().get(message.getData()).setLock(true);
+        board.getIslands().get(message.getData()).setNoEntryTile(true);
 
     }
 }

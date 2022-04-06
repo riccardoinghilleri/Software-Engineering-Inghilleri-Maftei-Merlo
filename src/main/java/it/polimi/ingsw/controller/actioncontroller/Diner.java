@@ -13,7 +13,7 @@ public class Diner extends ActionController {
     @Override
     public void updateProfessor(String color) {
         CharacterColor c = CharacterColor.valueOf(color);
-        String owner = getGameModel().getBoard().getProfessorByColor(color).getOwner();
+        String owner = getGameModel().getBoard().getProfessorByColor(c).getOwner();
         int max=0;
         if(!owner.equalsIgnoreCase("NONE")) {
             max = getGameModel().getBoard().getSchoolByOwner(owner).getDiningRoom().get(CharacterColor.valueOf(color)).size();
@@ -26,6 +26,6 @@ public class Diner extends ActionController {
             else if (max<=s.getDiningRoom().get(c).size() && s.getOwner().equals(getGameModel().getCurrentPlayer().getNickname()))
                 owner=getGameModel().getCurrentPlayer().getNickname();
         }
-        getGameModel().getBoard().getProfessorByColor(color).setOwner(owner);
+        getGameModel().getBoard().getProfessorByColor(c).setOwner(owner);
     }
 }

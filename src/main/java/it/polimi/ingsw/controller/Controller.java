@@ -19,6 +19,7 @@ public class Controller {
     private int defaultMovements;
     private boolean alreadyUsedCharacterCard;
     private Action phase;
+    private String characterCardName;
 
     public Controller(GameModel gameModel) {
         this.gameModel = gameModel;
@@ -29,8 +30,8 @@ public class Controller {
         alreadyUsedCharacterCard = false;
     }
 
-    public void setCloud() {
-        gameModel.getBoard().setClouds();
+    public void setClouds() {
+        gameModel.getBoard().setStudentsonClouds();
         phase = Action.CHOOSE_ASSISTANT_CARD;
     }
 
@@ -75,6 +76,7 @@ public class Controller {
                 }
                 if(!alreadyUsedCharacterCard) { //se non è stata usata una carta la uso
                     alreadyUsedCharacterCard = true;
+                    characterCardName=message.getCharacterCardName();
                     setCharacterCardEffect(message);
                 } else // se è stata usata ed è clown o performer, utilizzo l'effetto
                 {
@@ -114,7 +116,7 @@ public class Controller {
                 }catch (InvalidChosenStepsException e) {
                     System.out.println(e.getMessage());
                 }
-                actionController.moveNatureMother(message);
+                actionController.moveMotherNature(message);
                 phase = Action.CHOOSE_CLOUD;
                 /*if(gameModel.isHardcore()) {
                     int newIslandPosition = (gameModel.getBoard().getNatureMotherPosition()
@@ -215,7 +217,7 @@ public class Controller {
     //TODO controllare se usare characterCardName e i suoi metodi
     private void checkChosenSteps(Message message) throws InvalidChosenStepsException {
         int steps = gameModel.getCurrentPlayer().getChoosenAssistantCard().getNatureMotherSteps();
-        if(actionController.getCharacterCardName().equalsIgnoreCase("POSTMAN")) {
+        if(characterCardName.equalsIgnoreCase("POSTMAN")) {
             steps += 2;
         }
         if(message.getData() > steps) {

@@ -2,25 +2,30 @@ package model;
 
 import model.enums.CharacterColor;
 import model.enums.PlayerColor;
-import it.polimi.ingsw.model.board.*;
-import model.board.Board;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class School {
     private final String owner;
-    private List<Student> entrance;
-    private Map<CharacterColor,List<Student>> diningRoom;
-    private List<Tower> towers;
-    private PlayerColor playerColor;
-    private Board observerBoard;
-    public School(String owner, PlayerColor playerColor,Board observerBoard) {
+    private final List<Student> entrance;
+    private final Map<CharacterColor,List<Student>> diningRoom;
+    private final List<Tower> towers;
+    private final PlayerColor playerColor;
+
+    public School(String owner, PlayerColor playerColor,int playersNumber) {
         this.owner = owner;
         this.playerColor= playerColor;
         this.entrance=new ArrayList<>();
-        this.observerBoard=observerBoard;
+        this.diningRoom=new HashMap<>();
+        this.towers=new ArrayList<>();
+        if(playersNumber==2)
+            for(int i=0;i<8;i++)
+            towers.add(new Tower(owner,playerColor));
+        else if (playersNumber==3)
+            for(int i=0;i<6;i++)
+            towers.add(new Tower(owner,playerColor));
     }
 
     //---GETTER---//
@@ -95,7 +100,6 @@ public class School {
     //TODO  LANCIARE ECC SE NON è PRESENTE UNO STUDENTE DEL COLORE DESIDERATO
     {
         addDiningRoomStudent(removeEntranceStudent(studentColor));
-        observerBoard.updateProfessor(studentColor);
     }
 
     //---TOWERSMOVEMENT---//
@@ -112,15 +116,9 @@ public class School {
 
     @Override
     public String toString() {
-        String professors =new String() ;
-        for( CharacterColor c: CharacterColor.values()){
-            if(observerBoard.getProfessorByColor(c.toString()).getOwner().equals(owner)){
-                professors = professors + c.toString() + "\n";
-            }
-        }
-        String students = new String();
+        String students = "";
         for( Student s: entrance){
-            students= students + s.toString() + "\t";
+            students= students.concat(s.toString() + "\t");
         }
 
         return
@@ -132,8 +130,6 @@ public class School {
                 "\nBLUE:" + diningRoom.get(CharacterColor.BLUE).size() +
                 "\nYElLOW"+ diningRoom.get(CharacterColor.YELLOW).size() +
                  "\nPINK" + diningRoom.get(CharacterColor.PINK).size() +
-                 "\nGREEN" + diningRoom.get(CharacterColor.GREEN).size() +
-                 "\n" + professors;
-
+                 "\nGREEN" + diningRoom.get(CharacterColor.GREEN).size();
     }
 }

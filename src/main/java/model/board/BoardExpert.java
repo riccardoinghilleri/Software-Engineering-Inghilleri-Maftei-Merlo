@@ -1,12 +1,10 @@
 package model.board;
 
-import model.GameModel;
+import model.*;
 import model.enums.CharacterCardName;
-import model.CharacterCard;
-import model.CharacterCardwithProhibitions;
-import model.CharacterCardwithStudents;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -15,20 +13,22 @@ public class BoardExpert extends Board {
     Map<String, Integer> playerCoins;
     CharacterCard[] characterCards;
 
-    public BoardExpert(int playersNumber, GameModel gameModel) {
-        super( playersNumber, gameModel );
+    public BoardExpert(List<Player> players, GameModel gameModel) {
+        super( players, gameModel );
+        //--CREO LE MONETE--
         boardCoins = 20;
+        //--ESTRAGGO 3 CARTE PERSONAGGIO CASUALI--
         characterCards = createThreeRandomCharacterCards();
+        //--ASSEGNO AD OGNI PLAYER UNA MONETA--
         playerCoins = new HashMap<>();
+        for(Player p: players){
+            playerCoins.put(p.getNickname(),1);
+            boardCoins--;
+        }
     }
 
     public Integer getPlayerCoins(String playerNickname) {
         return playerCoins.get(playerNickname);
-    }
-
-    public void setPlayerCoins(String player){
-        playerCoins.put(player,1);
-        boardCoins--;
     }
 
     public int getBoardCoins() {
@@ -42,24 +42,28 @@ public class BoardExpert extends Board {
     public CharacterCard getCharacterCardbyName(String name) {
         //TODO forse bisogna lanciare eccezione se non si trova la carta
         CharacterCard characterCard = null;
-        for(int i=0; i<3 && characterCard==null; i++) {
-            if(name.equals(characterCards[i].getName().toString()))  characterCard = characterCards[i];
+        for(CharacterCard card : characterCards ) {
+            if(name.equals(card.getName().toString()))
+                characterCard = card;
         }
         return characterCard;
     }
 
+    //Rimuove le monete dal player e ne mette il costo - 1 nella board, aggiunge una moneta alla carta personaggio
     public void moveCoin(String player, CharacterCard card){
-        playerCoins.replace(player,playerCoins.get(player)-1);
+        playerCoins.replace(player,playerCoins.get(player)-card.getCost());
         boardCoins+=(card.getCost())-1;
         card.updateCost();
     }
-    public void moveCoin(String player){
+
+    //Aggiunge una moneta al player
+    public void addCointoPlayer(String player){
         playerCoins.replace(player,playerCoins.get(player)+1);
         boardCoins--;
     }
 
-    public void removeLock(int islandPosition){
-        getIslands().get(islandPosition).setLock(false);
+    public void removeNoEntryTiles(int islandPosition){
+        getIslands().get(islandPosition).setNoEntryTile(false);
     }
 
     protected CharacterCard[] createThreeRandomCharacterCards(){
@@ -72,12 +76,12 @@ public class BoardExpert extends Board {
                 case PRIEST:
                     cards[i]=new CharacterCardwithStudents(CharacterCardName.PRIEST,1,
                             "Prendi uno studente dalla carta e piazzalo su un'isola a tua scelta." +
-                                    "Poi,pesca 1 studente dal sacchetto e mettilo su questa carta",removeRandomStudent(4));
+                                    "Poi,pesca 1 studente dal sacchetto e mettilo su questa carta",removeRandomStudents(4));
                     break;
                 case QUEEN:
                     cards[i]=new CharacterCardwithStudents(CharacterCardName.QUEEN,2,
                             "Prendi uno studente da questa carta e piazzalo nella tua Sala." +
-                                    "Poi pesca un nuovo studente dal sacchetto e posizionalo su questa carta",removeRandomStudent(4));
+                                    "Poi pesca un nuovo studente dal sacchetto e posizionalo su questa carta",removeRandomStudents(4));
                     break;
                 case THIEF:
                     cards[i]=new CharacterCard(CharacterCardName.THIEF,3,
@@ -92,7 +96,7 @@ public class BoardExpert extends Board {
                 case CLOWN:
                     cards[i]=new CharacterCardwithStudents(CharacterCardName.CLOWN,1,
                             "Puoi prendere fino a 3 Studenti da questa carta e scambiarli con altrettanti Studenti presenti nel tuo ingresso",
-                            removeRandomStudent(6));
+                            removeRandomStudents(6));
                     break;
                 case DIPLOMAT:
                     cards[i]=new CharacterCard(CharacterCardName.DIPLOMAT,3,

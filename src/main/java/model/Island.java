@@ -7,16 +7,16 @@ import java.util.*;
 import java.lang.*;
 
 public class Island {
-    private boolean hasNatureMother;
+    private boolean hasMotherNature;
     private Map<CharacterColor, List<Student>> students;
     private List<Tower> towers;
-    private boolean NoEntryTiles; // prima c'era isLocked
+    private boolean NoEntryTile; // prima c'era isLocked
 
-    public Island(boolean hasNatureMother)
+    public Island(boolean hasMotherNature)
     {
 
-        this.hasNatureMother = hasNatureMother;
-        NoEntryTiles=false;
+        this.hasMotherNature = hasMotherNature;
+        NoEntryTile=false;
         towers=new ArrayList<>();
         students=new HashMap<>();
 
@@ -24,8 +24,8 @@ public class Island {
 
 
     public Island(Student firstStudent) {
-        this.hasNatureMother=false;
-        NoEntryTiles=false;
+        this.hasMotherNature=false;
+        NoEntryTile=false;
         towers=new ArrayList<>();
         students=new HashMap<>();
         students.put(firstStudent.getColor(), new ArrayList<>());
@@ -38,8 +38,8 @@ public class Island {
 
     //---GETTER---//
 
-    private boolean hasNatureMother() {
-        return hasNatureMother;
+    private boolean hasMotherNature() {
+        return hasMotherNature;
     }
 
     public Map<CharacterColor, List<Student>> getStudents() {
@@ -50,8 +50,8 @@ public class Island {
         return towers;
     }
 
-    public boolean isLocked() {  //forse da cambiare nome al metodo
-        return NoEntryTiles;
+    public boolean hasNoEntryTile() {  //forse da cambiare nome al metodo
+        return NoEntryTile;
     } //prima era isLocked
 
     public PlayerColor getColorTower() {
@@ -61,12 +61,12 @@ public class Island {
 
     //---SETTER---//
 
-    public void setNatureMother(boolean hasNatureMother) {
-        this.hasNatureMother = hasNatureMother;
+    public void setMotherNature(boolean hasMotherNature) {
+        this.hasMotherNature = hasMotherNature;
     }
 
-    public void setLock(boolean locked) {
-        NoEntryTiles = locked;
+    public void setNoEntryTile(boolean locked) {
+        NoEntryTile = locked;
     } //forse da cambiare nome al metodo
 
     public void addTower(Tower tower) {
@@ -90,7 +90,6 @@ public class Island {
         for( Student s: students)
         {
             addStudent(s);
-
         }
 
     }
@@ -117,7 +116,7 @@ public class Island {
                 "\nYellowStudents: " + students.get(CharacterColor.YELLOW).size() +
                 "\nPinkStudents: " + students.get(CharacterColor.PINK).size() +
                 "\nGreenStudents: " + students.get(CharacterColor.GREEN).size() +
-                "\nNatureMother: " +hasNatureMother();
+                "\nMotherNature: " +hasMotherNature();
 
     }
 }

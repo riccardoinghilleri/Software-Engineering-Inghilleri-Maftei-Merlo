@@ -11,7 +11,6 @@ import static it.polimi.ingsw.controller.StrategyFactory.strategyFactory;
 
 public class ActionController {
     private final GameModel gameModel;
-    private String characterCardName;
     private String player;
     private CharacterCardStrategy strategy;
 
@@ -29,9 +28,6 @@ public class ActionController {
         return strategy;
     }
 
-    public String getCharacterCardName() {
-        return characterCardName;
-    }
 
     //se strategy è true, setto la strategy e la uso una volta
     //aggiorno le monete dei player , della carta e della board
@@ -46,7 +42,6 @@ public class ActionController {
         }
         BoardExpert boardExpert=(BoardExpert)gameModel.getBoard();
         boardExpert.moveCoin(player,boardExpert.getCharacterCardbyName(message.getCharacterCardName()));
-
     }
 
     //metodo che ritorna il player con più influenza sull'isola specificata
@@ -60,7 +55,7 @@ public class ActionController {
         gameModel.getBoard().getSchoolByOwner(player).fromEntrancetoDiningRoom(CharacterColor.valueOf(studentColor));
         if(gameModel.isExpertGame() && gameModel.getBoard().getSchoolByOwner(player).getDiningRoom().get(CharacterColor.valueOf(studentColor)).size()%3==0){
             BoardExpert boardExpert=(BoardExpert) gameModel.getBoard();
-            boardExpert.moveCoin(player);
+            boardExpert.addCointoPlayer(player);
         }
         updateProfessor(studentColor);
     }
@@ -81,13 +76,13 @@ public class ActionController {
     //sposta le tower automaticamente
     //TODO il movimento delle tower è atomico con lo spotamento di madre natura o deve essere il client a farlo cosi possiamo usare una specialCard dopo il movimento di madre natura  e prima d i muovere le torri
     //TODO tutte le getInfluence() devono ritornare NONE in caso di pareggio
-    public void moveNatureMother(Message message) {
-        gameModel.getBoard().moveNatureMother((message.getData()));
-        int index = gameModel.getBoard().getNatureMotherPosition();
-        if(gameModel.getBoard().getIslands().get(index).isLocked()) //Se L'isola è bloccata, tolgo il divieto e lo rimetto nella carta senza calcolare l'influenza
+    public void moveMotherNature(Message message) {
+        gameModel.getBoard().moveMotherNature((message.getData()));
+        int index = gameModel.getBoard().getMotherNaturePosition();
+        if(gameModel.getBoard().getIslands().get(index).hasNoEntryTile()) //Se L'isola è bloccata, tolgo il divieto e lo rimetto nella carta senza calcolare l'influenza
         {
             BoardExpert boardExpert= (BoardExpert) gameModel.getBoard();
-            boardExpert.removeLock(index);
+            boardExpert.removeNoEntryTiles(index);
             ((CharacterCardwithProhibitions) boardExpert.getCharacterCardbyName("HERBOLARIA")).restockProhibitionsNumber();
         }
         else{

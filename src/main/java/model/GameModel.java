@@ -1,6 +1,7 @@
 package model;
 
 import model.board.Board;
+import model.board.BoardExpert;
 import model.enums.Wizard;
 
 import java.util.ArrayList;
@@ -24,11 +25,10 @@ public class GameModel {
         winners=new ArrayList<>();
     }
     //---CREAZIONE OGGETTI---//
-    //TODO FARE BOARD
     public void createBoard(){
         if (!isExpertGame)
-        board=new Board(players.size(),this);
-        //else board=new BoardExpertImpl(players.size());
+        board=new Board(players,this);
+        else board=new BoardExpert(players,this);
     };
 
     public void createPlayer(String nickname, int clientID){

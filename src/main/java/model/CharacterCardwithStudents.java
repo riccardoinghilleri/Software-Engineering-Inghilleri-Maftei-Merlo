@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import it.polimi.ingsw.model.enums.*;
 import model.enums.CharacterCardName;
 import model.enums.CharacterColor;
 

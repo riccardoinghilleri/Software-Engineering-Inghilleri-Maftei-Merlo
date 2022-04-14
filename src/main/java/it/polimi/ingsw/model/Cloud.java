@@ -21,7 +21,8 @@ public class Cloud {
     }
 
     public List<Student> removeStudents() {
-        List<Student> tempStudents = students;
+
+        List<Student> tempStudents = new ArrayList<>(students);
         students.clear();
         return tempStudents;
     }

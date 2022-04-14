@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.enums.PlayerColor;
 import java.util.*;
 import java.lang.*;
 
-public class Island {
+public class  Island {
     private boolean hasMotherNature;
     private Map<CharacterColor, List<Student>> students;
     private List<Tower> towers;
@@ -82,8 +82,12 @@ public class Island {
         if(!(students.containsKey(student.getColor())))
         {
             this.students.put(student.getColor(), new ArrayList<Student>());
+
         }
-        students.get(student.getColor()).add(student);
+        this.students.get(student.getColor()).add(student);
+
+
+
     }
 
     public void addStudents(List<Student> students) {

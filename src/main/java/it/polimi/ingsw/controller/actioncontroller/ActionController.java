@@ -101,9 +101,11 @@ public class ActionController {
                     gameModel.getBoard().moveTower(gameModel.getPlayerByNickname(newOwner).getNickname(), index);
                 }
                 //altrimenti tolgo le tower presenti e metto quelle del nuovo owner
-                else if(!newOwner.equalsIgnoreCase(oldOwner)){
+                else if(!newOwner.equalsIgnoreCase(oldOwner)) {
+                    int towers_number = gameModel.getBoard().getIslands().get(index).getTowers().size();
                     gameModel.getBoard().moveTower(index, oldOwner);
-                    gameModel.getBoard().moveTower(newOwner, index);
+                    for (int i = 0; i < towers_number; i++)
+                        gameModel.getBoard().moveTower(newOwner, index);
                 }
                 gameModel.getBoard().checkNearIsland(message.getData());
             }

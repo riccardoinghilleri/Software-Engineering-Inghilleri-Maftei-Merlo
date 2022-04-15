@@ -58,9 +58,9 @@ public class Board {
 
         //--CREAZIONE SCUOLE--
         for(Player p:players){
-            schools[p.getClientID()] = new School(p.getNickname(),p.getColor(),playersNumber);
-            setInitialEntrance();
+            schools[p.getClientID()-1] = new School(p.getNickname(),p.getColor(),playersNumber);
         }
+        setInitialEntrance();
     }
 
     public int getMotherNaturePosition() {
@@ -169,6 +169,7 @@ public class Board {
         return owners;
     }
     //Calcolo influenza dei player data dalle torri presenti sull'isola
+
     public Map<String,Integer> getTowersInfluence(int islandPosition, Map<String,Integer> owners) {
         String owner = islands.get(islandPosition).getTowers().get(0).getOwner();
         owners.replace(owner,owners.get(owner)+islands.get(islandPosition).getTowers().size());
@@ -211,6 +212,7 @@ public class Board {
         return result;
     }
     //Restituisce uno studente casuale
+
     public Student removeRandomStudent() {
         return students.remove(students.size()-1);
     }

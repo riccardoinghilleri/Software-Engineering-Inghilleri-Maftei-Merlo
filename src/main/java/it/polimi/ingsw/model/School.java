@@ -27,6 +27,10 @@ public class School {
         else if (playersNumber==3)
             for(int i=0;i<6;i++)
             towers.add(new Tower(owner,playerColor));
+        for(CharacterColor c : CharacterColor.values())
+        {
+            this.diningRoom.put(c, new ArrayList<Student>());
+        }
     }
 
     //---GETTER---//

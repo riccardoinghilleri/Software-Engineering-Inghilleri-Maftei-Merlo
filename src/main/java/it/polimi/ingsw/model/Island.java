@@ -38,7 +38,7 @@ public class  Island {
 
     //---GETTER---//
 
-    private boolean hasMotherNature() {
+    public boolean hasMotherNature() {
         return hasMotherNature;
     }
 

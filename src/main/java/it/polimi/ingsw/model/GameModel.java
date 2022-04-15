@@ -10,7 +10,7 @@ import java.util.List;
 public class GameModel {
     int playersNumber;
     boolean isExpertGame;
-    Board board;
+    Board board = null;
     List<Player> players;
     List<String> winners;
     Player currentPlayer;
@@ -74,7 +74,7 @@ public class GameModel {
 
     }
 
-    public void setPlayersDeck( String nickname, String wizard){
+    public void setPlayerDeck( String nickname, String wizard){
         getPlayerByNickname(nickname).getDeck().setWizard(Wizard.valueOf(wizard));
 
     }

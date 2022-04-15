@@ -5,12 +5,12 @@ import it.polimi.ingsw.model.enums.Wizard;
 import java.util.*;
 
 public class Deck {
-    Wizard wizard;
+    Wizard wizard = null;
     List<AssistantCard> assistantCards;
 
     public Deck(){
         assistantCards=new ArrayList<>();
-        for(int i=1;i<13;i++)
+        for(int i=1;i<11;i++)
         {
             if(i%2==0)
             assistantCards.add(new AssistantCard(i,i-1));

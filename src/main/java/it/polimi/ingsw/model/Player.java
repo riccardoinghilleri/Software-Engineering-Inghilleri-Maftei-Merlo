@@ -7,7 +7,7 @@ public class Player {
     int clientID;
     Deck deck;
     PlayerColor color;
-    AssistantCard choosenAssistantCard;
+    AssistantCard chosenAssistantCard;
 
     public Player(String nickname, int clientID){
         this.nickname=nickname;
@@ -32,7 +32,7 @@ public class Player {
     }
 
     public AssistantCard getChoosenAssistantCard(){
-        return choosenAssistantCard;
+        return chosenAssistantCard;
     }
 
     public void setColor(String color) {
@@ -40,6 +40,8 @@ public class Player {
     }
 
     public void setAssistantCard(int priority){
-        choosenAssistantCard=deck.removeAssistantCard(priority);
+        chosenAssistantCard=deck.removeAssistantCard(priority);
     }
+
+
 }

@@ -216,7 +216,7 @@ public class Controller {
     }
     //TODO controllare se usare characterCardName e i suoi metodi
     private void checkChosenSteps(Message message) throws InvalidChosenStepsException {
-        int steps = gameModel.getCurrentPlayer().getChoosenAssistantCard().getNatureMotherSteps();
+        int steps = gameModel.getCurrentPlayer().getChoosenAssistantCard().getMotherNatureSteps();
         if(characterCardName.equalsIgnoreCase("POSTMAN")) {
             steps += 2;
         }

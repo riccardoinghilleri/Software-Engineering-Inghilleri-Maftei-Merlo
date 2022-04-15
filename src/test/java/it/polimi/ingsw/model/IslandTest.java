@@ -26,7 +26,8 @@ class IslandTest {
         Island island = new Island(hasNatureMother);
         assertFalse(island.hasNoEntryTile());
         assertTrue(island.getTowers().isEmpty());
-        assertTrue(island.getStudents().isEmpty());
+        for(CharacterColor c : island.getStudents().keySet())
+            assertTrue(island.getStudents().get(c).isEmpty());
     }
 
     @Test
@@ -46,6 +47,7 @@ class IslandTest {
         Student firstStudent = new Student(color);
         PlayerColor playerColor = PlayerColor.values()[new Random().nextInt(PlayerColor.values().length)];
         Island island = new Island(firstStudent);
+        assertNull(island.getColorTower());
         Tower tower = new Tower("randomPlayer", playerColor);
         assertTrue(island.getTowers().isEmpty());
         island.addTower(tower);
@@ -80,10 +82,11 @@ class IslandTest {
         boolean hasNatureMother = false;
         Island island = new Island(hasNatureMother);
         //CharacterColor color = CharacterColor.values()[new Random().nextInt(CharacterColor.values().length)];
-        assertTrue(island.getStudents().isEmpty());
+        for(CharacterColor c : island.getStudents().keySet())
+            assertTrue(island.getStudents().get(c).isEmpty());
         Student firstStudent = new Student(CharacterColor.YELLOW);
         island.addStudent(firstStudent);
-        assertEquals(1,island.getStudents().values().size());
+        assertEquals(1,island.getStudents().get(CharacterColor.YELLOW).size());
         assertSame(firstStudent, island.getStudents().get(CharacterColor.YELLOW).get(0));
         assertFalse(island.getStudents().isEmpty());
         List<Student> studentsToAdd = new ArrayList<>();
@@ -99,7 +102,18 @@ class IslandTest {
         assertEquals(1,island.getStudents().get(CharacterColor.YELLOW).size());
         assertEquals(1,island.getStudents().get(CharacterColor.GREEN).size());
         assertEquals(2,island.getStudents().get(CharacterColor.RED).size());
+    }
 
+    @Test
+    public void testToString() {
+        Island island = new Island(true);
+        island.addStudent(new Student(CharacterColor.RED));
+        island.addStudent(new Student(CharacterColor.RED));
+        island.addStudent(new Student(CharacterColor.GREEN));
+        island.addStudent(new Student(CharacterColor.BLUE));
+        island.toString();
+        island.addTower(new Tower("Ricky",PlayerColor.WHITE));
+        island.toString();
     }
 }
 

@@ -72,7 +72,6 @@ public class School {
 
     public void addEntranceStudent(Student student) {
         entrance.add(student);
-
     }
 
     public void addEntranceStudents(List<Student> students) {
@@ -126,7 +125,7 @@ public class School {
         }
 
         return
-                "Owner: " +getOwner() +
+                "Owner: " + getOwner() +
                 "Towers: " + towers.size() + getTowerColor() +
                 "\nEntrance: " +students +
                 "\nDiningRoom:" +

@@ -14,7 +14,6 @@ public class  Island {
 
     public Island(boolean hasMotherNature)
     {
-
         this.hasMotherNature = hasMotherNature;
         NoEntryTile=false;
         towers=new ArrayList<>();
@@ -76,7 +75,6 @@ public class  Island {
 
     public void addTowers(List<Tower> towers) {
         this.towers.addAll(towers);
-
     }
 
     public void addStudent(Student student) {
@@ -84,11 +82,9 @@ public class  Island {
     }
 
     public void addStudents(List<Student> students) {
-        for( Student s: students)
-        {
+        for (Student s : students) {
             addStudent(s);
         }
-
     }
 
     public List<Tower> removeTowers() {
@@ -96,14 +92,15 @@ public class  Island {
         towers.clear();
         return tempTowers;
 
-        }
+    }
+
     @Override
     public String toString() {
-        String result;
-        if(towers.isEmpty()){
-            result ="Towers: NONE";
+        String result = null;
+        if(towers.isEmpty()) {
+            result = "Towers: NONE";
         }
-        else{
+        else {
             result=  "Towers: " +  towers.size() +towers.get(0).getColor();
         }
 
@@ -114,6 +111,5 @@ public class  Island {
                 "\nPinkStudents: " + students.get(CharacterColor.PINK).size() +
                 "\nGreenStudents: " + students.get(CharacterColor.GREEN).size() +
                 "\nMotherNature: " +hasMotherNature();
-
     }
 }

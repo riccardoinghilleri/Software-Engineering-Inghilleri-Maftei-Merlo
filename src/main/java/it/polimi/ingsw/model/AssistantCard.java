@@ -12,7 +12,7 @@ public class AssistantCard {
         return priority;
     }
 
-    public int getNatureMotherSteps() {
+    public int getMotherNatureSteps() {
         return natureMotherSteps;
     }
 }

@@ -1,40 +1,53 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.enums.CharacterColor;
+import it.polimi.ingsw.model.enums.PlayerColor;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class SchoolTest {
+    School school;
 
-    @Test
-    void testAddDiningRoomStudent() {
+    @BeforeEach
+    public void setUp() {
+        school = new School("Ricky", PlayerColor.WHITE,2);
     }
 
     @Test
-    void testAddEntranceStudent() {
+    void testGetTowerColor() {
+        assertEquals(PlayerColor.WHITE,school.getTowerColor());
     }
 
     @Test
-    void testAddEntranceStudents() {
+    void testHasEntranceStudents() {
+        assertFalse(school.hasEntranceStudentColor("RED"));
     }
 
     @Test
-    void removeEntranceStudent() {
+    void testRemoveDiningRoomStudent() {
+        Student student = new Student(CharacterColor.RED);
+        school.addDiningRoomStudent(student);
+        assertEquals(student,school.removeDiningRoomStudent(CharacterColor.RED));
     }
 
     @Test
-    void removeDiningRoomStudent() {
+    void testFromEntranceToDiningRoom() {
+        school.addEntranceStudent(new Student(CharacterColor.RED));
+        for(CharacterColor c : CharacterColor.values()) {
+            assertTrue(school.getDiningRoom().get(c).isEmpty());
+        }
+        school.fromEntrancetoDiningRoom(CharacterColor.RED);
+        assertEquals(1,school.getDiningRoom().get(CharacterColor.RED).size());
     }
 
     @Test
-    void fromEntrancetoDiningRoom() {
+    void testToString() {
+        school.addEntranceStudent(new Student(CharacterColor.RED));
+        school.addEntranceStudent(new Student(CharacterColor.YELLOW));
+        school.addEntranceStudent(new Student(CharacterColor.BLUE));
+        school.toString();
     }
 
-    @Test
-    void removeTower() {
-    }
-
-    @Test
-    void restockTower() {
-    }
 }

@@ -13,7 +13,7 @@ public class BoardExpert extends Board {
     CharacterCard[] characterCards;
 
     public BoardExpert(List<Player> players, GameModel gameModel) {
-        super( players, gameModel );
+        super(players, gameModel);
         //--CREO LE MONETE--
         boardCoins = 20;
         //--ESTRAGGO 3 CARTE PERSONAGGIO CASUALI--
@@ -85,7 +85,7 @@ public class BoardExpert extends Board {
                 case THIEF:
                     cards[i]=new CharacterCard(CharacterCardName.THIEF,3,
                             "Scegli un colore di Studente." +
-                                    "Ogni giocatore (incluso te) deve rimettere nel sacchetto 3 Studenti di quel colore presenti nella sua Sala" +
+                                    "Ogni giocatore (incluso te) deve rimettere nel sacchetto 3 Studenti di quel colore presenti nella sua Sala." +
                                     "Chi avesse meno di 3 Studenti di quel colore, rimetterà tutti quelli che ha.");
                     break;
                 case KNIGHT:

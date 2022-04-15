@@ -33,6 +33,7 @@ class BoardTest {
 
     @Test
     public void Board(){
+        int numstudents=0;
         assertEquals(2,board.getClouds().length);
         assertEquals(2,board.getSchools().length);
         assertEquals(3,board3.getClouds().length);
@@ -42,10 +43,13 @@ class BoardTest {
         assertEquals(7,board.getSchoolByOwner("ricky").getEntrance().size());
         assertEquals(board.getSchools()[1],board.getSchoolByOwner("ricky"));
         assertEquals(12,board.getIslands().size());
+
         for(CharacterColor c:CharacterColor.values()){
+            numstudents+=board.getIslands().get(2).getStudents().get(c).size();
             assertNotNull(board.getProfessorByColor(c));
             assertSame(c,board.getProfessorByColor(c).getColor());
         }
+        assertEquals(1,numstudents);
     }
 
     @Test
@@ -175,7 +179,7 @@ class BoardTest {
     }
 
     @Test
-    public void testcheckNearIsland(){
+    public void testCheckNearIsland(){
         int num_students=0;
         assertEquals(12,board.getIslands().size());
         board.moveTower("manu",0);

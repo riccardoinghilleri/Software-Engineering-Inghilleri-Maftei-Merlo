@@ -19,7 +19,9 @@ public class  Island {
         NoEntryTile=false;
         towers=new ArrayList<>();
         students=new HashMap<>();
-
+        for(CharacterColor c : CharacterColor.values()) {
+            this.students.put(c, new ArrayList<>());
+        }
     }
 
 
@@ -28,13 +30,12 @@ public class  Island {
         NoEntryTile=false;
         towers=new ArrayList<>();
         students=new HashMap<>();
+        for(CharacterColor c : CharacterColor.values()) {
+            this.students.put(c, new ArrayList<>());
+        }
         students.put(firstStudent.getColor(), new ArrayList<>());
         students.get(firstStudent.getColor()).add(firstStudent);
-
-
     }
-
-
 
     //---GETTER---//
 
@@ -79,15 +80,7 @@ public class  Island {
     }
 
     public void addStudent(Student student) {
-        if(!(students.containsKey(student.getColor())))
-        {
-            this.students.put(student.getColor(), new ArrayList<Student>());
-
-        }
         this.students.get(student.getColor()).add(student);
-
-
-
     }
 
     public void addStudents(List<Student> students) {

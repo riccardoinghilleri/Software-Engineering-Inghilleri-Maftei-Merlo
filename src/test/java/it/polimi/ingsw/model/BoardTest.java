@@ -1,31 +1,34 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.enums.CharacterColor;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
     Board board;
     GameModel gameModel;
-    List<Player> players;
+    GameModel gameModel3;
     Board board3;
 
     @BeforeEach
     void setUp() {
-        players=new ArrayList<>();
-        players.add(new Player("manu",1));
-        players.add(new Player("ricky",2));
         gameModel= new GameModel(false);
-        board=new Board(players,gameModel);
-        players.add(new Player("dani",3));
-        board3 = new Board(players,gameModel);
+        gameModel.createPlayer("manu",1);
+        gameModel.createPlayer("ricky",2);
+        gameModel.getPlayerByNickname("manu").setColor("WHITE");
+        gameModel.getPlayerByNickname("ricky").setColor("BLACK");
+        board=new Board(gameModel.getPlayers(),gameModel);
+
+        gameModel3= new GameModel(false);
+        gameModel3.createPlayer("manu",1);
+        gameModel3.createPlayer("ricky",2);
+        gameModel3.createPlayer("dani",3);
+        gameModel3.getPlayerByNickname("manu").setColor("WHITE");
+        gameModel3.getPlayerByNickname("ricky").setColor("BLACK");
+        gameModel3.getPlayerByNickname("dani").setColor("GREY");
+        board3 = new Board(gameModel3.getPlayers(),gameModel);
     }
 
     @Test
@@ -46,7 +49,7 @@ class BoardTest {
     }
 
     @Test
-    public void TestgetMotherNaturePosition(){
+    public void testgetMotherNaturePosition(){
         assertTrue(board.getIslands().get(0).hasMotherNature());
         assertEquals(0,board.getMotherNaturePosition());
         board.moveMotherNature(3);
@@ -60,14 +63,14 @@ class BoardTest {
     }
 
     @Test
-    public void TestInitialEntrance(){
+    public void testInitialEntrance(){
         assertEquals(9,board3.getSchoolByOwner("manu").getEntrance().size());
         assertEquals(9,board3.getSchoolByOwner("ricky").getEntrance().size());
         assertEquals(9,board3.getSchoolByOwner("dani").getEntrance().size());
     }
 
     @Test
-    public void TestsetStudentsonClouds(){
+    public void testsetStudentsonClouds(){
         board.setStudentsonClouds();
         assertEquals(3,board.getClouds()[0].getStudents().size());
         assertEquals(3,board.getClouds()[1].getStudents().size());
@@ -78,7 +81,7 @@ class BoardTest {
     }
 
     @Test
-    public void TestMoveStudentFromCloud(){
+    public void testMoveStudentFromCloud(){
         board.setStudentsonClouds();
         board.moveStudent(0,"manu");
         assertTrue(board.getClouds()[0].getStudents().isEmpty());
@@ -90,10 +93,12 @@ class BoardTest {
     }
 
     @Test
-    public void TestMoveStudentFromSchool(){
+    public void testMoveStudentFromSchool(){
         CharacterColor color=null;
         assertEquals(7,board.getSchoolByOwner("manu").getEntrance().size());
-        assertTrue(board.getIslands().get(6).getStudents().isEmpty());
+        for(CharacterColor c: CharacterColor.values())
+            assertTrue(board.getIslands().get(6).getStudents().get(c).isEmpty());
+
         for(CharacterColor c: CharacterColor.values())
         {
             if(board.getSchoolByOwner("manu").hasEntranceStudentColor(c.toString())){
@@ -108,7 +113,7 @@ class BoardTest {
     }
 
     @Test
-    public void TestUpdateProfessor(){
+    public void testUpdateProfessor(){
         for(CharacterColor c: CharacterColor.values())
             assertEquals("NONE",board.getProfessorByColor(c).getOwner());
         Student student=new Student(CharacterColor.valueOf("GREEN"));
@@ -136,7 +141,62 @@ class BoardTest {
 
     }
 
-    @AfterEach
-    void tearDown() {
+    @Test
+    public void testGetTotalInfluence(){
+        Student student1=new Student(CharacterColor.valueOf("GREEN"));
+        Student student2=new Student(CharacterColor.valueOf("PINK"));
+        Student student3=new Student(CharacterColor.valueOf("YELLOW"));
+        Student student4=new Student(CharacterColor.valueOf("GREEN"));
+        Student student5=new Student(CharacterColor.valueOf("YELLOW"));
+        board.getIslands().get(6).addStudent(student1);
+        board.getIslands().get(6).addStudent(student2);
+        board.getIslands().get(6).addStudent(student3);
+        board.getSchoolByOwner("manu").addDiningRoomStudent(student4);
+        board.updateProfessor(student4.getColor());
+        assertEquals("manu",board.getProfessorByColor(CharacterColor.valueOf("GREEN")).getOwner());
+        assertEquals("manu",board.getTotalInfluence(6));
+        board.getSchoolByOwner("ricky").addDiningRoomStudent(student5);
+        board.updateProfessor(CharacterColor.valueOf("YELLOW"));
+        assertEquals("ricky",board.getProfessorByColor(student5.getColor()).getOwner());
+        assertEquals("NONE",board.getTotalInfluence(6));
+
+        board.moveTower("ricky",6);
+        assertEquals("ricky",board.getTotalInfluence(6));
+    }
+
+    @Test
+    public void testMoveTowerFromIsland(){
+        board.moveTower("ricky",6);
+        assertEquals(7,board.getSchoolByOwner("ricky").getTowersNumber());
+        assertEquals(1,board.getIslands().get(6).getTowers().size());
+        board.moveTower(6,"ricky");
+        assertEquals(8,board.getSchoolByOwner("ricky").getTowersNumber());
+        assertEquals(0,board.getIslands().get(6).getTowers().size());
+    }
+
+    @Test
+    public void testcheckNearIsland(){
+        int num_students=0;
+        assertEquals(12,board.getIslands().size());
+        board.moveTower("manu",0);
+        board.moveTower("manu",1);
+        board.moveTower("manu",2);
+        assertEquals(5,board.getSchoolByOwner("manu").getTowersNumber());
+        board.checkNearIsland(1);
+        assertEquals(10,board.getIslands().size());
+        assertEquals(3,board.getIslands().get(0).getTowers().size());
+        for(CharacterColor c: CharacterColor.values()){
+            num_students+=board.getIslands().get(0).getStudents().get(c).size();
+        }
+        assertEquals(2,num_students);
+        num_students=0;
+        board.moveTower("manu",1);
+        board.checkNearIsland(0);
+        assertEquals(9,board.getIslands().size());
+        assertEquals(4,board.getIslands().get(0).getTowers().size());
+        for(CharacterColor c: CharacterColor.values()){
+            num_students+=board.getIslands().get(0).getStudents().get(c).size();
+        }
+        assertEquals(3,num_students);
     }
 }

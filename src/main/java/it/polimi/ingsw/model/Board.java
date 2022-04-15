@@ -146,7 +146,7 @@ public class Board {
         for(Player player : gameModel.getPlayers()) {
             owners.put(player.getNickname(),0);
         }
-        owners = getStudentInfluence(islandPosition, owners,Arrays.asList(CharacterColor.values()));
+        owners = getStudentInfluence(islandPosition,owners,Arrays.asList(CharacterColor.values()));
         // Aggiungo l'influenza delle torri
         if(!islands.get(islandPosition).getTowers().isEmpty())
         {
@@ -162,9 +162,8 @@ public class Board {
         for (CharacterColor c: characterColors)
         {
             owner = professors[c.ordinal()].getOwner();
-            if(owners.containsKey(owner))
+            if(!owner.equals("NONE"))
                 owners.replace(owner,owners.get(owner)+students.get(c).size());
-            else owners.put(owner,students.get(c).size());
         }
         return owners;
     }

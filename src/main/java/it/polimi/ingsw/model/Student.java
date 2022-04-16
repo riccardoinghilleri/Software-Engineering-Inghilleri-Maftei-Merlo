@@ -12,4 +12,9 @@ public class Student {
     public CharacterColor getColor() {
         return color;
     }
+
+    @Override
+    public String toString(){
+        return color.toString();
+    }
 }

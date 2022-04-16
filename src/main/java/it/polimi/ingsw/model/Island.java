@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.enums.PlayerColor;
 import java.util.*;
 import java.lang.*;
 
-public class Island {
+public class  Island {
     private boolean hasMotherNature;
     private Map<CharacterColor, List<Student>> students;
     private List<Tower> towers;
@@ -14,12 +14,13 @@ public class Island {
 
     public Island(boolean hasMotherNature)
     {
-
         this.hasMotherNature = hasMotherNature;
         NoEntryTile=false;
         towers=new ArrayList<>();
         students=new HashMap<>();
-
+        for(CharacterColor c : CharacterColor.values()) {
+            this.students.put(c, new ArrayList<>());
+        }
     }
 
 
@@ -28,17 +29,16 @@ public class Island {
         NoEntryTile=false;
         towers=new ArrayList<>();
         students=new HashMap<>();
+        for(CharacterColor c : CharacterColor.values()) {
+            this.students.put(c, new ArrayList<>());
+        }
         students.put(firstStudent.getColor(), new ArrayList<>());
         students.get(firstStudent.getColor()).add(firstStudent);
-
-
     }
-
-
 
     //---GETTER---//
 
-    private boolean hasMotherNature() {
+    public boolean hasMotherNature() {
         return hasMotherNature;
     }
 
@@ -75,23 +75,16 @@ public class Island {
 
     public void addTowers(List<Tower> towers) {
         this.towers.addAll(towers);
-
     }
 
     public void addStudent(Student student) {
-        if(!(students.containsKey(student.getColor())))
-        {
-            this.students.put(student.getColor(), new ArrayList<Student>());
-        }
-        students.get(student.getColor()).add(student);
+        this.students.get(student.getColor()).add(student);
     }
 
     public void addStudents(List<Student> students) {
-        for( Student s: students)
-        {
+        for (Student s : students) {
             addStudent(s);
         }
-
     }
 
     public List<Tower> removeTowers() {
@@ -99,17 +92,17 @@ public class Island {
         towers.clear();
         return tempTowers;
 
-        }
+    }
+
     @Override
     public String toString() {
-        String result;
-        if(towers.isEmpty()){
-            result ="Towers: NONE";
+        String result = null;
+        if(towers.isEmpty()) {
+            result = "Towers: NONE";
         }
-        else{
-            result=  "Towers: " +  towers.size() +towers.get(0).getColor();
+        else {
+            result=  "Towers: " +  towers.size() + " " + towers.get(0).getColor();
         }
-
         return  result +
                 "\nRedStudents: " + students.get(CharacterColor.RED).size() +
                 "\nBlueStudents: " + students.get(CharacterColor.BLUE).size() +
@@ -117,6 +110,5 @@ public class Island {
                 "\nPinkStudents: " + students.get(CharacterColor.PINK).size() +
                 "\nGreenStudents: " + students.get(CharacterColor.GREEN).size() +
                 "\nMotherNature: " +hasMotherNature();
-
     }
 }

@@ -27,6 +27,9 @@ public class School {
         else if (playersNumber==3)
             for(int i=0;i<6;i++)
             towers.add(new Tower(owner,playerColor));
+        for(CharacterColor c : CharacterColor.values()) {
+            this.diningRoom.put(c, new ArrayList<Student>());
+        }
     }
 
     //---GETTER---//
@@ -54,7 +57,7 @@ public class School {
     //metodo che controlla se ho un studente di un determinato colore nella entrance
     public boolean hasEntranceStudentColor(String color) {
         for(Student s : entrance) {
-            if(s.getColor().toString().equals(color)) {
+            if (s.getColor().toString().equals(color)) {
                 return true;
             }
         }
@@ -69,7 +72,6 @@ public class School {
 
     public void addEntranceStudent(Student student) {
         entrance.add(student);
-
     }
 
     public void addEntranceStudents(List<Student> students) {
@@ -119,18 +121,18 @@ public class School {
     public String toString() {
         String students = "";
         for( Student s: entrance){
-            students= students.concat(s.toString() + "\t");
+            students = students.concat(s.toString() + " ");
         }
 
         return
-                "Owner: " +getOwner() +
-                "Towers: " + towers.size() + getTowerColor() +
-                "\nEntrance: " +students +
+                "Owner: " + getOwner() +
+                "\nTowers: " + towers.size() + " " + getTowerColor() +
+                "\nEntrance: " + students +
                 "\nDiningRoom:" +
-                "\nRED:"+ diningRoom.get(CharacterColor.RED).size() +
-                "\nBLUE:" + diningRoom.get(CharacterColor.BLUE).size() +
-                "\nYElLOW"+ diningRoom.get(CharacterColor.YELLOW).size() +
-                 "\nPINK" + diningRoom.get(CharacterColor.PINK).size() +
-                 "\nGREEN" + diningRoom.get(CharacterColor.GREEN).size();
+                "\nRED: "+ diningRoom.get(CharacterColor.RED).size() +
+                "\nBLUE: " + diningRoom.get(CharacterColor.BLUE).size() +
+                "\nYElLOW: "+ diningRoom.get(CharacterColor.YELLOW).size() +
+                "\nPINK: " + diningRoom.get(CharacterColor.PINK).size() +
+                "\nGREEN: " + diningRoom.get(CharacterColor.GREEN).size();
     }
 }

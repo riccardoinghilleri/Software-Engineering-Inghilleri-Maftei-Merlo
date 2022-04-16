@@ -58,9 +58,9 @@ public class Board {
 
         //--CREAZIONE SCUOLE--
         for(Player p:players){
-            schools[p.getClientID()] = new School(p.getNickname(),p.getColor(),playersNumber);
-            setInitialEntrance();
+            schools[p.getClientID()-1] = new School(p.getNickname(),p.getColor(),playersNumber);
         }
+        setInitialEntrance();
     }
 
     public int getMotherNaturePosition() {
@@ -146,7 +146,7 @@ public class Board {
         for(Player player : gameModel.getPlayers()) {
             owners.put(player.getNickname(),0);
         }
-        owners = getStudentInfluence(islandPosition, owners,Arrays.asList(CharacterColor.values()));
+        owners = getStudentInfluence(islandPosition,owners,Arrays.asList(CharacterColor.values()));
         // Aggiungo l'influenza delle torri
         if(!islands.get(islandPosition).getTowers().isEmpty())
         {
@@ -162,13 +162,13 @@ public class Board {
         for (CharacterColor c: characterColors)
         {
             owner = professors[c.ordinal()].getOwner();
-            if(owners.containsKey(owner))
+            if(!owner.equals("NONE"))
                 owners.replace(owner,owners.get(owner)+students.get(c).size());
-            else owners.put(owner,students.get(c).size());
         }
         return owners;
     }
     //Calcolo influenza dei player data dalle torri presenti sull'isola
+
     public Map<String,Integer> getTowersInfluence(int islandPosition, Map<String,Integer> owners) {
         String owner = islands.get(islandPosition).getTowers().get(0).getOwner();
         owners.replace(owner,owners.get(owner)+islands.get(islandPosition).getTowers().size());
@@ -211,6 +211,7 @@ public class Board {
         return result;
     }
     //Restituisce uno studente casuale
+
     public Student removeRandomStudent() {
         return students.remove(students.size()-1);
     }
@@ -242,5 +243,24 @@ public class Board {
              islands.remove(position);
          }
      }
+
+     @Override
+    public String toString(){
+        String result;
+        int i=0;
+        result = "Clouds:\n";
+        for(Cloud c: clouds) {
+            result = result.concat("Cloud # " + i +": ");
+            result = result.concat(c.toString() + "\n");
+            i++;
+        }
+        result = result.concat("Schools:\n");
+        for(School s: schools)
+            result=result.concat(s.toString() + "\n");
+        result = result.concat("Professors:\n");
+        for(CharacterColor c : CharacterColor.values())
+            result=result.concat(c.toString() +" Professor: "+ getProfessorByColor(c).getOwner() + "\n");
+        return result;
+    }
 }
 //TODO checkEndgame()

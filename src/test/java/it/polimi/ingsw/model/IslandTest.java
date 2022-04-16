@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.enums.CharacterColor;
 import it.polimi.ingsw.model.enums.PlayerColor;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -11,15 +12,18 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.*;
 
 class IslandTest {
-    /*
-      ricordiamoci che c'è anche un metodo privato e non posso testare che l isola con madre natura
-      inizialmente sia creata in modo corretto
-     */
+    Island island;
+    CharacterColor color;
+    Student firstStudent;
 
+    @BeforeEach
+    void setUpIsland(){
+        color = CharacterColor.values()[new Random().nextInt(CharacterColor.values().length)];
+        firstStudent = new Student(color);
+        island = new Island(firstStudent);
 
-    /**
-     * testiamo creazione corretta dell'isola senza nè madre natura nè uno studente
-     */
+    }
+
     @Test
     public void testIslandWithoutStudent() {
         boolean hasNatureMother = false;
@@ -32,21 +36,14 @@ class IslandTest {
 
     @Test
     void testIsland() {
-        CharacterColor color = CharacterColor.values()[new Random().nextInt(CharacterColor.values().length)];
-        Student firstStudent = new Student(color);
-        Island island = new Island(firstStudent);
         assertFalse(island.hasNoEntryTile());
         assertTrue(island.getTowers().isEmpty());
         assertEquals(firstStudent, island.getStudents().get(color).get(0));
-
     }
 
     @Test
     void testingCorrectTowerColor() {
-        CharacterColor color = CharacterColor.values()[new Random().nextInt(CharacterColor.values().length)];
-        Student firstStudent = new Student(color);
         PlayerColor playerColor = PlayerColor.values()[new Random().nextInt(PlayerColor.values().length)];
-        Island island = new Island(firstStudent);
         assertNull(island.getColorTower());
         Tower tower = new Tower("randomPlayer", playerColor);
         assertTrue(island.getTowers().isEmpty());
@@ -55,18 +52,14 @@ class IslandTest {
         assertSame(tower, island.getTowers().get(0));
         assertSame(playerColor, island.getColorTower());
 
-
     }
 
     /**
      * Metodo che testa se sono aggiunte correttamente una torre
      */
+
     @Test
     void testAddTowers() {
-        CharacterColor color = CharacterColor.values()[new Random().nextInt(CharacterColor.values().length)];
-        Student firstStudent = new Student(color);
-        PlayerColor playerColor = PlayerColor.values()[new Random().nextInt(PlayerColor.values().length)];
-        Island island = new Island(firstStudent);
         List<Tower> towersToAdd = new ArrayList<>();
         towersToAdd.add(new Tower("player1", PlayerColor.GREY));
         towersToAdd.add(new Tower("player2", PlayerColor.GREY));

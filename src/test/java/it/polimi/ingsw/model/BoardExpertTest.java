@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.enums.CharacterCardName;
+import it.polimi.ingsw.model.enums.CharacterColor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -71,8 +72,16 @@ class BoardExpertTest {
 
     @Test
     public void testCreateThreeRandomCharacterCards() {
-        //TODO non so come testarla..
-
+        CharacterCard [] card= new CharacterCard[3];
+        for(int i=0;i<4;i++) {
+            card = ((BoardExpert) boardExpert).getCharacterCards();
+            CharacterCardName name1 = card[0].getName();
+            CharacterCardName name2 = card[1].getName();
+            CharacterCardName name3 = card[2].getName();
+            assertFalse(name1 == name2);
+            assertFalse(name1 == name3);
+            assertFalse(name3 == name2);
+        }
     }
 
 

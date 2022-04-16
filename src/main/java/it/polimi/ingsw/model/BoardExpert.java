@@ -2,10 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.enums.CharacterCardName;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class BoardExpert extends Board {
     int boardCoins;
@@ -68,10 +65,17 @@ public class BoardExpert extends Board {
     protected CharacterCard[] createThreeRandomCharacterCards(){
         CharacterCard[] cards= new CharacterCard[3];
         CharacterCardName[] values= CharacterCardName.values();
+        List<CharacterCardName> chosedNames= new ArrayList<>();
         Random r=new Random();
+        while(chosedNames.size()<3)
+        {
+            CharacterCardName name=values[r.nextInt(values.length)];
+            if(!chosedNames.contains(name))
+                chosedNames.add(name);
+        }
         for(int i=0;i<3;i++)
         {
-            switch (values[r.nextInt(values.length)]){
+            switch (chosedNames.get(i)){
                 case PRIEST:
                     cards[i]=new CharacterCardwithStudents(CharacterCardName.PRIEST,1,
                             "Prendi uno studente dalla carta e piazzalo su un'isola a tua scelta." +

@@ -57,7 +57,7 @@ public class School {
     //metodo che controlla se ho un studente di un determinato colore nella entrance
     public boolean hasEntranceStudentColor(String color) {
         for(Student s : entrance) {
-            if(s.getColor().toString().equals(color)) {
+            if (s.getColor().toString().equals(color)) {
                 return true;
             }
         }
@@ -121,18 +121,18 @@ public class School {
     public String toString() {
         String students = "";
         for( Student s: entrance){
-            students= students.concat(s.toString() + "\t");
+            students = students.concat(s.toString() + " ");
         }
 
         return
                 "Owner: " + getOwner() +
-                "Towers: " + towers.size() + getTowerColor() +
-                "\nEntrance: " +students +
+                "\nTowers: " + towers.size() + " " + getTowerColor() +
+                "\nEntrance: " + students +
                 "\nDiningRoom:" +
-                "\nRED:"+ diningRoom.get(CharacterColor.RED).size() +
-                "\nBLUE:" + diningRoom.get(CharacterColor.BLUE).size() +
-                "\nYElLOW"+ diningRoom.get(CharacterColor.YELLOW).size() +
-                 "\nPINK" + diningRoom.get(CharacterColor.PINK).size() +
-                 "\nGREEN" + diningRoom.get(CharacterColor.GREEN).size();
+                "\nRED: "+ diningRoom.get(CharacterColor.RED).size() +
+                "\nBLUE: " + diningRoom.get(CharacterColor.BLUE).size() +
+                "\nYElLOW: "+ diningRoom.get(CharacterColor.YELLOW).size() +
+                "\nPINK: " + diningRoom.get(CharacterColor.PINK).size() +
+                "\nGREEN: " + diningRoom.get(CharacterColor.GREEN).size();
     }
 }

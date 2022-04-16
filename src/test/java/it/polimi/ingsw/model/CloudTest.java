@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.enums.CharacterColor;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -10,19 +11,26 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CloudTest {
-   @Test
 
+   Cloud cloud;
+   List<Student> studentsToAdd=new ArrayList<>();
+
+   @BeforeEach
+   void setUp() {
+      cloud=new Cloud();
+      studentsToAdd=new ArrayList<>();
+      studentsToAdd.add(new Student(CharacterColor.PINK));
+      studentsToAdd.add(new Student(CharacterColor.RED));
+      studentsToAdd.add(new Student(CharacterColor.GREEN));
+   }
+
+   @Test
    public void TestingCorrectColour() {
       //TODO
    }
    @Test
    public void testAddStudents(){
-      Cloud cloud= new Cloud();
       assertTrue(cloud.getStudents().isEmpty());
-      List<Student> studentsToAdd=new ArrayList<>();
-      studentsToAdd.add(new Student(CharacterColor.PINK));
-      studentsToAdd.add(new Student(CharacterColor.RED));
-      studentsToAdd.add(new Student(CharacterColor.GREEN));
       cloud.addStudents(studentsToAdd);
       assertFalse(studentsToAdd.isEmpty());
       assertFalse(cloud.getStudents().isEmpty());
@@ -33,24 +41,18 @@ class CloudTest {
    }
    @Test
    public void testRemoveStudents(){
-      Cloud cloud= new Cloud();
-      CharacterColor color= CharacterColor.values()[new Random().nextInt(CharacterColor.values().length)];
-      List<Student> students= new ArrayList<>();
-      for(int i=0;i<4;i++)
-      {
-         students.add(new Student(color));
-      }
-      cloud.addStudents(students);
-      students.clear();
-      assertTrue(students.isEmpty());
-      students = cloud.removeStudents();
+      List<Student> removedStudents=new ArrayList<>();
+      cloud.addStudents(studentsToAdd);
+      removedStudents = cloud.removeStudents();
       assertTrue(cloud.getStudents().isEmpty());
-      assertEquals(4 ,students.size());
+      for(int i=0;i<studentsToAdd.size();i++){
+         assertSame(studentsToAdd.get(i),removedStudents.get(i));
+      }
    }
 
-
-
-
-
-
+   @Test
+   public void testToString() {
+      cloud.addStudents(studentsToAdd);
+      String result = "PINK RED GREEN ";
+   }
 }

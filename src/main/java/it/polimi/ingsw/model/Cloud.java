@@ -26,4 +26,13 @@ public class Cloud {
         students.clear();
         return tempStudents;
     }
+
+    @Override
+    public String toString(){
+        String result = "";
+        for(Student s: students){
+            result=result.concat(s.toString()+" ");
+        }
+        return result;
+    }
 }

@@ -45,9 +45,21 @@ class SchoolTest {
     @Test
     void testToString() {
         school.addEntranceStudent(new Student(CharacterColor.RED));
-        school.addEntranceStudent(new Student(CharacterColor.YELLOW));
-        school.addEntranceStudent(new Student(CharacterColor.BLUE));
-        school.toString();
+        school.addEntranceStudent(new Student(CharacterColor.PINK));
+        school.addEntranceStudent(new Student(CharacterColor.GREEN));
+        school.addDiningRoomStudent(new Student(CharacterColor.RED));
+        school.addDiningRoomStudent(new Student(CharacterColor.YELLOW));
+        school.addDiningRoomStudent(new Student(CharacterColor.BLUE));
+        String result = "Owner: Ricky" +
+                        "\nTowers: 8 WHITE" +
+                        "\nEntrance: RED PINK GREEN " +
+                        "\nDiningRoom:" +
+                        "\nRED: 1" +
+                        "\nBLUE: 1" +
+                        "\nYElLOW: 1"+
+                        "\nPINK: 0" +
+                        "\nGREEN: 0";
+        assertEquals(result,school.toString());
     }
 
 }

@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.enums.CharacterColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
@@ -33,7 +34,7 @@ class BoardTest {
 
     @Test
     public void Board(){
-        int numstudents=0;
+
         assertEquals(2,board.getClouds().length);
         assertEquals(2,board.getSchools().length);
         assertEquals(3,board3.getClouds().length);
@@ -43,13 +44,20 @@ class BoardTest {
         assertEquals(7,board.getSchoolByOwner("ricky").getEntrance().size());
         assertEquals(board.getSchools()[1],board.getSchoolByOwner("ricky"));
         assertEquals(12,board.getIslands().size());
-
+        for(int i=0;i<12;i++) {
+            int numstudents = 0;
+            for (CharacterColor c : CharacterColor.values()) {
+                numstudents += board.getIslands().get(i).getStudents().get(c).size();
+            }
+            if(i==0 || i==6)
+            assertEquals(0,numstudents);
+            else assertEquals(1,numstudents);
+        }
         for(CharacterColor c:CharacterColor.values()){
-            numstudents+=board.getIslands().get(2).getStudents().get(c).size();
             assertNotNull(board.getProfessorByColor(c));
             assertSame(c,board.getProfessorByColor(c).getColor());
         }
-        assertEquals(1,numstudents);
+
     }
 
     @Test
@@ -202,5 +210,39 @@ class BoardTest {
             num_students+=board.getIslands().get(0).getStudents().get(c).size();
         }
         assertEquals(3,num_students);
+    }
+
+    @Test
+    public void testToString(){
+        int i=0;
+        board.getSchoolByOwner("manu").addEntranceStudent(new Student(CharacterColor.valueOf("RED")));
+        board.getSchoolByOwner("manu").addEntranceStudent(new Student(CharacterColor.valueOf("YELLOW")));
+        board.getSchoolByOwner("manu").addEntranceStudent(new Student(CharacterColor.valueOf("GREEN")));
+        board.getSchoolByOwner("ricky").addEntranceStudent(new Student(CharacterColor.valueOf("BLUE")));
+        board.getSchoolByOwner("ricky").addEntranceStudent(new Student(CharacterColor.valueOf("PINK")));
+        board.getSchoolByOwner("ricky").addEntranceStudent(new Student(CharacterColor.valueOf("PINK")));
+        board.getSchoolByOwner("manu").addDiningRoomStudent(new Student(CharacterColor.valueOf("BLUE")));
+        board.getSchoolByOwner("manu").addDiningRoomStudent(new Student(CharacterColor.valueOf("GREEN")));
+        board.getSchoolByOwner("manu").addDiningRoomStudent(new Student(CharacterColor.valueOf("GREEN")));
+        board.getSchoolByOwner("ricky").addDiningRoomStudent(new Student(CharacterColor.valueOf("PINK")));
+        board.getSchoolByOwner("ricky").addDiningRoomStudent(new Student(CharacterColor.valueOf("YELLOW")));
+        board.getSchoolByOwner("ricky").addDiningRoomStudent(new Student(CharacterColor.valueOf("GREEN")));
+        board.setStudentsonClouds();
+        String result = "Clouds:\n";
+        for(Cloud c: board.getClouds()) {
+            result = result.concat("Cloud # " + i + ": ");
+            result = result.concat(c.toString() + "\n");
+            i++;
+        }
+        result = result.concat("Schools:\n");
+        for(School s : board.getSchools()){
+            result=result.concat(s.toString()+ "\n");
+        }
+        result = result.concat("Professors:\n");
+        for(CharacterColor c: CharacterColor.values()){
+            board.updateProfessor(c);
+            result=result.concat(c.toString() + " Professor: " + board.getProfessorByColor(c).getOwner() + "\n");
+        }
+        assertEquals(result,board.toString());
     }
 }

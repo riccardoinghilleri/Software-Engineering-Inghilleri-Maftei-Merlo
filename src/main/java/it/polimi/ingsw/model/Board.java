@@ -243,5 +243,24 @@ public class Board {
              islands.remove(position);
          }
      }
+
+     @Override
+    public String toString(){
+        String result;
+        int i=0;
+        result = "Clouds:\n";
+        for(Cloud c: clouds) {
+            result = result.concat("Cloud # " + i +": ");
+            result = result.concat(c.toString() + "\n");
+            i++;
+        }
+        result = result.concat("Schools:\n");
+        for(School s: schools)
+            result=result.concat(s.toString() + "\n");
+        result = result.concat("Professors:\n");
+        for(CharacterColor c : CharacterColor.values())
+            result=result.concat(c.toString() +" Professor: "+ getProfessorByColor(c).getOwner() + "\n");
+        return result;
+    }
 }
 //TODO checkEndgame()

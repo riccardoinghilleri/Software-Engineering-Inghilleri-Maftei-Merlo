@@ -101,9 +101,8 @@ public class  Island {
             result = "Towers: NONE";
         }
         else {
-            result=  "Towers: " +  towers.size() +towers.get(0).getColor();
+            result=  "Towers: " +  towers.size() + " " + towers.get(0).getColor();
         }
-
         return  result +
                 "\nRedStudents: " + students.get(CharacterColor.RED).size() +
                 "\nBlueStudents: " + students.get(CharacterColor.BLUE).size() +

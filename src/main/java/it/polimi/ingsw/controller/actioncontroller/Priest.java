@@ -1,11 +1,11 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
-import it.polimi.ingsw.controller.Message;
-import it.polimi.ingsw.model.GameModel;
-import it.polimi.ingsw.model.CharacterCardwithStudents;
-import it.polimi.ingsw.model.Student;
-import it.polimi.ingsw.model.BoardExpert;
-import it.polimi.ingsw.model.enums.CharacterColor;
+import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
+import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.CharacterCardwithStudents;
+import it.polimi.ingsw.server.model.Student;
+import it.polimi.ingsw.server.model.BoardExpert;
+import it.polimi.ingsw.server.model.enums.CharacterColor;
 
 public class Priest implements CharacterCardStrategy {
 
@@ -17,10 +17,10 @@ public class Priest implements CharacterCardStrategy {
     }
 
     @Override
-    public void useEffect(Message message) {
+    public void useEffect(ActionMessage actionMessage) {
         CharacterCardwithStudents character = (CharacterCardwithStudents)board.getCharacterCardbyName("PRIEST");
-        Student s = character.removeStudent(CharacterColor.valueOf(message.getFirstParameter()));
-        board.getIslands().get(message.getData()).addStudent(s);
+        Student s = character.removeStudent(CharacterColor.valueOf(actionMessage.getFirstParameter()));
+        board.getIslands().get(actionMessage.getData()).addStudent(s);
         character.addStudent(board.removeRandomStudent());
     }
 }

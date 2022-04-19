@@ -1,9 +1,9 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
-import it.polimi.ingsw.controller.Message;
-import it.polimi.ingsw.model.GameModel;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.enums.CharacterColor;
+import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
+import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.Player;
+import it.polimi.ingsw.server.model.enums.CharacterColor;
 
 import java.util.*;
 
@@ -16,15 +16,15 @@ public class Lumberjack extends ActionController {
     }
 
     @Override
-    public String getInfluence(Message message) {
+    public String getInfluence(ActionMessage actionMessage) {
         List<CharacterColor> colors = Arrays.asList(CharacterColor.values());
         colors.remove(CharacterColor.valueOf(this.color));
         Map<String,Integer> owners = new HashMap<>();
         for(Player player : getGameModel().getPlayers()) {
             owners.put(player.getNickname(),0);
         }
-        owners = getGameModel().getBoard().getStudentInfluence(message.getData(),owners, colors);
-        owners = getGameModel().getBoard().getTowersInfluence(message.getData(),owners);
+        owners = getGameModel().getBoard().getStudentInfluence(actionMessage.getData(),owners, colors);
+        owners = getGameModel().getBoard().getTowersInfluence(actionMessage.getData(),owners);
 
         return getGameModel().getBoard().getMaxInfluence(owners);
     }

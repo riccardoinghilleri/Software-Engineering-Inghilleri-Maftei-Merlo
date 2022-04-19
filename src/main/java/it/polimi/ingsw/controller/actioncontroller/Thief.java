@@ -1,10 +1,10 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
-import it.polimi.ingsw.controller.Message;
-import it.polimi.ingsw.model.GameModel;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.BoardExpert;
-import it.polimi.ingsw.model.enums.CharacterColor;
+import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
+import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.Player;
+import it.polimi.ingsw.server.model.BoardExpert;
+import it.polimi.ingsw.server.model.enums.CharacterColor;
 
 public class Thief implements CharacterCardStrategy{
 
@@ -16,8 +16,8 @@ public class Thief implements CharacterCardStrategy{
         board = (BoardExpert) gameModel.getBoard();
     }
     @Override
-    public void useEffect(Message message) {
-        CharacterColor color=CharacterColor.valueOf(message.getFirstParameter());
+    public void useEffect(ActionMessage actionMessage) {
+        CharacterColor color=CharacterColor.valueOf(actionMessage.getFirstParameter());
         for(Player p: gameModel.getPlayers()){
             for(int i=0;i<3;i++){
                 if(board.getSchoolByOwner(p.getNickname()).getDiningRoom().get(color).size()>0)

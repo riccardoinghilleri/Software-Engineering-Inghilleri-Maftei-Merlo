@@ -1,11 +1,11 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
 import it.polimi.ingsw.controller.Action;
-import it.polimi.ingsw.controller.Message;
-import it.polimi.ingsw.model.GameModel;
-import it.polimi.ingsw.model.CharacterCardwithProhibitions;
-import it.polimi.ingsw.model.BoardExpert;
-import it.polimi.ingsw.model.enums.CharacterColor;
+import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
+import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.CharacterCardwithProhibitions;
+import it.polimi.ingsw.server.model.BoardExpert;
+import it.polimi.ingsw.server.model.enums.CharacterColor;
 
 import static it.polimi.ingsw.controller.StrategyFactory.strategyFactory;
 
@@ -32,21 +32,21 @@ public class ActionController {
     //se strategy è true, setto la strategy e la uso una volta
     //aggiorno le monete dei player , della carta e della board
     //se la carta è Diner, aggiorno tutti i professori
-    public void useCharacterCard(Message message,boolean strategy) {
+    public void useCharacterCard(ActionMessage actionMessage, boolean strategy) {
         if(strategy){
-            this.strategy=strategyFactory(message.getCharacterCardName(),gameModel);
-            this.strategy.useEffect(message);
+            this.strategy=strategyFactory(actionMessage.getCharacterCardName(),gameModel);
+            this.strategy.useEffect(actionMessage);
         }
-        else if(message.getCharacterCardName().equalsIgnoreCase("DINER")){
+        else if(actionMessage.getCharacterCardName().equalsIgnoreCase("DINER")){
             updateAllProfessors();
         }
         BoardExpert boardExpert=(BoardExpert)gameModel.getBoard();
-        boardExpert.moveCoin(player,boardExpert.getCharacterCardbyName(message.getCharacterCardName()));
+        boardExpert.moveCoin(player,boardExpert.getCharacterCardbyName(actionMessage.getCharacterCardName()));
     }
 
     //metodo che ritorna il player con più influenza sull'isola specificata
-    public String getInfluence(Message message) {
-        return gameModel.getBoard().getTotalInfluence(message.getData());
+    public String getInfluence(ActionMessage actionMessage) {
+        return gameModel.getBoard().getTotalInfluence(actionMessage.getData());
     }
 
     //metodo che muove gli studenti dalla sala all'ingresso
@@ -76,8 +76,8 @@ public class ActionController {
     //sposta le tower automaticamente
     //TODO il movimento delle tower è atomico con lo spotamento di madre natura o deve essere il client a farlo cosi possiamo usare una specialCard dopo il movimento di madre natura  e prima d i muovere le torri
     //TODO tutte le getInfluence() devono ritornare NONE in caso di pareggio
-    public void moveMotherNature(Message message) {
-        gameModel.getBoard().moveMotherNature((message.getData()));
+    public void moveMotherNature(ActionMessage actionMessage) {
+        gameModel.getBoard().moveMotherNature((actionMessage.getData()));
         int index = gameModel.getBoard().getMotherNaturePosition();
         if(gameModel.getBoard().getIslands().get(index).hasNoEntryTile()) //Se L'isola è bloccata, tolgo il divieto e lo rimetto nella carta senza calcolare l'influenza
         {
@@ -86,7 +86,7 @@ public class ActionController {
             ((CharacterCardwithProhibitions) boardExpert.getCharacterCardbyName("HERBOLARIA")).restockProhibitionsNumber();
         }
         else{
-            Message m = new Message(Action.GET_INFLUENCE);
+            ActionMessage m = new ActionMessage(Action.GET_INFLUENCE);
             m.setData(index);
             String newOwner = getInfluence(m);
             String oldOwner;
@@ -107,7 +107,7 @@ public class ActionController {
                     for (int i = 0; i < towers_number; i++)
                         gameModel.getBoard().moveTower(newOwner, index);
                 }
-                gameModel.getBoard().checkNearIsland(message.getData());
+                gameModel.getBoard().checkNearIsland(actionMessage.getData());
             }
         }
 

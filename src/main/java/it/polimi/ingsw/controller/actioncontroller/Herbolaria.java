@@ -1,9 +1,9 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
-import it.polimi.ingsw.controller.Message;
-import it.polimi.ingsw.model.GameModel;
-import it.polimi.ingsw.model.CharacterCardwithProhibitions;
-import it.polimi.ingsw.model.BoardExpert;
+import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
+import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.CharacterCardwithProhibitions;
+import it.polimi.ingsw.server.model.BoardExpert;
 
 public class Herbolaria implements CharacterCardStrategy {
 
@@ -15,9 +15,9 @@ public class Herbolaria implements CharacterCardStrategy {
     }
 
     @Override
-    public void useEffect(Message message) {
+    public void useEffect(ActionMessage actionMessage) {
         ((CharacterCardwithProhibitions)board.getCharacterCardbyName("HERBOLARIA")).subProhibitionCard();
-        board.getIslands().get(message.getData()).setNoEntryTile(true);
+        board.getIslands().get(actionMessage.getData()).setNoEntryTile(true);
 
     }
 }

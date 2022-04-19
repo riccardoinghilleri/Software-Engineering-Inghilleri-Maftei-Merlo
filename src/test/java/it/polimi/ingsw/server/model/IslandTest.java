@@ -1,7 +1,5 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.model.enums.CharacterColor;
-import it.polimi.ingsw.model.enums.PlayerColor;
 import org.junit.jupiter.api.BeforeEach;
 import it.polimi.ingsw.server.model.enums.CharacterColor;
 import it.polimi.ingsw.server.model.enums.PlayerColor;

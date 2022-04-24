@@ -83,8 +83,6 @@ public class GameHandler {
                         actionTurn();
                     }
                 } else if (phase == GameHandlerPhase.ACTION) {
-                    //TODO in game
-                    // nel primo turno l'ordine è quello di collegamento, poi è quello determinato dal gameModel
                     String error = controller.nextAction((ActionMessage) message);
                     if (error != null) {
                         clients.get(currentClientConnection).sendMessage(new InfoMessage(error));
@@ -94,8 +92,7 @@ public class GameHandler {
                         phase = GameHandlerPhase.PIANIFICATION;
                         pianificationTurn();
                     } else if (controller.getPhase() == Action.SETUP_CLOUD && turnNumber == 10) {
-
-                        //TODO checkEndGame
+                        //TODO checkEndGame() possono finire i 10 turni
                     } else actionTurn();
                 }
             }
@@ -129,16 +126,30 @@ public class GameHandler {
         }
         currentClientConnection = gameModel.getCurrentPlayer().getClientID();
         clients.get(currentClientConnection)
-                .sendMessage(new MultipleChoiceMessage("Please choose an Assistant Card: ", //TODO forse askAction
-                        gameModel.getCurrentPlayer().getDeck().getAssistantCards()));
+                .sendMessage(new AskActionMessage(controller.getPhase(), gameModel.getCurrentPlayer().getDeck().getAssistantCards()));
         //alreadySettedAssistantCards++;
     }
 
     private void actionTurn() {
         currentClientConnection = gameModel.getCurrentPlayer().getClientID();
-        clients.get(currentClientConnection)
-                .sendMessage(new AskActionMessage("Questa è la tua prossima azione: ",
-                        controller.getPhase()));
+        AskActionMessage askActionMessage = null;
+        switch (controller.getPhase()) {
+            case DEFAULT_MOVEMENTS:
+                askActionMessage = new AskActionMessage(controller.getPhase(), gameModel.getBoard()
+                        .getSchoolByOwner(gameModel.getCurrentPlayer().getNickname())
+                        .getEntrance(), gameModel.getBoard().getIslands().size());
+                break;
+            case MOVE_MOTHER_NATURE:
+                askActionMessage = new AskActionMessage(controller.getPhase(), gameModel
+                        .getPlayerById(currentClientConnection)
+                        .getChosenAssistantCard().getMotherNatureSteps());
+                break;
+            case CHOOSE_CLOUD:
+                askActionMessage = new AskActionMessage(controller.getPhase(), gameModel
+                        .getBoard().getAvailableClouds());
+                break;
+        }
+        clients.get(currentClientConnection).sendMessage(askActionMessage);
     }
 
     private void setupNickname(SetupMessage message) {

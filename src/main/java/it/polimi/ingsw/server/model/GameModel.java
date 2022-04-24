@@ -98,7 +98,7 @@ public class GameModel {
 class PlayerComparator implements Comparator<Player> {
     @Override
     public int compare(Player p1,Player p2){
-        return Integer.compare(p1.getChoosenAssistantCard().getPriority(),p2.getChoosenAssistantCard().getPriority());
+        return Integer.compare(p1.getChosenAssistantCard().getPriority(),p2.getChosenAssistantCard().getPriority());
         /*if(p1.getChoosenAssistantCard().getPriority()<p2.getChoosenAssistantCard().getPriority())
             return -1;
         else if (p1.getChoosenAssistantCard().getPriority()>p2.getChoosenAssistantCard().getPriority())

@@ -63,6 +63,16 @@ public class Board {
         setInitialEntrance();
     }
 
+    public List<Integer> getAvailableClouds() {
+        List<Integer> availableClouds = new ArrayList<>();
+        for(int i=0; i< clouds.length;i++) {
+            if(!clouds[i].getStudents().isEmpty()) {
+                availableClouds.add(i);
+            }
+        }
+        return availableClouds;
+    }
+
     public int getMotherNaturePosition() {
         return motherNaturePosition;
     }

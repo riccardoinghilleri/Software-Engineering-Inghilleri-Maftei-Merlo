@@ -78,7 +78,7 @@ public class Controller {
 
     public String nextAction(ActionMessage actionMessage) {
         switch (actionMessage.getAction()) {
-            case USE_SPECIAL_CARD: // in questo modo la specialcard si può usare in qualunque momento del proprio turno tranne dopo aver scelto la nuvola
+            case USE_CHARACTER_CARD: // in questo modo la specialcard si può usare in qualunque momento del proprio turno tranne dopo aver scelto la nuvola
                 try {
                     if (alreadyUsedCharacterCard)
                         checkAlreadyUsedCharacterCard(actionMessage);
@@ -121,11 +121,11 @@ public class Controller {
                 defaultMovements++;
                 if (defaultMovements >= 4
                         || (defaultMovements >= 3 && gameModel.getPlayers().size() % 2 == 0)) {
-                    phase = Action.MOVE_NATURE_MOTHER;
+                    phase = Action.MOVE_MOTHER_NATURE;
                 }
             case GET_INFLUENCE: //TODO non so se è necessario
                 actionController.getInfluence(actionMessage);
-            case MOVE_NATURE_MOTHER:
+            case MOVE_MOTHER_NATURE:
                 try {
                     checkPhase(actionMessage);
                     checkChosenSteps(actionMessage);
@@ -204,7 +204,7 @@ public class Controller {
         //TODO forse sarebbe utile avere una lista con le assistantcards scelte nel turno corrente nella board e non nel player
         List<Integer> chosenAssistantCards = new ArrayList<>(); //lista contenente le assistantcards già scelte nel turno corrente
         for (int i = 0; i < playerTurnNumber; i++) {
-            chosenAssistantCards.add(gameModel.getPlayers().get(i).getChoosenAssistantCard().getPriority());
+            chosenAssistantCards.add(gameModel.getPlayers().get(i).getChosenAssistantCard().getPriority());
         }
         /*if(chosenAssistantCards.contains(priority)
                 && !chosenAssistantCards.containsAll(gameModel.getCurrentPlayer().getDeck().getAssistantCards())) {
@@ -237,7 +237,7 @@ public class Controller {
 
     //TODO controllare se usare characterCardName e i suoi metodi
     private void checkChosenSteps(ActionMessage actionMessage) throws InvalidChosenStepsException {
-        int steps = gameModel.getCurrentPlayer().getChoosenAssistantCard().getMotherNatureSteps();
+        int steps = gameModel.getCurrentPlayer().getChosenAssistantCard().getMotherNatureSteps();
         if (characterCardName.equalsIgnoreCase("POSTMAN")) {
             steps += 2;
         }

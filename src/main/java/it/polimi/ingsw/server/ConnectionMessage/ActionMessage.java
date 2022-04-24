@@ -4,15 +4,18 @@ package it.polimi.ingsw.server.ConnectionMessage;
 import it.polimi.ingsw.controller.Action;
 
 public class ActionMessage implements Message{
-    private final Action action;
+    private Action action;
     private String characterCardName;
     private int data;
     private String firstParameter;
     private String secondParameter;
 
-    public ActionMessage(Action action) {
-        this.action = action;
+    public ActionMessage() {
         this.data = -1; //valore di default
+    }
+
+    public void setAction(Action action) {
+        this.action = action;
     }
 
     public Action getAction() {

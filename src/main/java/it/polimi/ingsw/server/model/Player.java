@@ -31,7 +31,7 @@ public class Player {
         return deck;
     }
 
-    public AssistantCard getChoosenAssistantCard(){
+    public AssistantCard getChosenAssistantCard(){
         return chosenAssistantCard;
     }
 

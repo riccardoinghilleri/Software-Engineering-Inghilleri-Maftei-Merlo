@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.ConnectionMessage;
-
 import java.io.Serializable;
 
-public class ServerMessage implements Serializable {
+
+public interface Message extends Serializable{
+
 }

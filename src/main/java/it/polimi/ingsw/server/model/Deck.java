@@ -26,8 +26,8 @@ public class Deck {
         return assistantCards;
     }
 
-    public void setWizard(Wizard wizard) {
-        this.wizard = wizard;
+    public void setWizard(String wizard) {
+        this.wizard = Wizard.valueOf(wizard);
     }
 
     //TODO ECCEZIONE SE LA PRIORITA' NON PUO' ESSERE SCELTA

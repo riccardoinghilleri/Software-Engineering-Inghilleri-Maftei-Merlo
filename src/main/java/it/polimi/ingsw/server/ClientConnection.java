@@ -1,8 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
-import it.polimi.ingsw.server.ConnectionMessage.ClientMessage;
-import it.polimi.ingsw.server.ConnectionMessage.ServerMessage;
+import it.polimi.ingsw.server.ConnectionMessage.Message;
 
 import java.io.ObjectInputStream;
 import java.io.OutputStream;
@@ -36,14 +34,14 @@ public class ClientConnection implements Runnable{
 
     }
 
-    public void sendMessage(ServerMessage message){
+    public int getClientId() {
+        return clientId;
+    }
+
+    public void sendMessage(Message message){
 
     }
     public void closeConnection(){
-
-    }
-
-    private void checkSettings(ClientMessage actionMessage){
 
     }
 

@@ -31,28 +31,40 @@ public class Controller {
         alreadyUsedCharacterCard = false;
     }
 
+    public int getPlayerTurnNumber() {
+        return playerTurnNumber;
+    }
+
+    public Action getPhase() {
+        return phase;
+    }
+
     public void setClouds() {
         gameModel.getBoard().setStudentsonClouds();
         phase = Action.CHOOSE_ASSISTANT_CARD;
+        gameModel.setCurrentPlayer(playerTurnNumber);
     }
 
-    public void setAssistantCard(ActionMessage actionMessage) {
+    public boolean setAssistantCard(ActionMessage actionMessage) {
         //TODO forse serve un'eccezione per il controllo del player giusto
-        if(playerTurnNumber>0)
-        {
+
+        if (playerTurnNumber > 0) {
             try {
                 checkSameAssistantCard(actionMessage.getData());
             } catch (SameAssistantCardException e) {
                 System.out.println(e.getMessage());
+                return false;
             }
         }
         gameModel.getCurrentPlayer().setAssistantCard(actionMessage.getData());
         playerTurnNumber++;
-        if(playerTurnNumber==gameModel.getPlayersNumber()) {
+        if (playerTurnNumber == gameModel.getPlayersNumber()) {
             playerTurnNumber = 0;
             gameModel.setPlayersOrder();
             startPlayerTurn();
         }
+        gameModel.setCurrentPlayer(playerTurnNumber);
+        return true;
     }
 
     private void startPlayerTurn() {
@@ -61,23 +73,26 @@ public class Controller {
         defaultMovements = 0;
         alreadyUsedCharacterCard = false;
         phase = Action.DEFAULT_MOVEMENTS;
-        gameModel.setCurrentPlayer(playerTurnNumber);
+        //gameModel.setCurrentPlayer(playerTurnNumber);
     }
 
-    public void nextAction(ActionMessage actionMessage) {
+    public String nextAction(ActionMessage actionMessage) {
         switch (actionMessage.getAction()) {
             case USE_SPECIAL_CARD: // in questo modo la specialcard si può usare in qualunque momento del proprio turno tranne dopo aver scelto la nuvola
                 try {
-                    if(alreadyUsedCharacterCard) checkAlreadyUsedCharacterCard(actionMessage);
+                    if (alreadyUsedCharacterCard)
+                        checkAlreadyUsedCharacterCard(actionMessage);
                     else checkCoins(actionMessage);
                 } catch (AlreadyUsedCharacterCardException e) {
                     System.out.println(e.getMessage());
+                    return "You have already used the character card";
                 } catch (NotEnoughCoinsException e) {
                     System.out.println(e.getMessage());
+                    return "You have not got enough coins";
                 }
-                if(!alreadyUsedCharacterCard) { //se non è stata usata una carta la uso
+                if (!alreadyUsedCharacterCard) { //se non è stata usata una carta la uso
                     alreadyUsedCharacterCard = true;
-                    characterCardName= actionMessage.getCharacterCardName();
+                    characterCardName = actionMessage.getCharacterCardName();
                     setCharacterCardEffect(actionMessage);
                 } else // se è stata usata ed è clown o performer, utilizzo l'effetto
                 {
@@ -90,20 +105,22 @@ public class Controller {
                     checkDefaultMovements(actionMessage);
                 } catch (IncorrectPhaseException e) {
                     System.out.println(e.getMessage());
+                    return "Invalid action!";
                 } catch (DefaultMovementsNumberException e) {
                     System.out.println(e.getMessage());
+                    return "You can not move another student from the entrance!";
                 } catch (DefaultMovementsColorException e) {
                     System.out.println(e.getMessage());
+                    return "There is not a student of this color in your entrance.";
                 }
-                if(actionMessage.getData()==-1) { // significa che non devo spostare studente da hall a isola
+                if (actionMessage.getData() == -1) { // significa che non devo spostare studente da hall a isola
                     actionController.moveStudent(actionMessage.getFirstParameter());
-                }
-                else {
+                } else {
                     actionController.moveStudent(actionMessage.getData(), actionMessage.getFirstParameter());
                 }
                 defaultMovements++;
-                if(defaultMovements>=4
-                        || (defaultMovements>=3 && gameModel.getPlayers().size()%2==0 )) {
+                if (defaultMovements >= 4
+                        || (defaultMovements >= 3 && gameModel.getPlayers().size() % 2 == 0)) {
                     phase = Action.MOVE_NATURE_MOTHER;
                 }
             case GET_INFLUENCE: //TODO non so se è necessario
@@ -114,8 +131,10 @@ public class Controller {
                     checkChosenSteps(actionMessage);
                 } catch (IncorrectPhaseException e) {
                     System.out.println(e.getMessage());
-                }catch (InvalidChosenStepsException e) {
+                    return "Invalid action";
+                } catch (InvalidChosenStepsException e) {
                     System.out.println(e.getMessage());
+                    return " You can not mother nature so far";
                 }
                 actionController.moveMotherNature(actionMessage);
                 phase = Action.CHOOSE_CLOUD;
@@ -137,22 +156,23 @@ public class Controller {
                     checkCloud(actionMessage);
                 } catch (IncorrectPhaseException e) {
                     System.out.println(e.getMessage());
-                }catch (EmptyCloudException e) {
+                    return "Invalid action";
+                } catch (EmptyCloudException e) {
                     System.out.println(e.getMessage());
+                    return "You have chose an empty cloud.";
                 }
                 actionController.moveStudent(actionMessage.getData());
                 endPlayerTurn(); // in questo modo dopo la scelta della nuvola non si può giocare la carta personaggio
         }
+        return null;
     }
 
     private void endPlayerTurn() {
         playerTurnNumber++;
-        if(playerTurnNumber==gameModel.getPlayersNumber())
-        {
+        if (playerTurnNumber == gameModel.getPlayersNumber()) {
+            playerTurnNumber = 0;
             phase = Action.SETUP_CLOUD;
-        }
-        else
-        {
+        } else {
             startPlayerTurn();
         }
     }
@@ -183,69 +203,70 @@ public class Controller {
     private void checkSameAssistantCard(int priority) throws SameAssistantCardException {
         //TODO forse sarebbe utile avere una lista con le assistantcards scelte nel turno corrente nella board e non nel player
         List<Integer> chosenAssistantCards = new ArrayList<>(); //lista contenente le assistantcards già scelte nel turno corrente
-        for(int i=0; i<playerTurnNumber; i++) {
+        for (int i = 0; i < playerTurnNumber; i++) {
             chosenAssistantCards.add(gameModel.getPlayers().get(i).getChoosenAssistantCard().getPriority());
         }
         /*if(chosenAssistantCards.contains(priority)
                 && !chosenAssistantCards.containsAll(gameModel.getCurrentPlayer().getDeck().getAssistantCards())) {
             throw new SameAssistantCardException();
         }*/
-        if(chosenAssistantCards.contains(priority)) { //casting automatico da int a integer
-            for(AssistantCard assistantCard: gameModel.getCurrentPlayer().getDeck().getAssistantCards()) {
-                if(!chosenAssistantCards.contains(assistantCard.getPriority())) throw new SameAssistantCardException();
+        if (chosenAssistantCards.contains(priority)) { //casting automatico da int a integer
+            for (AssistantCard assistantCard : gameModel.getCurrentPlayer().getDeck().getAssistantCards()) {
+                if (!chosenAssistantCards.contains(assistantCard.getPriority()))
+                    throw new SameAssistantCardException();
             }
         }
     }
 
-    
+
     private void checkCoins(ActionMessage actionMessage) throws NotEnoughCoinsException {
         BoardExpert boardexpert = (BoardExpert) gameModel.getBoard();
         int cost = boardexpert.getCharacterCardbyName(actionMessage.getCharacterCardName()).getCost();
-        if(boardexpert.getPlayerCoins(gameModel.getCurrentPlayer().getNickname())<cost)
-        {
+        if (boardexpert.getPlayerCoins(gameModel.getCurrentPlayer().getNickname()) < cost) {
             throw new NotEnoughCoinsException();
         }
     }
 
     private void checkCloud(ActionMessage actionMessage) throws EmptyCloudException {
         //TODO conviene usare un'array di cloud? Meglio una lista??
-        Cloud[] cloud = gameModel.getBoard().getClouds() ;
-        if(cloud[actionMessage.getData()].getStudents().isEmpty())
-        {
+        Cloud[] cloud = gameModel.getBoard().getClouds();
+        if (cloud[actionMessage.getData()].getStudents().isEmpty()) {
             throw new EmptyCloudException();
         }
     }
+
     //TODO controllare se usare characterCardName e i suoi metodi
     private void checkChosenSteps(ActionMessage actionMessage) throws InvalidChosenStepsException {
         int steps = gameModel.getCurrentPlayer().getChoosenAssistantCard().getMotherNatureSteps();
-        if(characterCardName.equalsIgnoreCase("POSTMAN")) {
+        if (characterCardName.equalsIgnoreCase("POSTMAN")) {
             steps += 2;
         }
-        if(actionMessage.getData() > steps) {
+        if (actionMessage.getData() > steps) {
             throw new InvalidChosenStepsException();
         }
     }
 
     private void checkAlreadyUsedCharacterCard(ActionMessage actionMessage) throws AlreadyUsedCharacterCardException {
-        if((!actionMessage.getCharacterCardName().equalsIgnoreCase("CLOWN")
+        if ((!actionMessage.getCharacterCardName().equalsIgnoreCase("CLOWN")
                 && !actionMessage.getCharacterCardName().equalsIgnoreCase("PERFORMER"))
-                || (actionMessage.getCharacterCardName().equalsIgnoreCase("CLOWN") && characterCardMovements>=3)
-                || (actionMessage.getCharacterCardName().equalsIgnoreCase("PERFORMER") && characterCardMovements>=2)){
+                || (actionMessage.getCharacterCardName().equalsIgnoreCase("CLOWN") && characterCardMovements >= 3)
+                || (actionMessage.getCharacterCardName().equalsIgnoreCase("PERFORMER") && characterCardMovements >= 2)) {
             throw new AlreadyUsedCharacterCardException();
         }
     }
 
     private void checkDefaultMovements(ActionMessage actionMessage) throws DefaultMovementsNumberException, DefaultMovementsColorException {
-        if(defaultMovements>=4
-                || (defaultMovements>=3 && gameModel.getPlayers().size()%2==0 ))
+        if (defaultMovements >= 4
+                || (defaultMovements >= 3 && gameModel.getPlayers().size() % 2 == 0))
             throw new DefaultMovementsNumberException();
-        else if(!(gameModel.getBoard().getSchoolByOwner(gameModel.getCurrentPlayer()
+        else if (!(gameModel.getBoard().getSchoolByOwner(gameModel.getCurrentPlayer()
                 .getNickname()).hasEntranceStudentColor(actionMessage.getFirstParameter()))) {
             throw new DefaultMovementsColorException();
         }
     }
 
     private void checkPhase(ActionMessage actionMessage) throws IncorrectPhaseException {
-        if(!actionMessage.getAction().equals(phase)) throw new IncorrectPhaseException();
+        if (!actionMessage.getAction().equals(phase))
+            throw new IncorrectPhaseException();
     }
 }

@@ -12,7 +12,7 @@ public class GameModel {
     boolean isExpertGame;
     Board board = null;
     List<Player> players;
-    List<String> winners;
+    String winner;
     Player currentPlayer;
 
     public GameModel(boolean isExpertGame)
@@ -20,13 +20,14 @@ public class GameModel {
         playersNumber = 0;
         this.isExpertGame = isExpertGame;
         players = new ArrayList<>();
-        winners = new ArrayList<>();
+        winner = null;
     }
     //---CREAZIONE OGGETTI---//
     public void createBoard(){
         if (!isExpertGame)
         board = new Board(players,this);
         else board = new BoardExpert(players,this);
+        currentPlayer=players.get(0); //mi serve nel gamehandler il primissimo turno quando non ho settato ancora le assistant cards
     }
 
     public void createPlayer(String nickname, int clientID){
@@ -63,8 +64,18 @@ public class GameModel {
         return result;
     }
 
-    public List<String> getWinners() {
-        return winners;
+    public Player getPlayerById(int id) {
+        Player result = null;
+        for(Player p:players)
+        {
+            if(p.getClientID()==id)
+                result = p;
+        }
+        return result;
+    }
+
+    public String getWinner() {
+        return winner;
     }
 
     //---SETTER---//
@@ -75,13 +86,12 @@ public class GameModel {
     }
 
     public void setPlayerDeck( String nickname, String wizard){
-        getPlayerByNickname(nickname).getDeck().setWizard(Wizard.valueOf(wizard));
+        getPlayerByNickname(nickname).getDeck().setWizard(wizard);
 
     }
 
     public void setWinner(String winner){
-        winners.add(winner);
-
+        this.winner = winner;
     }
 }
 

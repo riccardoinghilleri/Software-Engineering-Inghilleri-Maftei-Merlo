@@ -1,13 +1,13 @@
 package it.polimi.ingsw.server.ConnectionMessage;
 
-public class NicknameMessage extends ClientMessage{
-    String nickname;
+public class NicknameMessage implements Message{
+    String message;
 
-    public String getNickname() {
-        return nickname;
+    public String getMessage() {
+        return message;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public NicknameMessage(String message) {
+        this.message = message;
     }
 }

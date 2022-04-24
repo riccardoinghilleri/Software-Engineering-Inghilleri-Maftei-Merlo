@@ -15,4 +15,9 @@ public class AssistantCard {
     public int getMotherNatureSteps() {
         return natureMotherSteps;
     }
+
+    @Override
+    public String toString() {
+        return "PRIORITY: " + priority + " - MOTHER NATURE STEPS: " + natureMotherSteps;
+    }
 }

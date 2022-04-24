@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.ConnectionMessage;
 
 public class InfoMessage implements Message{
-    private String string;
+    private final String string;
 
     public InfoMessage(String string) {
         this.string = string;

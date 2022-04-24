@@ -13,21 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameHandler {
-    private int gameId;
-    private int playersNumber;
-    private boolean expertMode;
+    private final int gameId; //TODO non so se serve
+    private final int playersNumber;
+    private final boolean expertMode; //TODO forse non serve
     private int currentClientConnection;
-    private GameModel gameModel;
+    private final GameModel gameModel;
 
     private int turnNumber;
-    private int playerTurnNumber;
 
     private GameHandlerPhase phase;
-    private List<ClientConnection> clients;
-    private Server server;
-    private Controller controller;
-    boolean alreadySettedClouds;
-    int alreadySettedAssistantCards;
+    private final List<ClientConnection> clients;
+    private final Server server;
+    private final Controller controller;
+    //boolean alreadySettedClouds;
 
     public GameHandler(int gameId, boolean expertMode, List<ClientConnection> clients, Server server) {
         this.gameId = gameId;
@@ -36,14 +34,13 @@ public class GameHandler {
         this.expertMode = expertMode;
         this.clients = new ArrayList<>(clients);
         this.server = server;
-        this.phase = GameHandlerPhase.SETUP_NICKAME;
+        this.phase = GameHandlerPhase.SETUP_NICKNAME;
         this.gameModel = new GameModel(expertMode);
         this.controller = new Controller(this.gameModel);
         this.turnNumber = 0;
         PlayerColor.reset(playersNumber);
         Wizard.reset();
-        alreadySettedClouds = false;
-        alreadySettedAssistantCards = 0;
+        //alreadySettedClouds = false;
         //TODO il server dopo aver creato il gamehandler chiama un metodo gamehandler.setupGame()
     }
 
@@ -52,7 +49,7 @@ public class GameHandler {
         if (currentClientConnection != client.getClientId()) {
             client.sendMessage(new InfoMessage("It is not your turn! Please wait."));
         } else {
-            if (phase == GameHandlerPhase.SETUP_NICKAME) {
+            if (phase == GameHandlerPhase.SETUP_NICKNAME) {
                 setupNickname((SetupMessage) message);
             } else if (phase == GameHandlerPhase.SETUP_COLOR) {
                 gameModel.getPlayerById(client.getClientId()).setColor(((SetupMessage) message).getString());
@@ -60,7 +57,7 @@ public class GameHandler {
                 setupGame();
             } else if (phase == GameHandlerPhase.SETUP_WIZARD) {
                 gameModel.getPlayerById(client.getClientId()).getDeck().setWizard(((SetupMessage) message).getString());
-                currentClientConnection = (currentClientConnection + 1) % (playersNumber - 1);
+                currentClientConnection = (currentClientConnection + 1) % playersNumber;
                 if (currentClientConnection == 0) {
                     turnNumber = 1;
                     phase = GameHandlerPhase.PIANIFICATION;
@@ -68,7 +65,7 @@ public class GameHandler {
                     pianificationTurn();
                     //TODO forse si deve fare il display della board
                 } else {
-                    phase = GameHandlerPhase.SETUP_NICKAME;
+                    phase = GameHandlerPhase.SETUP_NICKNAME;
                     setupGame();
                 }
             } else {
@@ -97,6 +94,7 @@ public class GameHandler {
                         phase = GameHandlerPhase.PIANIFICATION;
                         pianificationTurn();
                     } else if (controller.getPhase() == Action.SETUP_CLOUD && turnNumber == 10) {
+
                         //TODO checkEndGame
                     } else actionTurn();
                 }
@@ -105,7 +103,7 @@ public class GameHandler {
     }
 
     public void setupGame() {
-        if (phase == GameHandlerPhase.SETUP_NICKAME) {
+        if (phase == GameHandlerPhase.SETUP_NICKNAME) {
             clients.get(currentClientConnection).sendMessage(new NicknameMessage("Please choose your Nickname: "));
         } else if (phase == GameHandlerPhase.SETUP_COLOR) {
             if (PlayerColor.notChosen().size() > 1)
@@ -124,26 +122,26 @@ public class GameHandler {
         }
     }
 
-    public void pianificationTurn() {
-        if (!alreadySettedClouds) {
+    private void pianificationTurn() {
+        if (controller.getPhase() == Action.SETUP_CLOUD) {
             controller.setClouds();
-            alreadySettedClouds = true; //ricordarsi di rimetterlo a false alla fine del turno
+            //alreadySettedClouds = true; //ricordarsi di rimetterlo a false alla fine del turno
         }
         currentClientConnection = gameModel.getCurrentPlayer().getClientID();
         clients.get(currentClientConnection)
-                .sendMessage(new MultipleChoiceMessage("Please choose an Assistant Card: ",
+                .sendMessage(new MultipleChoiceMessage("Please choose an Assistant Card: ", //TODO forse askAction
                         gameModel.getCurrentPlayer().getDeck().getAssistantCards()));
         //alreadySettedAssistantCards++;
     }
 
-    public void actionTurn() {
+    private void actionTurn() {
         currentClientConnection = gameModel.getCurrentPlayer().getClientID();
         clients.get(currentClientConnection)
                 .sendMessage(new AskActionMessage("Questa è la tua prossima azione: ",
                         controller.getPhase()));
     }
 
-    public void setupNickname(SetupMessage message) {
+    private void setupNickname(SetupMessage message) {
         for (Player p : gameModel.getPlayers()) {
             if (p.getNickname().equals(message.getString())) {
                 clients.get(currentClientConnection)

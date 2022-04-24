@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.ConnectionMessage;
 
 import it.polimi.ingsw.controller.Action;
 
-public class ActionMessage extends ClientMessage{
+public class ActionMessage implements Message{
     private final Action action;
     private String characterCardName;
     private int data;

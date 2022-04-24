@@ -27,7 +27,7 @@ public class GameModel {
         if (!isExpertGame)
         board = new Board(players,this);
         else board = new BoardExpert(players,this);
-        currentPlayer=players.get(0); //mi serve nel gamehandler il primissimo turno quando non ho settato ancora le assistant cards
+        //currentPlayer=players.get(0); //mi serve nel gamehandler il primissimo turno quando non ho settato ancora le assistant cards
     }
 
     public void createPlayer(String nickname, int clientID){

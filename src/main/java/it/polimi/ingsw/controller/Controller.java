@@ -63,7 +63,7 @@ public class Controller {
             gameModel.setPlayersOrder();
             startPlayerTurn();
         }
-        gameModel.setCurrentPlayer(playerTurnNumber);
+        else gameModel.setCurrentPlayer(playerTurnNumber);
         return true;
     }
 
@@ -73,7 +73,7 @@ public class Controller {
         defaultMovements = 0;
         alreadyUsedCharacterCard = false;
         phase = Action.DEFAULT_MOVEMENTS;
-        //gameModel.setCurrentPlayer(playerTurnNumber);
+        gameModel.setCurrentPlayer(playerTurnNumber);
     }
 
     public String nextAction(ActionMessage actionMessage) {

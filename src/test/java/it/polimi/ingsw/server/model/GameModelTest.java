@@ -25,8 +25,7 @@ class GameModelTest {
         assertFalse(gameModelNormal.isExpertGame);
         assertTrue(gameModelExpert.getPlayers().isEmpty());
         assertNotNull(gameModelExpert.getPlayers());
-        assertTrue(gameModelExpert.getWinners().isEmpty());
-        assertNotNull(gameModelExpert.getWinners());
+        assertNull(gameModelExpert.getWinner());
     }
 
     @Test
@@ -106,8 +105,10 @@ class GameModelTest {
 
     @Test
     public void testSetWinner() {
-        gameModelExpert.setWinner("Ricky");
-        assertEquals("Ricky",gameModelExpert.getWinners().get(0));
+        Player player = new Player("Ricky", 0);
+        gameModelExpert.setWinner(player);
+        assertEquals("Ricky",gameModelExpert.getWinner().getNickname());
+        assertEquals(0,gameModelExpert.getWinner().getClientID());
     }
 
 }

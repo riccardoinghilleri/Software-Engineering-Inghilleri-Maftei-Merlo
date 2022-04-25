@@ -8,23 +8,25 @@ import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.enums.PlayerColor;
 import it.polimi.ingsw.server.model.enums.Wizard;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import java.util.List;
 
-public class GameHandler {
+public class GameHandler implements PropertyChangeListener {
     private final int gameId; //TODO non so se serve
     private final int playersNumber;
-    private final boolean expertMode; //TODO forse non serve
+    private final boolean expertMode;
     private int currentClientConnection;
-    private final GameModel gameModel;
+    private GameModel gameModel;
 
     private int turnNumber;
 
     private GameHandlerPhase phase;
     private final List<ClientConnection> clients;
-    private final Server server;
-    private final Controller controller;
+    private final Server server;//TODO forse meglio listener
+    private Controller controller;
 
     public GameHandler(int gameId, boolean expertMode, List<ClientConnection> clients, Server server) {
         this.gameId = gameId;
@@ -32,17 +34,17 @@ public class GameHandler {
         this.currentClientConnection = 0;
         this.expertMode = expertMode;
         this.clients = new ArrayList<>(clients);
-        for(int i=0; i<clients.size();i++) { //setto i client ID
+        for (int i = 0; i < clients.size(); i++) { //setto i client ID
             clients.get(i).setClientId(i);
         }
         this.server = server;
         this.phase = GameHandlerPhase.SETUP_NICKNAME;
         this.gameModel = new GameModel(expertMode);
-        this.controller = new Controller(this.gameModel);
+        this.controller = new Controller(this.gameModel, this);
         this.turnNumber = 0;
         PlayerColor.reset(playersNumber);
         Wizard.reset();
-        //TODO il server dopo aver creato il gamehandler chiama un metodo gamehandler.setupGame()
+        setupGame();//TODO forse dovrebbe farlo il server che dopo aver creato il gamehandler chiama un metodo gamehandler.setupGame(). Però nel metodo resetGame deve farlo il gamehandler stesso
     }
 
     //Gestisce i messaggi ricevuti dalla client connection
@@ -93,8 +95,8 @@ public class GameHandler {
                         phase = GameHandlerPhase.PIANIFICATION;
                         pianificationTurn();
                     } else if (controller.getPhase() == Action.SETUP_CLOUD && turnNumber == 10) { //TODO finiscono i 10 turni
-                        Player winner = gameModel.endGame();
-                        endGame(winner);
+                        gameModel.getBoard().findWinner();
+                        endGame();
                     } else actionTurn();
                 }
             }
@@ -167,23 +169,51 @@ public class GameHandler {
         setupGame();
     }
 
-    public void endGame(Player winner) {
-        //TODO stampare vincitore mandando messaggio a tutti
+    public void endGame(int disconnected) {
+        sendAll(new InfoMessage("Player: " + gameModel.getPlayerById(disconnected).getNickname() + "has disconnected, the match will now end" + "\nThanks for playing!"));
+        for (ClientConnection client : clients) {
+            client.closeConnection(false);
+        }
+        server.removeGameHandler(this);
+        //TODO implementare il reset del game se vogliono rigiocare
     }
 
-    public void resetGame() {
-
+    public void endGame() {
+        sendAll(new InfoMessage("The winner is " + gameModel.getWinner().getNickname() + "!" + "\nThanks for playing!"));
+        for (ClientConnection client : clients) {
+            client.closeConnection(false);
+        }
+        server.removeGameHandler(this);
     }
+    /*
+    public void resetGame() { //Solo se vogliono rigiocare tutti, altrimenti chi vuole rigiocare dovrebbe andare nelle code del server
+        this.currentClientConnection = 0;
+        this.phase = GameHandlerPhase.SETUP_NICKNAME;
+        this.gameModel = new GameModel(expertMode);
+        this.controller = new Controller(this.gameModel,this);
+        this.turnNumber = 1;
+        this.phase = GameHandlerPhase.PIANIFICATION;
+        this.gameModel.createBoard();
+        pianificationTurn();
+    }*/
 
     public void sendAll(Message message) {
-
+        for (ClientConnection client : clients) {
+            client.sendMessage(message);
+        }
     }
 
-    public void sendAllExcept(int clientId, Message message) {
-
+    public void sendAllExcept(int clientId, Message message) { //TODO non so se serve
+        for (ClientConnection client : clients) {
+            if (client.getClientId() != clientId)
+                client.sendMessage(message);
+        }
     }
 
-    public void send(int clientId, Message message) {
-
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (gameModel.getWinner() == null) {
+            //TODO NON CI SONO VINCITORI.Pareggio
+        } else endGame();
     }
 }

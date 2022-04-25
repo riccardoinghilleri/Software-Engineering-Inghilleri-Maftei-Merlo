@@ -12,7 +12,7 @@ public class GameModel {
     boolean isExpertGame;
     Board board = null;
     List<Player> players;
-    String winner;
+    Player winner;
     Player currentPlayer;
 
     public GameModel(boolean isExpertGame)
@@ -74,7 +74,7 @@ public class GameModel {
         return result;
     }
 
-    public String getWinner() {
+    public Player getWinner() {
         return winner;
     }
 
@@ -90,28 +90,11 @@ public class GameModel {
 
     }
 
-    public void setWinner(String winner){
+    public void setWinner(Player winner){
         this.winner = winner;
     }
     //Metodo che controlla se c'è un vincitore e ritorna il player
-    public boolean checkEndGame() {
-        //Caso finiscono i 10 turni gh
-        //Caso 3 isole rimaste gh
-        //caso finiscono le torri su una scuola gh
-        //Caso finiscono i player dalla board gh
-        return false;
-    }
 
-    public Player endGame() {
-        Player winner = null;
-        int towers_min = (getBoard().getSchools())[0].getTowersNumber(); //Mi salvo il numero di torri sella prima scuola
-        for(int i=1; i<getBoard().getSchools().length;i++) {
-            if((getBoard().getSchools())[i].getTowersNumber()<towers_min) {
-                towers_min = (getBoard().getSchools())[i].getTowersNumber();
-            }
-        }
-        return winner;
-    }
 }
 
 class PlayerComparator implements Comparator<Player> {

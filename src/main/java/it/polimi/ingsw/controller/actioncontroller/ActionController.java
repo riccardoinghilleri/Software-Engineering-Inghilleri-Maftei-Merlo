@@ -30,7 +30,7 @@ public class ActionController {
 
 
     //se strategy è true, setto la strategy e la uso una volta
-    //aggiorno le monete dei player , della carta e della board
+    //aggiorno le monete dei player, della carta e della board
     //se la carta è Diner, aggiorno tutti i professori
     public void useCharacterCard(ActionMessage actionMessage, boolean strategy) {
         if(strategy){
@@ -76,7 +76,8 @@ public class ActionController {
     //sposta le tower automaticamente
     //TODO il movimento delle tower è atomico con lo spotamento di madre natura o deve essere il client a farlo cosi possiamo usare una specialCard dopo il movimento di madre natura  e prima d i muovere le torri
     //TODO tutte le getInfluence() devono ritornare NONE in caso di pareggio
-    public void moveMotherNature(ActionMessage actionMessage) {
+    public String moveMotherNature(ActionMessage actionMessage) {
+        String newOwner="NONE";
         gameModel.getBoard().moveMotherNature((actionMessage.getData()));
         int index = gameModel.getBoard().getMotherNaturePosition();
         if(gameModel.getBoard().getIslands().get(index).hasNoEntryTile()) //Se L'isola è bloccata, tolgo il divieto e lo rimetto nella carta senza calcolare l'influenza
@@ -89,7 +90,7 @@ public class ActionController {
             ActionMessage m = new ActionMessage();
             m.setAction(Action.GET_INFLUENCE);
             m.setData(index);
-            String newOwner = getInfluence(m);
+            newOwner= getInfluence(m);
             String oldOwner;
             if(!gameModel.getBoard().getIslands().get(index).getTowers().isEmpty())
                 oldOwner = gameModel.getBoard().getIslands().get(index).getTowers().get(0).getOwner();
@@ -111,7 +112,7 @@ public class ActionController {
                 gameModel.getBoard().checkNearIsland(actionMessage.getData());
             }
         }
-
+    return newOwner;
     }
 
     // metodo standard che aggiorna l'owner di un professore utilizzando come comparatore >

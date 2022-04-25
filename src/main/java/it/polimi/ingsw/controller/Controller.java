@@ -4,11 +4,10 @@ import it.polimi.ingsw.controller.actioncontroller.*;
 
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
-import it.polimi.ingsw.server.model.AssistantCard;
-import it.polimi.ingsw.server.model.Cloud;
-import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.BoardExpert;
+import it.polimi.ingsw.server.GameHandler;
+import it.polimi.ingsw.server.model.*;
 
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,13 +21,16 @@ public class Controller {
     private Action phase;
     private String characterCardName;
 
-    public Controller(GameModel gameModel) {
+    private PropertyChangeSupport listeners;
+
+    public Controller(GameModel gameModel, GameHandler gameHandler) {
         this.gameModel = gameModel;
         this.phase = Action.SETUP_CLOUD;
         playerTurnNumber = 0;
         characterCardMovements = 0;
         defaultMovements = 0;
         alreadyUsedCharacterCard = false;
+        listeners.addPropertyChangeListener("end_game", gameHandler);
     }
 
     public int getPlayerTurnNumber() {
@@ -62,8 +64,7 @@ public class Controller {
             playerTurnNumber = 0;
             gameModel.setPlayersOrder();
             startPlayerTurn();
-        }
-        else gameModel.setCurrentPlayer(playerTurnNumber);
+        } else gameModel.setCurrentPlayer(playerTurnNumber);
         return true;
     }
 
@@ -136,7 +137,16 @@ public class Controller {
                     System.out.println(e.getMessage());
                     return " You can not mother nature so far";
                 }
-                actionController.moveMotherNature(actionMessage);
+                String newOwner = actionController.moveMotherNature(actionMessage);
+                if (!newOwner.equalsIgnoreCase("NONE")
+                        && gameModel.getBoard().getSchoolByOwner(newOwner).getTowersNumber() == 0) {
+                    gameModel.setWinner(gameModel.getPlayerByNickname(newOwner));
+                    listeners.firePropertyChange("end_game", null, null);
+                }
+                else if (gameModel.getBoard().getIslands().size() == 3) {
+                    gameModel.getBoard().findWinner();
+                    listeners.firePropertyChange("end_game", null, null);
+                }
                 phase = Action.CHOOSE_CLOUD;
                 /*if(gameModel.isHardcore()) {
                     int newIslandPosition = (gameModel.getBoard().getNatureMotherPosition()
@@ -198,6 +208,15 @@ public class Controller {
                 break;
         }
         actionController.useCharacterCard(actionMessage, strategy);
+        if(actionMessage.getCharacterCardName().equalsIgnoreCase("DIPLOMAT")) {
+            for(School s : gameModel.getBoard().getSchools()) {
+                if(s.getTowersNumber()==0) {
+                    gameModel.setWinner(gameModel.getPlayerByNickname(s.getOwner()));
+                    listeners.firePropertyChange("end_game", null, null);
+                    return;
+                }
+            }
+        }
     }
 
     private void checkSameAssistantCard(int priority) throws SameAssistantCardException {

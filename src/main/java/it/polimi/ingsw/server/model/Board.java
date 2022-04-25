@@ -63,6 +63,10 @@ public class Board {
         setInitialEntrance();
     }
 
+    public int getStudentsSize() {
+        return students.size();
+    }
+
     public List<Integer> getAvailableClouds() {
         List<Integer> availableClouds = new ArrayList<>();
         for(int i=0; i< clouds.length;i++) {
@@ -224,6 +228,7 @@ public class Board {
 
     public Student removeRandomStudent() {
         return students.remove(students.size()-1);
+        //TODO se gli studenti non sono abbastanza le nuvole devono rimanere vuote
     }
 
     //Chiamo questo metodo ogni volta che viene aggiunta una torre su un'isola, la cui posizione viene passata come parametro
@@ -253,6 +258,34 @@ public class Board {
              islands.remove(position);
          }
      }
+     public void findWinner() {
+         Player winner = gameModel.getPlayerByNickname(getSchools()[0].getOwner());
+         int min_tower = getSchools()[0].getTowersNumber();
+         for (int i = 1; i < playersNumber; i++) {
+             if (getSchools()[i].getTowersNumber() < min_tower) {
+                 min_tower = getSchools()[i].getTowersNumber();
+                 winner = gameModel.getPlayerByNickname(getSchools()[i].getOwner());
+             } else if (getSchools()[i].getTowersNumber() == min_tower) {
+                 winner = null;
+             }
+         }
+         if(winner==null){
+             int[] professors = new int[playersNumber];
+             for(Professor p : this.professors){
+                 professors[gameModel.getPlayerByNickname(p.getOwner()).getClientID()]++;
+             }
+             int max=professors[0];
+             winner=gameModel.getPlayerById(0);
+             for(int i=1;i<playersNumber;i++){
+                 if(max<professors[i]){
+                     max=professors[i];
+                     winner=gameModel.getPlayerById(i);
+                 }else if(max==professors[i])
+                     winner=null;
+             }
+         }
+         gameModel.setWinner(winner);
+     }
 
      @Override
     public String toString(){
@@ -273,4 +306,3 @@ public class Board {
         return result;
     }
 }
-//TODO checkEndgame()

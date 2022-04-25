@@ -97,6 +97,7 @@ public class ClientConnection implements Runnable {
 
             if (timerEnded) {
                 sendMessage(new InfoMessage("TIMER_ENDED"));
+                gameHandler.endGame(clientId);
             }
 
             sendMessage(new InfoMessage("CONNECTION_CLOSED"));

@@ -19,14 +19,14 @@ public class GameHandler implements PropertyChangeListener {
     private final int playersNumber;
     private final boolean expertMode;
     private int currentClientConnection;
-    private GameModel gameModel;
+    private final GameModel gameModel;
 
     private int turnNumber;
 
     private GameHandlerPhase phase;
     private final List<ClientConnection> clients;
     private final Server server;//TODO forse meglio listener
-    private Controller controller;
+    private final Controller controller;
 
     public GameHandler(int gameId, boolean expertMode, List<ClientConnection> clients, Server server) {
         this.gameId = gameId;

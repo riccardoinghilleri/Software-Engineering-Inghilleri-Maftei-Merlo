@@ -182,6 +182,7 @@ public class Controller {
         if (playerTurnNumber == gameModel.getPlayersNumber()) {
             playerTurnNumber = 0;
             phase = Action.SETUP_CLOUD;
+
         } else {
             startPlayerTurn();
         }

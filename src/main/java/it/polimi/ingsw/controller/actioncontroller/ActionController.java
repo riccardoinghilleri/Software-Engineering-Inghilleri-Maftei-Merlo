@@ -86,7 +86,8 @@ public class ActionController {
             ((CharacterCardwithProhibitions) boardExpert.getCharacterCardbyName("HERBOLARIA")).restockProhibitionsNumber();
         }
         else{
-            ActionMessage m = new ActionMessage(Action.GET_INFLUENCE);
+            ActionMessage m = new ActionMessage();
+            m.setAction(Action.GET_INFLUENCE);
             m.setData(index);
             String newOwner = getInfluence(m);
             String oldOwner;

@@ -38,6 +38,10 @@ public class ClientConnection implements Runnable{
         return clientId;
     }
 
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
+    }
+
     public void sendMessage(Message message){
 
     }

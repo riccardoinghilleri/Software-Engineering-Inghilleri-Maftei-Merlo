@@ -16,7 +16,6 @@ public class AskActionMessage implements Message {
         this.action = action;
         data = -1;
         this.availability = new ArrayList<>(availability);
-
     }
 
     public AskActionMessage(Action action, List<?> availability, int data) {

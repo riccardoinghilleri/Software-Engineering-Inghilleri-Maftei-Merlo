@@ -25,7 +25,6 @@ public class GameHandler {
     private final List<ClientConnection> clients;
     private final Server server;
     private final Controller controller;
-    //boolean alreadySettedClouds;
 
     public GameHandler(int gameId, boolean expertMode, List<ClientConnection> clients, Server server) {
         this.gameId = gameId;
@@ -33,6 +32,9 @@ public class GameHandler {
         this.currentClientConnection = 0;
         this.expertMode = expertMode;
         this.clients = new ArrayList<>(clients);
+        for(int i=0; i<clients.size();i++) { //setto i client ID
+            clients.get(i).setClientId(i);
+        }
         this.server = server;
         this.phase = GameHandlerPhase.SETUP_NICKNAME;
         this.gameModel = new GameModel(expertMode);
@@ -40,7 +42,6 @@ public class GameHandler {
         this.turnNumber = 0;
         PlayerColor.reset(playersNumber);
         Wizard.reset();
-        //alreadySettedClouds = false;
         //TODO il server dopo aver creato il gamehandler chiama un metodo gamehandler.setupGame()
     }
 
@@ -91,8 +92,9 @@ public class GameHandler {
                         turnNumber++;
                         phase = GameHandlerPhase.PIANIFICATION;
                         pianificationTurn();
-                    } else if (controller.getPhase() == Action.SETUP_CLOUD && turnNumber == 10) {
-                        //TODO checkEndGame() possono finire i 10 turni
+                    } else if (controller.getPhase() == Action.SETUP_CLOUD && turnNumber == 10) { //TODO finiscono i 10 turni
+                        Player winner = gameModel.endGame();
+                        endGame(winner);
                     } else actionTurn();
                 }
             }
@@ -165,7 +167,7 @@ public class GameHandler {
         setupGame();
     }
 
-    public void endGame(int winner) {
+    public void endGame(Player winner) {
         //TODO stampare vincitore mandando messaggio a tutti
         while (!clients.isEmpty()) {
             clients.get(currentClientConnection).closeConnection();

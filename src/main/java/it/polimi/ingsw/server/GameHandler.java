@@ -169,9 +169,6 @@ public class GameHandler {
 
     public void endGame(Player winner) {
         //TODO stampare vincitore mandando messaggio a tutti
-        while (!clients.isEmpty()) {
-            clients.get(currentClientConnection).closeConnection();
-        }
     }
 
     public void resetGame() {

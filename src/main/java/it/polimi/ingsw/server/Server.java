@@ -100,23 +100,22 @@ public class Server {
          lockGames.lock();
         try {
             switch (queue) {
-                case 1 -> {
+                case 1:
                     activeGames.add(new GameHandler(currentGameId, false, twoPlayersNormal, this));
                     twoPlayersNormal.clear();
-                }
-                case 2 -> {
+                    break;
+                case 2:
                     activeGames.add(new GameHandler(currentGameId, true, twoPlayersExpert, this));
                     twoPlayersExpert.clear();
-
-                }
-                case 3 -> {
+                    break;
+                case 3:
                     activeGames.add(new GameHandler(currentGameId, false, threePlayersNormal, this));
                     threePlayersNormal.clear();
-                }
-                case 4 -> {
+                    break;
+                case 4:
                     activeGames.add(new GameHandler(currentGameId, true, threePlayersExpert, this));
                     threePlayersExpert.clear();
-                }
+                    break;
             }
             currentGameId++;
         }
@@ -127,7 +126,7 @@ public class Server {
         //aggiorna il currentGameId
     }
 
-    private void removeGameHandler(GameHandler gameHandler){
+    public void removeGameHandler(GameHandler gameHandler){
         lockGames.lock();
         try {
             assert activeGames.contains(gameHandler);

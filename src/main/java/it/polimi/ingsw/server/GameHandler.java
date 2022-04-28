@@ -36,6 +36,8 @@ public class GameHandler implements PropertyChangeListener {
         this.clients = new ArrayList<>(clients);
         for (int i = 0; i < clients.size(); i++) { //setto i client ID
             clients.get(i).setClientId(i);
+            clients.get(i).setGameHandler(this);
+            clients.get(i).setInGame(true);
         }
         this.server = server;
         this.phase = GameHandlerPhase.SETUP_NICKNAME;

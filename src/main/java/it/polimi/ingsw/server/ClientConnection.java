@@ -14,11 +14,13 @@ public class ClientConnection implements Runnable {
     private int clientId;
     private boolean inGame;
 
+    private boolean alreadySettings;
+
     private AtomicBoolean active;
     private AtomicBoolean closed;
 
-    private Socket socket;
-    private Server server;
+    private final Socket socket;
+    private final Server server;
     private GameHandler gameHandler;
     private ObjectInputStream is;
     private ObjectOutputStream os;
@@ -26,11 +28,15 @@ public class ClientConnection implements Runnable {
     private Thread pinger;
     private Thread timer;
 
-    public ClientConnection(Socket socket, Server server, GameHandler gameHandler) {
+    public ClientConnection(Socket socket, Server server) {
         this.socket = socket;
         this.clientId = -1;
         this.inGame = false;
         this.server = server;
+        this.alreadySettings = false;
+    }
+
+    public void setGameHandler(GameHandler gameHandler) {
         this.gameHandler = gameHandler;
     }
 
@@ -62,11 +68,13 @@ public class ClientConnection implements Runnable {
 
                 Object clientMessage = is.readObject();
 
-                if (!(clientMessage instanceof InfoMessage && ((InfoMessage)clientMessage).getString().equalsIgnoreCase("PING"))){
+                if (!(clientMessage instanceof InfoMessage && ((InfoMessage) clientMessage).getString().equalsIgnoreCase("PING"))) {
                     if (inGame)
-                        gameHandler.manageMessage(this,(Message)clientMessage);
-                    else /*checkSettings((SettingsMessage) clientMessage);*/
-                        server.addClientConnectionToQueue(this,((SettingsMessage)clientMessage).getPlayersNumber(), ((SettingsMessage)clientMessage).isExpertMode());
+                        gameHandler.manageMessage(this, (Message) clientMessage);
+                    else if (!alreadySettings) {/*checkSettings((SettingsMessage) clientMessage);*/
+                        server.addClientConnectionToQueue(this, ((SettingsMessage) clientMessage).getPlayersNumber(), ((SettingsMessage) clientMessage).isExpertMode());
+                        this.alreadySettings = true;
+                    }
                 }
             }
         } catch (IOException | ClassNotFoundException e) {

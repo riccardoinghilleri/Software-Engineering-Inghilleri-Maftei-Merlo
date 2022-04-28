@@ -24,11 +24,11 @@ public class GameHandler implements PropertyChangeListener {
     private int turnNumber;
 
     private GameHandlerPhase phase;
-    private final List<ClientConnection> clients;
+    private final List<VirtualView> clients;
     private final Server server;//TODO forse meglio listener
     private final Controller controller;
 
-    public GameHandler(int gameId, boolean expertMode, List<ClientConnection> clients, Server server) {
+    public GameHandler(int gameId, boolean expertMode, List<VirtualView> clients, Server server) {
         this.gameId = gameId;
         this.playersNumber = clients.size();
         this.currentClientConnection = 0;
@@ -50,7 +50,7 @@ public class GameHandler implements PropertyChangeListener {
     }
 
     //Gestisce i messaggi ricevuti dalla client connection
-    public void manageMessage(ClientConnection client, Message message) {
+    public void manageMessage(VirtualView client, Message message) {
         if (currentClientConnection != client.getClientId()) {
             client.sendMessage(new InfoMessage("It is not your turn! Please wait."));
         } else {
@@ -173,7 +173,7 @@ public class GameHandler implements PropertyChangeListener {
 
     public void endGame(int disconnected) {
         sendAll(new InfoMessage("Player: " + gameModel.getPlayerById(disconnected).getNickname() + "has disconnected, the match will now end" + "\nThanks for playing!"));
-        for (ClientConnection client : clients) {
+        for (VirtualView client : clients) {
             client.closeConnection(false);
         }
         server.removeGameHandler(this);
@@ -182,7 +182,7 @@ public class GameHandler implements PropertyChangeListener {
 
     public void endGame() {
         sendAll(new InfoMessage("The winner is " + gameModel.getWinner().getNickname() + "!" + "\nThanks for playing!"));
-        for (ClientConnection client : clients) {
+        for (VirtualView client : clients) {
             client.closeConnection(false);
         }
         server.removeGameHandler(this);
@@ -200,13 +200,13 @@ public class GameHandler implements PropertyChangeListener {
     }*/
 
     public void sendAll(Message message) {
-        for (ClientConnection client : clients) {
+        for (VirtualView client : clients) {
             client.sendMessage(message);
         }
     }
 
     public void sendAllExcept(int clientId, Message message) { //TODO non so se serve
-        for (ClientConnection client : clients) {
+        for (VirtualView client : clients) {
             if (client.getClientId() != clientId)
                 client.sendMessage(message);
         }

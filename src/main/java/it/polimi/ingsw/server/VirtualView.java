@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ClientConnection implements Runnable {
+public class VirtualView implements Runnable {
     private int clientId;
     private boolean inGame;
 
@@ -28,7 +28,7 @@ public class ClientConnection implements Runnable {
     private Thread pinger;
     private Thread timer;
 
-    public ClientConnection(Socket socket, Server server) {
+    public VirtualView(Socket socket, Server server) {
         this.socket = socket;
         this.clientId = -1;
         this.inGame = false;

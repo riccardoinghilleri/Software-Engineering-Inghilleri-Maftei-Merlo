@@ -16,10 +16,10 @@ public class Server {
     private ServerSocket serverSocket;
 
     private List<GameHandler> activeGames;
-    private List<ClientConnection> twoPlayersNormal;
-    private List<ClientConnection> twoPlayersExpert;
-    private List<ClientConnection> threePlayersNormal;
-    private List<ClientConnection> threePlayersExpert;
+    private List<VirtualView> twoPlayersNormal;
+    private List<VirtualView> twoPlayersExpert;
+    private List<VirtualView> threePlayersNormal;
+    private List<VirtualView> threePlayersExpert;
 
     //pool di thread che gestisce le connessioni dei client
     private ExecutorService executor;
@@ -49,8 +49,8 @@ public class Server {
         try {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                ClientConnection clientConnection = new ClientConnection(clientSocket, this);
-                executor.submit(clientConnection);
+                VirtualView virtualView = new VirtualView(clientSocket, this);
+                executor.submit(virtualView);
             }
         } catch (IOException e) {
             if (serverSocket != null && !serverSocket.isClosed()) {
@@ -63,7 +63,7 @@ public class Server {
     }
 
 
-    public void addClientConnectionToQueue(ClientConnection client, int playersNumber, boolean expertMode) {
+    public void addClientConnectionToQueue(VirtualView client, int playersNumber, boolean expertMode) {
         lockQueue.lock(); //Forse troppi controlli, si potrebbe migliorare
         try {
             if (playersNumber == 2) {

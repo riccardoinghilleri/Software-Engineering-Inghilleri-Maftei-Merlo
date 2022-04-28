@@ -101,6 +101,7 @@ public class Controller {
                     actionController.getCharacterCardStrategy().useEffect(actionMessage); //serve per non settare la strategia più volte se è gia stata settata
                 }
                 characterCardMovements++; // incremento il numero di volte che è stata usata la carta personaggio scelta
+                break;
             case DEFAULT_MOVEMENTS:
                 try {
                     checkPhase(actionMessage); //TODO sistemare
@@ -116,17 +117,19 @@ public class Controller {
                     return "There is not a student of this color in your entrance.";
                 }
                 if (actionMessage.getData() == -1) { // significa che non devo spostare studente da hall a isola
-                    actionController.moveStudent(actionMessage.getFirstParameter());
+                    actionController.moveStudent(actionMessage.getFirstParameter().toUpperCase());
                 } else {
-                    actionController.moveStudent(actionMessage.getData(), actionMessage.getFirstParameter());
+                    actionController.moveStudent(actionMessage.getData(), actionMessage.getFirstParameter().toUpperCase());
                 }
                 defaultMovements++;
                 if (defaultMovements >= 4
                         || (defaultMovements >= 3 && gameModel.getPlayers().size() % 2 == 0)) {
                     phase = Action.MOVE_MOTHER_NATURE;
                 }
+                break;
             case GET_INFLUENCE: //TODO non so se è necessario
                 actionController.getInfluence(actionMessage);
+                break;
             case MOVE_MOTHER_NATURE:
                 try {
                     checkPhase(actionMessage);
@@ -161,6 +164,7 @@ public class Controller {
                     else actionController.getInfluence(message);
                 }
                 else actionController.getInfluence(message);*/
+                break;
             case CHOOSE_CLOUD:
                 try {
                     checkPhase(actionMessage);
@@ -174,6 +178,7 @@ public class Controller {
                 }
                 actionController.moveStudent(actionMessage.getData());
                 endPlayerTurn(); // in questo modo dopo la scelta della nuvola non si può giocare la carta personaggio
+                break;
         }
         return null;
     }
@@ -259,7 +264,7 @@ public class Controller {
     //TODO controllare se usare characterCardName e i suoi metodi
     private void checkChosenSteps(ActionMessage actionMessage) throws InvalidChosenStepsException {
         int steps = gameModel.getCurrentPlayer().getChosenAssistantCard().getMotherNatureSteps();
-        if (characterCardName.equalsIgnoreCase("POSTMAN")) {
+        if (characterCardName!=null && characterCardName.equalsIgnoreCase("POSTMAN")) {
             steps += 2;
         }
         if (actionMessage.getData() > steps) {

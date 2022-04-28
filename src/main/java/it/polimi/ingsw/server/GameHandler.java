@@ -62,8 +62,8 @@ public class GameHandler implements PropertyChangeListener {
                 phase = GameHandlerPhase.SETUP_WIZARD;
                 setupGame();
             } else if (phase == GameHandlerPhase.SETUP_WIZARD) {
-                gameModel.getPlayerById(client.getClientId()).getDeck().setWizard(((SetupMessage) message).getString());
-                Wizard.choose(Wizard.valueOf(((SetupMessage) message).getString()));
+                gameModel.getPlayerById(client.getClientId()).getDeck().setWizard(((SetupMessage) message).getString().toUpperCase());
+                Wizard.choose(Wizard.valueOf(((SetupMessage) message).getString().toUpperCase()));
                 currentClientConnection = (currentClientConnection + 1) % playersNumber;
                 if (currentClientConnection == 0) {
                     turnNumber = 1;
@@ -79,9 +79,7 @@ public class GameHandler implements PropertyChangeListener {
                 if (phase == GameHandlerPhase.PIANIFICATION) {
                     if (!controller.setAssistantCard((ActionMessage) message)) {
                         clients.get(currentClientConnection)
-                                .sendMessage(new MultipleChoiceMessage("You can not choose this Assistant Card! " +
-                                        "Please choose another Assistant Card: ",
-                                        gameModel.getCurrentPlayer().getDeck().getAssistantCards()));
+                                .sendMessage(new InfoMessage("You can not choose this assistant card. Please choose another one."));
                     }
                     if (controller.getPhase() == Action.CHOOSE_ASSISTANT_CARD)
                         pianificationTurn();

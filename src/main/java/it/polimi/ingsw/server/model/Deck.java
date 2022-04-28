@@ -27,7 +27,7 @@ public class Deck {
     }
 
     public void setWizard(String wizard) {
-        this.wizard = Wizard.valueOf(wizard);
+        this.wizard = Wizard.valueOf(wizard.toUpperCase());
     }
 
     //TODO ECCEZIONE SE LA PRIORITA' NON PUO' ESSERE SCELTA

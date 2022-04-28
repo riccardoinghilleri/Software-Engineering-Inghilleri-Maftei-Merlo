@@ -2,7 +2,6 @@ package it.polimi.ingsw.client;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -10,7 +9,6 @@ import java.util.regex.Pattern;
 
 import it.polimi.ingsw.controller.Action;
 import it.polimi.ingsw.server.ConnectionMessage.*;
-import it.polimi.ingsw.server.model.Cloud;
 import it.polimi.ingsw.server.model.Student;
 import it.polimi.ingsw.server.model.enums.CharacterColor;
 
@@ -47,7 +45,7 @@ public class Cli implements Runnable {
     public static void main(String[] args) {
         Pattern pattern = Pattern.compile("^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.(?!$)|$)){4}$");
         System.out.println(
-                        " ███████╗ ██████═╗ ██╗     ██╗     ██╗   ██╗ ██████╗ ██   ██ ███████╗\n" +
+                " ███████╗ ██████═╗ ██╗     ██╗     ██╗   ██╗ ██████╗ ██   ██ ███████╗\n" +
                         " ██ ════╝ ██║  ██║ ██║    ████╗    ███╗  ██║   ██══╝  ██ ██╝ ██ ════╝\n" +
                         " ███████╗ ██████═╝ ██║   ██║ ██╗   ██║██╗██║   ██║     ██╝   ███████╗\n" +
                         " ██ ════╝ ██║ ██╗  ██║  ██ ██ ██╗  ██║  ███║   ██║    ██╝         ██║\n" +
@@ -104,7 +102,6 @@ public class Cli implements Runnable {
     public void setupNickname(NicknameMessage message) {
         String response;
         String nickname;
-        System.out.println(message.getMessage());
         do {
             System.out.println(">Please choose a nickname: ");
             nickname = reader.nextLine();
@@ -117,12 +114,11 @@ public class Cli implements Runnable {
     //metodo utilizzando per la scelta dei colori e del wizard
     public void setupMultipleChoice(MultipleChoiceMessage message) {
         String choice;
-        String response;
         System.out.println(message.getString());
         System.out.println(">These are the available choices:");
         for (String s : message.getAvailableChoices())
             System.out.println(s + "\t");
-        choice = reader.nextLine();
+        choice = reader.nextLine().toUpperCase();
         if (!message.getAvailableChoices().contains(choice.toUpperCase())) {
             System.out.println(">InvalidInput");
             setupMultipleChoice(message);
@@ -135,7 +131,7 @@ public class Cli implements Runnable {
 
     public void askAction(AskActionMessage message) {
         String response;
-        if (expertMode && message.getAction()!=Action.CHOOSE_ASSISTANT_CARD ) {
+        if (expertMode && message.getAction() != Action.CHOOSE_ASSISTANT_CARD) {
             System.out.println("Do you want to use a Character Card?");
             response = checkYNInput();
             if (response.equalsIgnoreCase("y")) {
@@ -148,12 +144,14 @@ public class Cli implements Runnable {
         ActionMessage answer = new ActionMessage();
         switch (message.getAction()) {
             case CHOOSE_ASSISTANT_CARD:
-                System.out.println("Please choose your assistant card.");
-                System.out.println(">These are the available choices:");
-                for (int i = 0; i < message.getAvailableAssistantCards().size(); i++)
+                System.out.println("Please choose your assistant card priority. These are the available choices:");
+                List<Integer> availablePriority = new ArrayList<>();
+                for (int i = 0; i < message.getAvailableAssistantCards().size(); i++) {
                     System.out.println("> " + i + ": " + message.getAvailableAssistantCards().get(i).toString());
+                    availablePriority.add(message.getAvailableAssistantCards().get(i).getPriority());
+                }
                 data = Integer.parseInt(reader.nextLine());
-                while (data < 1 || data > message.getAvailableAssistantCards().size()) {
+                while (!availablePriority.contains(data)) {
                     System.out.println(">Invalid input. Please try again");
                     data = Integer.parseInt(reader.nextLine());
                 }
@@ -169,7 +167,7 @@ public class Cli implements Runnable {
                     availableStudentsColors.add(s.getColor());
                     System.out.println(s + "\t");
                 }
-                firstParameter = reader.nextLine();
+                firstParameter = reader.nextLine().toUpperCase();
                 while (!availableStudentsColors.contains(CharacterColor.valueOf(firstParameter.toUpperCase()))) {
                     System.out.println(">Invalid input. Please try again");
                     firstParameter = reader.nextLine();
@@ -184,6 +182,9 @@ public class Cli implements Runnable {
                         connection.send(answer);
                         break;
                     } else if (temp.equalsIgnoreCase("Island")) {
+                        for(int i=1;i<= message.getData();i++) {
+                            System.out.println("Island: #" + i);
+                        }
                         System.out.println(">Choose an Island: ");
                         data = Integer.parseInt(reader.nextLine());
                         while (data < 1 || data > message.getData()) {
@@ -198,12 +199,11 @@ public class Cli implements Runnable {
                 break;
 
             case MOVE_MOTHER_NATURE:
-                System.out.println("Please choose how many steps you want nature mother do");
-                System.out.println(">You can move mother nature" + message.getData() + " steps far.");
-                System.out.println(">Please, make your choice:");
+                System.out.println(">You can move mother nature " + message.getData() + " steps far.");
+                System.out.println(">Please choose how many steps you want mother nature do:");
                 data = Integer.parseInt(reader.nextLine());
                 while (data < 1 || data > message.getData()) {
-                    System.out.println(">Invalid input. Please try again");
+                    System.out.println(">Invalid input. Please try again.");
                     data = Integer.parseInt(reader.nextLine());
                 }
                 answer.setAction(Action.MOVE_MOTHER_NATURE);
@@ -211,8 +211,7 @@ public class Cli implements Runnable {
                 connection.send(answer);
                 break;
             case CHOOSE_CLOUD:
-                System.out.println("Please choose your cloud.");
-                System.out.println(">These are the available choices:");
+                System.out.println(">These are the available clouds:");
                 List<Integer> availableIndexClouds = new ArrayList<>();
                 for (int i = 0; i < message.getClouds().length; i++) {
                     if (!(message.getClouds())[i].getStudents().isEmpty()) {
@@ -220,9 +219,10 @@ public class Cli implements Runnable {
                         System.out.println("CLOUD #" + i + "\n" + (message.getClouds())[i] + "\n");
                     }
                 }
+                System.out.println(">Please choose your cloud.");
                 data = Integer.parseInt(reader.nextLine());
                 while (!availableIndexClouds.contains(data)) {
-                    System.out.println(">Invalid input. Please try again");
+                    System.out.println(">Invalid input. Please try again.");
                     data = Integer.parseInt(reader.nextLine());
                 }
                 answer.setAction(Action.CHOOSE_CLOUD);

@@ -1,16 +1,23 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.client.Cli;
+import it.polimi.ingsw.server.ConnectionMessage.InfoMessage;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class Server {
-    private int port;
+public class Server implements Runnable{
+    private static int port;
     private int currentGameId;
 
     private ServerSocket serverSocket;
@@ -25,12 +32,11 @@ public class Server {
     private ExecutorService executor;
 
     //TODO per accedere alle code e alla lista dei Game potrebbe essere necessario Lockare
-    //un client potrebbe chiamare il metodo addClientConnection che accede ad una coda e il server potrebbe chiammare createGame
+    //un client potrebbe chiamare il metodo addClientConnection che accede ad una coda e il server potrebbe chiamare createGame
     ReentrantLock lockQueue = new ReentrantLock(true);
     ReentrantLock lockGames = new ReentrantLock(true);
 
-    public Server(int port) {
-        this.port = port;
+    public Server() {
         this.executor = Executors.newCachedThreadPool(); //creo pool di thread concorrenti
         this.currentGameId = 1;
         this.activeGames = new ArrayList<>();
@@ -39,18 +45,37 @@ public class Server {
         this.threePlayersNormal = new ArrayList<>();
         this.threePlayersExpert = new ArrayList<>();
     }
+    public static void main(String[] args) {
+        System.out.println(
+                        " ███████╗ ██████═╗ ██╗     ██╗     ██╗   ██╗ ██████╗ ██   ██ ███████╗\n" +
+                        " ██ ════╝ ██║  ██║ ██║    ████╗    ███╗  ██║   ██══╝  ██ ██╝ ██ ════╝\n" +
+                        " ███████╗ ██████═╝ ██║   ██║ ██╗   ██║██╗██║   ██║     ██╝   ███████╗\n" +
+                        " ██ ════╝ ██║ ██╗  ██║  ██ ██ ██╗  ██║  ███║   ██║    ██╝         ██║\n" +
+                        " ███████╗ ██║  ██╗ ██║ ██╗     ██╗ ██║   ██║   ██║   ██╝     ███████║\n" +
+                        " ╚══════╝ ╚═╝  ╚═╝ ╚═╝ ╚═╝     ╚═╝ ╚═╝   ╚═╝   ╚═╝   ╚╝      ╚══════╝\n");
+        System.out.println("Inghilleri Riccardo - Maftei Daniela - Merlo Manuela");
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Welcome to the Eriantys' server.");
+        System.out.println("Insert the server port");
+        port = Integer.parseInt(scanner.nextLine());
+        while (port < 1024 || port > 65535) {
+            System.out.println("Invalid input. Please try again");
+            port = Integer.parseInt(scanner.nextLine());
+        }
+        Server server=new Server();
+        Thread t = new Thread (server);
+        t.start();
+    }
 
-    public void StartSever() {
+    @Override
+    public void run() {
         try {
             serverSocket = new ServerSocket(port);
-        } catch (IOException e) {
-            return;
-        }
-        try {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 VirtualView virtualView = new VirtualView(clientSocket, this);
-                executor.submit(virtualView);
+                System.out.println("Connection done.");
+                this.executor.execute(virtualView);
             }
         } catch (IOException e) {
             if (serverSocket != null && !serverSocket.isClosed()) {

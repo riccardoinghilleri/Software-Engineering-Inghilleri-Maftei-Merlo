@@ -15,7 +15,7 @@ public class Cloud {
     }
 
     public void addStudents(List<Student> students) {
-        if(this.students.isEmpty()) {
+        if (this.students.isEmpty()) {
             this.students.addAll(students);
         }
     }
@@ -28,10 +28,10 @@ public class Cloud {
     }
 
     @Override
-    public String toString(){
-        String result = "";
-        for(Student s: students){
-            result=result.concat(s.toString()+" ");
+    public String toString() {
+        String result = ""; //TODO sistemare indice da stampare
+        for (Student s : students) {
+            result = result.concat(s.toString() + " ");
         }
         return result;
     }

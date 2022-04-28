@@ -2,7 +2,9 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.enums.CharacterColor;
 
-public class Student {
+import java.io.Serializable;
+
+public class Student implements Serializable {
     private final CharacterColor color;
 
     public Student(CharacterColor color) {

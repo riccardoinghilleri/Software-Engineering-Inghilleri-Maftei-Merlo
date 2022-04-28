@@ -1,7 +1,5 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.model.enums.Wizard;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,23 +13,24 @@ public class GameModel {
     Player winner;
     Player currentPlayer;
 
-    public GameModel(boolean isExpertGame)
-    {
+    public GameModel(boolean isExpertGame) {
         playersNumber = 0;
         this.isExpertGame = isExpertGame;
         players = new ArrayList<>();
         winner = null;
     }
+
     //---CREAZIONE OGGETTI---//
-    public void createBoard(){
+    public void createBoard() {
         if (!isExpertGame)
-        board = new Board(players,this);
-        else board = new BoardExpert(players,this);
+            board = new Board(players, this);
+        else board = new BoardExpert(players, this);
         //currentPlayer=players.get(0); //mi serve nel gamehandler il primissimo turno quando non ho settato ancora le assistant cards
     }
 
-    public void createPlayer(String nickname, int clientID){
-        players.add(new Player(nickname,clientID));
+    public void createPlayer(String nickname, int clientID) {
+        players.add(new Player(nickname, clientID));
+        playersNumber++;
     }
 
     //---GETTER---//
@@ -44,21 +43,26 @@ public class GameModel {
         return playersNumber;
     }
 
-    public Board getBoard() { return board; }
+    public Board getBoard() {
+        return board;
+    }
 
-    public List<Player> getPlayers() { return players; }
+    public List<Player> getPlayers() {
+        return players;
+    }
 
-    public Player getCurrentPlayer() {return currentPlayer; }
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
 
     public void setCurrentPlayer(int position) {
-        currentPlayer=players.get(position);
+        currentPlayer = players.get(position);
     }
 
     public Player getPlayerByNickname(String nickname) {
         Player result = null;
-        for(Player p:players)
-        {
-            if(p.getNickname().equals(nickname))
+        for (Player p : players) {
+            if (p.getNickname().equals(nickname))
                 result = p;
         }
         return result;
@@ -66,9 +70,8 @@ public class GameModel {
 
     public Player getPlayerById(int id) {
         Player result = null;
-        for(Player p:players)
-        {
-            if(p.getClientID()==id)
+        for (Player p : players) {
+            if (p.getClientID() == id)
                 result = p;
         }
         return result;
@@ -80,17 +83,17 @@ public class GameModel {
 
     //---SETTER---//
 
-    public void setPlayersOrder(){
-        Collections.sort(players,new PlayerComparator());
+    public void setPlayersOrder() {
+        Collections.sort(players, new PlayerComparator());
 
     }
 
-    public void setPlayerDeck( String nickname, String wizard){
+    public void setPlayerDeck(String nickname, String wizard) {
         getPlayerByNickname(nickname).getDeck().setWizard(wizard);
 
     }
 
-    public void setWinner(Player winner){
+    public void setWinner(Player winner) {
         this.winner = winner;
     }
     //Metodo che controlla se c'è un vincitore e ritorna il player
@@ -99,8 +102,8 @@ public class GameModel {
 
 class PlayerComparator implements Comparator<Player> {
     @Override
-    public int compare(Player p1,Player p2){
-        return Integer.compare(p1.getChosenAssistantCard().getPriority(),p2.getChosenAssistantCard().getPriority());
+    public int compare(Player p1, Player p2) {
+        return Integer.compare(p1.getChosenAssistantCard().getPriority(), p2.getChosenAssistantCard().getPriority());
         /*if(p1.getChoosenAssistantCard().getPriority()<p2.getChoosenAssistantCard().getPriority())
             return -1;
         else if (p1.getChoosenAssistantCard().getPriority()>p2.getChoosenAssistantCard().getPriority())

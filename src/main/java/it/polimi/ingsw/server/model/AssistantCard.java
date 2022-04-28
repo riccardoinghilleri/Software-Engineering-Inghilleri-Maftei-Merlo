@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server.model;
 
-public class AssistantCard {
+import java.io.Serializable;
+
+public class AssistantCard implements Serializable {
     int priority;
     int natureMotherSteps;
      public AssistantCard( int priority,int natureMotherSteps){

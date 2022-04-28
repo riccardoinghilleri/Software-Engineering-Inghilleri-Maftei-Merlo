@@ -16,22 +16,22 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Server implements Runnable{
+public class Server implements Runnable {
     private static int port;
     private int currentGameId;
 
     private ServerSocket serverSocket;
 
-    private List<GameHandler> activeGames;
-    private List<VirtualView> twoPlayersNormal;
-    private List<VirtualView> twoPlayersExpert;
-    private List<VirtualView> threePlayersNormal;
-    private List<VirtualView> threePlayersExpert;
+    private final List<GameHandler> activeGames;
+    private final List<VirtualView> twoPlayersNormal;
+    private final List<VirtualView> twoPlayersExpert;
+    private final List<VirtualView> threePlayersNormal;
+    private final List<VirtualView> threePlayersExpert;
 
     //pool di thread che gestisce le connessioni dei client
-    private ExecutorService executor;
+    private final ExecutorService executor;
 
-    //TODO per accedere alle code e alla lista dei Game potrebbe essere necessario Lockare
+    //TODO per accedere alle code e alla lista dei Game potrebbe essere necessario lockare
     //un client potrebbe chiamare il metodo addClientConnection che accede ad una coda e il server potrebbe chiamare createGame
     ReentrantLock lockQueue = new ReentrantLock(true);
     ReentrantLock lockGames = new ReentrantLock(true);
@@ -45,6 +45,7 @@ public class Server implements Runnable{
         this.threePlayersNormal = new ArrayList<>();
         this.threePlayersExpert = new ArrayList<>();
     }
+
     public static void main(String[] args) {
         System.out.println(
                         " ███████╗ ██████═╗ ██╗     ██╗     ██╗   ██╗ ██████╗ ██   ██ ███████╗\n" +
@@ -62,8 +63,8 @@ public class Server implements Runnable{
             System.out.println("Invalid input. Please try again");
             port = Integer.parseInt(scanner.nextLine());
         }
-        Server server=new Server();
-        Thread t = new Thread (server);
+        Server server = new Server();
+        Thread t = new Thread(server);
         t.start();
     }
 
@@ -81,7 +82,9 @@ public class Server implements Runnable{
             if (serverSocket != null && !serverSocket.isClosed()) {
                 try {
                     serverSocket.close();
-                } catch (IOException passBy) { }
+                } catch (IOException passBy) {
+                    passBy.printStackTrace();
+                }
             }
         }
 
@@ -116,13 +119,14 @@ public class Server implements Runnable{
                     }
                 }
             }
+        } finally {
+            lockQueue.unlock();
         }
-        finally {  lockQueue.unlock();}
     }
 
 
-    public void createGameHandler(int queue){
-         lockGames.lock();
+    public void createGameHandler(int queue) {
+        lockGames.lock();
         try {
             switch (queue) {
                 case 1:
@@ -143,15 +147,16 @@ public class Server implements Runnable{
                     break;
             }
             currentGameId++;
+        } finally {
+            lockGames.unlock();
         }
-        finally {lockGames.unlock();}
 
         //il parametro queue indica da quale coda estrarre i client
         //rimuove le connessioni dalla queue e le passa al gameHandler
         //aggiorna il currentGameId
     }
 
-    public void removeGameHandler(GameHandler gameHandler){
+    public void removeGameHandler(GameHandler gameHandler) {
         lockGames.lock();
         try {
             assert activeGames.contains(gameHandler);

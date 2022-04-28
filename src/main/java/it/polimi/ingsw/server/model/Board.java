@@ -58,23 +58,13 @@ public class Board {
 
         //--CREAZIONE SCUOLE--
         for(Player p:players){
-            schools[p.getClientID()-1] = new School(p.getNickname(),p.getColor(),playersNumber);
+            schools[p.getClientID()] = new School(p.getNickname(),p.getColor(),playersNumber);
         }
         setInitialEntrance();
     }
 
     public int getStudentsSize() {
         return students.size();
-    }
-
-    public List<Integer> getAvailableClouds() {
-        List<Integer> availableClouds = new ArrayList<>();
-        for(int i=0; i< clouds.length;i++) {
-            if(!clouds[i].getStudents().isEmpty()) {
-                availableClouds.add(i);
-            }
-        }
-        return availableClouds;
     }
 
     public int getMotherNaturePosition() {

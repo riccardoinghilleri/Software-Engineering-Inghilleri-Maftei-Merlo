@@ -30,6 +30,7 @@ public class Controller {
         characterCardMovements = 0;
         defaultMovements = 0;
         alreadyUsedCharacterCard = false;
+        listeners = new PropertyChangeSupport(this);
         listeners.addPropertyChangeListener("end_game", gameHandler);
     }
 

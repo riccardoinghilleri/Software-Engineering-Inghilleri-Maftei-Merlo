@@ -58,10 +58,12 @@ public class GameHandler implements PropertyChangeListener {
                 setupNickname((SetupMessage) message);
             } else if (phase == GameHandlerPhase.SETUP_COLOR) {
                 gameModel.getPlayerById(client.getClientId()).setColor(((SetupMessage) message).getString());
+                PlayerColor.choose(PlayerColor.valueOf(((SetupMessage) message).getString().toUpperCase()));
                 phase = GameHandlerPhase.SETUP_WIZARD;
                 setupGame();
             } else if (phase == GameHandlerPhase.SETUP_WIZARD) {
                 gameModel.getPlayerById(client.getClientId()).getDeck().setWizard(((SetupMessage) message).getString());
+                Wizard.choose(Wizard.valueOf(((SetupMessage) message).getString()));
                 currentClientConnection = (currentClientConnection + 1) % playersNumber;
                 if (currentClientConnection == 0) {
                     turnNumber = 1;
@@ -152,7 +154,7 @@ public class GameHandler implements PropertyChangeListener {
                 break;
             case CHOOSE_CLOUD:
                 askActionMessage = new AskActionMessage(controller.getPhase(), gameModel
-                        .getBoard().getAvailableClouds());
+                        .getBoard().getClouds());
                 break;
         }
         clients.get(currentClientConnection).sendMessage(askActionMessage);

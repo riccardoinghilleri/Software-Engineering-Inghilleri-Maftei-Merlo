@@ -1,15 +1,20 @@
 package it.polimi.ingsw.client;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import it.polimi.ingsw.controller.Action;
 import it.polimi.ingsw.server.ConnectionMessage.*;
+import it.polimi.ingsw.server.model.Cloud;
+import it.polimi.ingsw.server.model.Student;
 import it.polimi.ingsw.server.model.enums.CharacterColor;
 
-public class Cli implements Runnable{
+public class Cli implements Runnable {
     private PrintStream printer;
     private Scanner reader;
     private boolean activeGame;
@@ -49,7 +54,6 @@ public class Cli implements Runnable{
                         " ███████╗ ██║  ██╗ ██║ ██╗     ██╗ ██║   ██║   ██║   ██╝     ███████║\n" +
                         " ╚══════╝ ╚═╝  ╚═╝ ╚═╝ ╚═╝     ╚═╝ ╚═╝   ╚═╝   ╚═╝   ╚╝      ╚══════╝\n");
         System.out.println("Inghilleri Riccardo - Maftei Daniela - Merlo Manuela");
-        //settings = new ConnectionSettings();
         Scanner scanner = new Scanner(System.in);
         System.out.println("Insert the server IP address");
         address = scanner.nextLine();
@@ -59,22 +63,21 @@ public class Cli implements Runnable{
             address = scanner.nextLine();
             m = pattern.matcher(address);
         }
-        //settings.setAddress(address);
         System.out.println("Insert the server port");
         port = Integer.parseInt(scanner.nextLine());
         while (port < 1024 || port > 65535) {
             System.out.println("Invalid input. Please try again");
             port = Integer.parseInt(scanner.nextLine());
         }
-        //settings.setPort(port);
         Cli cli = new Cli();
-        Thread t=new Thread(cli);
+        Thread t = new Thread(cli);
         t.start();
         cli.setupGameSetting();
     }
+
     @Override
-    public void run(){
-        while(connection.isActive()){
+    public void run() {
+        while (connection.isActive()) {
 
         }
     }
@@ -120,7 +123,7 @@ public class Cli implements Runnable{
         for (String s : message.getAvailableChoices())
             System.out.println(s + "\t");
         choice = reader.nextLine();
-        if (!message.getAvailableChoices().contains(choice)) {
+        if (!message.getAvailableChoices().contains(choice.toUpperCase())) {
             System.out.println(">InvalidInput");
             setupMultipleChoice(message);
         } else connection.send(new SetupMessage(choice));
@@ -132,7 +135,7 @@ public class Cli implements Runnable{
 
     public void askAction(AskActionMessage message) {
         String response;
-        if (expertMode) {
+        if (expertMode && message.getAction()!=Action.CHOOSE_ASSISTANT_CARD ) {
             System.out.println("Do you want to use a Character Card?");
             response = checkYNInput();
             if (response.equalsIgnoreCase("y")) {
@@ -140,20 +143,19 @@ public class Cli implements Runnable{
                 //TODO anche le character card con più mosse vanno gestite "1 volta", cioè le mosse vanno fatte tutte insieme. Togliere le charactercard movements dal controller
             }
         }
-        AskActionMessage m = (AskActionMessage) message;
         int data;
         String firstParameter, secondParameter, temp;
         ActionMessage answer = new ActionMessage();
-        switch (m.getAction()) {
+        switch (message.getAction()) {
             case CHOOSE_ASSISTANT_CARD:
                 System.out.println("Please choose your assistant card.");
                 System.out.println(">These are the available choices:");
-                for (int i = 0; i < m.getAvailability().size(); i++)
-                    System.out.println("> " + i + ": " + m.getAvailability().get(i));
-                data = reader.nextInt();
-                while (data < 1 || data > m.getAvailability().size()) {
+                for (int i = 0; i < message.getAvailableAssistantCards().size(); i++)
+                    System.out.println("> " + i + ": " + message.getAvailableAssistantCards().get(i).toString());
+                data = Integer.parseInt(reader.nextLine());
+                while (data < 1 || data > message.getAvailableAssistantCards().size()) {
                     System.out.println(">Invalid input. Please try again");
-                    data = reader.nextInt();
+                    data = Integer.parseInt(reader.nextLine());
                 }
                 answer.setAction(Action.CHOOSE_ASSISTANT_CARD);
                 answer.setData(data);
@@ -162,10 +164,13 @@ public class Cli implements Runnable{
             case DEFAULT_MOVEMENTS:
                 System.out.println("Please choose the color of the student that you want to move.");
                 System.out.println(">These are your entrance's students:");
-                for (Object s : m.getAvailability())
-                    System.out.println(s.toString() + "\t");
+                List<CharacterColor> availableStudentsColors = new ArrayList<>();
+                for (Student s : message.getAvailableStudents()) {
+                    availableStudentsColors.add(s.getColor());
+                    System.out.println(s + "\t");
+                }
                 firstParameter = reader.nextLine();
-                while (!m.getAvailability().contains(CharacterColor.valueOf(firstParameter))) {
+                while (!availableStudentsColors.contains(CharacterColor.valueOf(firstParameter.toUpperCase()))) {
                     System.out.println(">Invalid input. Please try again");
                     firstParameter = reader.nextLine();
                 }
@@ -180,10 +185,10 @@ public class Cli implements Runnable{
                         break;
                     } else if (temp.equalsIgnoreCase("Island")) {
                         System.out.println(">Choose an Island: ");
-                        data = reader.nextInt();
-                        while (data < 1 || data > m.getData()) {
+                        data = Integer.parseInt(reader.nextLine());
+                        while (data < 1 || data > message.getData()) {
                             System.out.println(">Invalid input. Please try again");
-                            data = reader.nextInt();
+                            data = Integer.parseInt(reader.nextLine());
                         }
                         answer.setData(data - 1);
                         connection.send(answer);
@@ -194,12 +199,12 @@ public class Cli implements Runnable{
 
             case MOVE_MOTHER_NATURE:
                 System.out.println("Please choose how many steps you want nature mother do");
-                System.out.println(">You can move mother nature" + m.getData() + " steps far.");
+                System.out.println(">You can move mother nature" + message.getData() + " steps far.");
                 System.out.println(">Please, make your choice:");
-                data = reader.nextInt();
-                while (data < 1 || data > m.getData()) {
+                data = Integer.parseInt(reader.nextLine());
+                while (data < 1 || data > message.getData()) {
                     System.out.println(">Invalid input. Please try again");
-                    data = reader.nextInt();
+                    data = Integer.parseInt(reader.nextLine());
                 }
                 answer.setAction(Action.MOVE_MOTHER_NATURE);
                 answer.setData(data);
@@ -208,19 +213,23 @@ public class Cli implements Runnable{
             case CHOOSE_CLOUD:
                 System.out.println("Please choose your cloud.");
                 System.out.println(">These are the available choices:");
-                for (Object i : m.getAvailability())
-                    System.out.println(i + "\t");
-                data = reader.nextInt();
-                while (!m.getAvailability().contains(data)) {
+                List<Integer> availableIndexClouds = new ArrayList<>();
+                for (int i = 0; i < message.getClouds().length; i++) {
+                    if (!(message.getClouds())[i].getStudents().isEmpty()) {
+                        availableIndexClouds.add(i);
+                        System.out.println("CLOUD #" + i + "\n" + (message.getClouds())[i] + "\n");
+                    }
+                }
+                data = Integer.parseInt(reader.nextLine());
+                while (!availableIndexClouds.contains(data)) {
                     System.out.println(">Invalid input. Please try again");
-                    data = reader.nextInt();
+                    data = Integer.parseInt(reader.nextLine());
                 }
                 answer.setAction(Action.CHOOSE_CLOUD);
                 answer.setData(data);
                 connection.send(answer);
                 break;
         }
-
     }
 
     private String checkYNInput() {

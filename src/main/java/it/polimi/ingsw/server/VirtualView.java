@@ -57,6 +57,7 @@ public class VirtualView implements Runnable {
     @Override
     public void run() {
         try {
+            System.out.println("Connection done vv");
             os = new ObjectOutputStream(socket.getOutputStream());
             is = new ObjectInputStream(socket.getInputStream());
 
@@ -67,12 +68,13 @@ public class VirtualView implements Runnable {
             while (active.get()) {
 
                 Object clientMessage = is.readObject();
-
+                System.out.println("Read message");
                 if (!(clientMessage instanceof InfoMessage && ((InfoMessage) clientMessage).getString().equalsIgnoreCase("PING"))) {
                     if (inGame)
                         gameHandler.manageMessage(this, (Message) clientMessage);
                     else if (!alreadySettings) {/*checkSettings((SettingsMessage) clientMessage);*/
                         server.addClientConnectionToQueue(this, ((SettingsMessage) clientMessage).getPlayersNumber(), ((SettingsMessage) clientMessage).isExpertMode());
+                        sendMessage(new InfoMessage("Prova infomessage"));
                         this.alreadySettings = true;
                     }
                 }

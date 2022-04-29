@@ -23,6 +23,10 @@ public class GameHandler implements PropertyChangeListener {
 
     private int turnNumber;
 
+    //Servono per le istanze multiple dei vari games
+    private List<PlayerColor> availableColors;
+    private List<Wizard> availableWizards;
+
     private GameHandlerPhase phase;
     private final List<VirtualView> clients;
     private final Server server;//TODO forse meglio listener
@@ -44,26 +48,26 @@ public class GameHandler implements PropertyChangeListener {
         this.gameModel = new GameModel(expertMode);
         this.controller = new Controller(this.gameModel, this);
         this.turnNumber = 0;
-        PlayerColor.reset(playersNumber);
-        Wizard.reset();
-        setupGame();//TODO forse dovrebbe farlo il server che dopo aver creato il gamehandler chiama un metodo gamehandler.setupGame(). Però nel metodo resetGame deve farlo il gamehandler stesso
+        this.availableColors= PlayerColor.getColors(playersNumber);
+        this.availableWizards=Wizard.getWizards();
+        setupGame();
     }
 
     //Gestisce i messaggi ricevuti dalla client connection
     public void manageMessage(VirtualView client, Message message) {
         if (currentClientConnection != client.getClientId()) {
-            client.sendMessage(new InfoMessage("It is not your turn! Please wait."));
+            client.sendMessage(new InfoMessage(">It is not your turn! Please wait."));
         } else {
             if (phase == GameHandlerPhase.SETUP_NICKNAME) {
                 setupNickname((SetupMessage) message);
             } else if (phase == GameHandlerPhase.SETUP_COLOR) {
                 gameModel.getPlayerById(client.getClientId()).setColor(((SetupMessage) message).getString());
-                PlayerColor.choose(PlayerColor.valueOf(((SetupMessage) message).getString().toUpperCase()));
+                availableColors.remove(PlayerColor.valueOf(((SetupMessage) message).getString().toUpperCase()));
                 phase = GameHandlerPhase.SETUP_WIZARD;
                 setupGame();
             } else if (phase == GameHandlerPhase.SETUP_WIZARD) {
                 gameModel.getPlayerById(client.getClientId()).getDeck().setWizard(((SetupMessage) message).getString().toUpperCase());
-                Wizard.choose(Wizard.valueOf(((SetupMessage) message).getString().toUpperCase()));
+                availableWizards.remove(Wizard.valueOf(((SetupMessage) message).getString().toUpperCase()));
                 currentClientConnection = (currentClientConnection + 1) % playersNumber;
                 if (currentClientConnection == 0) {
                     turnNumber = 1;
@@ -79,7 +83,7 @@ public class GameHandler implements PropertyChangeListener {
                 if (phase == GameHandlerPhase.PIANIFICATION) {
                     if (!controller.setAssistantCard((ActionMessage) message)) {
                         clients.get(currentClientConnection)
-                                .sendMessage(new InfoMessage("You can not choose this assistant card. Please choose another one."));
+                                .sendMessage(new InfoMessage(">You can not choose this assistant card. Please choose another one."));
                     }
                     if (controller.getPhase() == Action.CHOOSE_ASSISTANT_CARD)
                         pianificationTurn();
@@ -107,21 +111,21 @@ public class GameHandler implements PropertyChangeListener {
 
     public void setupGame() {
         if (phase == GameHandlerPhase.SETUP_NICKNAME) {
-            clients.get(currentClientConnection).sendMessage(new NicknameMessage("Please choose your Nickname: "));
+            clients.get(currentClientConnection).sendMessage(new NicknameMessage(false));
         } else if (phase == GameHandlerPhase.SETUP_COLOR) {
-            if (PlayerColor.notChosen().size() > 1)
+            if (availableColors.size() > 1)
                 clients.get(currentClientConnection)
-                        .sendMessage(new MultipleChoiceMessage("Please choose your Color: ", PlayerColor.notChosen()));
+                        .sendMessage(new MultipleChoiceMessage(">Please choose your Color: ", availableColors));
             else {
                 clients.get(currentClientConnection)
-                        .sendMessage(new InfoMessage("The Game has chosen the color for you.\n" +
-                                "Your color is " + PlayerColor.notChosen().get(0)));
-                gameModel.getPlayerById(currentClientConnection).setColor(PlayerColor.notChosen().get(0).toString());
+                        .sendMessage(new InfoMessage(">The Game has chosen the color for you.\n" +
+                                ">Your color is " + availableColors.get(0)));
+                gameModel.getPlayerById(currentClientConnection).setColor(availableColors.get(0).toString());
                 phase = GameHandlerPhase.SETUP_WIZARD;
                 setupGame();
             }
         } else if (phase == GameHandlerPhase.SETUP_WIZARD) {
-            clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage("Please choose your Wizard: ", Wizard.notChosen()));
+            clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(">Please choose your Wizard: ", availableWizards));
         }
     }
 
@@ -162,7 +166,7 @@ public class GameHandler implements PropertyChangeListener {
         for (Player p : gameModel.getPlayers()) {
             if (p.getNickname().equals(message.getString())) {
                 clients.get(currentClientConnection)
-                        .sendMessage(new NicknameMessage("The nickname in not available. Please choose another Nickname: "));
+                        .sendMessage(new NicknameMessage(true));
                 return;
             }
         }
@@ -172,7 +176,7 @@ public class GameHandler implements PropertyChangeListener {
     }
 
     public void endGame(int disconnected) {
-        sendAll(new InfoMessage("Player: " + gameModel.getPlayerById(disconnected).getNickname() + "has disconnected, the match will now end" + "\nThanks for playing!"));
+        sendAll(new InfoMessage(">Player: " + gameModel.getPlayerById(disconnected).getNickname() + "has disconnected, the match will now end" + "\nThanks for playing!"));
         for (VirtualView client : clients) {
             client.closeConnection(false);
         }
@@ -181,7 +185,7 @@ public class GameHandler implements PropertyChangeListener {
     }
 
     public void endGame() {
-        sendAll(new InfoMessage("The winner is " + gameModel.getWinner().getNickname() + "!" + "\nThanks for playing!"));
+        sendAll(new InfoMessage(">The winner is " + gameModel.getWinner().getNickname() + "!" + "\nThanks for playing!"));
         for (VirtualView client : clients) {
             client.closeConnection(false);
         }

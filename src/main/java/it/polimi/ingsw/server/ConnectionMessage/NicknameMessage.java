@@ -1,13 +1,13 @@
 package it.polimi.ingsw.server.ConnectionMessage;
 
 public class NicknameMessage implements Message{
-    private final String message;
+    private final boolean alreadyAsked;
 
-    public NicknameMessage(String message) {
-        this.message = message;
+    public NicknameMessage(boolean alreadyAsked) {
+        this.alreadyAsked = alreadyAsked;
     }
 
-    public String getMessage() {
-        return message;
+    public boolean getAlreadyAsked() {
+        return alreadyAsked;
     }
 }

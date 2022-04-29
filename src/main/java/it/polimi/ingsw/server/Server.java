@@ -54,7 +54,7 @@ public class Server implements Runnable {
                         " ██ ════╝ ██║ ██╗  ██║  ██ ██ ██╗  ██║  ███║   ██║    ██╝         ██║\n" +
                         " ███████╗ ██║  ██╗ ██║ ██╗     ██╗ ██║   ██║   ██║   ██╝     ███████║\n" +
                         " ╚══════╝ ╚═╝  ╚═╝ ╚═╝ ╚═╝     ╚═╝ ╚═╝   ╚═╝   ╚═╝   ╚╝      ╚══════╝\n");
-        System.out.println("Inghilleri Riccardo - Maftei Daniela - Merlo Manuela");
+        System.out.println("Inghilleri Riccardo - Maftei Daniela - Merlo Manuela\n");
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to the Eriantys' server.");
         System.out.println("Insert the server port");
@@ -63,6 +63,7 @@ public class Server implements Runnable {
             System.out.println("Invalid input. Please try again");
             port = Integer.parseInt(scanner.nextLine());
         }
+        System.out.println("Waiting for players...");
         Server server = new Server();
         Thread t = new Thread(server);
         t.start();
@@ -75,7 +76,7 @@ public class Server implements Runnable {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 VirtualView virtualView = new VirtualView(clientSocket, this);
-                System.out.println("Connection done.");
+
                 this.executor.execute(virtualView);
             }
         } catch (IOException e) {
@@ -121,6 +122,7 @@ public class Server implements Runnable {
             }
         } finally {
             lockQueue.unlock();
+            System.out.println(this);
         }
     }
 
@@ -164,5 +166,15 @@ public class Server implements Runnable {
         } finally {
             lockGames.unlock();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Queues' Status: \n" +
+                "1) TwoPlayersNormal: " + twoPlayersNormal.size() + " players\n" +
+                "2) TwoPlayersExpert: " + twoPlayersExpert.size() + " players\n" +
+                "3) ThreePlayersNormal: " + threePlayersNormal.size() + " players\n" +
+                "4) ThreePlayersExpert: " + threePlayersExpert.size() + " players\n" +
+                "Active Games: " + activeGames.size();
     }
 }

@@ -25,6 +25,8 @@ public class Cli implements Runnable {
     //private static ConnectionSettings settings;
     private boolean expertMode;
 
+    // private boolean active; TODO: SISTEMARE LETTURA CLI
+
     public Cli() {
         reader = new Scanner(System.in);
         printer = new PrintStream(System.out);
@@ -51,20 +53,20 @@ public class Cli implements Runnable {
                         " ██ ════╝ ██║ ██╗  ██║  ██ ██ ██╗  ██║  ███║   ██║    ██╝         ██║\n" +
                         " ███████╗ ██║  ██╗ ██║ ██╗     ██╗ ██║   ██║   ██║   ██╝     ███████║\n" +
                         " ╚══════╝ ╚═╝  ╚═╝ ╚═╝ ╚═╝     ╚═╝ ╚═╝   ╚═╝   ╚═╝   ╚╝      ╚══════╝\n");
-        System.out.println("Inghilleri Riccardo - Maftei Daniela - Merlo Manuela");
+        System.out.println("Inghilleri Riccardo - Maftei Daniela - Merlo Manuela\n");
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Insert the server IP address");
+        System.out.println(">Insert the server IP address");
         address = scanner.nextLine();
         Matcher m = pattern.matcher(address);
         while (!m.matches()) {
-            System.out.println("Invalid input. Please try again");
+            System.out.println(">Invalid input. Please try again");
             address = scanner.nextLine();
             m = pattern.matcher(address);
         }
-        System.out.println("Insert the server port");
+        System.out.println(">Insert the server port");
         port = Integer.parseInt(scanner.nextLine());
         while (port < 1024 || port > 65535) {
-            System.out.println("Invalid input. Please try again");
+            System.out.println(">Invalid input. Please try again");
             port = Integer.parseInt(scanner.nextLine());
         }
         Cli cli = new Cli();
@@ -73,10 +75,15 @@ public class Cli implements Runnable {
         cli.setupGameSetting();
     }
 
+    /*public void setActive(boolean active){
+        this.active=active;
+    }*/
+
     @Override
     public void run() {
         while (connection.isActive()) {
-
+            /*String s = reader.nextLine();
+            System.out.println(">Please wait your turn.");*/
         }
     }
 
@@ -102,6 +109,8 @@ public class Cli implements Runnable {
     public void setupNickname(NicknameMessage message) {
         String response;
         String nickname;
+        if(message.getAlreadyAsked())
+            System.out.println("The nickname is not available!");
         do {
             System.out.println(">Please choose a nickname: ");
             nickname = reader.nextLine();
@@ -170,13 +179,13 @@ public class Cli implements Runnable {
                 firstParameter = reader.nextLine().toUpperCase();
                 while (!availableStudentsColors.contains(CharacterColor.valueOf(firstParameter.toUpperCase()))) {
                     System.out.println(">Invalid input. Please try again");
-                    firstParameter = reader.nextLine();
+                    firstParameter = reader.nextLine().toUpperCase();
                 }
                 answer.setAction(Action.DEFAULT_MOVEMENTS);
                 answer.setFirstParameter(firstParameter);
                 do {
                     System.out.println(">Do you want to move your student to your DiningRoom" +
-                            "or on an Island?");
+                            " or on an Island?");
                     temp = reader.nextLine();
                     if (temp.equalsIgnoreCase("DiningRoom")) {
                         connection.send(answer);

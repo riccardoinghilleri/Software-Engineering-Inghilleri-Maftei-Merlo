@@ -9,21 +9,12 @@ public enum Wizard {
     KING,
     WISE;
 
-    private static final ArrayList<Wizard> available = new ArrayList<>();
-
-    public static void reset() {
-        available.clear();
+    public static List<Wizard> getWizards() {
+        ArrayList<Wizard> available = new ArrayList<>();
         available.add(FAIRY);
         available.add(GANDALF);
         available.add(KING);
         available.add(WISE);
-    }
-
-    public static void choose(Wizard wizard) {
-        available.remove(wizard);
-    }
-
-    public static List<Wizard> notChosen() {
         return available;
     }
 }

@@ -48,8 +48,8 @@ public class GameHandler implements PropertyChangeListener {
         this.gameModel = new GameModel(expertMode);
         this.controller = new Controller(this.gameModel, this);
         this.turnNumber = 0;
-        this.availableColors= PlayerColor.getColors(playersNumber);
-        this.availableWizards=Wizard.getWizards();
+        this.availableColors = PlayerColor.getColors(playersNumber);
+        this.availableWizards = Wizard.getWizards();
         setupGame();
     }
 
@@ -112,11 +112,12 @@ public class GameHandler implements PropertyChangeListener {
     public void setupGame() {
         if (phase == GameHandlerPhase.SETUP_NICKNAME) {
             clients.get(currentClientConnection).sendMessage(new NicknameMessage(false));
+            sendAllExcept(currentClientConnection, new InfoMessage(">The player #" + (currentClientConnection + 1) + " is choosing his nickname..."));
         } else if (phase == GameHandlerPhase.SETUP_COLOR) {
-            if (availableColors.size() > 1)
-                clients.get(currentClientConnection)
-                        .sendMessage(new MultipleChoiceMessage(">Please choose your Color: ", availableColors));
-            else {
+            if (availableColors.size() > 1) {
+                clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(">Please choose your Color: ", availableColors));
+                sendAllExcept(currentClientConnection, new InfoMessage(">" +gameModel.getPlayerById(currentClientConnection).getNickname() + " is choosing his color..."));
+            } else {
                 clients.get(currentClientConnection)
                         .sendMessage(new InfoMessage(">The Game has chosen the color for you.\n" +
                                 ">Your color is " + availableColors.get(0)));
@@ -126,6 +127,7 @@ public class GameHandler implements PropertyChangeListener {
             }
         } else if (phase == GameHandlerPhase.SETUP_WIZARD) {
             clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(">Please choose your Wizard: ", availableWizards));
+            sendAllExcept(currentClientConnection, new InfoMessage(">" +gameModel.getPlayerById(currentClientConnection).getNickname() + " is choosing his wizard..."));
         }
     }
 
@@ -170,6 +172,7 @@ public class GameHandler implements PropertyChangeListener {
                 return;
             }
         }
+        sendAllExcept(currentClientConnection, new InfoMessage(">The player #" + (currentClientConnection + 1) + " has chosen his nickname: " + message.getString()));
         gameModel.createPlayer(message.getString(), currentClientConnection);
         phase = GameHandlerPhase.SETUP_COLOR;
         setupGame();

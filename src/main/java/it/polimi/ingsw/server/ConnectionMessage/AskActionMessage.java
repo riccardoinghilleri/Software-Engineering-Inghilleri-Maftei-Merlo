@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.ConnectionMessage;
 
+import it.polimi.ingsw.client.Cli;
+import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.controller.Action;
 import it.polimi.ingsw.server.model.AssistantCard;
 import it.polimi.ingsw.server.model.Cloud;
@@ -8,7 +10,7 @@ import it.polimi.ingsw.server.model.Student;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AskActionMessage implements Message {
+public class AskActionMessage implements Message,ServerMessage {
     private final Action action;
     private final int data;
     private final List<Student> availableStudents;
@@ -67,9 +69,13 @@ public class AskActionMessage implements Message {
         return data;
     }
 
-
-
     public Action getAction() {
         return action;
+    }
+
+
+    @Override
+    public void forward(View view) {
+        view.askAction(this);
     }
 }

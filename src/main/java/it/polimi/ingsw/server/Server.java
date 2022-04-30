@@ -48,7 +48,7 @@ public class Server implements Runnable {
 
     public static void main(String[] args) {
         System.out.println(
-                        " ███████╗ ██████═╗ ██╗     ██╗     ██╗   ██╗ ██████╗ ██   ██ ███████╗\n" +
+                " ███████╗ ██████═╗ ██╗     ██╗     ██╗   ██╗ ██████╗ ██   ██ ███████╗\n" +
                         " ██ ════╝ ██║  ██║ ██║    ████╗    ███╗  ██║   ██══╝  ██ ██╝ ██ ════╝\n" +
                         " ███████╗ ██████═╝ ██║   ██║ ██╗   ██║██╗██║   ██║     ██╝   ███████╗\n" +
                         " ██ ════╝ ██║ ██╗  ██║  ██ ██ ██╗  ██║  ███║   ██║    ██╝         ██║\n" +
@@ -100,7 +100,8 @@ public class Server implements Runnable {
                     twoPlayersNormal.add(client);
                     if (twoPlayersNormal.size() == 2) {
                         createGameHandler(1);
-                    }
+                    } else
+                        twoPlayersNormal.get(0).sendMessage(new InfoMessage(">Waiting for other players..."));
                 } else {
                     twoPlayersExpert.add(client);
                     if (twoPlayersExpert.size() == 2) {

@@ -6,14 +6,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.logging.SocketHandler;
-
 /**
  * ConnectionSocket class handles the connection between the client and the server.
  *
  * @author
  */
-public class ClientConnection implements Runnable{
+public class ClientConnection implements Runnable {
     private final String serverAddress;
     private final int serverPort;
 
@@ -23,14 +21,17 @@ public class ClientConnection implements Runnable{
     private ObjectOutputStream os;
     private ObjectInputStream is;
 
-    private Cli cli;
-    public ClientConnection(Cli cli) {
+    private final View view;
+
+    public ClientConnection(View view) {
         this.serverAddress = Cli.getAddress();
         this.serverPort = Cli.getPort();
-        active=true;
-        this.cli=cli;
+        active = true;
+        this.view = view;
         try {
             socket = new Socket(serverAddress, serverPort);
+            is = new ObjectInputStream(socket.getInputStream());
+            os = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             System.out.println("Error while opening the socket");
         }
@@ -51,32 +52,20 @@ public class ClientConnection implements Runnable{
     @Override
     public void run() {
         try {
-                is = new ObjectInputStream(socket.getInputStream());
-                os = new ObjectOutputStream(socket.getOutputStream());
             while (active) {
                 Object message = is.readObject();
-                if (message instanceof InfoMessage && ((InfoMessage)message).getString().equalsIgnoreCase("PING")){
+                if (message instanceof InfoMessage && ((InfoMessage) message).getString().equalsIgnoreCase("PING")) {
                     send(new InfoMessage("PING"));
-                }
-                else manageMessage((Message)message);
+                } else manageMessage((Message) message);
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
-    public void manageMessage(Message message) {
-        if (message instanceof NicknameMessage) {
-            cli.setupNickname((NicknameMessage)message);
-        } else if (message instanceof MultipleChoiceMessage) {
-            cli.setupMultipleChoice((MultipleChoiceMessage) message);
-        } else if (message instanceof InfoMessage) {
-            cli.displayInfo((InfoMessage) message);
-        } else if (message instanceof AskActionMessage) {
-            cli.askAction((AskActionMessage) message);
-        }
+
+    private void manageMessage(Message message) {
+        ((ServerMessage) message).forward(view);
     }
 
-    public boolean isActive() {
-        return active;
-    }
+
 }

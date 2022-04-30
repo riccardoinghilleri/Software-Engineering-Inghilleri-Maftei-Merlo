@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.ConnectionMessage;
 
 
+import it.polimi.ingsw.client.Cli;
 import it.polimi.ingsw.controller.Action;
 
 public class ActionMessage implements Message{

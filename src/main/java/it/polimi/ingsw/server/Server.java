@@ -1,4 +1,6 @@
 package it.polimi.ingsw.server;
+
+import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.server.ConnectionMessage.InfoMessage;
 
 import java.io.IOException;
@@ -51,14 +53,24 @@ public class Server implements Runnable {
                         " ╚══════╝ ╚═╝  ╚═╝ ╚═╝ ╚═╝     ╚═╝ ╚═╝   ╚═╝   ╚═╝   ╚╝      ╚══════╝\n");
         System.out.println("Inghilleri Riccardo - Maftei Daniela - Merlo Manuela\n");
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Welcome to the Eriantys' server.");
-        System.out.println("Insert the server port");
-        port = Integer.parseInt(scanner.nextLine());
-        while (port < 1024 || port > 65535) {
-            System.out.println("Invalid input. Please try again");
-            port = Integer.parseInt(scanner.nextLine());
-        }
-        System.out.println("Waiting for players...");
+        System.out.println(">Welcome to the Eriantys' server.");
+        System.out.println(">Insert the server port ");
+        boolean error;
+        do {
+            try {
+                port = Integer.parseInt(scanner.nextLine());
+                error = false;
+                while (port < 1024 || port > 65535) {
+                    System.out.println(">Invalid input: you have to choose a number between 1024 and 65535. Please try again");
+                    port = Integer.parseInt(scanner.nextLine());
+                }
+            } catch (NumberFormatException e) {
+                System.out.println(">Invalid input: you have to insert a number. Please try again.");
+                error = true;
+            }
+        } while (error);
+
+        System.out.println(">Waiting for players...");
         Server server = new Server();
         Thread t = new Thread(server);
         t.start();
@@ -95,12 +107,15 @@ public class Server implements Runnable {
                     twoPlayersNormal.add(client);
                     if (twoPlayersNormal.size() == 2) {
                         createGameHandler(1);
-                    } else
-                        twoPlayersNormal.get(0).sendMessage(new InfoMessage(">Waiting for other players..."));
+                    } else {
+                        warnPlayers(twoPlayersNormal);
+                    }
                 } else {
                     twoPlayersExpert.add(client);
                     if (twoPlayersExpert.size() == 2) {
                         createGameHandler(2);
+                    }else {
+                        warnPlayers(twoPlayersExpert);
                     }
                 }
             } else {
@@ -108,11 +123,15 @@ public class Server implements Runnable {
                     threePlayersNormal.add(client);
                     if (threePlayersNormal.size() == 3) {
                         createGameHandler(3);
+                    }else {
+                        warnPlayers(threePlayersNormal);
                     }
                 } else {
                     threePlayersExpert.add(client);
                     if (threePlayersExpert.size() == 3) {
                         createGameHandler(4);
+                    }else {
+                        warnPlayers(threePlayersExpert);
                     }
                 }
             }
@@ -120,6 +139,10 @@ public class Server implements Runnable {
             lockQueue.unlock();
             System.out.println(this);
         }
+    }
+    private void warnPlayers(List<VirtualView> queue){
+        for (VirtualView v : queue)
+            v.sendMessage(new InfoMessage(">Waiting for other players..."));
     }
 
 

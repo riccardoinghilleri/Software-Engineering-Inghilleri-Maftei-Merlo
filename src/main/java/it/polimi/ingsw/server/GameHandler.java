@@ -24,8 +24,8 @@ public class GameHandler implements PropertyChangeListener {
     private int turnNumber;
 
     //Servono per le istanze multiple dei vari games
-    private List<PlayerColor> availableColors;
-    private List<Wizard> availableWizards;
+    private final List<PlayerColor> availableColors;
+    private final List<Wizard> availableWizards;
 
     private GameHandlerPhase phase;
     private final List<VirtualView> clients;
@@ -236,7 +236,7 @@ public class GameHandler implements PropertyChangeListener {
                 } else endGame();
                 break;
             case "set_assistantCard":
-                sendAllExcept(gameModel.getCurrentPlayer().getClientID(),new InfoMessage(">" + gameModel.getCurrentPlayer().getNickname() + " has chosen che AssistantCard with  priority #"+ ((ActionMessage)evt.getNewValue()).getData()));
+                sendAllExcept(gameModel.getCurrentPlayer().getClientID(),new InfoMessage(">" + gameModel.getCurrentPlayer().getNickname() + " has chosen che AssistantCard with priority #"+ ((ActionMessage)evt.getNewValue()).getData()));
         }
     }
 }

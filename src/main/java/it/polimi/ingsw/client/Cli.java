@@ -61,22 +61,31 @@ public class Cli implements View {
             m = pattern.matcher(address);
         }
         printer.println(">Insert the server port");
-        port = Integer.parseInt(scanner.nextLine());
-        while (port < 1024 || port > 65535) {
-            printer.println(">Invalid input. Please try again");
-            port = Integer.parseInt(scanner.nextLine());
-        }
+        boolean error;
+        do {
+            try {
+                port = Integer.parseInt(scanner.nextLine());
+                error = false;
+                while (port < 1024 || port > 65535) {
+                    System.out.println(">Invalid input: you have to choose a number between 1024 and 65535. Please try again");
+                    port = Integer.parseInt(scanner.nextLine());
+                }
+            } catch (NumberFormatException e) {
+                System.out.println(">Invalid input: you have to insert a number. Please try again.");
+                error = true;
+            }
+        } while (error);
         Cli cli = new Cli();
         cli.setupGameSetting();
     }
 
     private void setupGameSetting() {
         printer.println(">Choose number of players [2/3]: ");
-        int playersNumber = Integer.parseInt(reader.nextLine());
+        int playersNumber = checkParseInt();
         while (playersNumber != 2 && playersNumber != 3) {
             printer.println(">Invalid input. Try again. ");
             printer.println(">Choose number of players [2/3]: ");
-            playersNumber = Integer.parseInt(reader.nextLine());
+            playersNumber = checkParseInt();
         }
         printer.println(">Do you want to play in ExpertMode? [y/n]: ");
         String response = reader.nextLine();
@@ -145,19 +154,19 @@ public class Cli implements View {
                         printer.println(">" + message.getAvailableAssistantCards().get(i).toString());
                         availablePriority.add(message.getAvailableAssistantCards().get(i).getPriority());
                     }
-                    alreadyAskedCard=true;
+                    alreadyAskedCard = true;
                 }
-                data = Integer.parseInt(reader.nextLine());
+                data = checkParseInt();
                 while (!availablePriority.contains(data)) {
                     printer.println(">Invalid input. Please try again");
-                    data = Integer.parseInt(reader.nextLine());
+                    data = checkParseInt();
                 }
                 answer.setAction(Action.CHOOSE_ASSISTANT_CARD);
                 answer.setData(data);
                 connection.send(answer);
                 break;
             case DEFAULT_MOVEMENTS:
-                alreadyAskedCard=false;
+                alreadyAskedCard = false;
                 printer.println("Please choose the color of the student that you want to move.");
                 printer.println(">These are your entrance's students:");
                 List<CharacterColor> availableStudentsColors = new ArrayList<>();
@@ -184,10 +193,10 @@ public class Cli implements View {
                             printer.println("Island: #" + i);
                         }
                         printer.println(">Choose an Island: ");
-                        data = Integer.parseInt(reader.nextLine());
+                        data = checkParseInt();
                         while (data < 1 || data > message.getData()) {
                             printer.println(">Invalid input. Please try again");
-                            data = Integer.parseInt(reader.nextLine());
+                            data = checkParseInt();
                         }
                         answer.setData(data - 1);
                         connection.send(answer);
@@ -199,10 +208,10 @@ public class Cli implements View {
             case MOVE_MOTHER_NATURE:
                 printer.println(">You can move mother nature " + message.getData() + " steps far.");
                 printer.println(">Please choose how many steps you want mother nature do:");
-                data = Integer.parseInt(reader.nextLine());
+                data = checkParseInt();
                 while (data < 1 || data > message.getData()) {
                     printer.println(">Invalid input. Please try again.");
-                    data = Integer.parseInt(reader.nextLine());
+                    data = checkParseInt();
                 }
                 answer.setAction(Action.MOVE_MOTHER_NATURE);
                 answer.setData(data);
@@ -218,10 +227,10 @@ public class Cli implements View {
                     }
                 }
                 printer.println(">Please choose your cloud.");
-                data = Integer.parseInt(reader.nextLine());
+                data = checkParseInt();
                 while (!availableIndexClouds.contains(data)) {
                     printer.println(">Invalid input. Please try again.");
-                    data = Integer.parseInt(reader.nextLine());
+                    data = checkParseInt();
                 }
                 answer.setAction(Action.CHOOSE_CLOUD);
                 answer.setData(data);
@@ -244,6 +253,20 @@ public class Cli implements View {
         printer.println(">These are the available cards:");
     }
 
+    private int checkParseInt() {
+        int result = -1;
+        boolean error;
+        do {
+            try {
+                result = Integer.parseInt(reader.nextLine());
+                error = false;
+            } catch (NumberFormatException e) {
+                System.out.println(">Invalid input: you have to insert a number. Please try again.");
+                error = true;
+            }
+        } while (error);
+        return result;
+    }
 }
 
 

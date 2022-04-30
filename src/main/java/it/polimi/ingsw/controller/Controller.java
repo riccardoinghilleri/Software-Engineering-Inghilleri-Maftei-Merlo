@@ -32,6 +32,7 @@ public class Controller {
         alreadyUsedCharacterCard = false;
         listeners = new PropertyChangeSupport(this);
         listeners.addPropertyChangeListener("end_game", gameHandler);
+        listeners.addPropertyChangeListener("set_assistantCard",gameHandler);
     }
 
     public int getPlayerTurnNumber() {
@@ -50,7 +51,6 @@ public class Controller {
 
     public boolean setAssistantCard(ActionMessage actionMessage) {
         //TODO forse serve un'eccezione per il controllo del player giusto
-
         if (playerTurnNumber > 0) {
             try {
                 checkSameAssistantCard(actionMessage.getData());
@@ -60,6 +60,7 @@ public class Controller {
             }
         }
         gameModel.getCurrentPlayer().setAssistantCard(actionMessage.getData());
+        listeners.firePropertyChange("set_assistantCard" ,null,actionMessage);
         playerTurnNumber++;
         if (playerTurnNumber == gameModel.getPlayersNumber()) {
             playerTurnNumber = 0;

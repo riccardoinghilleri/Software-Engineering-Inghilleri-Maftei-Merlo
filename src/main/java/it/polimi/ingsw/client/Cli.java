@@ -12,19 +12,22 @@ import it.polimi.ingsw.server.ConnectionMessage.*;
 import it.polimi.ingsw.server.model.Student;
 import it.polimi.ingsw.server.model.enums.CharacterColor;
 
-public class Cli implements View{
+public class Cli implements View {
     private final PrintStream printer;
-    private Scanner reader;
+    private final Scanner reader;
     private static int port;
     private static String address;
 
     private final ClientConnection connection;
     private boolean expertMode;
 
+    private boolean alreadyAskedCard;
+
     public Cli() {
         reader = new Scanner(System.in);
         printer = new PrintStream(System.out);
         connection = new ClientConnection(this);
+        alreadyAskedCard = false;
         Thread t = new Thread(connection);
         t.start();
     }
@@ -42,7 +45,7 @@ public class Cli implements View{
         Scanner scanner = new Scanner(System.in);
         Pattern pattern = Pattern.compile("^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.(?!$)|$)){4}$");
         printer.println(
-                        " ███████╗ ██████═╗ ██╗     ██╗     ██╗   ██╗ ██████╗ ██   ██ ███████╗\n" +
+                " ███████╗ ██████═╗ ██╗     ██╗     ██╗   ██╗ ██████╗ ██   ██ ███████╗\n" +
                         " ██ ════╝ ██║  ██║ ██║    ████╗    ███╗  ██║   ██══╝  ██ ██╝ ██ ════╝\n" +
                         " ███████╗ ██████═╝ ██║   ██║ ██╗   ██║██╗██║   ██║     ██╝   ███████╗\n" +
                         " ██ ════╝ ██║ ██╗  ██║  ██ ██ ██╗  ██║  ███║   ██║    ██╝         ██║\n" +
@@ -88,7 +91,7 @@ public class Cli implements View{
 
     public void setupNickname(NicknameMessage message) {
         String response;
-        String nickname = null;
+        String nickname;
         if (message.getAlreadyAsked())
             printer.println("The nickname is not available!");
         do {
@@ -103,7 +106,6 @@ public class Cli implements View{
     //metodo utilizzando per la scelta dei colori e del wizard
     public void setupMultipleChoice(MultipleChoiceMessage message) {
         String choice;
-        printer.println(message.getString());
         printer.println(">These are the available choices:");
         for (String s : message.getAvailableChoices())
             printer.println(s + "\t");
@@ -133,11 +135,17 @@ public class Cli implements View{
         ActionMessage answer = new ActionMessage();
         switch (message.getAction()) {
             case CHOOSE_ASSISTANT_CARD:
-                printer.println("Please choose your assistant card priority. These are the available choices:");
                 List<Integer> availablePriority = new ArrayList<>();
                 for (int i = 0; i < message.getAvailableAssistantCards().size(); i++) {
-                    printer.println(">" + message.getAvailableAssistantCards().get(i).toString());
                     availablePriority.add(message.getAvailableAssistantCards().get(i).getPriority());
+                }
+                if (!alreadyAskedCard) {
+                    printer.println(">Please choose your assistant card priority. These are the available choices:");
+                    for (int i = 0; i < message.getAvailableAssistantCards().size(); i++) {
+                        printer.println(">" + message.getAvailableAssistantCards().get(i).toString());
+                        availablePriority.add(message.getAvailableAssistantCards().get(i).getPriority());
+                    }
+                    alreadyAskedCard=true;
                 }
                 data = Integer.parseInt(reader.nextLine());
                 while (!availablePriority.contains(data)) {
@@ -149,6 +157,7 @@ public class Cli implements View{
                 connection.send(answer);
                 break;
             case DEFAULT_MOVEMENTS:
+                alreadyAskedCard=false;
                 printer.println("Please choose the color of the student that you want to move.");
                 printer.println(">These are your entrance's students:");
                 List<CharacterColor> availableStudentsColors = new ArrayList<>();

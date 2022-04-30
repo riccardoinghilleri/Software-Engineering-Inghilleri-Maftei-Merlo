@@ -1,6 +1,4 @@
 package it.polimi.ingsw.server;
-
-import it.polimi.ingsw.client.Cli;
 import it.polimi.ingsw.server.ConnectionMessage.InfoMessage;
 
 import java.io.IOException;
@@ -11,10 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Server implements Runnable {
     private static int port;

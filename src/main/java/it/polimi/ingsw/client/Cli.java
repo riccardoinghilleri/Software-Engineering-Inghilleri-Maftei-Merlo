@@ -209,10 +209,7 @@ public class Cli implements View {
                     printer.println(">Do you want to move your student to your DiningRoom" +
                             " or on an Island?");
                     temp = reader.nextLine();
-                    if (temp.equalsIgnoreCase("DiningRoom")) {
-                        connection.send(answer);
-                        break;
-                    } else if (temp.equalsIgnoreCase("Island")) {
+                    if (temp.equalsIgnoreCase("Island")) {
                         for (int i = 1; i <= message.getIslands().size(); i++) {
                             printer.println("#" + i + "\t" + message.getIslands().get(i - 1));
                         }
@@ -223,10 +220,9 @@ public class Cli implements View {
                             data = checkParseInt();
                         }
                         answer.setData(data - 1);
-                        connection.send(answer);
-                        break;
                     }
                 } while (!temp.equalsIgnoreCase("DiningRoom") && !temp.equalsIgnoreCase("Island"));
+                connection.send(answer);
                 break;
             case MOVE_MOTHER_NATURE:
                 printer.println(">You can move mother nature " + message.getData() + " steps far.");

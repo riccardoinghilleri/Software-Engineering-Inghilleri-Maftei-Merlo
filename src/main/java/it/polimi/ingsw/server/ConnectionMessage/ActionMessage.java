@@ -9,7 +9,6 @@ public class ActionMessage implements Message{
     private Action action;
     private String characterCardName;
     private int data;
-
     private final List<String> parameters;
 
     public ActionMessage() {

@@ -31,22 +31,22 @@ public class AskActionMessage implements Message, ServerMessage {
     public AskActionMessage(Action action, CharacterCard[] characterCards, List<Island> islands, School school) {
         this.action = action;
         this.data = -1;
-        this.school = school; //TODO va bene che mi passo il riferimento alla vera scuola??
+        this.school = new School(school); //TODO va bene che mi passo il riferimento alla vera scuola??
         this.availableAssistantCards = null;
         this.characterCards = characterCards.clone();
         this.clouds = null;
-        this.islands = islands;
+        this.islands = new ArrayList<>(islands);
     }
 
     //DEFAULT_MOVEMENTS
     public AskActionMessage(Action action, School school, List<Island> islands) {
         this.action = action;
         this.data = -1;
-        this.school = school;
+        this.school = new School(school);
         this.availableAssistantCards = null;
         this.clouds = null;
         this.characterCards = null;
-        this.islands = islands;
+        this.islands = new ArrayList<>(islands);
     }
 
     //CHOOSE_CLOUD

@@ -11,7 +11,7 @@ import static it.polimi.ingsw.controller.StrategyFactory.strategyFactory;
 
 public class ActionController {
     private final GameModel gameModel;
-    private String player;
+    private final String player;
     private CharacterCardStrategy strategy;
 
     public ActionController(GameModel gameModel) {
@@ -73,7 +73,7 @@ public class ActionController {
 
     //metodo che muove madre natura
     //sposta le tower automaticamente
-    //TODO il movimento delle tower è atomico con lo spotamento di madre natura o deve essere il client a farlo cosi possiamo usare una specialCard dopo il movimento di madre natura  e prima d i muovere le torri
+    //TODO il movimento delle tower è atomico con lo spostamento di madre natura o deve essere il client a farlo cosi possiamo usare una specialCard dopo il movimento di madre natura  e prima d i muovere le torri
     //TODO tutte le getInfluence() devono ritornare NONE in caso di pareggio
     public String moveMotherNature(ActionMessage actionMessage) {
         String newOwner = "NONE";

@@ -12,8 +12,8 @@ public enum Action {
     MOVE_MOTHER_NATURE,
     CHOOSE_CLOUD;
 
-    public static List<Action> getDefaultActions(){
-        List<Action> actions= new ArrayList<>();
+    public static List<Action> getDefaultActions() {
+        List<Action> actions = new ArrayList<>();
         actions.add(DEFAULT_MOVEMENTS);
         actions.add(MOVE_MOTHER_NATURE);
         actions.add(CHOOSE_CLOUD);

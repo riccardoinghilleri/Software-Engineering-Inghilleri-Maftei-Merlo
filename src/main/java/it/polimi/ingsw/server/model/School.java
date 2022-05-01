@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class School implements Serializable {
+public class School implements Serializable{
     private final String owner;
     private final List<Student> entrance;
     private final Map<CharacterColor,List<Student>> diningRoom;
@@ -33,7 +33,20 @@ public class School implements Serializable {
         }
     }
 
+    public School(School school) { //TODO forse meglio implementare Cloneable
+        this.owner = school.getOwner();
+        this.playerColor= school.getTowerColor();
+        this.entrance=new ArrayList<>(school.getEntrance());
+        this.diningRoom=new HashMap<>(school.getDiningRoom());
+        this.towers=new ArrayList<>(school.getTowers());
+    }
+
     //---GETTER---//
+
+
+    public List<Tower> getTowers() {
+        return towers;
+    }
 
     public String getOwner() {
         return owner;
@@ -81,7 +94,6 @@ public class School implements Serializable {
     }
 
     public Student removeEntranceStudent(CharacterColor studentColor) {
-        //TODO lanciare un'eccezione se non è presente nella entrance uno studente del colore desiderato
         Student student = null;
         for(int i=0; i<entrance.size() && student == null; i++) {
             if(entrance.get(i).getColor().equals(studentColor)) {

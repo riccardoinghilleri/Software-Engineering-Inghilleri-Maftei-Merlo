@@ -83,7 +83,6 @@ public class Server implements Runnable {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 VirtualView virtualView = new VirtualView(clientSocket, this);
-
                 this.executor.execute(virtualView);
             }
         } catch (IOException e) {

@@ -73,7 +73,6 @@ public class Controller {
     }
 
     private void startPlayerTurn() {
-        actionController = new ActionController(gameModel);
         //characterCardMovements = 0;
         defaultMovements = 0;
         alreadyUsedCharacterCard = false;
@@ -82,6 +81,7 @@ public class Controller {
             phase = Action.USE_CHARACTER_CARD;
         } else phase = availableActions.remove(0);
         gameModel.setCurrentPlayer(playerTurnNumber);
+        actionController = new ActionController(gameModel);
     }
 
     public String nextAction(ActionMessage actionMessage) {
@@ -98,7 +98,7 @@ public class Controller {
                     }
                     alreadyUsedCharacterCard = true;
                     characterCardName = actionMessage.getCharacterCardName();
-                    setCharacterCardEffect(actionMessage); //TODO sistemare i vari effetti rendendo tutto atomico
+                    setCharacterCardEffect(actionMessage);
                     phase = availableActions.remove(0);
                 }
                 break;
@@ -137,7 +137,7 @@ public class Controller {
                     return "Invalid action";
                 } catch (InvalidChosenStepsException e) {
                     System.out.println(e.getMessage());
-                    return " You can not mother nature so far";
+                    return " You can not move mother nature so far";
                 }
                 String newOwner = actionController.moveMotherNature(actionMessage);
                 if (!newOwner.equalsIgnoreCase("NONE")
@@ -179,7 +179,7 @@ public class Controller {
         }
     }
 
-    private void setCharacterCardEffect(ActionMessage actionMessage) //setta la strategy oppure crea l'actioncontroller giusto
+    private void setCharacterCardEffect(ActionMessage actionMessage) //setta la strategy oppure crea l'action controller giusto
     {
         boolean strategy = false;
         switch (actionMessage.getCharacterCardName().toUpperCase()) { //TODO ormai il current player è nel gamemodel quindi nel costruttore dell'actioncontroller e dello strategyfactory il player non serve più

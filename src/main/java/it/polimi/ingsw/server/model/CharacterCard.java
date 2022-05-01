@@ -30,4 +30,9 @@ public class CharacterCard {
     {
         this.cost++;
     }
+
+    @Override
+    public String toString() {
+        return this.name + ": " + this.description + "\nCost: " + this.cost;
+    }
 }

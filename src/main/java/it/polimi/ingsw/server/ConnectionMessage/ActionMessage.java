@@ -4,12 +4,16 @@ package it.polimi.ingsw.server.ConnectionMessage;
 import it.polimi.ingsw.client.Cli;
 import it.polimi.ingsw.controller.Action;
 
+import java.util.List;
+
 public class ActionMessage implements Message{
     private Action action;
     private String characterCardName;
     private int data;
     private String firstParameter;
     private String secondParameter;
+
+    private List<String> parameters;
 
     public ActionMessage() {
         this.data = -1; //valore di default
@@ -29,6 +33,14 @@ public class ActionMessage implements Message{
 
     public void setCharacterCardName(String characterCardName) {
         this.characterCardName = characterCardName;
+    }
+
+    public List<String> getParameters() {
+        return parameters;
+    }
+
+    public void setParameter(String parameter) {
+        this.parameters.add(parameter);
     }
 
     public int getData() {

@@ -3,6 +3,8 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.controller.Action;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.server.ConnectionMessage.*;
+import it.polimi.ingsw.server.model.Board;
+import it.polimi.ingsw.server.model.BoardExpert;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.enums.PlayerColor;
@@ -151,6 +153,9 @@ public class GameHandler implements PropertyChangeListener {
         currentClientConnection = gameModel.getCurrentPlayer().getClientID();
         AskActionMessage askActionMessage = null;
         switch (controller.getPhase()) {
+            case USE_CHARACTER_CARD:
+                askActionMessage = new AskActionMessage(controller.getPhase(),((BoardExpert)gameModel.getBoard()).getCharacterCards());
+                break;
             case DEFAULT_MOVEMENTS:
                 askActionMessage = new AskActionMessage(controller.getPhase(), gameModel.getBoard()
                         .getSchoolByOwner(gameModel.getCurrentPlayer().getNickname())

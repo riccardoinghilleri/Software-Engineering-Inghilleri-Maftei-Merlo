@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -9,7 +10,10 @@ import java.util.regex.Pattern;
 
 import it.polimi.ingsw.controller.Action;
 import it.polimi.ingsw.server.ConnectionMessage.*;
+import it.polimi.ingsw.server.model.CharacterCard;
+import it.polimi.ingsw.server.model.CharacterCardwithStudents;
 import it.polimi.ingsw.server.model.Student;
+import it.polimi.ingsw.server.model.enums.CharacterCardName;
 import it.polimi.ingsw.server.model.enums.CharacterColor;
 
 public class Cli implements View {
@@ -131,14 +135,6 @@ public class Cli implements View {
 
     public void askAction(AskActionMessage message) {
         String response;
-        if (expertMode && message.getAction() != Action.CHOOSE_ASSISTANT_CARD) {
-            printer.println("Do you want to use a Character Card?");
-            response = checkYNInput();
-            if (response.equalsIgnoreCase("y")) {
-                manageCharacterCardChoice();
-                //TODO anche le character card con più mosse vanno gestite "1 volta", cioè le mosse vanno fatte tutte insieme. Togliere le charactercard movements dal controller
-            }
-        }
         int data;
         String firstParameter, secondParameter, temp;
         ActionMessage answer = new ActionMessage();
@@ -163,6 +159,34 @@ public class Cli implements View {
                 }
                 answer.setAction(Action.CHOOSE_ASSISTANT_CARD);
                 answer.setData(data);
+                connection.send(answer);
+                break;
+            case USE_CHARACTER_CARD:
+                printer.println(">Do you want to use a Character Card?");
+                response=checkYNInput();
+                answer.setAction(Action.USE_CHARACTER_CARD);
+                if(response.equalsIgnoreCase("n")){
+                    answer.setCharacterCardName(null);
+                } else {
+                    printer.println(">These are the available Character Cards:");
+                    List<String> characterCards = new ArrayList<>();
+                    for(CharacterCard characterCard: message.getCharacterCards()) {
+                        characterCards.add(characterCard.getName().toString());
+                        printer.println(characterCard);
+                    }
+                    printer.println(">Make your choice: ");
+                    String characterCardName = reader.nextLine().toUpperCase();
+                    while (!characterCards.contains(characterCardName)) {
+                        printer.println(">Invalid input. Please try again");
+                        characterCardName = reader.nextLine().toUpperCase();
+                    }
+                    for(CharacterCard c: message.getCharacterCards()) {
+                        if(c.getName().toString().equalsIgnoreCase(characterCardName)) {
+                            manageCharacterCardChoice(c, answer);
+                            break;
+                        }
+                    }
+                }
                 connection.send(answer);
                 break;
             case DEFAULT_MOVEMENTS:
@@ -204,7 +228,6 @@ public class Cli implements View {
                     }
                 } while (!temp.equalsIgnoreCase("DiningRoom") && !temp.equalsIgnoreCase("Island"));
                 break;
-
             case MOVE_MOTHER_NATURE:
                 printer.println(">You can move mother nature " + message.getData() + " steps far.");
                 printer.println(">Please choose how many steps you want mother nature do:");
@@ -249,8 +272,47 @@ public class Cli implements View {
         return response;
     }
 
-    private void manageCharacterCardChoice() {
-        printer.println(">These are the available cards:");
+    //Gestisce i parametri da settare in base alla character card
+    private void manageCharacterCardChoice(CharacterCard characterCard, ActionMessage answer) {
+        answer.setCharacterCardName(characterCard.getName().toString());
+        switch (characterCard.getName()) {
+            case PRIEST: //isole e colore dello studente
+                printer.println(">Choose the student that you want to move: ");
+                String parameter = reader.nextLine().toUpperCase();
+                boolean error=true;
+                do{
+                    for(Student s: ((CharacterCardwithStudents)characterCard).getStudents()) {
+                        if (s.getColor().toString().equalsIgnoreCase(parameter)){
+                            error=false;
+                        }
+                    }
+                    if(error)
+                        printer.println(">Invalid input. Please try again.");
+
+                }
+                while(error);
+                answer.setParameter(parameter); //TODO da finire
+                break;
+            case DINER://non fa niente
+            case DIPLOMAT: //Isole
+                break;
+            case POSTMAN: //non fa niente
+            case HERBOLARIA: //isole
+                break;
+            case CENTAUR://non fa niente
+            case CLOWN://colori studenti della carta e studenti colori ingresso scuola
+                break;
+            case KNIGHT://Niente
+            case LUMBERJACK://colore a caso disponibile in charactercolor
+                break;
+            case PERFORMER://colori della carta e nell?ingresso
+                break;
+            case QUEEN://colori carta
+                break;
+            case THIEF://colore casuale
+            //TODO Actionmessage firstsecondparameter -> List<String> parameters. Cambiare tutto e usare sempre la lista
+
+        }
     }
 
     private int checkParseInt() {

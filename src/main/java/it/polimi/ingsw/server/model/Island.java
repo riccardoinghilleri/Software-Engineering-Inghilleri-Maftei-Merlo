@@ -3,33 +3,33 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.model.enums.CharacterColor;
 import it.polimi.ingsw.server.model.enums.PlayerColor;
 
+import java.io.Serializable;
 import java.util.*;
 import java.lang.*;
 
-public class  Island {
+public class Island implements Serializable {
     private boolean hasMotherNature;
     private Map<CharacterColor, List<Student>> students;
     private List<Tower> towers;
     private boolean NoEntryTile; // prima c'era isLocked
 
-    public Island(boolean hasMotherNature)
-    {
+    public Island(boolean hasMotherNature) {
         this.hasMotherNature = hasMotherNature;
-        NoEntryTile=false;
-        towers=new ArrayList<>();
-        students=new HashMap<>();
-        for(CharacterColor c : CharacterColor.values()) {
+        NoEntryTile = false;
+        towers = new ArrayList<>();
+        students = new HashMap<>();
+        for (CharacterColor c : CharacterColor.values()) {
             this.students.put(c, new ArrayList<>());
         }
     }
 
 
     public Island(Student firstStudent) {
-        this.hasMotherNature=false;
-        NoEntryTile=false;
-        towers=new ArrayList<>();
-        students=new HashMap<>();
-        for(CharacterColor c : CharacterColor.values()) {
+        this.hasMotherNature = false;
+        NoEntryTile = false;
+        towers = new ArrayList<>();
+        students = new HashMap<>();
+        for (CharacterColor c : CharacterColor.values()) {
             this.students.put(c, new ArrayList<>());
         }
         students.put(firstStudent.getColor(), new ArrayList<>());
@@ -55,7 +55,7 @@ public class  Island {
     } //prima era isLocked
 
     public PlayerColor getColorTower() {
-        if(!towers.isEmpty()) return towers.get(0).getColor();
+        if (!towers.isEmpty()) return towers.get(0).getColor();
         return null;
     }
 
@@ -96,19 +96,19 @@ public class  Island {
 
     @Override
     public String toString() {
-        String result = null;
-        if(towers.isEmpty()) {
-            result = "Towers: NONE";
+        String result;
+        if (towers.isEmpty()) {
+            result = "Towers: NONE\nStudents: ";
+        } else {
+            result = "Towers: " + towers.size() + " " + towers.get(0).getColor() + "\nStudents: ";
         }
-        else {
-            result=  "Towers: " +  towers.size() + " " + towers.get(0).getColor();
+        for (CharacterColor key : students.keySet()) {
+            for (Student student : students.get(key)) {
+                result = result.concat(student.toString() + "\t");
+            }
         }
-        return  result +
-                "\nRedStudents: " + students.get(CharacterColor.RED).size() +
-                "\nBlueStudents: " + students.get(CharacterColor.BLUE).size() +
-                "\nYellowStudents: " + students.get(CharacterColor.YELLOW).size() +
-                "\nPinkStudents: " + students.get(CharacterColor.PINK).size() +
-                "\nGreenStudents: " + students.get(CharacterColor.GREEN).size() +
-                "\nMotherNature: " +hasMotherNature();
+        if (hasNoEntryTile()) result = result.concat("\nNo Entry Tile!");
+        return result +
+                "\nMotherNature: " + hasMotherNature();
     }
 }

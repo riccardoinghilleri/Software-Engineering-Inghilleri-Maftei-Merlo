@@ -3,12 +3,13 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.model.enums.CharacterColor;
 import it.polimi.ingsw.server.model.enums.PlayerColor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class School {
+public class School implements Serializable {
     private final String owner;
     private final List<Student> entrance;
     private final Map<CharacterColor,List<Student>> diningRoom;
@@ -23,10 +24,10 @@ public class School {
         this.towers=new ArrayList<>();
         if(playersNumber==2)
             for(int i=0;i<8;i++)
-            towers.add(new Tower(owner,playerColor));
+                towers.add(new Tower(owner,playerColor));
         else if (playersNumber==3)
             for(int i=0;i<6;i++)
-            towers.add(new Tower(owner,playerColor));
+                towers.add(new Tower(owner,playerColor));
         for(CharacterColor c : CharacterColor.values()) {
             this.diningRoom.put(c, new ArrayList<Student>());
         }

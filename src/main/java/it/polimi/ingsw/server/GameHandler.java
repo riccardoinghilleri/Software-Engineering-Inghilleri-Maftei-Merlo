@@ -88,11 +88,11 @@ public class GameHandler implements PropertyChangeListener {
                     if (!controller.setAssistantCard((ActionMessage) message)) {
                         clients.get(currentClientConnection)
                                 .sendMessage(new InfoMessage(">You can not choose this assistant card. Please choose another one."));
-                        sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel.getCurrentPlayer().getNickname() + " chosed an invalid Assistand Card..."));
+                        sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel.getCurrentPlayer().getNickname() + " chosen an invalid Assistant Card..."));
                     }
                     if (controller.getPhase() == Action.CHOOSE_ASSISTANT_CARD)
                         pianificationTurn();
-                    else if (controller.getPhase() == Action.DEFAULT_MOVEMENTS) {
+                    else if (controller.getPhase() == Action.DEFAULT_MOVEMENTS || controller.getPhase() == Action.USE_CHARACTER_CARD) {
                         phase = GameHandlerPhase.ACTION;
                         actionTurn();
                     }
@@ -154,12 +154,12 @@ public class GameHandler implements PropertyChangeListener {
         AskActionMessage askActionMessage = null;
         switch (controller.getPhase()) {
             case USE_CHARACTER_CARD:
-                askActionMessage = new AskActionMessage(controller.getPhase(),((BoardExpert)gameModel.getBoard()).getCharacterCards());
+                askActionMessage = new AskActionMessage(controller.getPhase(),((BoardExpert)gameModel.getBoard()).getCharacterCards(),gameModel.getBoard().getIslands(),gameModel.getBoard()
+                        .getSchoolByOwner(gameModel.getCurrentPlayer().getNickname()));
                 break;
             case DEFAULT_MOVEMENTS:
                 askActionMessage = new AskActionMessage(controller.getPhase(), gameModel.getBoard()
-                        .getSchoolByOwner(gameModel.getCurrentPlayer().getNickname())
-                        .getEntrance(), gameModel.getBoard().getIslands().size());
+                        .getSchoolByOwner(gameModel.getCurrentPlayer().getNickname()), gameModel.getBoard().getIslands());
                 sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel.getCurrentPlayer().getNickname() + " is moving a student from the Entrance..."));
                 break;
             case MOVE_MOTHER_NATURE:

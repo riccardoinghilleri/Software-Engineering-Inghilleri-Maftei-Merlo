@@ -2,10 +2,7 @@ package it.polimi.ingsw.server.ConnectionMessage;
 
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.controller.Action;
-import it.polimi.ingsw.server.model.AssistantCard;
-import it.polimi.ingsw.server.model.CharacterCard;
-import it.polimi.ingsw.server.model.Cloud;
-import it.polimi.ingsw.server.model.Student;
+import it.polimi.ingsw.server.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +10,8 @@ import java.util.List;
 public class AskActionMessage implements Message, ServerMessage {
     private final Action action;
     private final int data;
-    private final List<Student> availableStudents;
+    private final List<Island> islands;
+    private final School school;
     private final List<AssistantCard> availableAssistantCards;
     private final Cloud[] clouds;
     private final CharacterCard[] characterCards;
@@ -22,40 +20,44 @@ public class AskActionMessage implements Message, ServerMessage {
     public AskActionMessage(Action action, List<AssistantCard> availability) {
         this.action = action;
         this.data = -1;
-        this.availableStudents = null;
+        this.school = null;
         this.availableAssistantCards = new ArrayList<>(availability);
         this.clouds = null;
         this.characterCards = null;
+        this.islands = null;
     }
 
     //USE_CHARACTER_CARD
-    public AskActionMessage(Action action, CharacterCard[] availability) {
+    public AskActionMessage(Action action, CharacterCard[] characterCards, List<Island> islands, School school) {
         this.action = action;
         this.data = -1;
-        this.availableStudents = null;
+        this.school = school; //TODO va bene che mi passo il riferimento alla vera scuola??
         this.availableAssistantCards = null;
-        this.characterCards = availability.clone();
+        this.characterCards = characterCards.clone();
         this.clouds = null;
+        this.islands = islands;
     }
 
     //DEFAULT_MOVEMENTS
-    public AskActionMessage(Action action, List<Student> availability, int data) {
+    public AskActionMessage(Action action, School school, List<Island> islands) {
         this.action = action;
-        this.data = data;
-        this.availableStudents = new ArrayList<>(availability);
+        this.data = -1;
+        this.school = school;
         this.availableAssistantCards = null;
         this.clouds = null;
         this.characterCards = null;
+        this.islands = islands;
     }
 
     //CHOOSE_CLOUD
     public AskActionMessage(Action action, Cloud[] availability) {
         this.action = action;
         this.data = -1;
-        this.availableStudents = null;
+        this.school = null;
         this.availableAssistantCards = null;
         this.clouds = availability.clone();//TODO non so se serve clone. rivedere
         this.characterCards = null;
+        this.islands = null;
     }
 
     //MOVE_MOTHER_NATURE
@@ -63,9 +65,10 @@ public class AskActionMessage implements Message, ServerMessage {
         this.action = action;
         this.data = data;
         this.availableAssistantCards = null;
-        this.availableStudents = null;
+        this.school = null;
         this.clouds = null;
         this.characterCards = null;
+        this.islands = null;
     }
 
     public Cloud[] getClouds() {
@@ -76,8 +79,12 @@ public class AskActionMessage implements Message, ServerMessage {
         return characterCards;
     }
 
-    public List<Student> getAvailableStudents() {
-        return availableStudents;
+    public List<Island> getIslands() {
+        return islands;
+    }
+
+    public School getSchool() {
+        return school;
     }
 
     public List<AssistantCard> getAvailableAssistantCards() {

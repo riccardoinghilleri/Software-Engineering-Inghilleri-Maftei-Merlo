@@ -15,7 +15,7 @@ public class Controller {
     private final GameModel gameModel;
     private ActionController actionController;
     private int playerTurnNumber;
-    private int characterCardMovements;
+    //private int characterCardMovements;
     private int defaultMovements;
     private boolean alreadyUsedCharacterCard;
     private Action phase;
@@ -28,7 +28,7 @@ public class Controller {
         this.gameModel = gameModel;
         this.phase = Action.SETUP_CLOUD;
         playerTurnNumber = 0;
-        characterCardMovements = 0;
+        //characterCardMovements = 0;
         defaultMovements = 0;
         alreadyUsedCharacterCard = false;
         listeners = new PropertyChangeSupport(this);
@@ -74,7 +74,7 @@ public class Controller {
 
     private void startPlayerTurn() {
         actionController = new ActionController(gameModel);
-        characterCardMovements = 0;
+        //characterCardMovements = 0;
         defaultMovements = 0;
         alreadyUsedCharacterCard = false;
         availableActions = Action.getDefaultActions();
@@ -99,6 +99,7 @@ public class Controller {
                     alreadyUsedCharacterCard = true;
                     characterCardName = actionMessage.getCharacterCardName();
                     setCharacterCardEffect(actionMessage); //TODO sistemare i vari effetti rendendo tutto atomico
+                    phase = availableActions.remove(0);
                 }
                 break;
             case DEFAULT_MOVEMENTS:
@@ -115,10 +116,10 @@ public class Controller {
                     System.out.println(e.getMessage());
                     return "There is not a student of this color in your entrance.";
                 }
-                if (actionMessage.getData() == -1) { // significa che non devo spostare studente da hall a isola
-                    actionController.moveStudent(actionMessage.getFirstParameter().toUpperCase());
+                if (actionMessage.getData() == -1) { // significa che non devo spostare studente da entrance a isola
+                    actionController.moveStudent(actionMessage.getParameters().get(0).toUpperCase());
                 } else {
-                    actionController.moveStudent(actionMessage.getData(), actionMessage.getFirstParameter().toUpperCase());
+                    actionController.moveStudent(actionMessage.getData(), actionMessage.getParameters().get(0).toUpperCase());
                 }
                 defaultMovements++;
                 if (defaultMovements >= 4
@@ -192,7 +193,7 @@ public class Controller {
                 actionController = new Knight(gameModel);
                 break;
             case "LUMBERJACK":
-                actionController = new Lumberjack(gameModel, actionMessage.getFirstParameter());
+                actionController = new Lumberjack(gameModel, actionMessage.getParameters().get(0));
                 break;
             default:
                 strategy = true; //setta strategia e usa effetto
@@ -255,7 +256,7 @@ public class Controller {
             throw new InvalidChosenStepsException();
         }
     }
-
+    /*
     private void checkAlreadyUsedCharacterCard(ActionMessage actionMessage) throws AlreadyUsedCharacterCardException {
         if ((!actionMessage.getCharacterCardName().equalsIgnoreCase("CLOWN")
                 && !actionMessage.getCharacterCardName().equalsIgnoreCase("PERFORMER"))
@@ -263,14 +264,14 @@ public class Controller {
                 || (actionMessage.getCharacterCardName().equalsIgnoreCase("PERFORMER") && characterCardMovements >= 2)) {
             throw new AlreadyUsedCharacterCardException();
         }
-    }
+    }*/
 
     private void checkDefaultMovements(ActionMessage actionMessage) throws DefaultMovementsNumberException, DefaultMovementsColorException {
         if (defaultMovements >= 4
                 || (defaultMovements >= 3 && gameModel.getPlayers().size() % 2 == 0))
             throw new DefaultMovementsNumberException();
         else if (!(gameModel.getBoard().getSchoolByOwner(gameModel.getCurrentPlayer()
-                .getNickname()).hasEntranceStudentColor(actionMessage.getFirstParameter()))) {
+                .getNickname()).hasEntranceStudentColor(actionMessage.getParameters().get(0)))) {
             throw new DefaultMovementsColorException();
         }
     }

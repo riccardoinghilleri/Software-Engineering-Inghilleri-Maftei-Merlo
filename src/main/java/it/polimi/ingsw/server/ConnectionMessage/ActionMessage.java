@@ -1,22 +1,20 @@
 package it.polimi.ingsw.server.ConnectionMessage;
 
-
-import it.polimi.ingsw.client.Cli;
 import it.polimi.ingsw.controller.Action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ActionMessage implements Message{
     private Action action;
     private String characterCardName;
     private int data;
-    private String firstParameter;
-    private String secondParameter;
 
-    private List<String> parameters;
+    private final List<String> parameters;
 
     public ActionMessage() {
         this.data = -1; //valore di default
+        this.parameters = new ArrayList<>();
     }
 
     public void setAction(Action action) {
@@ -49,21 +47,5 @@ public class ActionMessage implements Message{
 
     public void setData(int data) {
         this.data = data;
-    }
-
-    public String getFirstParameter() {
-        return firstParameter;
-    }
-
-    public void setFirstParameter(String firstParameter) {
-        this.firstParameter = firstParameter;
-    }
-
-    public String getSecondParameter() {
-        return secondParameter;
-    }
-
-    public void setSecondParameter(String secondParameter) {
-        this.secondParameter = secondParameter;
     }
 }

@@ -16,6 +16,8 @@ public class AskActionMessage implements Message, ServerMessage {
     private final Cloud[] clouds;
     private final CharacterCard[] characterCards;
 
+    private final CharacterCard chosenCharacterCard;
+
     //CHOOSE_ASSISTANT_CARD
     public AskActionMessage(Action action, List<AssistantCard> availability) {
         this.action = action;
@@ -25,17 +27,30 @@ public class AskActionMessage implements Message, ServerMessage {
         this.clouds = null;
         this.characterCards = null;
         this.islands = null;
+        this.chosenCharacterCard=null;
+    }
+
+    public AskActionMessage(Action action, CharacterCard[] characterCards) {
+        this.action = action;
+        this.data = -1;
+        this.school = null;
+        this.availableAssistantCards = null;
+        this.clouds = null;
+        this.characterCards = characterCards.clone();
+        this.islands = null;
+        this.chosenCharacterCard=null;
     }
 
     //USE_CHARACTER_CARD
-    public AskActionMessage(Action action, CharacterCard[] characterCards, List<Island> islands, School school) {
+    public AskActionMessage(Action action, CharacterCard characterCard, List<Island> islands, School school) {
         this.action = action;
         this.data = -1;
-        this.school = new School(school); //TODO va bene che mi passo il riferimento alla vera scuola??
+        this.school = new School(school);
         this.availableAssistantCards = null;
-        this.characterCards = characterCards.clone();
+        this.chosenCharacterCard = characterCard;
         this.clouds = null;
         this.islands = new ArrayList<>(islands);
+        this.characterCards=null;
     }
 
     //DEFAULT_MOVEMENTS
@@ -47,6 +62,7 @@ public class AskActionMessage implements Message, ServerMessage {
         this.clouds = null;
         this.characterCards = null;
         this.islands = new ArrayList<>(islands);
+        this.chosenCharacterCard=null;
     }
 
     //CHOOSE_CLOUD
@@ -58,6 +74,7 @@ public class AskActionMessage implements Message, ServerMessage {
         this.clouds = availability.clone();//TODO non so se serve clone. rivedere
         this.characterCards = null;
         this.islands = null;
+        this.chosenCharacterCard=null;
     }
 
     //MOVE_MOTHER_NATURE
@@ -69,6 +86,11 @@ public class AskActionMessage implements Message, ServerMessage {
         this.clouds = null;
         this.characterCards = null;
         this.islands = null;
+        this.chosenCharacterCard=null;
+    }
+
+    public CharacterCard getChosenCharacterCard() {
+        return chosenCharacterCard;
     }
 
     public Cloud[] getClouds() {

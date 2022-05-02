@@ -97,7 +97,7 @@ public class GameHandler implements PropertyChangeListener {
                     if (controller.getPhase() == Action.CHOOSE_ASSISTANT_CARD)
                         pianificationTurn();
                     else if (controller.getPhase() == Action.DEFAULT_MOVEMENTS
-                            || controller.getPhase() == Action.USE_CHARACTER_CARD) {
+                            || controller.getPhase() == Action.CHOOSE_CHARACTER_CARD) {
                         phase = GameHandlerPhase.ACTION;
                         actionTurn();
                     }
@@ -165,9 +165,13 @@ public class GameHandler implements PropertyChangeListener {
         currentClientConnection = gameModel.getCurrentPlayer().getClientID();
         AskActionMessage askActionMessage = null;
         switch (controller.getPhase()) {
+            case CHOOSE_CHARACTER_CARD:
+                askActionMessage = new AskActionMessage(controller.getPhase(),
+                        ((BoardExpert) gameModel.getBoard()).getCharacterCards());
+                break;
             case USE_CHARACTER_CARD:
                 askActionMessage = new AskActionMessage(controller.getPhase(),
-                        ((BoardExpert) gameModel.getBoard()).getCharacterCards(),
+                        ((BoardExpert) gameModel.getBoard()).getCharacterCardbyName(controller.getCharacterCardName()),
                         gameModel.getBoard().getIslands(), gameModel.getBoard()
                         .getSchoolByOwner(gameModel.getCurrentPlayer().getNickname()));
                 break;

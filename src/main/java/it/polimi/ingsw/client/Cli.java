@@ -25,12 +25,14 @@ public class Cli implements View {
     private boolean expertMode;
 
     private boolean alreadyAskedCard;
+    private boolean alreadyAskedMovements;
 
     public Cli() {
         reader = new Scanner(System.in);
         printer = new PrintStream(System.out);
         connection = new ClientConnection(this);
         alreadyAskedCard = false;
+        alreadyAskedMovements = false;
         Thread t = new Thread(connection);
         t.start();
     }
@@ -139,6 +141,7 @@ public class Cli implements View {
         ActionMessage answer = new ActionMessage();
         switch (message.getAction()) {
             case CHOOSE_ASSISTANT_CARD:
+                alreadyAskedMovements = false;
                 List<Integer> availablePriority = new ArrayList<>();
                 for (int i = 0; i < message.getAvailableAssistantCards().size(); i++) {
                     availablePriority.add(message.getAvailableAssistantCards().get(i).getPriority());
@@ -160,10 +163,10 @@ public class Cli implements View {
                 answer.setData(data);
                 connection.send(answer);
                 break;
-            case USE_CHARACTER_CARD:
+            case CHOOSE_CHARACTER_CARD:
                 printer.println(">Do you want to use a Character Card? [y/n]");
                 response = checkYNInput();
-                answer.setAction(Action.USE_CHARACTER_CARD);
+                answer.setAction(Action.CHOOSE_CHARACTER_CARD);
                 if (response.equalsIgnoreCase("n")) {
                     answer.setCharacterCardName(null);
                 } else {
@@ -180,14 +183,11 @@ public class Cli implements View {
                         characterCardName = reader.nextLine().toUpperCase();
                     }
                     answer.setCharacterCardName(characterCardName);
-                    for (CharacterCard c : message.getCharacterCards()) {
-                        if (c.getName().toString().equalsIgnoreCase(characterCardName)) {
-                            manageCharacterCardChoice(message, c, answer);
-                            break;
-                        }
-                    }
                 }
                 connection.send(answer);
+                break;
+            case USE_CHARACTER_CARD:
+                manageCharacterCardChoice(message);
                 break;
             case DEFAULT_MOVEMENTS:
                 alreadyAskedCard = false;
@@ -269,8 +269,13 @@ public class Cli implements View {
     }
 
     //Gestisce i parametri da settare in base alla character card
-    private void manageCharacterCardChoice(AskActionMessage message, CharacterCard characterCard, ActionMessage answer) {
+    private void manageCharacterCardChoice(AskActionMessage message) {
         int data;
+        List<CharacterColor> availableStudentsColors;
+        ActionMessage answer = new ActionMessage();
+        CharacterCard characterCard = message.getChosenCharacterCard();
+        answer.setAction(Action.USE_CHARACTER_CARD);
+        answer.setCharacterCardName(characterCard.getName().toString());
         String parameter;
         boolean error = true;
         switch (characterCard.getName()) {
@@ -324,46 +329,43 @@ public class Cli implements View {
                 answer.setData(data - 1);
                 break;
             case CLOWN://colori studenti della carta e studenti colori ingresso scuola
-                printer.println("How many students do you want to change?");
-                do {
-                    data = checkParseInt();
-                } while (data < 1 || data > 3);
-                for (int i = 0; i < data; i++) {
-                    printer.println(">Students on the Character Card: ");
-                    for (Student s : ((CharacterCardwithStudents) characterCard).getStudents()) {
-                        printer.println(s);
-                    }
-                    printer.println(">Choose the student that you want to move from the card: ");
-                    error = true;
+                if (!alreadyAskedMovements) {
+                    printer.println("How many students do you want to change?");
                     do {
-                        parameter = reader.nextLine().toUpperCase();
-                        for (Student s : ((CharacterCardwithStudents) characterCard).getStudents()) {
-                            if (s.getColor().toString().equalsIgnoreCase(parameter)) {
-                                error = false;
-                            }
-                        }
-                        if (error) {
-                            printer.println(">Invalid input. Please try again.");
-                        }
-                    } while (error);
-                    answer.setParameter(parameter);
-                    printer.println(">Students in your Entrance: ");
-                    for (Student s : message.getSchool().getEntrance()) {
-                        printer.println(s);
-                    }
-                    printer.println(">Choose the student that you want to move from your Entrance: ");
-                    List<CharacterColor> availableStudentsColors = new ArrayList<>();
-                    for (Student s : message.getSchool().getEntrance()) {
-                        availableStudentsColors.add(s.getColor());
-                        printer.println(s + "\t");
-                    }
-                    parameter = reader.nextLine().toUpperCase();
-                    while (!availableStudentsColors.contains(CharacterColor.valueOf(parameter.toUpperCase()))) {
-                        printer.println(">Invalid input. Please try again");
-                        parameter = reader.nextLine().toUpperCase();
-                    }
-                    answer.setParameter(parameter);
+                        data = checkParseInt();
+                    } while (data < 1 || data > 3);
+                    answer.setData(data);
                 }
+                printer.println(">Students on the Character Card: ");
+                for (Student s : ((CharacterCardwithStudents) characterCard).getStudents()) {
+                    printer.println(s);
+                }
+                printer.println(">Choose the student that you want to move from the card: ");
+                do {
+                    parameter = reader.nextLine().toUpperCase();
+                    for (Student s : ((CharacterCardwithStudents) characterCard).getStudents()) {
+                        if (s.getColor().toString().equalsIgnoreCase(parameter)) {
+                            error = false;
+                        }
+                    }
+                    if (error) {
+                        printer.println(">Invalid input. Please try again.");
+                    }
+                } while (error);
+                answer.setParameter(parameter);
+                printer.println(">Students in your Entrance: ");
+                availableStudentsColors = new ArrayList<>();
+                for (Student s : message.getSchool().getEntrance()) {
+                    availableStudentsColors.add(s.getColor());
+                    printer.println(s + "\t");
+                }
+                printer.println(">Choose the student that you want to move from your Entrance: ");
+                parameter = reader.nextLine().toUpperCase();
+                while (!availableStudentsColors.contains(CharacterColor.valueOf(parameter.toUpperCase()))) {
+                    printer.println(">Invalid input. Please try again");
+                    parameter = reader.nextLine().toUpperCase();
+                }
+                answer.setParameter(parameter);
                 break;
             case LUMBERJACK://colore a caso disponibile in character color
                 printer.println("Choose a color: ");
@@ -390,7 +392,7 @@ public class Cli implements View {
                     }
                     answer.setParameter(parameter);
                     printer.println(">Choose the student that you want to move from your Entrance to your Dining Room: ");
-                    List<CharacterColor> availableStudentsColors = new ArrayList<>();
+                    availableStudentsColors = new ArrayList<>();
                     for (Student s : message.getSchool().getEntrance()) {
                         availableStudentsColors.add(s.getColor());
                     }
@@ -401,6 +403,7 @@ public class Cli implements View {
                     }
                     answer.setParameter(parameter);
                 }
+
                 break;
             case QUEEN://colori carta
                 printer.println(">Choose the student that you want to move from the card: ");
@@ -427,6 +430,7 @@ public class Cli implements View {
                 answer.setParameter(parameter);
                 break;
         }
+    connection.send(answer);
     }
 
     private int checkParseInt() {

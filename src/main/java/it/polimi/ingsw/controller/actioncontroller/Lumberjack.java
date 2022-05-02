@@ -10,9 +10,12 @@ import java.util.*;
 public class Lumberjack extends ActionController {
 
     String color;
-    public Lumberjack(GameModel gameModel, String color) {
+    public Lumberjack(GameModel gameModel) {
         super(gameModel);
-        this.color=color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     @Override

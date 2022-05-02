@@ -35,12 +35,14 @@ public class ActionController {
     public void useCharacterCard(ActionMessage actionMessage, boolean strategy) {
         if (strategy) {
             this.strategy = strategyFactory(actionMessage.getCharacterCardName(), gameModel);
-            this.strategy.useEffect(actionMessage);
         } else if (actionMessage.getCharacterCardName().equalsIgnoreCase("DINER")) {
             updateAllProfessors();
         }
         BoardExpert boardExpert = (BoardExpert) gameModel.getBoard();
         boardExpert.moveCoin(player, boardExpert.getCharacterCardbyName(actionMessage.getCharacterCardName()));
+    }
+    public void useCharacterCardEffect(ActionMessage actionMessage){
+        this.strategy.useEffect(actionMessage);
     }
 
     //metodo che ritorna il player con più influenza sull'isola specificata

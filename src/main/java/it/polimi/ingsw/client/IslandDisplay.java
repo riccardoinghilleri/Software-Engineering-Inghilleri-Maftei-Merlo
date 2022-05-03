@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client;
 
-public class IslandDisplay {
+public class IslandDisplay implements CharFigure{
     private final Stream stream;
     private static final int width = 25;
     private static final int height = 25;

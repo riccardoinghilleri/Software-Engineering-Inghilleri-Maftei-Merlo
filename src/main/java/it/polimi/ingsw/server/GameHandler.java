@@ -183,9 +183,14 @@ public class GameHandler implements PropertyChangeListener {
                         + gameModel.getCurrentPlayer().getNickname() + " is moving a student from the Entrance..."));
                 break;
             case MOVE_MOTHER_NATURE:
-                askActionMessage = new AskActionMessage(controller.getPhase(), gameModel
-                        .getPlayerById(currentClientConnection)
-                        .getChosenAssistantCard().getMotherNatureSteps());
+                if (controller.getCharacterCardName()==null || !controller.getCharacterCardName().equalsIgnoreCase("POSTMAN"))
+                    askActionMessage = new AskActionMessage(controller.getPhase(), gameModel
+                            .getPlayerById(currentClientConnection)
+                            .getChosenAssistantCard().getMotherNatureSteps());
+                else if(controller.getCharacterCardName().equalsIgnoreCase("POSTMAN"))
+                    askActionMessage = new AskActionMessage(controller.getPhase(), gameModel
+                            .getPlayerById(currentClientConnection)
+                            .getChosenAssistantCard().getMotherNatureSteps() + 2 );
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
                         + gameModel.getCurrentPlayer().getNickname() + " is choosing where to move mother nature..."));
                 break;

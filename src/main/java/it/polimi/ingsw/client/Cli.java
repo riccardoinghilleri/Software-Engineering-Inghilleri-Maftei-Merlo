@@ -12,6 +12,7 @@ import it.polimi.ingsw.controller.Action;
 import it.polimi.ingsw.server.ConnectionMessage.*;
 import it.polimi.ingsw.server.model.CharacterCard;
 import it.polimi.ingsw.server.model.CharacterCardwithStudents;
+import it.polimi.ingsw.server.model.Island;
 import it.polimi.ingsw.server.model.Student;
 import it.polimi.ingsw.server.model.enums.CharacterColor;
 
@@ -29,7 +30,9 @@ public class Cli implements View {
 
     public Cli() {
         reader = new Scanner(System.in);
+        InputController.setScanner(reader);
         printer = new PrintStream(System.out);
+        InputController.setPrinter(printer);
         connection = new ClientConnection(this);
         alreadyAskedCard = false;
         alreadyAskedMovements = false;
@@ -86,19 +89,14 @@ public class Cli implements View {
 
     private void setupGameSetting() {
         printer.println(">Choose number of players [2/3]: ");
-        int playersNumber = checkParseInt();
+        int playersNumber = InputController.checkParseInt();
         while (playersNumber != 2 && playersNumber != 3) {
             printer.println(">Invalid input. Try again. ");
             printer.println(">Choose number of players [2/3]: ");
-            playersNumber = checkParseInt();
+            playersNumber = InputController.checkParseInt();
         }
         printer.println(">Do you want to play in ExpertMode? [y/n]: ");
-        String response = reader.nextLine();
-        while (!response.equalsIgnoreCase("y") && !response.equalsIgnoreCase("n")) {
-            printer.println(">Invalid input. Try again. ");
-            printer.println(">Do you want to play in ExpertMode? [y/n]:");
-            response = reader.nextLine();
-        }
+        String response = InputController.checkYNInput();
         this.expertMode = response.equalsIgnoreCase("y");
         connection.send(new SettingsMessage(playersNumber, this.expertMode));
     }
@@ -112,7 +110,7 @@ public class Cli implements View {
             printer.println(">Please choose a nickname: ");
             nickname = reader.nextLine();
             printer.println(">Are you sure about your choice? [y/n]: ");
-            response = checkYNInput();
+            response = InputController.checkYNInput();
         } while (response.equalsIgnoreCase("n"));
         connection.send(new SetupMessage(nickname));
     }
@@ -124,10 +122,11 @@ public class Cli implements View {
         for (String s : message.getAvailableChoices())
             printer.println(s + "\t");
         choice = reader.nextLine().toUpperCase();
-        if (!message.getAvailableChoices().contains(choice.toUpperCase())) {
-            printer.println(">Invalid Input");
-            setupMultipleChoice(message);
-        } else connection.send(new SetupMessage(choice));
+        while (!message.getAvailableChoices().contains(choice.toUpperCase())) {
+            printer.println(">Invalid Input.Please try again.");
+            choice = reader.nextLine().toUpperCase();
+        }
+        connection.send(new SetupMessage(choice));
     }
 
     public void displayInfo(InfoMessage message) {
@@ -136,8 +135,7 @@ public class Cli implements View {
 
     public void askAction(AskActionMessage message) {
         String response;
-        int data;
-        String parameter, temp;
+        String temp;
         ActionMessage answer = new ActionMessage();
         switch (message.getAction()) {
             case CHOOSE_ASSISTANT_CARD:
@@ -154,18 +152,14 @@ public class Cli implements View {
                     }
                     alreadyAskedCard = true;
                 }
-                data = checkParseInt();
-                while (!availablePriority.contains(data)) {
-                    printer.println(">Invalid input. Please try again");
-                    data = checkParseInt();
-                }
+                answer.setData(InputController.checkInt(availablePriority));
                 answer.setAction(Action.CHOOSE_ASSISTANT_CARD);
-                answer.setData(data);
                 connection.send(answer);
                 break;
             case CHOOSE_CHARACTER_CARD:
+                alreadyAskedMovements=false;
                 printer.println(">Do you want to use a Character Card? [y/n]");
-                response = checkYNInput();
+                response = InputController.checkYNInput();
                 answer.setAction(Action.CHOOSE_CHARACTER_CARD);
                 if (response.equalsIgnoreCase("n")) {
                     answer.setCharacterCardName(null);
@@ -191,49 +185,27 @@ public class Cli implements View {
                 break;
             case DEFAULT_MOVEMENTS:
                 alreadyAskedCard = false;
-                printer.println(">These are your entrance's students:");
-                List<CharacterColor> availableStudentsColors = new ArrayList<>();
-                for (Student s : message.getSchool().getEntrance()) {
-                    availableStudentsColors.add(s.getColor());
-                    printer.println(s + "\t");
-                }
-                printer.println("Please choose the color of the student that you want to move.");
-                parameter = reader.nextLine().toUpperCase();
-                while (!availableStudentsColors.contains(CharacterColor.valueOf(parameter.toUpperCase()))) {
-                    printer.println(">Invalid input. Please try again");
-                    parameter = reader.nextLine().toUpperCase();
-                }
                 answer.setAction(Action.DEFAULT_MOVEMENTS);
-                answer.setParameter(parameter);
-                do {
-                    printer.println(">Do you want to move your student to your DiningRoom" +
-                            " or on an Island?");
+                printer.println(">These are your entrance's students:");
+                answer.setParameter(chooseStudentColor(message.getSchool().getEntrance(), true,
+                        ">Please choose the color of the student that you want to move from your Entrance:"));
+                printer.println(">Do you want to move your student to your DiningRoom" +
+                        " or on an Island?");
+                temp = reader.nextLine();
+                while (!temp.equalsIgnoreCase("DiningRoom") && !temp.equalsIgnoreCase("Island")){
+                    printer.println(">Invalid input. Please, try again!");
                     temp = reader.nextLine();
-                    if (temp.equalsIgnoreCase("Island")) {
-                        for (int i = 1; i <= message.getIslands().size(); i++) {
-                            printer.println("#" + i + "\t" + message.getIslands().get(i - 1));
-                        }
-                        printer.println(">Choose an Island: ");
-                        data = checkParseInt();
-                        while (data < 1 || data > message.getIslands().size()) {
-                            printer.println(">Invalid input. Please try again");
-                            data = checkParseInt();
-                        }
-                        answer.setData(data - 1);
-                    }
-                } while (!temp.equalsIgnoreCase("DiningRoom") && !temp.equalsIgnoreCase("Island"));
+                }
+                if (temp.equalsIgnoreCase("Island")) {
+                    answer.setData(chooseIsland(message.getIslands()) - 1);
+                }
                 connection.send(answer);
                 break;
             case MOVE_MOTHER_NATURE:
                 printer.println(">You can move mother nature " + message.getData() + " steps far.");
                 printer.println(">Please choose how many steps you want mother nature do:");
-                data = checkParseInt();
-                while (data < 1 || data > message.getData()) {
-                    printer.println(">Invalid input. Please try again.");
-                    data = checkParseInt();
-                }
+                answer.setData(InputController.checkRange(1, message.getData()));
                 answer.setAction(Action.MOVE_MOTHER_NATURE);
-                answer.setData(data);
                 connection.send(answer);
                 break;
             case CHOOSE_CLOUD:
@@ -246,180 +218,45 @@ public class Cli implements View {
                     }
                 }
                 printer.println(">Please choose your cloud.");
-                data = checkParseInt();
-                while (!availableIndexClouds.contains(data)) {
-                    printer.println(">Invalid input. Please try again.");
-                    data = checkParseInt();
-                }
+                answer.setData(InputController.checkInt(availableIndexClouds));
                 answer.setAction(Action.CHOOSE_CLOUD);
-                answer.setData(data);
                 connection.send(answer);
                 break;
         }
     }
 
-    private String checkYNInput() {
-        String response = reader.nextLine();
-        while (!response.equalsIgnoreCase("y") && !response.equalsIgnoreCase("n")) {
-            printer.println(">Invalid input.Please try again.");
-            printer.println(">Are you sure about your choice? [y/n]: ");
-            response = reader.nextLine();
-        }
-        return response;
-    }
 
     //Gestisce i parametri da settare in base alla character card
     private void manageCharacterCardChoice(AskActionMessage message) {
-        int data;
-        List<CharacterColor> availableStudentsColors;
         ActionMessage answer = new ActionMessage();
         CharacterCard characterCard = message.getChosenCharacterCard();
         answer.setAction(Action.USE_CHARACTER_CARD);
         answer.setCharacterCardName(characterCard.getName().toString());
         String parameter;
-        boolean error = true;
         switch (characterCard.getName()) {
             case PRIEST: //isole e colore dello studente
-                printer.println(">Choose the student that you want to move: ");
-                do {
-                    parameter = reader.nextLine().toUpperCase();
-                    for (Student s : ((CharacterCardwithStudents) characterCard).getStudents()) {
-                        if (s.getColor().toString().equalsIgnoreCase(parameter)) {
-                            error = false;
-                        }
-                    }
-                    if (error) {
-                        printer.println(">Invalid input. Please try again.");
-                    }
-                } while (error);
-                answer.setParameter(parameter);
-                for (int i = 1; i <= message.getIslands().size(); i++) {
-                    printer.println("#" + i + "\t" + message.getIslands().get(i - 1));
-                }
-                printer.println(">Choose an island: ");
-                data = checkParseInt();
-                while (data < 1 || data > message.getIslands().size()) {
-                    printer.println(">Invalid input. Please try again");
-                    data = checkParseInt();
-                }
-                answer.setData(data - 1);
+                answer.setParameter(chooseStudentColor(((CharacterCardwithStudents) characterCard).getStudents(),
+                        false, ">Please choose the color of the student that you want to move from the Card:"));
+                answer.setData(chooseIsland(message.getIslands()) - 1);
                 break;
             case DIPLOMAT: //Isole
-                for (int i = 1; i <= message.getIslands().size(); i++) {
-                    printer.println("#" + i + "\t" + message.getIslands().get(i - 1));
-                }
-                printer.println(">Choose an island: ");
-                data = checkParseInt();
-                while (data < 1 || data > message.getIslands().size()) {
-                    printer.println(">Invalid input. Please try again");
-                    data = checkParseInt();
-                }
-                answer.setData(data - 1);
-                break;
             case HERBOLARIA: //isole
-                for (int i = 1; i <= message.getIslands().size(); i++) {
-                    printer.println("#" + i + "\t" + message.getIslands().get(i - 1));
-                }
-                printer.println(">Choose an island: ");
-                data = checkParseInt();
-                while (data < 1 || data > message.getIslands().size()) {
-                    printer.println(">Invalid input. Please try again");
-                    data = checkParseInt();
-                }
-                answer.setData(data - 1);
+                answer.setData(chooseIsland(message.getIslands()) - 1);
                 break;
             case CLOWN://colori studenti della carta e studenti colori ingresso scuola
                 if (!alreadyAskedMovements) {
                     printer.println("How many students do you want to change?");
-                    do {
-                        data = checkParseInt();
-                    } while (data < 1 || data > 3);
-                    answer.setData(data);
+                    alreadyAskedMovements=true;
+                    answer.setData(InputController.checkRange(1,3));
                 }
                 printer.println(">Students on the Character Card: ");
-                for (Student s : ((CharacterCardwithStudents) characterCard).getStudents()) {
-                    printer.println(s);
-                }
-                printer.println(">Choose the student that you want to move from the card: ");
-                do {
-                    parameter = reader.nextLine().toUpperCase();
-                    for (Student s : ((CharacterCardwithStudents) characterCard).getStudents()) {
-                        if (s.getColor().toString().equalsIgnoreCase(parameter)) {
-                            error = false;
-                        }
-                    }
-                    if (error) {
-                        printer.println(">Invalid input. Please try again.");
-                    }
-                } while (error);
-                answer.setParameter(parameter);
-                printer.println(">Students in your Entrance: ");
-                availableStudentsColors = new ArrayList<>();
-                for (Student s : message.getSchool().getEntrance()) {
-                    availableStudentsColors.add(s.getColor());
-                    printer.println(s + "\t");
-                }
-                printer.println(">Choose the student that you want to move from your Entrance: ");
-                parameter = reader.nextLine().toUpperCase();
-                while (!availableStudentsColors.contains(CharacterColor.valueOf(parameter.toUpperCase()))) {
-                    printer.println(">Invalid input. Please try again");
-                    parameter = reader.nextLine().toUpperCase();
-                }
-                answer.setParameter(parameter);
+                answer.setParameter(chooseStudentColor(((CharacterCardwithStudents) characterCard).getStudents(),
+                        true, ">Please choose the color of the student that you want to move from the Card:"));
+                printer.println(">These are your entrance's students:");
+                answer.setParameter(chooseStudentColor(message.getSchool().getEntrance(), true,
+                        ">Please choose the color of the student that you want to move from your Entrance:"));
                 break;
             case LUMBERJACK://colore a caso disponibile in character color
-                printer.println("Choose a color: ");
-                parameter = reader.nextLine().toUpperCase();
-                while (!Arrays.asList(CharacterColor.values()).contains(CharacterColor.valueOf(parameter))) {
-                    printer.println(">Invalid input. Please try again");
-                    parameter = reader.nextLine().toUpperCase();
-                }
-                answer.setParameter(parameter);
-                break;
-            case PERFORMER://colori della carta e nell?ingresso
-                printer.println("How many students do you want to change?");
-                do {
-                    data = checkParseInt();
-                } while (data < 1 || data > 2);
-                for (int i = 0; i < data; i++) {
-                    printer.println(">This is your School: ");
-                    printer.println(message.getSchool().toString());
-                    printer.println(">Choose the student that you want to move from your Dining Room to your Entrance: ");
-                    parameter = reader.nextLine().toUpperCase();
-                    while (message.getSchool().getDiningRoom().get(CharacterColor.valueOf(parameter)).size() < 1) {
-                        printer.println(">Invalid input. Please try again");
-                        parameter = reader.nextLine().toUpperCase();
-                    }
-                    answer.setParameter(parameter);
-                    printer.println(">Choose the student that you want to move from your Entrance to your Dining Room: ");
-                    availableStudentsColors = new ArrayList<>();
-                    for (Student s : message.getSchool().getEntrance()) {
-                        availableStudentsColors.add(s.getColor());
-                    }
-                    parameter = reader.nextLine().toUpperCase();
-                    while (!availableStudentsColors.contains(CharacterColor.valueOf(parameter.toUpperCase()))) {
-                        printer.println(">Invalid input. Please try again");
-                        parameter = reader.nextLine().toUpperCase();
-                    }
-                    answer.setParameter(parameter);
-                }
-
-                break;
-            case QUEEN://colori carta
-                printer.println(">Choose the student that you want to move from the card: ");
-                do {
-                    parameter = reader.nextLine().toUpperCase();
-                    for (Student s : ((CharacterCardwithStudents) characterCard).getStudents()) {
-                        if (s.getColor().toString().equalsIgnoreCase(parameter)) {
-                            error = false;
-                        }
-                    }
-                    if (error) {
-                        printer.println(">Invalid input. Please try again.");
-                    }
-                } while (error);
-                answer.setParameter(parameter);
-                break;
             case THIEF://colore casuale
                 printer.println("Choose a color: ");
                 parameter = reader.nextLine().toUpperCase();
@@ -429,26 +266,53 @@ public class Cli implements View {
                 }
                 answer.setParameter(parameter);
                 break;
+            case PERFORMER://colori della carta e nell?ingresso
+                if (!alreadyAskedMovements) {
+                    printer.println("How many students do you want to change?");
+                    answer.setData(InputController.checkRange(1,2));
+                }
+                printer.println(">This is your School: ");
+                printer.println(message.getSchool().toString());
+                printer.println(">Choose the student that you want to move from your Dining Room to your Entrance: ");
+                parameter = reader.nextLine().toUpperCase();
+                while (message.getSchool().getDiningRoom().get(CharacterColor.valueOf(parameter)).size() < 1) {
+                    printer.println(">Invalid input. Please try again");
+                    parameter = reader.nextLine().toUpperCase();
+                }
+                answer.setParameter(parameter);
+                answer.setParameter(chooseStudentColor(message.getSchool().getEntrance(), false,
+                        ">Choose the student that you want to move from your Entrance to your Dining Room: "));
+                break;
+            case QUEEN://colori carta
+                answer.setParameter(chooseStudentColor(((CharacterCardwithStudents) characterCard).getStudents(),
+                        false, ">Please choose the color of the student that you want to move from the Card:"));
+                break;
         }
-    connection.send(answer);
+        connection.send(answer);
     }
 
-    private int checkParseInt() {
-        int result = -1;
-        boolean error;
-        do {
-            try {
-                result = Integer.parseInt(reader.nextLine());
-                error = false;
-            } catch (NumberFormatException e) {
-                System.out.println(">Invalid input: you have to insert a number. Please try again.");
-                error = true;
-            }
-        } while (error);
-        return result;
+    private int chooseIsland(List<Island> islands) {
+        for (int i = 1; i <= islands.size(); i++) {
+            printer.println("#" + i + "\t" + islands.get(i - 1));
+        }
+        printer.println(">Choose an island: ");
+        return InputController.checkRange(1, islands.size());
+    }
+
+    private String chooseStudentColor(List<Student> students, boolean enablePrint, String message) {
+        List<String> availableStudentsColors = new ArrayList<>();
+        for (Student s : students) {
+            availableStudentsColors.add(s.getColor().toString());
+            if (enablePrint)
+                printer.println(s + "\t");
+        }
+        printer.println(message);
+        String parameter = reader.nextLine().toUpperCase();
+        while (!availableStudentsColors.contains(parameter)) {
+            printer.println(">Invalid input. Please try again");
+            parameter = reader.nextLine().toUpperCase();
+        }
+        return parameter;
     }
 }
-
-
-
 

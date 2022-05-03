@@ -11,7 +11,7 @@ import static it.polimi.ingsw.controller.StrategyFactory.strategyFactory;
 
 public class ActionController {
     private final GameModel gameModel;
-    private String player;
+    private final String player;
     private CharacterCardStrategy strategy;
 
     public ActionController(GameModel gameModel) {
@@ -35,12 +35,14 @@ public class ActionController {
     public void useCharacterCard(ActionMessage actionMessage, boolean strategy) {
         if (strategy) {
             this.strategy = strategyFactory(actionMessage.getCharacterCardName(), gameModel);
-            this.strategy.useEffect(actionMessage);
         } else if (actionMessage.getCharacterCardName().equalsIgnoreCase("DINER")) {
             updateAllProfessors();
         }
         BoardExpert boardExpert = (BoardExpert) gameModel.getBoard();
         boardExpert.moveCoin(player, boardExpert.getCharacterCardbyName(actionMessage.getCharacterCardName()));
+    }
+    public void useCharacterCardEffect(ActionMessage actionMessage){
+        this.strategy.useEffect(actionMessage);
     }
 
     //metodo che ritorna il player con più influenza sull'isola specificata
@@ -73,7 +75,7 @@ public class ActionController {
 
     //metodo che muove madre natura
     //sposta le tower automaticamente
-    //TODO il movimento delle tower è atomico con lo spotamento di madre natura o deve essere il client a farlo cosi possiamo usare una specialCard dopo il movimento di madre natura  e prima d i muovere le torri
+    //TODO il movimento delle tower è atomico con lo spostamento di madre natura o deve essere il client a farlo cosi possiamo usare una specialCard dopo il movimento di madre natura  e prima d i muovere le torri
     //TODO tutte le getInfluence() devono ritornare NONE in caso di pareggio
     public String moveMotherNature(ActionMessage actionMessage) {
         String newOwner = "NONE";

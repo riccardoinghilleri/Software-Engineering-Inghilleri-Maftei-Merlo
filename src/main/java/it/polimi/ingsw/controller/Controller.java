@@ -6,6 +6,7 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
 import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.server.model.enums.CharacterCardName;
 
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -19,7 +20,10 @@ public class Controller {
     private int defaultMovements;
     private boolean alreadyUsedCharacterCard;
     private Action phase;
+    private List<Action> availableActions;
     private String characterCardName;
+
+    private int maxCharacterCardsMovements;
 
     private PropertyChangeSupport listeners;
 
@@ -30,13 +34,19 @@ public class Controller {
         characterCardMovements = 0;
         defaultMovements = 0;
         alreadyUsedCharacterCard = false;
+        this.maxCharacterCardsMovements=-1;
         listeners = new PropertyChangeSupport(this);
         listeners.addPropertyChangeListener("end_game", gameHandler);
-        listeners.addPropertyChangeListener("set_assistantCard",gameHandler);
+        listeners.addPropertyChangeListener("set_assistantCard", gameHandler);
+        availableActions = new ArrayList<>();
     }
 
     public int getPlayerTurnNumber() {
         return playerTurnNumber;
+    }
+
+    public String getCharacterCardName() {
+        return characterCardName;
     }
 
     public Action getPhase() {
@@ -60,7 +70,7 @@ public class Controller {
             }
         }
         gameModel.getCurrentPlayer().setAssistantCard(actionMessage.getData());
-        listeners.firePropertyChange("set_assistantCard" ,null,actionMessage);
+        listeners.firePropertyChange("set_assistantCard", null, actionMessage);
         playerTurnNumber++;
         if (playerTurnNumber == gameModel.getPlayersNumber()) {
             playerTurnNumber = 0;
@@ -71,37 +81,80 @@ public class Controller {
     }
 
     private void startPlayerTurn() {
-        actionController = new ActionController(gameModel);
         characterCardMovements = 0;
         defaultMovements = 0;
         alreadyUsedCharacterCard = false;
-        phase = Action.DEFAULT_MOVEMENTS;
+        availableActions = Action.getDefaultActions();
+        if (gameModel.isExpertGame()) {
+            phase = Action.CHOOSE_CHARACTER_CARD;
+        } else phase = availableActions.remove(0);
         gameModel.setCurrentPlayer(playerTurnNumber);
+        actionController = new ActionController(gameModel);
     }
 
     public String nextAction(ActionMessage actionMessage) {
         switch (actionMessage.getAction()) {
-            case USE_CHARACTER_CARD: // in questo modo la specialcard si può usare in qualunque momento del proprio turno tranne dopo aver scelto la nuvola
-                try {
-                    if (alreadyUsedCharacterCard)
-                        checkAlreadyUsedCharacterCard(actionMessage);
-                    else checkCoins(actionMessage);
-                } catch (AlreadyUsedCharacterCardException e) {
-                    System.out.println(e.getMessage());
-                    return "You have already used the character card";
-                } catch (NotEnoughCoinsException e) {
-                    System.out.println(e.getMessage());
-                    return "You have not got enough coins";
+            case CHOOSE_CHARACTER_CARD:
+                if (actionMessage.getCharacterCardName() == null) {
+                    phase = availableActions.remove(0);
+                } else {
+                    try {
+                        checkCoins(actionMessage);
+                    } catch (NotEnoughCoinsException e) {
+                        System.out.println(e.getMessage());
+                        return "You have not got enough coins";
+                    }
+                    characterCardName = actionMessage.getCharacterCardName();
+                    alreadyUsedCharacterCard = true;
+                    //se non ho settato una strategia e il nome non è lumberjack oppure il nome è postaman
+                    if ((!setCharacterCardEffect(actionMessage) && !characterCardName.equalsIgnoreCase("LUMBERJACK")) || characterCardName.equalsIgnoreCase("POSTMAN")) {
+                        phase = availableActions.remove(0);
+                    } else phase = Action.USE_CHARACTER_CARD;
                 }
-                if (!alreadyUsedCharacterCard) { //se non è stata usata una carta la uso
+                break;
+            case USE_CHARACTER_CARD: // in questo modo la specialcard si può usare in qualunque momento del proprio turno tranne dopo aver scelto la nuvola
+                /*if (!alreadyUsedCharacterCard && actionMessage.getCharacterCardName() == null) {
+                    phase = availableActions.remove(0);
+                } else if (!alreadyUsedCharacterCard) {
+                    try {
+                        checkCoins(actionMessage);
+                    } catch (NotEnoughCoinsException e) {
+                        System.out.println(e.getMessage());
+                        return "You have not got enough coins";
+                    }
                     alreadyUsedCharacterCard = true;
                     characterCardName = actionMessage.getCharacterCardName();
-                    setCharacterCardEffect(actionMessage);
-                } else // se è stata usata ed è clown o performer, utilizzo l'effetto
-                {
-                    actionController.getCharacterCardStrategy().useEffect(actionMessage); //serve per non settare la strategia più volte se è gia stata settata
+                    if (!setCharacterCardEffect(actionMessage) && !characterCardName.equalsIgnoreCase("LUMBERJACK"))
+                        phase = availableActions.remove(0);
+                    characterCardName = actionMessage.getCharacterCardName();
+                } else {
+                    if (characterCardName.equalsIgnoreCase("LUMBERJACK")) {
+                        actionController = new Lumberjack(gameModel, actionMessage.getParameters().get(0));
+                        phase = availableActions.remove(0);
+                    } else*/
+                if (characterCardName.equalsIgnoreCase("LUMBERJACK")) {
+                    ((Lumberjack) actionController).setColor(actionMessage.getParameters().get(0));
+                    phase = availableActions.remove(0);
+                } else {
+                    if((characterCardName.equalsIgnoreCase("PERFORMER") || characterCardName.equalsIgnoreCase("CLOWN")) && characterCardMovements==0){
+                        maxCharacterCardsMovements=actionMessage.getData();
+                    }
+                    actionController.useCharacterCardEffect(actionMessage);
+                    characterCardMovements++;
+                    if (characterCardName.equalsIgnoreCase("DIPLOMAT")) {
+                        for (School s : gameModel.getBoard().getSchools()) {
+                            if (s.getTowersNumber() == 0) {
+                                gameModel.setWinner(gameModel.getPlayerByNickname(s.getOwner()));
+                                listeners.firePropertyChange("end_game", null, null);
+                            }
+                        }
+                    }
+                    try {//TODO usare direttamente if dentro metodo check
+                        checkAlreadyUsedCharacterCard(characterCardName);
+                    } catch (AlreadyUsedCharacterCardException e) {
+                        phase = availableActions.remove(0);
+                    }
                 }
-                characterCardMovements++; // incremento il numero di volte che è stata usata la carta personaggio scelta
                 break;
             case DEFAULT_MOVEMENTS:
                 try {
@@ -117,19 +170,18 @@ public class Controller {
                     System.out.println(e.getMessage());
                     return "There is not a student of this color in your entrance.";
                 }
-                if (actionMessage.getData() == -1) { // significa che non devo spostare studente da hall a isola
-                    actionController.moveStudent(actionMessage.getFirstParameter().toUpperCase());
+                if (actionMessage.getData() == -1) { // significa che non devo spostare studente da entrance a isola
+                    actionController.moveStudent(actionMessage.getParameters().get(0).toUpperCase());
                 } else {
-                    actionController.moveStudent(actionMessage.getData(), actionMessage.getFirstParameter().toUpperCase());
+                    actionController.moveStudent(actionMessage.getData(), actionMessage.getParameters().get(0).toUpperCase());
                 }
                 defaultMovements++;
                 if (defaultMovements >= 4
                         || (defaultMovements >= 3 && gameModel.getPlayers().size() % 2 == 0)) {
-                    phase = Action.MOVE_MOTHER_NATURE;
+                    if (gameModel.isExpertGame() && !alreadyUsedCharacterCard)
+                        phase = Action.CHOOSE_CHARACTER_CARD;
+                    else phase = availableActions.remove(0);
                 }
-                break;
-            case GET_INFLUENCE: //TODO non so se è necessario
-                actionController.getInfluence(actionMessage);
                 break;
             case MOVE_MOTHER_NATURE:
                 try {
@@ -140,31 +192,20 @@ public class Controller {
                     return "Invalid action";
                 } catch (InvalidChosenStepsException e) {
                     System.out.println(e.getMessage());
-                    return " You can not mother nature so far";
+                    return " You can not move mother nature so far";
                 }
                 String newOwner = actionController.moveMotherNature(actionMessage);
                 if (!newOwner.equalsIgnoreCase("NONE")
                         && gameModel.getBoard().getSchoolByOwner(newOwner).getTowersNumber() == 0) {
                     gameModel.setWinner(gameModel.getPlayerByNickname(newOwner));
                     listeners.firePropertyChange("end_game", null, null);
-                }
-                else if (gameModel.getBoard().getIslands().size() == 3) {
+                } else if (gameModel.getBoard().getIslands().size() == 3) {
                     gameModel.getBoard().findWinner();
                     listeners.firePropertyChange("end_game", null, null);
                 }
-                phase = Action.CHOOSE_CLOUD;
-                /*if(gameModel.isHardcore()) {
-                    int newIslandPosition = (gameModel.getBoard().getNatureMotherPosition()
-                                            + ((NatureMotherMessage) message).getChoosenSteps())
-                                            % gameModel.getBoard().getIslands().size();
-                    BoardHard boardHard = (BoardHard) gameModel.getBoard();
-                    if (gameModel.getBoard().getIslands().get(newIslandPosition).isLocked()) {
-                        boardHard.removeLock(newIslandPosition);
-                        ((SpecialCardwithProhibitions) (boardHard.getSpecialCardbyName("Herbolaria"))).restockProhibitionsNumber();
-                    }
-                    else actionController.getInfluence(message);
-                }
-                else actionController.getInfluence(message);*/
+                if (gameModel.isExpertGame() && !alreadyUsedCharacterCard)
+                    phase = Action.CHOOSE_CHARACTER_CARD;
+                else phase = availableActions.remove(0);
                 break;
             case CHOOSE_CLOUD:
                 try {
@@ -189,13 +230,12 @@ public class Controller {
         if (playerTurnNumber == gameModel.getPlayersNumber()) {
             playerTurnNumber = 0;
             phase = Action.SETUP_CLOUD;
-
         } else {
             startPlayerTurn();
         }
     }
 
-    private void setCharacterCardEffect(ActionMessage actionMessage) //setta la strategy oppure crea l'actioncontroller giusto
+    private boolean setCharacterCardEffect(ActionMessage actionMessage) //setta la strategy oppure crea l'action controller giusto
     {
         boolean strategy = false;
         switch (actionMessage.getCharacterCardName().toUpperCase()) { //TODO ormai il current player è nel gamemodel quindi nel costruttore dell'actioncontroller e dello strategyfactory il player non serve più
@@ -209,22 +249,14 @@ public class Controller {
                 actionController = new Knight(gameModel);
                 break;
             case "LUMBERJACK":
-                actionController = new Lumberjack(gameModel, actionMessage.getFirstParameter());
+                actionController = new Lumberjack(gameModel);
                 break;
             default:
                 strategy = true; //setta strategia e usa effetto
                 break;
         }
         actionController.useCharacterCard(actionMessage, strategy);
-        if(actionMessage.getCharacterCardName().equalsIgnoreCase("DIPLOMAT")) {
-            for(School s : gameModel.getBoard().getSchools()) {
-                if(s.getTowersNumber()==0) {
-                    gameModel.setWinner(gameModel.getPlayerByNickname(s.getOwner()));
-                    listeners.firePropertyChange("end_game", null, null);
-                    return;
-                }
-            }
-        }
+        return strategy;
     }
 
     private void checkSameAssistantCard(int priority) throws SameAssistantCardException {
@@ -265,7 +297,7 @@ public class Controller {
     //TODO controllare se usare characterCardName e i suoi metodi
     private void checkChosenSteps(ActionMessage actionMessage) throws InvalidChosenStepsException {
         int steps = gameModel.getCurrentPlayer().getChosenAssistantCard().getMotherNatureSteps();
-        if (characterCardName!=null && characterCardName.equalsIgnoreCase("POSTMAN")) {
+        if (characterCardName != null && characterCardName.equalsIgnoreCase("POSTMAN")) {
             steps += 2;
         }
         if (actionMessage.getData() > steps) {
@@ -273,11 +305,11 @@ public class Controller {
         }
     }
 
-    private void checkAlreadyUsedCharacterCard(ActionMessage actionMessage) throws AlreadyUsedCharacterCardException {
-        if ((!actionMessage.getCharacterCardName().equalsIgnoreCase("CLOWN")
-                && !actionMessage.getCharacterCardName().equalsIgnoreCase("PERFORMER"))
-                || (actionMessage.getCharacterCardName().equalsIgnoreCase("CLOWN") && characterCardMovements >= 3)
-                || (actionMessage.getCharacterCardName().equalsIgnoreCase("PERFORMER") && characterCardMovements >= 2)) {
+    private void checkAlreadyUsedCharacterCard(String characterCardName) throws AlreadyUsedCharacterCardException {
+        if ((!characterCardName.equalsIgnoreCase("CLOWN")
+                && !characterCardName.equalsIgnoreCase("PERFORMER"))
+                || (characterCardName.equalsIgnoreCase("CLOWN") && characterCardMovements >= Math.min(3,maxCharacterCardsMovements))
+                || (characterCardName.equalsIgnoreCase("PERFORMER") && characterCardMovements >= Math.min(2,maxCharacterCardsMovements))) {
             throw new AlreadyUsedCharacterCardException();
         }
     }
@@ -287,7 +319,7 @@ public class Controller {
                 || (defaultMovements >= 3 && gameModel.getPlayers().size() % 2 == 0))
             throw new DefaultMovementsNumberException();
         else if (!(gameModel.getBoard().getSchoolByOwner(gameModel.getCurrentPlayer()
-                .getNickname()).hasEntranceStudentColor(actionMessage.getFirstParameter()))) {
+                .getNickname()).hasEntranceStudentColor(actionMessage.getParameters().get(0)))) {
             throw new DefaultMovementsColorException();
         }
     }

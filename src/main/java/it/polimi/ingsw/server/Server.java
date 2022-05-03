@@ -45,12 +45,12 @@ public class Server implements Runnable {
 
     public static void main(String[] args) {
         System.out.println(
-                " ███████╗ ██████═╗ ██╗     ██╗     ██╗   ██╗ ██████╗ ██   ██ ███████╗\n" +
-                        " ██ ════╝ ██║  ██║ ██║    ████╗    ███╗  ██║   ██══╝  ██ ██╝ ██ ════╝\n" +
-                        " ███████╗ ██████═╝ ██║   ██║ ██╗   ██║██╗██║   ██║     ██╝   ███████╗\n" +
-                        " ██ ════╝ ██║ ██╗  ██║  ██ ██ ██╗  ██║  ███║   ██║    ██╝         ██║\n" +
-                        " ███████╗ ██║  ██╗ ██║ ██╗     ██╗ ██║   ██║   ██║   ██╝     ███████║\n" +
-                        " ╚══════╝ ╚═╝  ╚═╝ ╚═╝ ╚═╝     ╚═╝ ╚═╝   ╚═╝   ╚═╝   ╚╝      ╚══════╝\n");
+                        " ███████╗ ██████═╗ ██╗     ██╗     ██╗   ██╗ ████████╗ ██   ██ ███████╗\n" +
+                        " ██╔════╝ ██╔══██║ ██║    ████╗    ███╗  ██║ ╚══██╔══╝  ██ ██╝ ██╔════╝\n" +
+                        " ███████╗ ██████═╝ ██║   ██╔═██╗   ██╔██╗██║    ██║      ██╝   ███████╗\n" +
+                        " ██╔════╝ ██╔══██╗ ██║  ██ ██ ██╗  ██║  ███║    ██║     ██╝    ╚════██║\n" +
+                        " ███████╗ ██║  ██║ ██║ ██╔═════██╗ ██║   ██║    ██║    ██╝     ███████║\n" +
+                        " ╚══════╝ ╚═╝  ╚═╝ ╚═╝ ╚═╝     ╚═╝ ╚═╝   ╚═╝    ╚═╝    ╚╝      ╚══════╝\n");
         System.out.println("Inghilleri Riccardo - Maftei Daniela - Merlo Manuela\n");
         Scanner scanner = new Scanner(System.in);
         System.out.println(">Welcome to the Eriantys' server.");
@@ -83,7 +83,6 @@ public class Server implements Runnable {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 VirtualView virtualView = new VirtualView(clientSocket, this);
-
                 this.executor.execute(virtualView);
             }
         } catch (IOException e) {

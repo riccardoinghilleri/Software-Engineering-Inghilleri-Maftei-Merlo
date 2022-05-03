@@ -108,7 +108,7 @@ public class BoardExpert extends Board {
                                     "la maggioranza verrà normalmente calcolata.");
                     break;
                 case POSTMAN:
-                    cards[i]=new CharacterCard(CharacterCardName.QUEEN,1,
+                    cards[i]=new CharacterCard(CharacterCardName.POSTMAN,1,
                             "Puoi muovere Madre Natura fino a 2 isole addizionali rispetto a quanto indicato " +
                                     "sulla Carta Assistente che hai giocato");
                     break;

@@ -17,7 +17,7 @@ public class Thief implements CharacterCardStrategy{
     }
     @Override
     public void useEffect(ActionMessage actionMessage) {
-        CharacterColor color=CharacterColor.valueOf(actionMessage.getFirstParameter());
+        CharacterColor color=CharacterColor.valueOf(actionMessage.getParameters().get(0));
         for(Player p: gameModel.getPlayers()){
             for(int i=0;i<3;i++){
                 if(board.getSchoolByOwner(p.getNickname()).getDiningRoom().get(color).size()>0)

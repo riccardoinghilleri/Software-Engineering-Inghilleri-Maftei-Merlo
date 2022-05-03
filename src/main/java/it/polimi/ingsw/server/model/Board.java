@@ -5,14 +5,14 @@ import java.util.*;
 
 
 public class Board {
-    private final int playersNumber;
-    private int motherNaturePosition;
+    private final transient int playersNumber;
+    private transient int motherNaturePosition;
     private final Cloud[] clouds;
     private final List<Island> islands;
     private final School[] schools;
-    private final List<Student> students;
+    private transient final List<Student> students;
     private final Professor[] professors;
-    private final GameModel gameModel;
+    private final transient GameModel gameModel;
 
     //TODO metodo int getInfluencePlayer(String Player, int islandPosition) RITORNA L'INFLUENZA DI UN PLAYER SULL'ISOLA E NON CHI HA PIU INFLUENZA
 

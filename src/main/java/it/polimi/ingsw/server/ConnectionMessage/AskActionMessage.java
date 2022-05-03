@@ -1,47 +1,80 @@
 package it.polimi.ingsw.server.ConnectionMessage;
 
-import it.polimi.ingsw.client.Cli;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.controller.Action;
-import it.polimi.ingsw.server.model.AssistantCard;
-import it.polimi.ingsw.server.model.Cloud;
-import it.polimi.ingsw.server.model.Student;
+import it.polimi.ingsw.server.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AskActionMessage implements Message,ServerMessage {
+public class AskActionMessage implements Message, ServerMessage {
     private final Action action;
     private final int data;
-    private final List<Student> availableStudents;
+    private final List<Island> islands;
+    private final School school;
     private final List<AssistantCard> availableAssistantCards;
     private final Cloud[] clouds;
+    private final CharacterCard[] characterCards;
 
-    //CHOODE_ASSISTANT_CARD
+    private final CharacterCard chosenCharacterCard;
+
+    //CHOOSE_ASSISTANT_CARD
     public AskActionMessage(Action action, List<AssistantCard> availability) {
         this.action = action;
         this.data = -1;
-        this.availableStudents = null;
+        this.school = null;
         this.availableAssistantCards = new ArrayList<>(availability);
         this.clouds = null;
+        this.characterCards = null;
+        this.islands = null;
+        this.chosenCharacterCard=null;
+    }
+
+    public AskActionMessage(Action action, CharacterCard[] characterCards) {
+        this.action = action;
+        this.data = -1;
+        this.school = null;
+        this.availableAssistantCards = null;
+        this.clouds = null;
+        this.characterCards = characterCards.clone();
+        this.islands = null;
+        this.chosenCharacterCard=null;
+    }
+
+    //USE_CHARACTER_CARD
+    public AskActionMessage(Action action, CharacterCard characterCard, List<Island> islands, School school) {
+        this.action = action;
+        this.data = -1;
+        this.school = new School(school);
+        this.availableAssistantCards = null;
+        this.chosenCharacterCard = characterCard;
+        this.clouds = null;
+        this.islands = new ArrayList<>(islands);
+        this.characterCards=null;
     }
 
     //DEFAULT_MOVEMENTS
-    public AskActionMessage(Action action, List<Student> availability, int data) {
+    public AskActionMessage(Action action, School school, List<Island> islands) {
         this.action = action;
-        this.data = data;
-        this.availableStudents = new ArrayList<>(availability);
+        this.data = -1;
+        this.school = new School(school);
         this.availableAssistantCards = null;
-        this.clouds=null;
+        this.clouds = null;
+        this.characterCards = null;
+        this.islands = new ArrayList<>(islands);
+        this.chosenCharacterCard=null;
     }
 
-
+    //CHOOSE_CLOUD
     public AskActionMessage(Action action, Cloud[] availability) {
         this.action = action;
         this.data = -1;
-        this.availableStudents = null;
+        this.school = null;
         this.availableAssistantCards = null;
         this.clouds = availability.clone();//TODO non so se serve clone. rivedere
+        this.characterCards = null;
+        this.islands = null;
+        this.chosenCharacterCard=null;
     }
 
     //MOVE_MOTHER_NATURE
@@ -49,16 +82,31 @@ public class AskActionMessage implements Message,ServerMessage {
         this.action = action;
         this.data = data;
         this.availableAssistantCards = null;
-        this.availableStudents = null;
-        this.clouds=null;
+        this.school = null;
+        this.clouds = null;
+        this.characterCards = null;
+        this.islands = null;
+        this.chosenCharacterCard=null;
+    }
+
+    public CharacterCard getChosenCharacterCard() {
+        return chosenCharacterCard;
     }
 
     public Cloud[] getClouds() {
         return clouds;
     }
 
-    public List<Student> getAvailableStudents() {
-        return availableStudents;
+    public CharacterCard[] getCharacterCards() {
+        return characterCards;
+    }
+
+    public List<Island> getIslands() {
+        return islands;
+    }
+
+    public School getSchool() {
+        return school;
     }
 
     public List<AssistantCard> getAvailableAssistantCards() {

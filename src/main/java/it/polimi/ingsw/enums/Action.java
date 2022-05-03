@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.enums;
 
 import java.util.ArrayList;
 import java.util.List;

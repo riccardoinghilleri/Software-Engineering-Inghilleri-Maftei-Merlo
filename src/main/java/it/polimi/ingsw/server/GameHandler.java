@@ -1,13 +1,14 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.controller.Action;
+import it.polimi.ingsw.enums.Action;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.server.ConnectionMessage.*;
+import it.polimi.ingsw.enums.GameHandlerPhase;
 import it.polimi.ingsw.server.model.BoardExpert;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Player;
-import it.polimi.ingsw.server.model.enums.PlayerColor;
-import it.polimi.ingsw.server.model.enums.Wizard;
+import it.polimi.ingsw.enums.PlayerColor;
+import it.polimi.ingsw.enums.Wizard;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

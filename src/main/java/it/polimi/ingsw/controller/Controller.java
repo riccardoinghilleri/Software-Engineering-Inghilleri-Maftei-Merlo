@@ -2,11 +2,11 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.actioncontroller.*;
 
+import it.polimi.ingsw.enums.Action;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
 import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.model.*;
-import it.polimi.ingsw.server.model.enums.CharacterCardName;
 
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;

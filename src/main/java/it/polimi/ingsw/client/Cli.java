@@ -8,13 +8,13 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import it.polimi.ingsw.controller.Action;
+import it.polimi.ingsw.enums.Action;
 import it.polimi.ingsw.server.ConnectionMessage.*;
 import it.polimi.ingsw.server.model.CharacterCard;
 import it.polimi.ingsw.server.model.CharacterCardwithStudents;
 import it.polimi.ingsw.server.model.Island;
 import it.polimi.ingsw.server.model.Student;
-import it.polimi.ingsw.server.model.enums.CharacterColor;
+import it.polimi.ingsw.enums.CharacterColor;
 
 public class Cli implements View {
     private final PrintStream printer;

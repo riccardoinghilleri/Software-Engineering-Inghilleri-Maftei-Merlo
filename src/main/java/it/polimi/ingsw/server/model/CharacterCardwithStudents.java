@@ -3,8 +3,8 @@ package it.polimi.ingsw.server.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.polimi.ingsw.server.model.enums.CharacterCardName;
-import it.polimi.ingsw.server.model.enums.CharacterColor;
+import it.polimi.ingsw.enums.CharacterCardName;
+import it.polimi.ingsw.enums.CharacterColor;
 
 public class CharacterCardwithStudents extends CharacterCard {
     private final List<Student> students;

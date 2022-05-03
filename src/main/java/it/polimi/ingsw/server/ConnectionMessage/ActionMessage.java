@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.ConnectionMessage;
 
-import it.polimi.ingsw.controller.Action;
+import it.polimi.ingsw.enums.Action;
 
 import java.util.ArrayList;
 import java.util.List;

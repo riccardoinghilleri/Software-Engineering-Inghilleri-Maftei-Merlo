@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.CharacterCardwithStudents;
 import it.polimi.ingsw.server.model.Student;
 import it.polimi.ingsw.server.model.BoardExpert;
-import it.polimi.ingsw.server.model.enums.CharacterColor;
+import it.polimi.ingsw.enums.CharacterColor;
 
 public class Clown implements CharacterCardStrategy{
 

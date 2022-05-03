@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.model.enums.CharacterColor;
-import it.polimi.ingsw.server.model.enums.PlayerColor;
+import it.polimi.ingsw.enums.CharacterColor;
+import it.polimi.ingsw.enums.PlayerColor;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.model;
 
 import org.junit.jupiter.api.BeforeEach;
-import it.polimi.ingsw.server.model.enums.CharacterColor;
-import it.polimi.ingsw.server.model.enums.PlayerColor;
+import it.polimi.ingsw.enums.CharacterColor;
+import it.polimi.ingsw.enums.PlayerColor;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

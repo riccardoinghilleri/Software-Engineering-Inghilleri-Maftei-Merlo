@@ -1,11 +1,11 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
-import it.polimi.ingsw.controller.Action;
+import it.polimi.ingsw.enums.Action;
 import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.CharacterCardwithProhibitions;
 import it.polimi.ingsw.server.model.BoardExpert;
-import it.polimi.ingsw.server.model.enums.CharacterColor;
+import it.polimi.ingsw.enums.CharacterColor;
 
 import static it.polimi.ingsw.controller.StrategyFactory.strategyFactory;
 

@@ -1,9 +1,10 @@
 package it.polimi.ingsw.server.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cloud {
+public class Cloud implements Serializable {
     private final List<Student> students;
 
     public Cloud() {
@@ -15,7 +16,7 @@ public class Cloud {
     }
 
     public void addStudents(List<Student> students) {
-        if(this.students.isEmpty()) {
+        if (this.students.isEmpty()) {
             this.students.addAll(students);
         }
     }
@@ -28,10 +29,10 @@ public class Cloud {
     }
 
     @Override
-    public String toString(){
-        String result = "";
-        for(Student s: students){
-            result=result.concat(s.toString()+" ");
+    public String toString() {
+        String result = ""; //TODO sistemare indice da stampare
+        for (Student s : students) {
+            result = result.concat(s.toString() + " ");
         }
         return result;
     }

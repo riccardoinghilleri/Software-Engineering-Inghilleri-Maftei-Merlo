@@ -34,6 +34,8 @@ public class VirtualView implements Runnable {
         this.inGame = false;
         this.server = server;
         this.alreadySettings = false;
+        active = new AtomicBoolean(false);
+        closed = new AtomicBoolean(false);
     }
 
     public void setGameHandler(GameHandler gameHandler) {
@@ -60,14 +62,11 @@ public class VirtualView implements Runnable {
 
             active.set(true);
 
-            startPinger();
-
-            sendMessage(new InfoMessage("Please choose the game's settings: "));
+            //startPinger();
 
             while (active.get()) {
 
                 Object clientMessage = is.readObject();
-
                 if (!(clientMessage instanceof InfoMessage && ((InfoMessage) clientMessage).getString().equalsIgnoreCase("PING"))) {
                     if (inGame)
                         gameHandler.manageMessage(this, (Message) clientMessage);

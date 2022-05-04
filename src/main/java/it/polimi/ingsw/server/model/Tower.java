@@ -1,13 +1,15 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.model.enums.PlayerColor;
+import it.polimi.ingsw.enums.PlayerColor;
 
-public class Tower {
+import java.io.Serializable;
+
+public class Tower implements Serializable {
     private final PlayerColor color;
     private final String owner;
 
     public Tower(String owner, PlayerColor color) {
-        this.owner=owner;
+        this.owner = owner;
         this.color = color;
     }
 

@@ -1,18 +1,18 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.model.enums.CharacterColor;
+import it.polimi.ingsw.enums.CharacterColor;
 import java.util.*;
 
 
 public class Board {
-    private final int playersNumber;
-    private int motherNaturePosition;
+    private final transient int playersNumber;
+    private transient int motherNaturePosition;
     private final Cloud[] clouds;
     private final List<Island> islands;
     private final School[] schools;
-    private final List<Student> students;
+    private transient final List<Student> students;
     private final Professor[] professors;
-    private final GameModel gameModel;
+    private final transient GameModel gameModel;
 
     //TODO metodo int getInfluencePlayer(String Player, int islandPosition) RITORNA L'INFLUENZA DI UN PLAYER SULL'ISOLA E NON CHI HA PIU INFLUENZA
 
@@ -58,23 +58,13 @@ public class Board {
 
         //--CREAZIONE SCUOLE--
         for(Player p:players){
-            schools[p.getClientID()-1] = new School(p.getNickname(),p.getColor(),playersNumber);
+            schools[p.getClientID()] = new School(p.getNickname(),p.getColor(),playersNumber);
         }
         setInitialEntrance();
     }
 
     public int getStudentsSize() {
         return students.size();
-    }
-
-    public List<Integer> getAvailableClouds() {
-        List<Integer> availableClouds = new ArrayList<>();
-        for(int i=0; i< clouds.length;i++) {
-            if(!clouds[i].getStudents().isEmpty()) {
-                availableClouds.add(i);
-            }
-        }
-        return availableClouds;
     }
 
     public int getMotherNaturePosition() {

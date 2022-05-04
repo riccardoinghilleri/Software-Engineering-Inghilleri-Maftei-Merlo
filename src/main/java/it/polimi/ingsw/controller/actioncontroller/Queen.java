@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.CharacterCardwithStudents;
 import it.polimi.ingsw.server.model.Student;
 import it.polimi.ingsw.server.model.BoardExpert;
-import it.polimi.ingsw.server.model.enums.CharacterColor;
+import it.polimi.ingsw.enums.CharacterColor;
 
 public class Queen implements CharacterCardStrategy {
 
@@ -20,7 +20,7 @@ public class Queen implements CharacterCardStrategy {
     @Override
     public void useEffect(ActionMessage actionMessage) {
         CharacterCardwithStudents character = (CharacterCardwithStudents)board.getCharacterCardbyName("QUEEN");
-        Student s = character.removeStudent(CharacterColor.valueOf(actionMessage.getFirstParameter()));
+        Student s = character.removeStudent(CharacterColor.valueOf(actionMessage.getParameters().get(0)));
         board.getSchoolByOwner(gameModel.getCurrentPlayer().getNickname()).addDiningRoomStudent(s);
         character.addStudent(board.removeRandomStudent());
     }

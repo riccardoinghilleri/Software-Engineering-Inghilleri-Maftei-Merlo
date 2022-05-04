@@ -3,11 +3,11 @@ package it.polimi.ingsw.server.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.polimi.ingsw.server.model.enums.CharacterCardName;
-import it.polimi.ingsw.server.model.enums.CharacterColor;
+import it.polimi.ingsw.enums.CharacterCardName;
+import it.polimi.ingsw.enums.CharacterColor;
 
 public class CharacterCardwithStudents extends CharacterCard {
-    private List<Student> students;
+    private final List<Student> students;
 
     public CharacterCardwithStudents(CharacterCardName name, int cost, String description, List<Student> students)
     {
@@ -33,6 +33,15 @@ public class CharacterCardwithStudents extends CharacterCard {
             }
         }
         return student;
+    }
+
+    @Override
+    public String toString() {
+        String result = super.getName() + ": " + super.getDescription() + "\nCost: " + super.getCost() + "\nStudents: ";
+        for(Student student: students) {
+            result= result.concat(student.toString() + " ");
+        }
+        return result;
     }
 
 }

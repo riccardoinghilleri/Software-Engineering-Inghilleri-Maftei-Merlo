@@ -1,14 +1,15 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.model.enums.CharacterColor;
-import it.polimi.ingsw.server.model.enums.PlayerColor;
+import it.polimi.ingsw.enums.CharacterColor;
+import it.polimi.ingsw.enums.PlayerColor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class School {
+public class School implements Serializable{
     private final String owner;
     private final List<Student> entrance;
     private final Map<CharacterColor,List<Student>> diningRoom;
@@ -23,16 +24,29 @@ public class School {
         this.towers=new ArrayList<>();
         if(playersNumber==2)
             for(int i=0;i<8;i++)
-            towers.add(new Tower(owner,playerColor));
+                towers.add(new Tower(owner,playerColor));
         else if (playersNumber==3)
             for(int i=0;i<6;i++)
-            towers.add(new Tower(owner,playerColor));
+                towers.add(new Tower(owner,playerColor));
         for(CharacterColor c : CharacterColor.values()) {
             this.diningRoom.put(c, new ArrayList<Student>());
         }
     }
 
+    public School(School school) { //TODO forse meglio implementare Cloneable
+        this.owner = school.getOwner();
+        this.playerColor= school.getTowerColor();
+        this.entrance=new ArrayList<>(school.getEntrance());
+        this.diningRoom=new HashMap<>(school.getDiningRoom());
+        this.towers=new ArrayList<>(school.getTowers());
+    }
+
     //---GETTER---//
+
+
+    public List<Tower> getTowers() {
+        return towers;
+    }
 
     public String getOwner() {
         return owner;
@@ -80,7 +94,6 @@ public class School {
     }
 
     public Student removeEntranceStudent(CharacterColor studentColor) {
-        //TODO lanciare un'eccezione se non è presente nella entrance uno studente del colore desiderato
         Student student = null;
         for(int i=0; i<entrance.size() && student == null; i++) {
             if(entrance.get(i).getColor().equals(studentColor)) {

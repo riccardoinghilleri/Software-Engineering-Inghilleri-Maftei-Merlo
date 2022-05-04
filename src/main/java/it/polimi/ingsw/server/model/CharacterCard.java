@@ -1,8 +1,10 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.model.enums.CharacterCardName;
+import it.polimi.ingsw.enums.CharacterCardName;
 
-public class CharacterCard {
+import java.io.Serializable;
+
+public class CharacterCard implements Serializable {
     private int cost;
     private final String description;
     private final CharacterCardName name;
@@ -29,5 +31,10 @@ public class CharacterCard {
     public void updateCost ()
     {
         this.cost++;
+    }
+
+    @Override
+    public String toString() {
+        return this.name + ": " + this.description + "\nCost: " + this.cost;
     }
 }

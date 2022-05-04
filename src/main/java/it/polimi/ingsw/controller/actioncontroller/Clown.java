@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.CharacterCardwithStudents;
 import it.polimi.ingsw.server.model.Student;
 import it.polimi.ingsw.server.model.BoardExpert;
-import it.polimi.ingsw.server.model.enums.CharacterColor;
+import it.polimi.ingsw.enums.CharacterColor;
 
 public class Clown implements CharacterCardStrategy{
 
@@ -19,11 +19,10 @@ public class Clown implements CharacterCardStrategy{
     @Override
     public void useEffect(ActionMessage actionMessage) {
         String player = gameModel.getCurrentPlayer().getNickname();
-        Student s1 = board.getSchoolByOwner(player).removeEntranceStudent(CharacterColor.valueOf(actionMessage.getFirstParameter()));
-        Student s2 = ((CharacterCardwithStudents)board.getCharacterCardbyName("PEFORMER")).removeStudent(CharacterColor.valueOf(actionMessage.getSecondParameter()));
-        board.getSchoolByOwner(player).getEntrance().add(s2);
-        ((CharacterCardwithStudents)board.getCharacterCardbyName("PEFORMER")).addStudent(s1);
-
+        Student s1 = ((CharacterCardwithStudents) board.getCharacterCardbyName("CLOWN")).removeStudent(CharacterColor.valueOf(actionMessage.getParameters().get(0)));
+        Student s2 = board.getSchoolByOwner(player).removeEntranceStudent(CharacterColor.valueOf(actionMessage.getParameters().get(1)));
+        ((CharacterCardwithStudents) board.getCharacterCardbyName("CLOWN")).addStudent(s2);
+        board.getSchoolByOwner(player).getEntrance().add(s1);
     }
 }
 

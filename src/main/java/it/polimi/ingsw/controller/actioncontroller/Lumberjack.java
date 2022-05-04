@@ -3,16 +3,19 @@ package it.polimi.ingsw.controller.actioncontroller;
 import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Player;
-import it.polimi.ingsw.server.model.enums.CharacterColor;
+import it.polimi.ingsw.enums.CharacterColor;
 
 import java.util.*;
 
 public class Lumberjack extends ActionController {
 
     String color;
-    public Lumberjack(GameModel gameModel, String color) {
+    public Lumberjack(GameModel gameModel) {
         super(gameModel);
-        this.color=color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     @Override

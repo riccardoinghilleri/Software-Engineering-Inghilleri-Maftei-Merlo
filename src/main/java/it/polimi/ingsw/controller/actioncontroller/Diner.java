@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller.actioncontroller;
 
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.School;
-import it.polimi.ingsw.server.model.enums.CharacterColor;
+import it.polimi.ingsw.enums.CharacterColor;
 
 public class Diner extends ActionController {
 

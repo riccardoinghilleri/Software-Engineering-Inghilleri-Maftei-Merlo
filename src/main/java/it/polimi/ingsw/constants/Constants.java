@@ -39,4 +39,12 @@ public class Constants {
     public static String moveCursor(int y, int x){
         return "\033["+y+";"+x+"H";
     }
+
+    public static String cursorUp(int y){
+        return "\033["+y+"A";
+    }
+
+    public static String cursorRight(int x){
+        return "\033["+x+"C";
+    }
 }

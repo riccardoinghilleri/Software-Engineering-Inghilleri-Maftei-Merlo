@@ -146,7 +146,7 @@ public class Cli implements View {
                 if (!alreadyAskedCard) {
                     printer.println(">Please choose your assistant card priority. These are the available choices:");
                     for (int i = 0; i < message.getAvailableAssistantCards().size(); i++) {
-                        printer.println(">" + message.getAvailableAssistantCards().get(i).toString());
+                        printer.println(message.getAvailableAssistantCards().get(i).draw());
                         availablePriority.add(message.getAvailableAssistantCards().get(i).getPriority());
                     }
                     alreadyAskedCard = true;

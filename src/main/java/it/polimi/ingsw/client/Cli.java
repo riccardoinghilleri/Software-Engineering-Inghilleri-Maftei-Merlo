@@ -214,7 +214,7 @@ public class Cli implements View {
                 for (int i = 0; i < message.getClouds().length; i++) {
                     if (!(message.getClouds())[i].getStudents().isEmpty()) {
                         availableIndexClouds.add(i);
-                        printer.println("CLOUD #" + i + "\n" + (message.getClouds())[i] + "\n");
+                        printer.println("CLOUD #" + i + "\n" + (message.getClouds())[i].draw());
                     }
                 }
                 printer.println(">Please choose your cloud.");

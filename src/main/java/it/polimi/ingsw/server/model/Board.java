@@ -3,7 +3,6 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.enums.CharacterColor;
 import java.util.*;
 
-
 public class Board {
     private final transient int playersNumber;
     private transient int motherNaturePosition;
@@ -11,7 +10,7 @@ public class Board {
     private final List<Island> islands;
     private final School[] schools;
     private transient final List<Student> students;
-    private final Professor[] professors;
+    private final Professor[] professors; //è un salvataggio
     private final transient GameModel gameModel;
 
     //TODO metodo int getInfluencePlayer(String Player, int islandPosition) RITORNA L'INFLUENZA DI UN PLAYER SULL'ISOLA E NON CHI HA PIU INFLUENZA
@@ -20,14 +19,14 @@ public class Board {
         this.gameModel = gameModel;
         this.playersNumber = players.size();
         this.motherNaturePosition = 0;
-        this.students=new ArrayList<>();
-        this.professors=new Professor[5];
+        this.students = new ArrayList<>();
+        this.professors = new Professor[5];
         this.clouds = new Cloud[playersNumber];
         this.islands = new ArrayList<>();
         this.schools = new School[playersNumber];
 
         //--CREAZIONE STUDENTI--
-        for (int j = 0; j< 26; j++) {
+        for (int j = 0; j < 26; j++) {
             this.students.add(new Student(CharacterColor.RED));
             this.students.add(new Student(CharacterColor.BLUE));
             this.students.add(new Student(CharacterColor.GREEN));
@@ -42,8 +41,8 @@ public class Board {
         }
 
         //--CREAZIONE NUVOLE--
-        for(int i=0;i<playersNumber;i++){
-            clouds[i]=new Cloud();
+        for (int i = 0; i < playersNumber; i++) {
+            clouds[i] = new Cloud();
         }
 
         //--CREAZIONE ISOLE--
@@ -57,8 +56,8 @@ public class Board {
         }
 
         //--CREAZIONE SCUOLE--
-        for(Player p:players){
-            schools[p.getClientID()] = new School(p.getNickname(),p.getColor(),playersNumber);
+        for (Player p : players) {
+            schools[p.getClientID()] = new School(p.getNickname(), p.getColor(), playersNumber);
         }
         setInitialEntrance();
     }
@@ -85,10 +84,10 @@ public class Board {
 
     //TODO ECCEZIONE SE NICKNAME E' SBAGLIATO
     public School getSchoolByOwner(String nickname) {
-        int flag=-1;
-        for (int i = 0; i < schools.length && flag==-1; i++) {
+        int flag = -1;
+        for (int i = 0; i < schools.length && flag == -1; i++) {
             if (nickname.equalsIgnoreCase(schools[i].getOwner()))
-               flag=i;
+                flag = i;
         }
         return schools[flag];
     }
@@ -99,16 +98,16 @@ public class Board {
     }
 
     public void setStudentsonClouds() {
-        for(Cloud cloud : clouds) {
-            if(playersNumber==2 || playersNumber==4)
+        for (Cloud cloud : clouds) {
+            if (playersNumber == 2 || playersNumber == 4)
                 cloud.addStudents(removeRandomStudents(3));
             else cloud.addStudents(removeRandomStudents(4));
         }
     }
 
     private void setInitialEntrance() {
-        for(School school : schools) {
-            if(playersNumber==2 || playersNumber==4)
+        for (School school : schools) {
+            if (playersNumber == 2 || playersNumber == 4)
                 school.addEntranceStudents(removeRandomStudents(7));
             else school.addEntranceStudents(removeRandomStudents(9));
         }
@@ -129,68 +128,71 @@ public class Board {
     }
 
     public void updateProfessor(CharacterColor color) {
-        String owner = professors[color.ordinal()].getOwner();
-        int max=0;
-        if(!owner.equalsIgnoreCase("NONE")) {
-            max = getSchoolByOwner(owner).getDiningRoom().get(color).size();
+        String oldOwner = professors[color.ordinal()].getOwner();
+        String newOwner = null;
+        int max = 0;
+        if (!oldOwner.equalsIgnoreCase("NONE")) {
+            max = getSchoolByOwner(oldOwner).getDiningRoom().get(color).size();
         }
-        for(School s: schools){
-            if(max<s.getDiningRoom().get(color).size()){
-                max=s.getDiningRoom().get(color).size();
-                owner=s.getOwner();
+        for (School s : schools) {
+            if (max < s.getDiningRoom().get(color).size()) {
+                max = s.getDiningRoom().get(color).size();
+                newOwner = s.getOwner();
             }
         }
-        professors[color.ordinal()].setOwner(owner);
+        if (newOwner != null) {
+            professors[color.ordinal()].setOwner(newOwner);
+            //Per la grafica:
+            if(!oldOwner.equalsIgnoreCase("NONE"))
+                getSchoolByOwner(newOwner).addProfessor(getSchoolByOwner(oldOwner).removeProfessor(color));
+            else getSchoolByOwner(newOwner).addProfessor(professors[color.ordinal()]);
+        }
     }
 
     //Calcolo dell'influenza tenendo conto di tutti i professori e le tower
     //Ritorna il player che ha piu influenza sull'isola scelta
     public String getTotalInfluence(int islandPosition) {
-        Map<String,Integer> owners = new HashMap<>();
-        for(Player player : gameModel.getPlayers()) {
-            owners.put(player.getNickname(),0);
+        Map<String, Integer> owners = new HashMap<>();
+        for (Player player : gameModel.getPlayers()) {
+            owners.put(player.getNickname(), 0);
         }
-        owners = getStudentInfluence(islandPosition,owners,Arrays.asList(CharacterColor.values()));
+        owners = getStudentInfluence(islandPosition, owners, Arrays.asList(CharacterColor.values()));
         // Aggiungo l'influenza delle torri
-        if(!islands.get(islandPosition).getTowers().isEmpty())
-        {
+        if (!islands.get(islandPosition).getTowers().isEmpty()) {
             owners = getTowersInfluence(islandPosition, owners);
         }
         return getMaxInfluence(owners);
     }
 
     //Calcolo influenza dei player data dagli studenti presenti sull'isola
-    public Map<String,Integer> getStudentInfluence(int islandPosition, Map<String,Integer> owners, List<CharacterColor> characterColors) {
-        Map<CharacterColor,List<Student>> students=islands.get(islandPosition).getStudents();
+    public Map<String, Integer> getStudentInfluence(int islandPosition, Map<String, Integer> owners, List<CharacterColor> characterColors) {
+        Map<CharacterColor, List<Student>> students = islands.get(islandPosition).getStudents();
         String owner;
-        for (CharacterColor c: characterColors)
-        {
+        for (CharacterColor c : characterColors) {
             owner = professors[c.ordinal()].getOwner();
-            if(!owner.equals("NONE"))
-                owners.replace(owner,owners.get(owner)+students.get(c).size());
+            if (!owner.equals("NONE"))
+                owners.replace(owner, owners.get(owner) + students.get(c).size());
         }
         return owners;
     }
     //Calcolo influenza dei player data dalle torri presenti sull'isola
 
-    public Map<String,Integer> getTowersInfluence(int islandPosition, Map<String,Integer> owners) {
+    public Map<String, Integer> getTowersInfluence(int islandPosition, Map<String, Integer> owners) {
         String owner = islands.get(islandPosition).getTowers().get(0).getOwner();
-        owners.replace(owner,owners.get(owner)+islands.get(islandPosition).getTowers().size());
+        owners.replace(owner, owners.get(owner) + islands.get(islandPosition).getTowers().size());
         return owners;
     }
 
     //Data una Mappa<String,Integer> restituisce il player con piu influenza
     public String getMaxInfluence(Map<String, Integer> owners) {
-        int max=0;
-        String result="NONE";
-        for(String s : owners.keySet())
-        {
-            if(owners.get(s)>max) {
+        int max = 0;
+        String result = "NONE";
+        for (String s : owners.keySet()) {
+            if (owners.get(s) > max) {
                 max = owners.get(s);
                 result = s;
-            }
-            else if(owners.get(s)==max)
-                result="NONE";
+            } else if (owners.get(s) == max)
+                result = "NONE";
         }
         return result;
     }
@@ -201,98 +203,96 @@ public class Board {
     }
 
     //Muove una torre da una isola alla scuola
-    public void moveTower(int fromIsland,String toSchool) {
+    public void moveTower(int fromIsland, String toSchool) {
         getSchoolByOwner(toSchool).restockTower(islands.get(fromIsland).removeTowers());
     }
 
     //Restituisce una lista di num studenti casuali
-    public List<Student> removeRandomStudents (int studentsNumber) {
-        List<Student> result= new ArrayList<>();
-        for(int i=0;i < studentsNumber;i++)
-        {
-            result.add(students.remove(students.size()-1-i));
+    public List<Student> removeRandomStudents(int studentsNumber) {
+        List<Student> result = new ArrayList<>();
+        for (int i = 0; i < studentsNumber; i++) {
+            result.add(students.remove(students.size() - 1 - i));
         }
         return result;
     }
     //Restituisce uno studente casuale
 
     public Student removeRandomStudent() {
-        return students.remove(students.size()-1);
+        return students.remove(students.size() - 1);
         //TODO se gli studenti non sono abbastanza le nuvole devono rimanere vuote
     }
 
     //Chiamo questo metodo ogni volta che viene aggiunta una torre su un'isola, la cui posizione viene passata come parametro
     //Controlla se le isole adiacenti a quella indicata hanno una torre delle stesso colore.
     //In questo caso, sposta tutti gli elementi delle isole adiacenti in quella indicata
-     public void checkNearIsland(int islandPosition) {
-         //controllo che l'isola adiacente successiva abbia delle torri
-         if(!islands.get((islandPosition+1)%islands.size()).getTowers().isEmpty() &&
-                 islands.get(islandPosition).getColorTower().equals(islands.get((islandPosition+1)%islands.size()).getColorTower()))
-         {
-             for(CharacterColor c : CharacterColor.values()) {
-                 islands.get(islandPosition).addStudents(islands.get((islandPosition + 1) % islands.size()).getStudents().get(c));
-             }
-             islands.get(islandPosition).addTowers(islands.get((islandPosition+1)%islands.size()).getTowers());
-             islands.remove((islandPosition+1)%islands.size());
-         }
-         int position=islandPosition-1;
-         if(position==-1)
-             position=islands.size()-1;
-         if(!islands.get(position).getTowers().isEmpty() &&
-                islands.get(islandPosition).getColorTower().equals(islands.get(position).getColorTower()))
-         {
-             for(CharacterColor c : CharacterColor.values()) {
-                 islands.get(islandPosition).addStudents(islands.get(position).getStudents().get(c));
-             }
-             islands.get(islandPosition).addTowers(islands.get(position).getTowers());
-             islands.remove(position);
-         }
-     }
-     public void findWinner() {
-         Player winner = gameModel.getPlayerByNickname(getSchools()[0].getOwner());
-         int min_tower = getSchools()[0].getTowersNumber();
-         for (int i = 1; i < playersNumber; i++) {
-             if (getSchools()[i].getTowersNumber() < min_tower) {
-                 min_tower = getSchools()[i].getTowersNumber();
-                 winner = gameModel.getPlayerByNickname(getSchools()[i].getOwner());
-             } else if (getSchools()[i].getTowersNumber() == min_tower) {
-                 winner = null;
-             }
-         }
-         if(winner==null){
-             int[] professors = new int[playersNumber];
-             for(Professor p : this.professors){
-                 professors[gameModel.getPlayerByNickname(p.getOwner()).getClientID()]++;
-             }
-             int max=professors[0];
-             winner=gameModel.getPlayerById(0);
-             for(int i=1;i<playersNumber;i++){
-                 if(max<professors[i]){
-                     max=professors[i];
-                     winner=gameModel.getPlayerById(i);
-                 }else if(max==professors[i])
-                     winner=null;
-             }
-         }
-         gameModel.setWinner(winner);
-     }
+    public void checkNearIsland(int islandPosition) {
+        //controllo che l'isola adiacente successiva abbia delle torri
+        if (!islands.get((islandPosition + 1) % islands.size()).getTowers().isEmpty() &&
+                islands.get(islandPosition).getColorTower().equals(islands.get((islandPosition + 1) % islands.size()).getColorTower())) {
+            for (CharacterColor c : CharacterColor.values()) {
+                islands.get(islandPosition).addStudents(islands.get((islandPosition + 1) % islands.size()).getStudents().get(c));
+            }
+            islands.get(islandPosition).addTowers(islands.get((islandPosition + 1) % islands.size()).getTowers());
+            islands.remove((islandPosition + 1) % islands.size());
+        }
+        int position = islandPosition - 1;
+        if (position == -1)
+            position = islands.size() - 1;
+        if (!islands.get(position).getTowers().isEmpty() &&
+                islands.get(islandPosition).getColorTower().equals(islands.get(position).getColorTower())) {
+            for (CharacterColor c : CharacterColor.values()) {
+                islands.get(islandPosition).addStudents(islands.get(position).getStudents().get(c));
+            }
+            islands.get(islandPosition).addTowers(islands.get(position).getTowers());
+            islands.remove(position);
+        }
+    }
 
-     @Override
-    public String toString(){
+    public void findWinner() {
+        Player winner = gameModel.getPlayerByNickname(getSchools()[0].getOwner());
+        int min_tower = getSchools()[0].getTowersNumber();
+        for (int i = 1; i < playersNumber; i++) {
+            if (getSchools()[i].getTowersNumber() < min_tower) {
+                min_tower = getSchools()[i].getTowersNumber();
+                winner = gameModel.getPlayerByNickname(getSchools()[i].getOwner());
+            } else if (getSchools()[i].getTowersNumber() == min_tower) {
+                winner = null;
+            }
+        }
+        if (winner == null) {
+            int[] professors = new int[playersNumber];
+            for (Professor p : this.professors) {
+                professors[gameModel.getPlayerByNickname(p.getOwner()).getClientID()]++;
+            }
+            int max = professors[0];
+            winner = gameModel.getPlayerById(0);
+            for (int i = 1; i < playersNumber; i++) {
+                if (max < professors[i]) {
+                    max = professors[i];
+                    winner = gameModel.getPlayerById(i);
+                } else if (max == professors[i])
+                    winner = null;
+            }
+        }
+        gameModel.setWinner(winner);
+    }
+
+    @Override
+    public String toString() {
         String result;
-        int i=0;
+        int i = 0;
         result = "Clouds:\n";
-        for(Cloud c: clouds) {
-            result = result.concat("Cloud # " + i +": ");
+        for (Cloud c : clouds) {
+            result = result.concat("Cloud # " + i + ": ");
             result = result.concat(c.toString() + "\n");
             i++;
         }
         result = result.concat("Schools:\n");
-        for(School s: schools)
-            result=result.concat(s.toString() + "\n");
+        for (School s : schools)
+            result = result.concat(s.toString() + "\n");
         result = result.concat("Professors:\n");
-        for(CharacterColor c : CharacterColor.values())
-            result=result.concat(c.toString() +" Professor: "+ getProfessorByColor(c).getOwner() + "\n");
+        for (CharacterColor c : CharacterColor.values())
+            result = result.concat(c.toString() + " Professor: " + getProfessorByColor(c).getOwner() + "\n");
         return result;
     }
 }

@@ -14,6 +14,7 @@ public class School implements Serializable {
     private final List<Student> entrance;
     private final Map<CharacterColor, List<Student>> diningRoom;
     private final List<Tower> towers;
+    public final List<Professor> professors;
     private final PlayerColor playerColor;
 
     public School(String owner, PlayerColor playerColor, int playersNumber) {
@@ -22,6 +23,7 @@ public class School implements Serializable {
         this.entrance = new ArrayList<>();
         this.diningRoom = new HashMap<>();
         this.towers = new ArrayList<>();
+        this.professors = new ArrayList<>();
         if (playersNumber == 2)
             for (int i = 0; i < 8; i++)
                 towers.add(new Tower(owner, playerColor));
@@ -39,10 +41,15 @@ public class School implements Serializable {
         this.entrance = new ArrayList<>(school.getEntrance());
         this.diningRoom = new HashMap<>(school.getDiningRoom());
         this.towers = new ArrayList<>(school.getTowers());
+        this.professors = new ArrayList<>(school.getProfessors());
     }
 
     //---GETTER---//
 
+
+    public List<Professor> getProfessors() {
+        return professors;
+    }
 
     public List<Tower> getTowers() {
         return towers;
@@ -130,20 +137,40 @@ public class School implements Serializable {
 
     }
 
+    public void addProfessor(Professor professor){
+        professors.add(professor);
+    }
+
+    public Professor removeProfessor(CharacterColor color) {
+        for(int i=0;i< professors.size();i++){
+            if(professors.get(i).getColor()==color){
+                return professors.remove(i);
+            }
+        }
+        return null;
+    }
+
+    public Professor getProfessorByColor(CharacterColor color){
+        for(Professor professor: professors) {
+            if(professor.getColor()==color) return professor;
+        }
+        return null;
+    }
+
     public StringBuilder draw() {
         StringBuilder box = new StringBuilder();
-        String top_wall="╔═══════════════════════════╗\n";
-        String middle_wall = "╠═══╦═══════════════════╦═══╣\n";
-        String bottom_wall = "╚═══╩═══════════════════╩═══╝\n";
+        String top_wall="╔═════════════════════════════╗\n";
+        String middle_wall = "╠═══╦═══════════════════╦═╦═══╣\n";
+        String bottom_wall = "╚═══╩═══════════════════╩═╩═══╝\n";
         String vertical_wall = "║";
         box.append(top_wall);
         int entrance_index = 0;
         int diningRoom_index = 0;
         int towers_index=0;
         int owner_index=0;
-        for(int j=0;j<29;j++){
-            if(j==0 ||j ==28) box.append(vertical_wall);
-            else if(j>(27-owner.length())/2 && owner_index<owner.length()){
+        for(int j=0;j<31;j++){
+            if(j==0 ||j ==30) box.append(vertical_wall);
+            else if(j>(29-owner.length())/2 && owner_index<owner.length()){
                 box.append(owner.charAt(owner_index));
                 owner_index++;
             }
@@ -151,10 +178,10 @@ public class School implements Serializable {
         }
         box.append("\n");
         box.append(middle_wall);
-        for (int i = 1; i < 6; i++) { //2 3mid
+        for (int i = 1; i < 6; i++) {
             diningRoom_index=0;
-            for (int j = 0; j < 29; j++) {
-                if (j == 0 || j == 4 || j == 24 || j == 28)
+            for (int j = 0; j < 31; j++) {
+                if (j == 0 || j == 4 || j == 24 || j==26 || j == 30)
                     box.append(vertical_wall);
                 else if ((j == 1 || j == 3) && entrance_index<entrance.size()) {
                     box.append(entrance.get(entrance_index));
@@ -163,7 +190,9 @@ public class School implements Serializable {
                         && diningRoom_index<diningRoom.get(CharacterColor.values()[i - 1]).size()) {
                     box.append(diningRoom.get(CharacterColor.values()[i - 1]).get(diningRoom_index));
                     diningRoom_index++;
-                } else if (j > 24 && j % 2 != 0 && towers_index<towers.size()) {
+                } else if(j==25 && getProfessorByColor(CharacterColor.values()[i - 1])!=null){
+                    box.append(getProfessorByColor(CharacterColor.values()[i - 1]));
+                } else if (j > 26 && j % 2 != 0 && towers_index<towers.size()) {
                     box.append(towers.get(towers_index));
                     towers_index++;
                 }

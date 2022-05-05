@@ -293,7 +293,7 @@ public class Cli implements View {
 
     private int chooseIsland(List<Island> islands) {
         for (int i = 1; i <= islands.size(); i++) {
-            printer.println("#" + i + "\t" + islands.get(i - 1));
+            printer.println("#" + i + "\n" + islands.get(i - 1).draw());
         }
         printer.println(">Choose an island: ");
         return InputController.checkRange(1, islands.size());

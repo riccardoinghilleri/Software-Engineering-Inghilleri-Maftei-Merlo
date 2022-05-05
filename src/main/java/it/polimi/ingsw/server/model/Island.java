@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.enums.CharacterColor;
 import it.polimi.ingsw.enums.PlayerColor;
+import it.polimi.ingsw.constants.Constants;
 
 import java.io.Serializable;
 import java.util.*;
@@ -94,6 +95,62 @@ public class Island implements Serializable {
 
     }
 
+    public StringBuilder draw() {
+        StringBuilder box = new StringBuilder();
+        int towers_index = 0;
+        String horizontal_wall = "═══════════════";
+        String to_right_wall = "/";
+        String to_left_wall = "\\";
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 21; j++) {
+                if (i == 0 || i == 5) {
+                    if (j == 3) box.append(horizontal_wall);
+                    else box.append(" ");
+                } else if ((i == 1 && j == 1) || (i == 2 && j == 0) || (i == 3 && j == 20) || (i == 4 && j == 19)) {
+                    box.append(to_right_wall);
+                } else if ((i == 1 && j == 19) || (i == 2 && j == 20) || (i == 3 && j == 0) || (i == 4 && j == 1)) {
+                    box.append(to_left_wall);
+                } else if (i == 1) {
+                    if (j == 8) {
+                        box.append(Constants.getAnsi(CharacterColor.BLUE));
+                        box.append(students.get(CharacterColor.BLUE).size());
+                        box.append(Constants.ANSI_RESET);
+                    } else if (j == 12) {
+                        box.append(Constants.getAnsi(CharacterColor.PINK));
+                        box.append(students.get(CharacterColor.PINK).size());
+                        box.append(Constants.ANSI_RESET);
+                    } else box.append(" ");
+                } else if (i == 2) {
+                    if (j == 6) {
+                        box.append(Constants.getAnsi(CharacterColor.GREEN));
+                        box.append(students.get(CharacterColor.GREEN).size());
+                        box.append(Constants.ANSI_RESET);
+                    } else if (j == 10) {
+                        box.append(Constants.getAnsi(CharacterColor.YELLOW));
+                        box.append(students.get(CharacterColor.YELLOW).size());
+                        box.append(Constants.ANSI_RESET);
+                    } else if (j == 14) {
+                        box.append(Constants.getAnsi(CharacterColor.RED));
+                        box.append(students.get(CharacterColor.RED).size());
+                        box.append(Constants.ANSI_RESET);
+                    } else box.append(" ");
+                } else if (i == 3) {
+                    if (j > 4 && j%2!=0 && j > (21 - towers.size()) / 2 && towers_index < towers.size()) {
+                        box.append(towers.get(towers_index));
+                        towers_index++;
+                    } else box.append(" ");
+                } else if (i == 4) {
+                    if (j == 8 && hasMotherNature) box.append("M");
+                    else if (j == 12 && hasNoEntryTile()) box.append("X");
+                    else box.append(" ");
+                }
+            }
+            box.append("\n");
+        }
+        return box;
+    }
+
+
     @Override
     public String toString() {
         String result;
@@ -112,3 +169,32 @@ public class Island implements Serializable {
                 "\nMotherNature: " + hasMotherNature();
     }
 }
+/*╗╝ ╦ ╩ ═║╚ ╘ ╛ ╒ ╕ ┤
+
+        ╔════════════════════╗    ╒════════╕       ╒════════════════════╕
+        ║      nickname      ║    │PRIORITY│       │     PERFROMER      │
+        ╠════════════════════╣    │   1    │       ├────────────────────┤
+        ║ priority :         ║    │ STEPS  │       │ DESCRIZIONE ..     │
+        ╠════════════════════╣    │   2    │       │                    │
+        ║ coins:             ║    ╘════════╛       │                    │
+        ╚════════════════════╝                     │                    │
+                                                   │                    │
+                                                   ├────────────────────┤
+                                                   │     ● ● ● ● ● ●    │
+                                                   ╘════════════════════╛
+
+           ════════════════
+         /      B   P       \
+        /     R   Y   G      \
+       /                      \
+       \    TOWERS:        /
+        \        ­         /
+         \        X         /
+           ════════════════
+
+
+            •  •  •
+         •           •
+        •   R  B  G   •
+         •           •
+            •  •  •    */

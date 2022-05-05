@@ -9,36 +9,36 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class School implements Serializable{
+public class School implements Serializable {
     private final String owner;
     private final List<Student> entrance;
-    private final Map<CharacterColor,List<Student>> diningRoom;
+    private final Map<CharacterColor, List<Student>> diningRoom;
     private final List<Tower> towers;
     private final PlayerColor playerColor;
 
-    public School(String owner, PlayerColor playerColor,int playersNumber) {
+    public School(String owner, PlayerColor playerColor, int playersNumber) {
         this.owner = owner;
-        this.playerColor= playerColor;
-        this.entrance=new ArrayList<>();
-        this.diningRoom=new HashMap<>();
-        this.towers=new ArrayList<>();
-        if(playersNumber==2)
-            for(int i=0;i<8;i++)
-                towers.add(new Tower(owner,playerColor));
-        else if (playersNumber==3)
-            for(int i=0;i<6;i++)
-                towers.add(new Tower(owner,playerColor));
-        for(CharacterColor c : CharacterColor.values()) {
+        this.playerColor = playerColor;
+        this.entrance = new ArrayList<>();
+        this.diningRoom = new HashMap<>();
+        this.towers = new ArrayList<>();
+        if (playersNumber == 2)
+            for (int i = 0; i < 8; i++)
+                towers.add(new Tower(owner, playerColor));
+        else if (playersNumber == 3)
+            for (int i = 0; i < 6; i++)
+                towers.add(new Tower(owner, playerColor));
+        for (CharacterColor c : CharacterColor.values()) {
             this.diningRoom.put(c, new ArrayList<Student>());
         }
     }
 
     public School(School school) { //TODO forse meglio implementare Cloneable
         this.owner = school.getOwner();
-        this.playerColor= school.getTowerColor();
-        this.entrance=new ArrayList<>(school.getEntrance());
-        this.diningRoom=new HashMap<>(school.getDiningRoom());
-        this.towers=new ArrayList<>(school.getTowers());
+        this.playerColor = school.getTowerColor();
+        this.entrance = new ArrayList<>(school.getEntrance());
+        this.diningRoom = new HashMap<>(school.getDiningRoom());
+        this.towers = new ArrayList<>(school.getTowers());
     }
 
     //---GETTER---//
@@ -70,7 +70,7 @@ public class School implements Serializable{
 
     //metodo che controlla se ho un studente di un determinato colore nella entrance
     public boolean hasEntranceStudentColor(String color) {
-        for(Student s : entrance) {
+        for (Student s : entrance) {
             if (s.getColor().toString().equals(color)) {
                 return true;
             }
@@ -95,19 +95,19 @@ public class School implements Serializable{
 
     public Student removeEntranceStudent(CharacterColor studentColor) {
         Student student = null;
-        for(int i=0; i<entrance.size() && student == null; i++) {
-            if(entrance.get(i).getColor().equals(studentColor)) {
+        for (int i = 0; i < entrance.size() && student == null; i++) {
+            if (entrance.get(i).getColor().equals(studentColor)) {
                 student = entrance.remove(i);
             }
         }
-        return student;}
+        return student;
+    }
 
     public Student removeDiningRoomStudent(CharacterColor studentColor) {
         //TODO  LANCIARE ECC SE NON è PRESENTE UNO STUDENTE DEL COLORE DESIDERATO
-        Student student= null;
-        if (diningRoom.containsKey(studentColor))
-        {
-            student= diningRoom.get(studentColor).remove(0);
+        Student student = null;
+        if (diningRoom.containsKey(studentColor)) {
+            student = diningRoom.get(studentColor).remove(0);
         }
         return student;
     }
@@ -121,31 +121,57 @@ public class School implements Serializable{
     //---TOWERSMOVEMENT---//
 
     public Tower removeTower() {
-        return towers.remove(towers.size()-1);
+        return towers.remove(towers.size() - 1);
     }
 
     public void restockTower(List<Tower> towers) {
-      //TODO se towers.isEmpty() c'è un vincitore
+        //TODO se towers.isEmpty() c'è un vincitore
         this.towers.addAll(towers);
 
     }
 
-    @Override
-    public String toString() {
-        String students = "";
-        for( Student s: entrance){
-            students = students.concat(s.toString() + " ");
+    public StringBuilder draw() {
+        StringBuilder box = new StringBuilder();
+        String top_wall="╔═══════════════════════════╗\n";
+        String middle_wall = "╠═══╦═══════════════════╦═══╣\n";
+        String bottom_wall = "╚═══╩═══════════════════╩═══╝\n";
+        String vertical_wall = "║";
+        box.append(top_wall);
+        int entrance_index = 0;
+        int diningRoom_index = 0;
+        int towers_index=0;
+        int owner_index=0;
+        for(int j=0;j<29;j++){
+            if(j==0 ||j ==28) box.append(vertical_wall);
+            else if(j>(27-owner.length())/2 && owner_index<owner.length()){
+                box.append(owner.charAt(owner_index));
+                owner_index++;
+            }
+            else box.append(" ");
         }
-
-        return
-                "Owner: " + getOwner() +
-                "\nTowers: " + towers.size() + " " + getTowerColor() +
-                "\nEntrance: " + students +
-                "\nDiningRoom:" +
-                "\nRED: "+ diningRoom.get(CharacterColor.RED).size() +
-                "\nBLUE: " + diningRoom.get(CharacterColor.BLUE).size() +
-                "\nYElLOW: "+ diningRoom.get(CharacterColor.YELLOW).size() +
-                "\nPINK: " + diningRoom.get(CharacterColor.PINK).size() +
-                "\nGREEN: " + diningRoom.get(CharacterColor.GREEN).size();
+        box.append("\n");
+        box.append(middle_wall);
+        for (int i = 1; i < 6; i++) { //2 3mid
+            diningRoom_index=0;
+            for (int j = 0; j < 29; j++) {
+                if (j == 0 || j == 4 || j == 24 || j == 28)
+                    box.append(vertical_wall);
+                else if ((j == 1 || j == 3) && entrance_index<entrance.size()) {
+                    box.append(entrance.get(entrance_index));
+                    entrance_index++;
+                } else if ((j > 4 && j < 24 && j % 2 != 0)
+                        && diningRoom_index<diningRoom.get(CharacterColor.values()[i - 1]).size()) {
+                    box.append(diningRoom.get(CharacterColor.values()[i - 1]).get(diningRoom_index));
+                    diningRoom_index++;
+                } else if (j > 24 && j % 2 != 0 && towers_index<towers.size()) {
+                    box.append(towers.get(towers_index));
+                    towers_index++;
+                }
+                else box.append(" ");
+            }
+            box.append("\n");
+        }
+        box.append(bottom_wall);
+        return box;
     }
 }

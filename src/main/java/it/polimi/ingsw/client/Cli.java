@@ -1,5 +1,4 @@
 package it.polimi.ingsw.client;
-
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -187,6 +186,7 @@ public class Cli implements View {
                 alreadyAskedCard = false;
                 answer.setAction(Action.DEFAULT_MOVEMENTS);
                 printer.println(">These are your entrance's students:");
+                printer.println(message.getSchool().draw());
                 answer.setParameter(chooseStudentColor(message.getSchool().getEntrance(), true,
                         ">Please choose the color of the student that you want to move from your Entrance:"));
                 printer.println(">Do you want to move your student to your DiningRoom" +
@@ -304,8 +304,9 @@ public class Cli implements View {
         for (Student s : students) {
             availableStudentsColors.add(s.getColor().toString());
             if (enablePrint)
-                printer.println(s + "\t");
+                printer.print(s + "\t");
         }
+        printer.print("\n");
         printer.println(message);
         String parameter = reader.nextLine().toUpperCase();
         while (!availableStudentsColors.contains(parameter)) {

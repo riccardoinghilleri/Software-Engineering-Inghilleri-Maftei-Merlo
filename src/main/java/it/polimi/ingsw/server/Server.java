@@ -1,6 +1,4 @@
 package it.polimi.ingsw.server;
-
-import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.server.ConnectionMessage.InfoMessage;
 
 import java.io.IOException;
@@ -193,6 +191,6 @@ public class Server implements Runnable {
                 "2) TwoPlayersExpert: " + twoPlayersExpert.size() + " players\n" +
                 "3) ThreePlayersNormal: " + threePlayersNormal.size() + " players\n" +
                 "4) ThreePlayersExpert: " + threePlayersExpert.size() + " players\n" +
-                "Active Games: " + activeGames.size();
+                "Active Games: " + activeGames.size() +"\033[7A";
     }
 }

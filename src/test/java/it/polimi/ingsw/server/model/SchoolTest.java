@@ -40,6 +40,21 @@ class SchoolTest {
         }
         school.fromEntrancetoDiningRoom(CharacterColor.RED);
         assertEquals(1,school.getDiningRoom().get(CharacterColor.RED).size());
+        school.addEntranceStudent(new Student(CharacterColor.BLUE));
+        school.fromEntrancetoDiningRoom(CharacterColor.BLUE);
+        assertEquals(1,school.getDiningRoom().get(CharacterColor.BLUE).size());
+        assertEquals(1,school.getDiningRoom().get(CharacterColor.RED).size());
+    }
+
+    @Test
+    void testDraw(){
+        school.addEntranceStudent(new Student(CharacterColor.RED));
+        school.addEntranceStudent(new Student(CharacterColor.PINK));
+        school.addEntranceStudent(new Student(CharacterColor.GREEN));
+        school.addDiningRoomStudent(new Student(CharacterColor.RED));
+        school.addDiningRoomStudent(new Student(CharacterColor.YELLOW));
+        school.addDiningRoomStudent(new Student(CharacterColor.BLUE));
+        assertEquals(" ", school.draw().toString());
     }
 
     @Test

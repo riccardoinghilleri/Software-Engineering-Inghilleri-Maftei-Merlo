@@ -55,28 +55,3 @@ public class Cloud implements Serializable {
         return cloud;
     }
 }
-
-
-/*
-                 ◌  ◌
-               ◌ R  R ◌
-               ◌ R    ◌
-                 ◌  ◌
-
-                •  •  •
-              •  ●   ●  •
-              •    ●    •
-                •  •  •
-
-                • • • •
-              •  ●   ●  •
-              •    ●    •
-                • • • •
-
-
-
-
-
-
-
- */

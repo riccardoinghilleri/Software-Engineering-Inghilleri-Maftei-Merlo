@@ -88,9 +88,9 @@ public class BoardExpert extends Board {
                     break;
                 case THIEF:
                     cards[i]=new CharacterCard(CharacterCardName.THIEF,3,
-                            "Scegli un colore di Studente." +
-                                    "Ogni giocatore (incluso te) deve rimettere nel sacchetto 3 Studenti di quel colore presenti nella sua Sala." +
-                                    "Chi avesse meno di 3 Studenti di quel colore, rimetterà tutti quelli che ha.");
+                            "Choose a type of Student: every player" +
+                                    "(including yourself) must return 3 students of that type from their Dining Room to the bag. " +
+                                    "If any player has fewer than 3 students of that type, return as many students as they have.");
                     break;
                 case KNIGHT:
                     cards[i]=new CharacterCard(CharacterCardName.KNIGHT,2,

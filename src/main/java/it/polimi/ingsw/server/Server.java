@@ -1,4 +1,5 @@
 package it.polimi.ingsw.server;
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.server.ConnectionMessage.InfoMessage;
 
 import java.io.IOException;
@@ -42,13 +43,7 @@ public class Server implements Runnable {
     }
 
     public static void main(String[] args) {
-        System.out.println(
-                        " ███████╗ ██████═╗ ██╗     ██╗     ██╗   ██╗ ████████╗ ██   ██ ███████╗\n" +
-                        " ██╔════╝ ██╔══██║ ██║    ████╗    ███╗  ██║ ╚══██╔══╝  ██ ██╝ ██╔════╝\n" +
-                        " ███████╗ ██████═╝ ██║   ██╔═██╗   ██╔██╗██║    ██║      ██╝   ███████╗\n" +
-                        " ██╔════╝ ██╔══██╗ ██║  ██ ██ ██╗  ██║  ███║    ██║     ██╝    ╚════██║\n" +
-                        " ███████╗ ██║  ██║ ██║ ██╔═════██╗ ██║   ██║    ██║    ██╝     ███████║\n" +
-                        " ╚══════╝ ╚═╝  ╚═╝ ╚═╝ ╚═╝     ╚═╝ ╚═╝   ╚═╝    ╚═╝    ╚╝      ╚══════╝\n");
+        System.out.println(Constants.ERIANTYS);
         System.out.println("Inghilleri Riccardo - Maftei Daniela - Merlo Manuela\n");
         Scanner scanner = new Scanner(System.in);
         System.out.println(">Welcome to the Eriantys' server.");

@@ -135,7 +135,9 @@ public class Island implements Serializable {
                         island.append(Constants.ANSI_RESET);
                     } else island.append(" ");
                 } else if (i == 3) {
-                    if (j > 4 && j%2!=0 && j > (21 - towers.size()) / 2 && towers_index < towers.size()) {
+                    if (j > 4 && ((j % 2 != 0 && ((21 - towers.size() * 2 - 1) / 2) % 2 == 0)
+                            || (j % 2 == 0 && ((21 - towers.size() * 2 - 1) / 2) % 2 != 0))
+                            && j > (21 - towers.size() * 2 - 1) / 2 && towers_index < towers.size()) {
                         island.append(towers.get(towers_index));
                         towers_index++;
                     } else island.append(" ");

@@ -7,6 +7,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.enums.Action;
 import it.polimi.ingsw.server.ConnectionMessage.*;
 import it.polimi.ingsw.server.model.CharacterCard;
@@ -51,13 +52,7 @@ public class Cli implements View {
         PrintStream printer = new PrintStream(System.out);
         Scanner scanner = new Scanner(System.in);
         Pattern pattern = Pattern.compile("^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.(?!$)|$)){4}$");
-        printer.println(
-                        " ███████╗ ██████═╗ ██╗     ██╗     ██╗   ██╗ ████████╗ ██   ██ ███████╗\n" +
-                        " ██╔════╝ ██╔══██║ ██║    ████╗    ███╗  ██║ ╚══██╔══╝  ██ ██╝ ██╔════╝\n" +
-                        " ███████╗ ██████═╝ ██║   ██╔═██╗   ██╔██╗██║    ██║      ██╝   ███████╗\n" +
-                        " ██╔════╝ ██╔══██╗ ██║  ██ ██ ██╗  ██║  ███║    ██║     ██╝    ╚════██║\n" +
-                        " ███████╗ ██║  ██║ ██║ ██╔═════██╗ ██║   ██║    ██║    ██╝     ███████║\n" +
-                        " ╚══════╝ ╚═╝  ╚═╝ ╚═╝ ╚═╝     ╚═╝ ╚═╝   ╚═╝    ╚═╝    ╚╝      ╚══════╝\n");
+        printer.println(Constants.ERIANTYS);
         printer.println("Inghilleri Riccardo - Maftei Daniela - Merlo Manuela\n");
         printer.println(">Insert the server IP address");
         address = scanner.nextLine();
@@ -168,6 +163,7 @@ public class Cli implements View {
                     for (CharacterCard characterCard : message.getCharacterCards()) {
                         characterCards.add(characterCard.getName().toString());
                         printer.println(characterCard);
+                        printer.println(characterCard.draw());
                     }
                     printer.println(">Make your choice: ");
                     String characterCardName = reader.nextLine().toUpperCase();

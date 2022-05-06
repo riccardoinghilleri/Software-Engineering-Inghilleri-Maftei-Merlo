@@ -277,6 +277,12 @@ public class Board {
         gameModel.setWinner(winner);
     }
 
+    public void draw(){
+        for(Player player: gameModel.getPlayers()){
+
+        }
+    }
+
     @Override
     public String toString() {
         String result;

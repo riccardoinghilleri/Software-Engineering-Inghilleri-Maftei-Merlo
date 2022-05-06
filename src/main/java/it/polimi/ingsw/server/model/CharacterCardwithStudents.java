@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.enums.CharacterCardName;
 import it.polimi.ingsw.enums.CharacterColor;
 
@@ -36,8 +37,9 @@ public class CharacterCardwithStudents extends CharacterCard {
     }
 
     @Override
-    public StringBuilder draw() {
+    public StringBuilder draw(int x, int y) {
         StringBuilder card = new StringBuilder();
+        card.append(Constants.cursorUp(y));
         String top_wall = "╒════════════╕\n";//14
         String middle_wall = "├────────────┤\n";
         String bottom_wall = "╘════════════╛\n";
@@ -48,7 +50,8 @@ public class CharacterCardwithStudents extends CharacterCard {
         else cost = vertical + "  COST: " + super.getCost() + "  " + vertical+"\n";
         int name_index = 0;
         int students_index=0;
-        card.append(top_wall);
+        Constants.moveObject(card,x,top_wall);
+        card.append(Constants.cursorRight(x));
         for (int j = 0; j < 14; j++) {
             if (j == 0 || j == 13) card.append(vertical);
             else if (j > (12-super.getName().toString().length())/2 && name_index < super.getName().toString().length()) {
@@ -57,9 +60,10 @@ public class CharacterCardwithStudents extends CharacterCard {
             } else card.append(" ");
         }
         card.append("\n");
-        card.append(middle_wall);
-        card.append(cost);
-        card.append(middle_wall);
+        Constants.moveObject(card,x,middle_wall);
+        Constants.moveObject(card,x,cost);
+        Constants.moveObject(card,x,middle_wall);
+        card.append(Constants.cursorRight(x));
         for(int j=0;j<14;j++){
             if (j == 0 || j == 13) card.append(vertical);
             else if (((j%2!=0 && ((12-students.size()*2-1)/2)%2==0) || (j%2==0 && ((12-students.size()*2-1)/2)%2!=0))
@@ -70,7 +74,7 @@ public class CharacterCardwithStudents extends CharacterCard {
             else card.append(" ");
         }
         card.append("\n");
-        card.append(bottom_wall);
+        Constants.moveObject(card,x,bottom_wall);
         return card;
     }
 

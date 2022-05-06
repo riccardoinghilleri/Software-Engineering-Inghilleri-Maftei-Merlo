@@ -7,7 +7,7 @@ public class Constants {
     public static final String ANSI_RESET = "\033[0m";
     public static final String ANSI_RED = "\033[31m";
     public static final String ANSI_GREEN = "\033[32m";
-    public static final String ANSI_YELLOW = "\033[93m";
+    public static final String ANSI_YELLOW = "\033[33m";
     public static final String ANSI_BLUE = "\033[34m";
     public static final String ANSI_PINK = "\033[95m";
     public static final String ANSI_WHITE = "\033[37m";
@@ -46,5 +46,10 @@ public class Constants {
 
     public static String cursorRight(int x){
         return "\033["+x+"C";
+    }
+
+    public static void moveObject(StringBuilder stringBuilder, int x, String string){
+        stringBuilder.append(cursorRight(x));
+        stringBuilder.append(string);
     }
 }

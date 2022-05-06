@@ -1,4 +1,6 @@
 package it.polimi.ingsw.server.model;
+import it.polimi.ingsw.constants.Constants;
+
 import java.io.Serializable;
 
 public class AssistantCard implements Serializable {
@@ -17,23 +19,24 @@ public class AssistantCard implements Serializable {
         return natureMotherSteps;
     }
 
-    public StringBuilder draw(){
+    public StringBuilder draw(int x, int y){
         StringBuilder card = new StringBuilder();
-        String top_wall = "╒════════╕";
-        String bottom_wall="\n╘════════╛";
+        card.append(Constants.cursorUp(y));
+        String top_wall = "╒════════╕\n";
+        String bottom_wall="╘════════╛\n";
         String vertical = "│";
-        card.append(top_wall);
-        String line="\n"+ vertical+"PRIORITY"+vertical;
-        card.append(line);
+        Constants.moveObject(card,x,top_wall);
+        String line=vertical+"PRIORITY"+vertical+"\n";
+        Constants.moveObject(card,x,line);
         if(priority==10){
-            line="\n"+vertical+"   "+priority+"   "+vertical;
-        }else line="\n"+vertical+"   "+priority+"    "+vertical;
-        card.append(line);
-        line="\n"+ vertical+" STEPS: "+vertical;
-        card.append(line);
-        line="\n"+vertical+"   "+natureMotherSteps+"    "+vertical;
-        card.append(line);
-        card.append(bottom_wall);
+            line=vertical+"   "+priority+"   "+vertical+"\n";
+        }else line=vertical+"   "+priority+"    "+vertical+"\n";
+        Constants.moveObject(card,x,line);
+        line=vertical+" STEPS: "+vertical+"\n";
+        Constants.moveObject(card,x,line);
+        line=vertical+"   "+natureMotherSteps+"    "+vertical+"\n";
+        Constants.moveObject(card,x,line);
+        Constants.moveObject(card,x,bottom_wall);
         return card;
     }
     @Override

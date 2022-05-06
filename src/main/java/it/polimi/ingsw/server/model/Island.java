@@ -95,13 +95,15 @@ public class Island implements Serializable {
 
     }
 
-    public StringBuilder draw() {
+    public StringBuilder draw(int x, int y) {
         StringBuilder island = new StringBuilder();
+        island.append(Constants.cursorUp(y));
         int towers_index = 0;
         String horizontal_wall = "═══════════════";
         String to_right_wall = "/";
         String to_left_wall = "\\";
         for (int i = 0; i < 6; i++) {
+            island.append(Constants.cursorRight(x));
             for (int j = 0; j < 21; j++) {
                 if (i == 0 || i == 5) {
                     if (j == 3) island.append(horizontal_wall);

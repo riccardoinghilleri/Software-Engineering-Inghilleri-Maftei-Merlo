@@ -47,40 +47,39 @@ public class Player {
     public StringBuilder draw(int x, int y, int coins) {
         StringBuilder box = new StringBuilder();
         box.append(Constants.cursorUp(y));
-        String top_wall = Constants.cursorRight(x) + "╔══════════════╗\n";
-        String middle_wall = Constants.cursorRight(x) + "╠══════════════╣\n";
-        String bottom_wall = Constants.cursorRight(x) + "╚══════════════╝\n";
-        String vertical_wall = "║";// PRIORITY: 10  COLOR: WHITE
+        String top_wall ="╔══════════════╗\n";
+        String middle_wall ="╠══════════════╣\n";
+        String bottom_wall ="╚══════════════╝\n";
         String line;
-        if (color == PlayerColor.GREY)
-            line = Constants.cursorRight(x) + "║ COLOR: " + this.color + "  ║\n";
-        else
-            line = Constants.cursorRight(x) + "║ COLOR: " + this.color + " ║\n";
-        box.append(top_wall);
-        line = Constants.cursorRight(x) + "║ " + this.nickname;
-        box.append(line);
+        Constants.moveObject(box,x,top_wall);
+        line = "║ " + this.nickname;
+        Constants.moveObject(box,x,line);
         box.append(" ".repeat(Math.max(0, (15 - 2 - this.nickname.length()))));
         box.append("║\n");
-        box.append(middle_wall);
-        box.append(line);
-        box.append(middle_wall);
-        if (chosenAssistantCard.getPriority() < 10)
-            line = Constants.cursorRight(x) + "║ PRIORITY: " + chosenAssistantCard.getPriority() + "  ║\n";
+        Constants.moveObject(box,x,middle_wall);
+        if (color == PlayerColor.GREY)
+            line = "║ COLOR: " + this.color + "  ║\n";
         else
-            line = Constants.cursorRight(x) + "║ PRIORITY: " + chosenAssistantCard.getPriority() + " ║\n";
-        box.append(line);
-        box.append(middle_wall);
-        line = Constants.cursorRight(x) + "║ STEPS: " + chosenAssistantCard.getMotherNatureSteps() + "     ║\n";
-        box.append(line);
+            line = "║ COLOR: " + this.color + " ║\n";
+        Constants.moveObject(box,x,line);
+        Constants.moveObject(box,x,middle_wall);
+        if (chosenAssistantCard.getPriority() < 10)
+            line = "║ PRIORITY: " + chosenAssistantCard.getPriority() + "  ║\n";
+        else
+            line = "║ PRIORITY: " + chosenAssistantCard.getPriority() + " ║\n";
+        Constants.moveObject(box,x,line);
+        Constants.moveObject(box,x,middle_wall);
+        line = "║ STEPS: " + chosenAssistantCard.getMotherNatureSteps() + "     ║\n";
+        Constants.moveObject(box,x,line);
         if(coins!=-1){
-            box.append(middle_wall);
+            Constants.moveObject(box,x,middle_wall);
             if (coins < 10)
-                line = Constants.cursorRight(x) + "║ COINS: " + coins + "     ║\n";
+                line = "║ COINS: " + coins + "     ║\n";
             else
-                line = Constants.cursorRight(x) + "║ COINS: " + coins + "    ║\n";
-            box.append(line);
+                line = "║ COINS: " + coins + "    ║\n";
+            Constants.moveObject(box,x,line);
         }
-        box.append(bottom_wall);
+        Constants.moveObject(box,x,bottom_wall);
         return box;
     }
 

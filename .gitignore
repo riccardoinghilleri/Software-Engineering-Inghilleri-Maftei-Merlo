@@ -216,3 +216,4 @@ $RECYCLE.BIN/
 # SonarLint working directories, configuration files (including credentials)
 .sonarlint/
 
+src/**/META-INF

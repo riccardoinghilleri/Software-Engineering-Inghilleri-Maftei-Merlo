@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.enums.CharacterCardName;
 
 import java.io.Serializable;
@@ -31,8 +32,9 @@ public class CharacterCard implements Serializable {
         this.cost++;
     }
 
-    public StringBuilder draw() {
+    public StringBuilder draw(int x, int y) {
         StringBuilder card = new StringBuilder();
+        card.append(Constants.cursorUp(y));
         String top_wall = "╒════════════╕\n";//14
         String middle_wall = "├────────────┤\n";
         String bottom_wall = "╘════════════╛\n";
@@ -43,7 +45,8 @@ public class CharacterCard implements Serializable {
             cost = vertical + "  COST: " + this.cost + "   " + vertical+"\n";
         else cost = vertical + "  COST: " + this.cost + "  " + vertical+"\n";
         int name_index = 0;
-        card.append(top_wall);
+        Constants.moveObject(card,x,top_wall);
+        card.append(Constants.cursorRight(x));
         for (int j = 0; j < 14; j++) {
             if (j == 0 || j == 13) card.append(vertical);
             else if (j > (12-name.toString().length())/2 && name_index < name.toString().length()) {
@@ -52,11 +55,11 @@ public class CharacterCard implements Serializable {
             } else card.append(" ");
         }
         card.append("\n");
-        card.append(middle_wall);
-        card.append(cost);
-        card.append(middle_wall);
-        card.append(empty);
-        card.append(bottom_wall);
+        Constants.moveObject(card,x,middle_wall);
+        Constants.moveObject(card,x,cost);
+        Constants.moveObject(card,x,middle_wall);
+        Constants.moveObject(card,x,empty);
+        Constants.moveObject(card,x,bottom_wall);
         return card;
     }
 

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.constants.Constants;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +30,14 @@ public class Cloud implements Serializable {
         return tempStudents;
     }
 
-    public StringBuilder draw() {
+    public StringBuilder draw(int x, int y) {
         StringBuilder cloud = new StringBuilder();
+        cloud.append(Constants.cursorUp(y));
         String top_bottom= "  • • • •  \n";
-        cloud.append(top_bottom);
+        Constants.moveObject(cloud,x,top_bottom);
         int students_index=0;
         for(int i=0;i<2;i++) {
+            cloud.append(Constants.cursorRight(x));
             for(int j=0;j<11;j++){
                 if(j==0 || j==10) cloud.append("•");
                 else if(i==0 && (j==3 || j==7)){
@@ -51,7 +55,7 @@ public class Cloud implements Serializable {
             }
             cloud.append("\n");
         }
-        cloud.append(top_bottom);
+        Constants.moveObject(cloud,x,top_bottom);
         return cloud;
     }
 }

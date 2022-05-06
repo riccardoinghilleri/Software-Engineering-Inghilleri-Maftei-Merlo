@@ -107,4 +107,9 @@ public class Constants {
         }
         return frame;
     }
+
+    public static void clearRowBelow(int y){
+        System.out.println(cursorUp(y));
+        System.out.print("\033[H\033[2J");
+    }
 }

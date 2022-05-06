@@ -1,11 +1,12 @@
 package it.polimi.ingsw.server.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class GameModel {
+public class GameModel implements Serializable {
     int playersNumber;
     boolean isExpertGame;
     Board board = null;

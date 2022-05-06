@@ -113,7 +113,7 @@ public class Cli implements View {
 
     //metodo utilizzando per la scelta dei colori e del wizard
     public void setupMultipleChoice(MultipleChoiceMessage message) {
-        String choice;
+        //String choice;
         printer.println(">These are the available choices:");
         for (String s : message.getAvailableChoices())
             printer.println(s + "\t");
@@ -130,6 +130,11 @@ public class Cli implements View {
 
     public void displayInfo(InfoMessage message) {
         printer.println(message.getString());
+    }
+
+    public void displayBoard(UpdateBoard message) {
+        Constants.clearScreen();
+        printer.println(message.getBoard().draw(1,1));
     }
 
     public void askAction(AskActionMessage message) {
@@ -198,14 +203,15 @@ public class Cli implements View {
                         ">Please choose the color of the student that you want to move from your Entrance:"));
                 printer.println(">Do you want to move your student to your DiningRoom" +
                         " or on an Island?");
-                temp=InputController.checkString(List.of("DININGROOM,ISLAND"));
-                /*temp = reader.nextLine();
+
+                //temp=InputController.checkString(List.of("DININGROOM,ISLAND"));
+                temp = reader.nextLine();
                 while (!temp.equalsIgnoreCase("DiningRoom") && !temp.equalsIgnoreCase("Island")) {
                     printer.println(">Invalid input. Please, try again!");
                     temp = reader.nextLine();
                     if (!temp.equalsIgnoreCase("DiningRoom") && !temp.equalsIgnoreCase("Island"))
                         Constants.clearRowBelow(2);
-                }*/
+                }
                 if (temp.equalsIgnoreCase("Island")) {
                     answer.setData(chooseIsland(message.getIslands()) - 1);
                 }
@@ -228,7 +234,14 @@ public class Cli implements View {
                     }
                 }
                 printer.println(">Please choose your cloud.");
-                answer.setData(InputController.checkInt(availableIndexClouds));
+                int data = InputController.checkParseInt()-1;
+                while (!availableIndexClouds.contains(data)) {
+                    printer.println(">Invalid input. Please try again.");
+                    data = InputController.checkParseInt()-1;
+                    if(!availableIndexClouds.contains(data))
+                        Constants.clearRowBelow(2);
+                }
+                answer.setData(data);
                 answer.setAction(Action.CHOOSE_CLOUD);
                 connection.send(answer);
                 break;

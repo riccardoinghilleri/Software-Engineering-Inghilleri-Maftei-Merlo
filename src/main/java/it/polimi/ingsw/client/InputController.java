@@ -47,10 +47,10 @@ public class InputController {
     }
 
     public static int checkInt(List<Integer> values) {
-        int data = InputController.checkParseInt()-1;
+        int data = InputController.checkParseInt();
         while (!values.contains(data)) {
             printer.println(">Invalid input. Please try again.");
-            data = InputController.checkParseInt()-1;
+            data = InputController.checkParseInt();
             if(!values.contains(data))
                 Constants.clearRowBelow(2);
         }

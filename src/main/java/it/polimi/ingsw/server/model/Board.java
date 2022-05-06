@@ -2,19 +2,18 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.enums.CharacterColor;
-
-import java.io.PrintStream;
+import java.io.Serializable;
 import java.util.*;
 
-public class Board {
-    private final transient int playersNumber;
-    private transient int motherNaturePosition;
+public class Board implements Serializable {
+    private final  int playersNumber;
+    private  int motherNaturePosition;
     private final Cloud[] clouds;
     private final List<Island> islands;
     private final School[] schools;
-    private transient final List<Student> students;
+    private  final List<Student> students;
     private final Professor[] professors; //è un salvataggio
-    private final transient GameModel gameModel;
+    private final  GameModel gameModel;
 
     //TODO metodo int getInfluencePlayer(String Player, int islandPosition) RITORNA L'INFLUENZA DI UN PLAYER SULL'ISOLA E NON CHI HA PIU INFLUENZA
 

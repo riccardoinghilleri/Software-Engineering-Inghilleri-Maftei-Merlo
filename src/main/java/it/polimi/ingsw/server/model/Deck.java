@@ -2,9 +2,10 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.enums.Wizard;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Deck {
+public class Deck implements Serializable {
     Wizard wizard = null;
     List<AssistantCard> assistantCards;
 

@@ -2,22 +2,22 @@ package it.polimi.ingsw.server.ConnectionMessage;
 
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.server.model.Board;
 
 public class UpdateBoard implements Message,ServerMessage{
-    private final String string;
+    private final Board board;
 
-    public UpdateBoard(String string) {
-        this.string = string;
+    public UpdateBoard(Board board) {
+        this.board = board;
     }
 
-    public String getString() {
-        return this.string;
+    public Board getBoard() {
+        return this.board;
     }
 
 
     @Override
     public void forward(View view) {
-        Constants.clearScreen();
-        view.displayInfo(new InfoMessage(string));
+       view.displayBoard(this);
     }
 }

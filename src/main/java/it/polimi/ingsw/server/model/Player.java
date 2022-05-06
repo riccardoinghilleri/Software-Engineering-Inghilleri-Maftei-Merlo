@@ -3,7 +3,9 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.enums.PlayerColor;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
     String nickname;
     int clientID;
     Deck deck;

@@ -68,6 +68,7 @@ public class Player implements Serializable {
         if (chosenAssistantCard == null) {
             line = "║ PRIORITY: X  ║\n";
             Constants.moveObject(box, x, line);
+            Constants.moveObject(box, x, middle_wall);
             line = "║ STEPS: X     ║\n";
             Constants.moveObject(box, x, line);
         } else {

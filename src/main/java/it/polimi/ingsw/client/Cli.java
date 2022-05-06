@@ -154,7 +154,7 @@ public class Cli implements View {
                         if (i == 0)
                             printer.println(message.getAvailableAssistantCards().get(i).draw(0, 0));
                         else
-                            printer.println(message.getAvailableAssistantCards().get(i).draw(i * 10 + i, 6));
+                            printer.println(message.getAvailableAssistantCards().get(i).draw(i * 10 + i, 7));
                         availablePriority.add(message.getAvailableAssistantCards().get(i).getPriority());
                     }
                     alreadyAskedCard = true;
@@ -204,14 +204,14 @@ public class Cli implements View {
                 printer.println(">Do you want to move your student to your DiningRoom" +
                         " or on an Island?");
 
-                //temp=InputController.checkString(List.of("DININGROOM,ISLAND"));
-                temp = reader.nextLine();
+                temp=InputController.checkString(List.of("DININGROOM","ISLAND"));
+                /*temp = reader.nextLine();
                 while (!temp.equalsIgnoreCase("DiningRoom") && !temp.equalsIgnoreCase("Island")) {
                     printer.println(">Invalid input. Please, try again!");
                     temp = reader.nextLine();
                     if (!temp.equalsIgnoreCase("DiningRoom") && !temp.equalsIgnoreCase("Island"))
                         Constants.clearRowBelow(2);
-                }
+                }*/
                 if (temp.equalsIgnoreCase("Island")) {
                     answer.setData(chooseIsland(message.getIslands()) - 1);
                 }
@@ -229,19 +229,19 @@ public class Cli implements View {
                 List<Integer> availableIndexClouds = new ArrayList<>();
                 for (int i = 0; i < message.getClouds().length; i++) {
                     if (!(message.getClouds())[i].getStudents().isEmpty()) {
-                        availableIndexClouds.add(i);
+                        availableIndexClouds.add(i+1);
                         //    printer.println("CLOUD #" + i + "\n" + (message.getClouds())[i].draw());
                     }
                 }
                 printer.println(">Please choose your cloud.");
-                int data = InputController.checkParseInt()-1;
+                /*int data = InputController.checkParseInt();
                 while (!availableIndexClouds.contains(data)) {
                     printer.println(">Invalid input. Please try again.");
                     data = InputController.checkParseInt()-1;
                     if(!availableIndexClouds.contains(data))
                         Constants.clearRowBelow(2);
-                }
-                answer.setData(data);
+                }*/
+                answer.setData(InputController.checkInt(availableIndexClouds)-1);
                 answer.setAction(Action.CHOOSE_CLOUD);
                 connection.send(answer);
                 break;

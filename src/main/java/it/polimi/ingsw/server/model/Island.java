@@ -106,7 +106,10 @@ public class Island implements Serializable {
             island.append(Constants.cursorRight(x));
             for (int j = 0; j < 21; j++) {
                 if (i == 0 || i == 5) {
-                    if (j == 3) island.append(horizontal_wall);
+                    if (j == 3) {
+                        island.append(horizontal_wall);
+                        j=17;
+                    }
                     else island.append(" ");
                 } else if ((i == 1 && j == 1) || (i == 2 && j == 0) || (i == 3 && j == 20) || (i == 4 && j == 19)) {
                     island.append(to_right_wall);
@@ -121,7 +124,7 @@ public class Island implements Serializable {
                         island.append(pos/10);
                         island.append(pos%10);
                     }
-                    j=6;
+                    j=5;
                 }else if (i == 1) {
                     if (j == 8) {
                         island.append(Constants.getAnsi(CharacterColor.BLUE));

@@ -54,7 +54,7 @@ class SchoolTest {
         school.addDiningRoomStudent(new Student(CharacterColor.RED));
         school.addDiningRoomStudent(new Student(CharacterColor.YELLOW));
         school.addDiningRoomStudent(new Student(CharacterColor.BLUE));
-        assertEquals(" ", school.draw().toString());
+        //TODO da fare
     }
 
     @Test

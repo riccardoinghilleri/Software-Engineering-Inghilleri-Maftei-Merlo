@@ -42,11 +42,11 @@ public class Constants {
     public static String moveCursor(int y, int x) {
         return "\033[" + y + ";" + x + "H";
     }
-
+    //quando si sale utilizzare 1 posizione in meno
     public static String cursorUp(int y) {
         return "\033[" + y + "A";
     }
-
+    //usare una posizione in piu quando si scende
     public static String cursorDown(int y) {
         return "\033[" + y + "B";
     }
@@ -81,12 +81,12 @@ public class Constants {
 
     public static StringBuilder boardFrame(int x, int y, boolean expertMode) {
         StringBuilder frame = new StringBuilder();
-        frame.append(Constants.cursorUp(y));
+        frame.append(Constants.cursorDown(y));
         if (!expertMode) {
-            for (int i = 0; i < 34; i++) {
+            for (int i = 0; i < 31; i++) {
                 frame.append(Constants.cursorRight(x));
                 for (int j = 0; j < 166; j++) {
-                    if(i==0 || i==33 || j==0 || j==165) {
+                    if(i==0 || i==30 || j==0 || j==165) {
                         frame.append("█");
                     }
                     else frame.append(" ");

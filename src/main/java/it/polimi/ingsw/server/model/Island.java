@@ -95,7 +95,7 @@ public class Island implements Serializable {
 
     }
 
-    public StringBuilder draw(int x, int y) {
+    public StringBuilder draw(int x, int y, int pos) {
         StringBuilder island = new StringBuilder();
         island.append(Constants.cursorUp(y));
         int towers_index = 0;
@@ -112,7 +112,17 @@ public class Island implements Serializable {
                     island.append(to_right_wall);
                 } else if ((i == 1 && j == 19) || (i == 2 && j == 20) || (i == 3 && j == 0) || (i == 4 && j == 1)) {
                     island.append(to_left_wall);
-                } else if (i == 1) {
+                } else if(i==1 && j==3){
+                    island.append("#");
+                    if(pos<10) {
+                        island.append(pos);
+                        island.append(" ");
+                    } else {
+                        island.append(pos/10);
+                        island.append(pos%10);
+                    }
+                    j=6;
+                }else if (i == 1) {
                     if (j == 8) {
                         island.append(Constants.getAnsi(CharacterColor.BLUE));
                         island.append(students.get(CharacterColor.BLUE).size());

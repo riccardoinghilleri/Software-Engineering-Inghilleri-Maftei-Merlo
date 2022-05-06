@@ -30,11 +30,12 @@ public class Cloud implements Serializable {
         return tempStudents;
     }
 
-    public StringBuilder draw(int x, int y) {
+    public StringBuilder draw(int x, int y, int pos) {
         StringBuilder cloud = new StringBuilder();
         cloud.append(Constants.cursorUp(y));
-        String top_bottom= "  • • • •  \n";
-        Constants.moveObject(cloud,x,top_bottom);
+        String top= "#"+pos+"• • • •  \n";
+        String bottom= "  • • • •  \n";
+        Constants.moveObject(cloud,x,top);
         int students_index=0;
         for(int i=0;i<2;i++) {
             cloud.append(Constants.cursorRight(x));
@@ -55,7 +56,7 @@ public class Cloud implements Serializable {
             }
             cloud.append("\n");
         }
-        Constants.moveObject(cloud,x,top_bottom);
+        Constants.moveObject(cloud,x,bottom);
         return cloud;
     }
 }

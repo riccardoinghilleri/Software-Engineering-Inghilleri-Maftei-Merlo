@@ -1,6 +1,9 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.enums.CharacterColor;
+
+import java.io.PrintStream;
 import java.util.*;
 
 public class Board {
@@ -143,9 +146,10 @@ public class Board {
         if (newOwner != null) {
             professors[color.ordinal()].setOwner(newOwner);
             //Per la grafica:
-            if(!oldOwner.equalsIgnoreCase("NONE"))
+            if (!oldOwner.equalsIgnoreCase("NONE"))
                 getSchoolByOwner(newOwner).addProfessor(getSchoolByOwner(oldOwner).removeProfessor(color));
-            else getSchoolByOwner(newOwner).addProfessor(professors[color.ordinal()]);
+            else
+                getSchoolByOwner(newOwner).addProfessor(professors[color.ordinal()]);
         }
     }
 
@@ -277,10 +281,67 @@ public class Board {
         gameModel.setWinner(winner);
     }
 
-    public void draw(){
-        for(Player player: gameModel.getPlayers()){
-
+    public StringBuilder draw(int x, int y) {
+        StringBuilder board = new StringBuilder();
+        int distance;
+        int cont = 0; //Si potrebbe togliere, ma l'ultimo for diventa illeggibile
+        //Stampo cornice
+        board.append(Constants.boardFrame(x, y, gameModel.isExpertGame));
+        //Stampo players
+        board.append(gameModel.getPlayers().get(0).draw(2, 32, -1));
+        board.append(Constants.cursorDown(1));
+        board.append(gameModel.getPlayers().get(1).draw(2, 0, -1));
+        if (playersNumber == 3) {
+            board.append(Constants.cursorDown(1));
+            board.append(gameModel.getPlayers().get(2).draw(2, 0, -1));
         }
+        board.append(Constants.cursorUp(playersNumber * 9 + playersNumber - 1));
+        //board.append(Constants.cursorRight(34));
+        //111
+        distance = (111 - ((islands.size() - 2) / 2) * 21) / (1 + ((islands.size() - 2) / 2)); //TODO potrebbe non essere divisibile e avere un resto
+        //stampa prima fila di isole
+        for (int i = 0; i < (islands.size() - 2) / 2; i++) {
+            board.append(islands.get(i + 1).draw(34 + distance * (i + 1) + i * 21, 0, i + 2));
+            board.append(Constants.cursorUp(6));
+        }
+        board.append(Constants.cursorDown(7));
+        board.append(islands.get(0).draw(17, 0, 1)); //stampo isola 0
+        board.append(Constants.cursorUp(5));
+        //103 larghezza nuvole
+        distance = ((103 - playersNumber * 11) / (playersNumber + 1));
+        for (int i = 0; i < playersNumber; i++) {
+            board.append(clouds[i].draw(40 + distance * (i + 1) + i * 11, 0, i + 1));
+            board.append(Constants.cursorUp(4));
+        }
+        board.append(Constants.cursorUp(1));
+        board.append(islands.get(islands.size() / 2 + 1).draw(143, 0, islands.size() / 2 + 2));
+        board.append(Constants.cursorDown(1));
+        distance = (111 - (islands.size() - ((islands.size() - 2) / 2) - 2) * 21)
+                / (1 + (islands.size() - ((islands.size() - 2) / 2) - 2));
+        //stampo ultima fila di isole
+        for (int i = islands.size() - 1; i >= ((islands.size() - 2) / 2) + 2; i--) {
+            board.append(islands.get(i).draw(34 + distance * (cont + 1) + cont * 21, 0, i + 1));
+            board.append(Constants.cursorUp(6));
+            cont++;
+        }
+        board.append(Constants.cursorDown(1));
+        if (playersNumber == 2) {
+            distance = 15;
+            board.append(schools[0].draw(53, 0));
+            board.append(Constants.cursorUp(9));
+            board.append(schools[1].draw(53+distance+31, 0));
+        } else {
+            distance = 3;
+            board.append(schools[0].draw(42, 0));
+            board.append(Constants.cursorUp(9));
+            board.append(schools[1].draw(42+distance+31, 0));
+            board.append(Constants.cursorUp(9));
+            board.append(schools[2].draw(42+distance*2+31*2, 0));
+        }
+        board.append(Constants.cursorDown(3));
+
+
+        return board;
     }
 
     @Override

@@ -46,7 +46,7 @@ public class Player implements Serializable {
         chosenAssistantCard = deck.removeAssistantCard(priority);
     }
 
-    public StringBuilder draw(int x, int y, int coins) {
+    public StringBuilder draw(int x, int y, int coins, boolean currentPlayer) {
         StringBuilder box = new StringBuilder();
         box.append(Constants.cursorUp(y));
         String top_wall = "╔══════════════╗\n";
@@ -54,7 +54,8 @@ public class Player implements Serializable {
         String bottom_wall = "╚══════════════╝\n";
         String line;
         Constants.moveObject(box, x, top_wall);
-        line = "║ " + this.nickname;
+        if(currentPlayer) line = "║✷" + this.nickname; //TODO mettere una stellina invece dell'asterisco
+        else line = "║ " + this.nickname;
         Constants.moveObject(box, x, line);
         box.append(" ".repeat(Math.max(0, (15 - 2 - this.nickname.length()))));
         box.append("║\n");
@@ -80,6 +81,7 @@ public class Player implements Serializable {
             Constants.moveObject(box, x, middle_wall);
             line = "║ STEPS: " + chosenAssistantCard.getMotherNatureSteps() + "     ║\n";
             Constants.moveObject(box, x, line);
+        }
             if (coins != -1) {
                 Constants.moveObject(box, x, middle_wall);
                 if (coins < 10)
@@ -88,7 +90,6 @@ public class Player implements Serializable {
                     line = "║ COINS: " + coins + "    ║\n";
                 Constants.moveObject(box, x, line);
             }
-        }
         Constants.moveObject(box, x, bottom_wall);
         return box;
     }

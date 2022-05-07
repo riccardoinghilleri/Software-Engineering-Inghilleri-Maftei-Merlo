@@ -87,7 +87,6 @@ public class Server implements Runnable {
                 }
             }
         }
-
     }
 
 
@@ -181,11 +180,13 @@ public class Server implements Runnable {
 
     @Override
     public String toString() {
+        //Constants.clearScreen();
+        //todo stampare titolo in grande
         return "Queues' Status: \n" +
                 "1) TwoPlayersNormal: " + twoPlayersNormal.size() + " players\n" +
                 "2) TwoPlayersExpert: " + twoPlayersExpert.size() + " players\n" +
                 "3) ThreePlayersNormal: " + threePlayersNormal.size() + " players\n" +
                 "4) ThreePlayersExpert: " + threePlayersExpert.size() + " players\n" +
-                "Active Games: " + activeGames.size() +"\033[7A";
+                "Active Games: " + activeGames.size();
     }
 }

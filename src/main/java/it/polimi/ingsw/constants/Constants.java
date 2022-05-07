@@ -66,27 +66,30 @@ public class Constants {
 
     public static void clearScreen() {
         try{
-            if(System.getProperty("os.name").contains("Windows")){
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            String operatingSystem = System.getProperty("os.name"); //Check the current operating system
+
+            if(operatingSystem.contains("Windows")){
+                ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "cls");
+                Process startProcess = pb.inheritIO().start();
+                startProcess.waitFor();
+            } else {
+                ProcessBuilder pb = new ProcessBuilder("clear");
+                Process startProcess = pb.inheritIO().start();
+                startProcess.waitFor();
             }
-            else
-                Runtime.getRuntime().exec("clear");
-        }
-        catch (IOException | InterruptedException e){
+        }catch(Exception e){
             e.printStackTrace();
         }
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 
     public static StringBuilder boardFrame(int x, int y, boolean expertMode) {
         StringBuilder frame = new StringBuilder();
         frame.append(Constants.cursorDown(y));
         if (!expertMode) {
-            for (int i = 0; i < 31; i++) {
+            for (int i = 0; i < 29; i++) {
                 frame.append(Constants.cursorRight(x));
                 for (int j = 0; j < 166; j++) {
-                    if(i==0 || i==30 || j==0 || j==165) {
+                    if(i==0 || i==28 || j==0 || j==165) {
                         frame.append("█");
                     }
                     else frame.append(" ");
@@ -94,10 +97,10 @@ public class Constants {
                 frame.append("\n");
             }
         } else {
-            for (int i = 0; i < 37; i++) {
+            for (int i = 0; i < 35; i++) {
                 frame.append(Constants.cursorRight(x));
                 for (int j = 0; j < 181; j++) {
-                    if(i==0 || i==36 || j==0 || j==180) {
+                    if(i==0 || i==34 || j==0 || j==180) {
                         frame.append("█");
                     }
                     else frame.append(" ");

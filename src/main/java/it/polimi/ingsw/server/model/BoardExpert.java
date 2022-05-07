@@ -1,10 +1,12 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.enums.CharacterCardName;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class BoardExpert extends Board {
+public class BoardExpert extends Board{
     int boardCoins;
     Map<String, Integer> playerCoins;
     CharacterCard[] characterCards;
@@ -138,5 +140,18 @@ public class BoardExpert extends Board {
             }
         }
         return cards;
+    }
+
+    public StringBuilder draw(int x, int y) {
+        StringBuilder boardExpert = new StringBuilder(super.draw(x,y));
+        boardExpert.append(Constants.cursorUp(32));
+        //165+x
+        for(CharacterCard characterCard: characterCards){
+            boardExpert.append(characterCard.draw(165+x, 0));
+            boardExpert.append(Constants.cursorDown(1));
+        }
+        boardExpert.append(Constants.cursorDown(13));
+
+        return boardExpert;
     }
 }

@@ -2,18 +2,19 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.enums.CharacterColor;
+
 import java.io.Serializable;
 import java.util.*;
 
 public class Board implements Serializable {
-    private final  int playersNumber;
-    private  int motherNaturePosition;
+    private final int playersNumber;
+    private int motherNaturePosition;
     private final Cloud[] clouds;
     private final List<Island> islands;
     private final School[] schools;
-    private  final List<Student> students;
+    private final List<Student> students;
     private final Professor[] professors; //è un salvataggio
-    private final  GameModel gameModel;
+    private final GameModel gameModel;
 
     //TODO metodo int getInfluencePlayer(String Player, int islandPosition) RITORNA L'INFLUENZA DI UN PLAYER SULL'ISOLA E NON CHI HA PIU INFLUENZA
 
@@ -282,64 +283,73 @@ public class Board implements Serializable {
 
     public StringBuilder draw(int x, int y) {
         StringBuilder board = new StringBuilder();
+        int high = !gameModel.isExpertGame ? 27 : 33;
         int distance;
         int cont = 0; //Si potrebbe togliere, ma l'ultimo for diventa illeggibile
         //Stampo cornice
         board.append(Constants.boardFrame(x, y, gameModel.isExpertGame));
+        board.append(Constants.cursorUp(high));
         //Stampo players
-        board.append(gameModel.getPlayers().get(0).draw(2+x, 30, -1));
-        board.append(Constants.cursorDown(1));
-        board.append(gameModel.getPlayers().get(1).draw(2+x, 0, -1));
-        if (playersNumber == 3) {
+        for(Player player: gameModel.getPlayers()){
+            int coin = gameModel.isExpertGame()? ((BoardExpert)gameModel.getBoard()).getPlayerCoins(player.getNickname()) : -1;
+            if (gameModel.getCurrentPlayer().getClientID() == player.getClientID())
+                board.append(player.draw(2 + x, 0, coin, true));
+            else
+                board.append(player.draw(2 + x, 0, coin, false));
             board.append(Constants.cursorDown(1));
-            board.append(gameModel.getPlayers().get(2).draw(2+x, 0, -1));
         }
-        board.append(Constants.cursorUp(playersNumber * 9-1));
+        if (gameModel.isExpertGame)
+            board.append(Constants.cursorUp(playersNumber * 11 -2));
+        else board.append(Constants.cursorUp(playersNumber * 9 ));
         //board.append(Constants.cursorRight(34));
         //111
         distance = (111 - ((islands.size() - 2) / 2) * 21) / (1 + ((islands.size() - 2) / 2)); //TODO potrebbe non essere divisibile e avere un resto
         //stampa prima fila di isole
         for (int i = 0; i < (islands.size() - 2) / 2; i++) {
-            board.append(islands.get(i + 1).draw(x+36 + distance * (i + 1) + i * 21, 0, i + 2));
+            board.append(islands.get(i + 1).draw(x + 36 + distance * (i + 1) + i * 21, 0, i + 2));
             board.append(Constants.cursorUp(5));
         }
         board.append(Constants.cursorDown(6));
-        board.append(islands.get(0).draw(x+19, 0, 1)); //stampo isola 0
+        board.append(islands.get(0).draw(x + 19, 0, 1)); //stampo isola 0
         board.append(Constants.cursorUp(4));
         //103 larghezza nuvole
         distance = ((103 - playersNumber * 11) / (playersNumber + 1));
         for (int i = 0; i < playersNumber; i++) {
-            board.append(clouds[i].draw(x+40 + distance * (i + 1) + i * 11, 0, i + 1));
+            board.append(clouds[i].draw(x + 40 + distance * (i + 1) + i * 11, 0, i + 1));
             board.append(Constants.cursorUp(3));
         }
         board.append(Constants.cursorUp(1));
-        board.append(islands.get(islands.size() / 2 + 1).draw(143+x, 0, islands.size() / 2 + 2));
+        board.append(islands.get(islands.size() / 2 + 1).draw(143 + x, 0, islands.size() / 2 + 2));
         board.append(Constants.cursorDown(1));
         distance = (111 - (islands.size() - ((islands.size() - 2) / 2) - 2) * 21)
                 / (1 + (islands.size() - ((islands.size() - 2) / 2) - 2));
         //stampo ultima fila di isole
         for (int i = islands.size() - 1; i >= ((islands.size() - 2) / 2) + 2; i--) {
-            board.append(islands.get(i).draw(x+37 + distance * (cont + 1) + cont * 21, 0, i + 1));
+            board.append(islands.get(i).draw(x + 37 + distance * (cont + 1) + cont * 21, 0, i + 1));
             board.append(Constants.cursorUp(5));
             cont++;
         }
-        board.append(Constants.cursorDown(7));
+        if(gameModel.isExpertGame){
+            board.append(Constants.cursorDown(8));
+        } else board.append(Constants.cursorDown(6));
         if (playersNumber == 2) {
             distance = 15;
-            board.append(schools[0].draw(53+x, 0));
+            board.append(schools[0].draw(53 + x, 0));
             board.append(Constants.cursorUp(8));
-            board.append(schools[1].draw(x+53+distance+31, 0));
+            board.append(schools[1].draw(x + 53 + distance + 31, 0));
         } else {
             distance = 3;
-            board.append(schools[0].draw(42+x, 0));
+            board.append(schools[0].draw(42 + x, 0));
             board.append(Constants.cursorUp(8));
-            board.append(schools[1].draw(42+x+distance+31, 0));
+            board.append(schools[1].draw(42 + x + distance + 31, 0));
             board.append(Constants.cursorUp(8));
-            board.append(schools[2].draw(42+x+distance*2+31*2, 0));
+            board.append(schools[2].draw(42 + x + distance * 2 + 31 * 2, 0));
         }
         board.append(Constants.cursorDown(2));
         return board;
     }
+
+
 
     @Override
     public String toString() {

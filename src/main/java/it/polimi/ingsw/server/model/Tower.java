@@ -7,15 +7,15 @@ import java.io.Serializable;
 
 public class Tower implements Serializable {
     private final PlayerColor color;
-    private final String owner;
+    private final int ownerId;
 
-    public Tower(String owner, PlayerColor color) {
-        this.owner = owner;
+    public Tower(int ownerId, PlayerColor color) {
+        this.ownerId = ownerId;
         this.color = color;
     }
 
-    public String getOwner() {
-        return owner;
+    public int getOwner() {
+        return ownerId;
     }
 
     public PlayerColor getColor() {

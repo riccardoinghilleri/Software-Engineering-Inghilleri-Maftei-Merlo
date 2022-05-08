@@ -18,11 +18,11 @@ public class Clown implements CharacterCardStrategy{
 
     @Override
     public void useEffect(ActionMessage actionMessage) {
-        String player = gameModel.getCurrentPlayer().getNickname();
+        int player = gameModel.getCurrentPlayer().getClientID();
         Student s1 = ((CharacterCardwithStudents) board.getCharacterCardbyName("CLOWN")).removeStudent(CharacterColor.valueOf(actionMessage.getParameters().get(0)));
-        Student s2 = board.getSchoolByOwner(player).removeEntranceStudent(CharacterColor.valueOf(actionMessage.getParameters().get(1)));
+        Student s2 = board.getSchoolByOwnerId(player).removeEntranceStudent(CharacterColor.valueOf(actionMessage.getParameters().get(1)));
         ((CharacterCardwithStudents) board.getCharacterCardbyName("CLOWN")).addStudent(s2);
-        board.getSchoolByOwner(player).getEntrance().add(s1);
+        board.getSchoolByOwnerId(player).getEntrance().add(s1);
     }
 }
 

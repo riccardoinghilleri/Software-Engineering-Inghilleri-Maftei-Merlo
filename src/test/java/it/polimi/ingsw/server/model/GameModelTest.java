@@ -73,10 +73,10 @@ class GameModelTest {
         gameModelExpert.createPlayer("Ricky",1);
         gameModelExpert.createPlayer("Manu",2);
         gameModelNormal.createPlayer("Dani",1);
-        assertEquals("Manu",gameModelExpert.getPlayerByNickname("Manu").getNickname());
-        assertEquals(2,gameModelExpert.getPlayerByNickname("Manu").getClientID());
-        assertEquals("Dani",gameModelNormal.getPlayerByNickname("Dani").getNickname());
-        assertEquals(1,gameModelNormal.getPlayerByNickname("Dani").getClientID());
+        assertEquals("Manu",gameModelExpert.getPlayerById(2).getNickname());
+        assertEquals(2,gameModelExpert.getPlayerById(2).getClientID());
+        assertEquals("Dani",gameModelNormal.getPlayerById(1).getNickname());
+        assertEquals(1,gameModelNormal.getPlayerById(1).getClientID());
     }
 
     @Test
@@ -98,9 +98,9 @@ class GameModelTest {
         gameModelExpert.createPlayer("Ricky",1);
         gameModelExpert.createPlayer("Manu",2);
         gameModelNormal.createPlayer("Dani",1);
-        assertNull(gameModelExpert.getPlayerByNickname("Ricky").getDeck().getWizard());
-        gameModelExpert.setPlayerDeck("Ricky", "GANDALF");
-        assertEquals("GANDALF", gameModelExpert.getPlayerByNickname("Ricky").getDeck().getWizard().toString());
+        assertNull(gameModelExpert.getPlayerById(1).getDeck().getWizard());
+        gameModelExpert.setPlayerDeck(1, "GANDALF");
+        assertEquals("GANDALF", gameModelExpert.getPlayerById(1).getDeck().getWizard().toString());
     }
 
     @Test

@@ -10,12 +10,12 @@ class ProfessorTest {
     @Test
     void testConstructorProfessor(){
         Professor professor= new Professor(CharacterColor.YELLOW);
-        assertEquals("NONE", professor.getOwner());
+        assertEquals(-1, professor.getOwner());
         assertEquals(CharacterColor.YELLOW, professor.getColor());
     }
     @Test
     void testSetOwner(){
-        String owner="PlAYER 1";
+        int owner=1;
         Professor professor= new Professor(CharacterColor.PINK);
         assertEquals(CharacterColor.PINK, professor.getColor());
         professor.setOwner(owner);

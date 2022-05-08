@@ -6,15 +6,15 @@ import it.polimi.ingsw.enums.CharacterColor;
 import java.io.Serializable;
 
 public class Professor implements Serializable {
-    private String owner;
+    private int owner;
     private final CharacterColor color;
 
     public Professor(CharacterColor color) {
-        owner = "NONE";
+        owner = -1;
         this.color = color;
     }
 
-    public String getOwner() {
+    public int getOwner() {
         return owner;
     }
 
@@ -22,7 +22,7 @@ public class Professor implements Serializable {
         return color;
     }
 
-    public void setOwner(String owner) {
+    public void setOwner(int owner) {
         this.owner = owner;
     }
 

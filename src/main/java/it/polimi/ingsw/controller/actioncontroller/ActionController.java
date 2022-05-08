@@ -11,13 +11,13 @@ import static it.polimi.ingsw.controller.StrategyFactory.strategyFactory;
 
 public class ActionController {
     private final GameModel gameModel;
-    private final String player;
+    private final int playerId;
     private CharacterCardStrategy strategy;
 
     public ActionController(GameModel gameModel) {
         this.gameModel = gameModel;
         //this.specialCardName = null;
-        this.player = gameModel.getCurrentPlayer().getNickname();
+        this.playerId = gameModel.getCurrentPlayer().getClientID();
     }
 
     public GameModel getGameModel() {
@@ -39,24 +39,24 @@ public class ActionController {
             updateAllProfessors();
         }
         BoardExpert boardExpert = (BoardExpert) gameModel.getBoard();
-        boardExpert.moveCoin(player, boardExpert.getCharacterCardbyName(actionMessage.getCharacterCardName()));
+        boardExpert.moveCoin(playerId, boardExpert.getCharacterCardbyName(actionMessage.getCharacterCardName()));
     }
     public void useCharacterCardEffect(ActionMessage actionMessage){
         this.strategy.useEffect(actionMessage);
     }
 
     //metodo che ritorna il player con più influenza sull'isola specificata
-    public String getInfluence(ActionMessage actionMessage) {
+    public int getInfluence(ActionMessage actionMessage) {
         return gameModel.getBoard().getTotalInfluence(actionMessage.getData());
     }
 
     //metodo che muove gli studenti dalla sala all'ingresso
     //dopo il movimento viene aggiornato il professore di quel colore
     public void moveStudent(String studentColor) {
-        gameModel.getBoard().getSchoolByOwner(player).fromEntrancetoDiningRoom(CharacterColor.valueOf(studentColor));
-        if (gameModel.isExpertGame() && gameModel.getBoard().getSchoolByOwner(player).getDiningRoom().get(CharacterColor.valueOf(studentColor)).size() % 3 == 0) {
+        gameModel.getBoard().getSchoolByOwnerId(playerId).fromEntrancetoDiningRoom(CharacterColor.valueOf(studentColor));
+        if (gameModel.isExpertGame() && gameModel.getBoard().getSchoolByOwnerId(playerId).getDiningRoom().get(CharacterColor.valueOf(studentColor)).size() % 3 == 0) {
             BoardExpert boardExpert = (BoardExpert) gameModel.getBoard();
-            boardExpert.addCointoPlayer(player);
+            boardExpert.addCointoPlayer(playerId);
         }
         updateProfessor(studentColor);
     }
@@ -64,21 +64,21 @@ public class ActionController {
     //metodo che muove gli studenti dalla sala di una scuola ad una isola
     public void moveStudent(int islandPosition, String studentColor) {
 
-        gameModel.getBoard().moveStudent(player, islandPosition, studentColor);
+        gameModel.getBoard().moveStudent(playerId, islandPosition, studentColor);
 
     }
 
     //TODO aggiungere ai metodi
     public void moveStudent(int cloudPosition) {
-        gameModel.getBoard().moveStudent(cloudPosition, player);
+        gameModel.getBoard().moveStudent(cloudPosition, playerId);
     }
 
     //metodo che muove madre natura
     //sposta le tower automaticamente
     //TODO il movimento delle tower è atomico con lo spostamento di madre natura o deve essere il client a farlo cosi possiamo usare una specialCard dopo il movimento di madre natura  e prima d i muovere le torri
     //TODO tutte le getInfluence() devono ritornare NONE in caso di pareggio
-    public String moveMotherNature(ActionMessage actionMessage) {
-        String newOwner = "NONE";
+    public int moveMotherNature(ActionMessage actionMessage) {
+        int newOwner = -1;
         gameModel.getBoard().moveMotherNature((actionMessage.getData()));
         int index = gameModel.getBoard().getMotherNaturePosition();
         if (gameModel.getBoard().getIslands().get(index).hasNoEntryTile()) //Se L'isola è bloccata, tolgo il divieto e lo rimetto nella carta senza calcolare l'influenza
@@ -91,24 +91,24 @@ public class ActionController {
             m.setAction(Action.GET_INFLUENCE);
             m.setData(index);
             newOwner = getInfluence(m);
-            String oldOwner;
+            int oldOwner;
             if (!gameModel.getBoard().getIslands().get(index).getTowers().isEmpty())
                 oldOwner = gameModel.getBoard().getIslands().get(index).getTowers().get(0).getOwner();
             else
-                oldOwner = "NONE";
+                oldOwner = -1;
             //se nessuno controlla isola non faccio cambiamenti
-            if (!newOwner.equalsIgnoreCase("NONE")) {
+            if (newOwner!=-1) {
                 //se l'isola non contiene torri sposto le torri dalla scuola all'isola
                 if (gameModel.getBoard().getIslands().get(index).getTowers().isEmpty()) {
-                    gameModel.getBoard().moveTower(gameModel.getPlayerByNickname(newOwner).getNickname(), index);
+                    gameModel.getBoard().moveTower(newOwner,index,"island");
                 }
                 //altrimenti tolgo le tower presenti e metto quelle del nuovo owner
-                else if (!newOwner.equalsIgnoreCase(oldOwner)) {
+                else if (newOwner!=oldOwner) {
                     int towers_number = gameModel.getBoard().getIslands().get(index).getTowers().size();
-                    int available_towers = gameModel.getBoard().getSchoolByOwner(newOwner).getTowersNumber();
-                    gameModel.getBoard().moveTower(index, oldOwner);
+                    int available_towers = gameModel.getBoard().getSchoolByOwnerId(newOwner).getTowersNumber();
+                    gameModel.getBoard().moveTower(oldOwner,index, "school");
                     for (int i = 0; i < towers_number && i < available_towers; i++)
-                        gameModel.getBoard().moveTower(newOwner, index);
+                        gameModel.getBoard().moveTower(newOwner, index,"island");
                 }
                 gameModel.getBoard().checkNearIsland(actionMessage.getData());
             }

@@ -48,6 +48,7 @@ public class Cli implements View {
 
     public static void main(String[] args) {
         Constants.clearScreen();
+        Constants.clearScreen();
         PrintStream printer = new PrintStream(System.out);
         Scanner scanner = new Scanner(System.in);
         Pattern pattern = Pattern.compile("^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.(?!$)|$)){4}$");
@@ -98,6 +99,7 @@ public class Cli implements View {
 
     public void setupNickname(NicknameMessage message) {
         Constants.clearScreen();
+        Constants.clearScreen();
         String response;
         String nickname;
         if (message.getAlreadyAsked())
@@ -133,6 +135,7 @@ public class Cli implements View {
     }
 
     public void displayBoard(UpdateBoard message) {
+        Constants.clearScreen();
         Constants.clearScreen();
         printer.println(message.getBoard().draw(1,1));
     }

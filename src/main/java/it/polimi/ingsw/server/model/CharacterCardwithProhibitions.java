@@ -55,7 +55,7 @@ public class CharacterCardwithProhibitions extends CharacterCard {
             if (j == 0 || j == 13) card.append(vertical);
             else if (((j%2!=0 && ((12-prohibitionsNumber*2-1)/2)%2==0) || (j%2==0 && ((12-prohibitionsNumber*2-1)/2)%2!=0))
                     && j>(12-prohibitionsNumber*2-1)/2 && noEntryTiles_index<prohibitionsNumber) {
-                card.append("X");
+                card.append("⊘");
                 noEntryTiles_index++;
             }
             else card.append(" ");

@@ -60,14 +60,14 @@ public class GameModel implements Serializable {
         currentPlayer = players.get(position);
     }
 
-    public Player getPlayerByNickname(String nickname) {
+    /*public Player getPlayerByNickname(String nickname) {
         Player result = null;
         for (Player p : players) {
             if (p.getNickname().equals(nickname))
                 result = p;
         }
         return result;
-    }
+    }*/
 
     public Player getPlayerById(int id) {
         Player result = null;
@@ -89,8 +89,8 @@ public class GameModel implements Serializable {
 
     }
 
-    public void setPlayerDeck(String nickname, String wizard) {
-        getPlayerByNickname(nickname).getDeck().setWizard(wizard);
+    public void setPlayerDeck(int clientId, String wizard) {
+        getPlayerById(clientId).getDeck().setWizard(wizard);
 
     }
 

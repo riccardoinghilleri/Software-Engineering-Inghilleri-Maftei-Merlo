@@ -144,7 +144,7 @@ public class Controller {
                     if (characterCardName.equalsIgnoreCase("DIPLOMAT")) {
                         for (School s : gameModel.getBoard().getSchools()) {
                             if (s.getTowersNumber() == 0) {
-                                gameModel.setWinner(gameModel.getPlayerByNickname(s.getOwner()));
+                                gameModel.setWinner(gameModel.getPlayerById(s.getOwnerId()));
                                 listeners.firePropertyChange("end_game", null, null);
                             }
                         }
@@ -194,10 +194,10 @@ public class Controller {
                     System.out.println(e.getMessage());
                     return " You can not move mother nature so far";
                 }
-                String newOwner = actionController.moveMotherNature(actionMessage);
-                if (!newOwner.equalsIgnoreCase("NONE")
-                        && gameModel.getBoard().getSchoolByOwner(newOwner).getTowersNumber() == 0) {
-                    gameModel.setWinner(gameModel.getPlayerByNickname(newOwner));
+                int newOwner = actionController.moveMotherNature(actionMessage);
+                if (newOwner!=-1
+                        && gameModel.getBoard().getSchoolByOwnerId(newOwner).getTowersNumber() == 0) {
+                    gameModel.setWinner(gameModel.getPlayerById(newOwner));
                     listeners.firePropertyChange("end_game", null, null);
                 } else if (gameModel.getBoard().getIslands().size() == 3) {
                     gameModel.getBoard().findWinner();
@@ -281,7 +281,7 @@ public class Controller {
     private void checkCoins(ActionMessage actionMessage) throws NotEnoughCoinsException {
         BoardExpert boardexpert = (BoardExpert) gameModel.getBoard();
         int cost = boardexpert.getCharacterCardbyName(actionMessage.getCharacterCardName()).getCost();
-        if (boardexpert.getPlayerCoins(gameModel.getCurrentPlayer().getNickname()) < cost) {
+        if (boardexpert.getPlayerCoins(gameModel.getCurrentPlayer().getClientID()) < cost) {
             throw new NotEnoughCoinsException();
         }
     }
@@ -318,8 +318,8 @@ public class Controller {
         if (defaultMovements >= 4
                 || (defaultMovements >= 3 && gameModel.getPlayers().size() % 2 == 0))
             throw new DefaultMovementsNumberException();
-        else if (!(gameModel.getBoard().getSchoolByOwner(gameModel.getCurrentPlayer()
-                .getNickname()).hasEntranceStudentColor(actionMessage.getParameters().get(0)))) {
+        else if (!(gameModel.getBoard().getSchoolByOwnerId(gameModel.getCurrentPlayer().getClientID()).
+                hasEntranceStudentColor(actionMessage.getParameters().get(0)))) {
             throw new DefaultMovementsColorException();
         }
     }

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.ConnectionMessage;
 
 import it.polimi.ingsw.client.View;
-import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.server.model.Board;
 
 public class UpdateBoard implements Message,ServerMessage{

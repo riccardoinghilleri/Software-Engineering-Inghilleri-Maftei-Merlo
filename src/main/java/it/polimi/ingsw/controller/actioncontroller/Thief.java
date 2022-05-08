@@ -20,8 +20,8 @@ public class Thief implements CharacterCardStrategy{
         CharacterColor color=CharacterColor.valueOf(actionMessage.getParameters().get(0));
         for(Player p: gameModel.getPlayers()){
             for(int i=0;i<3;i++){
-                if(board.getSchoolByOwner(p.getNickname()).getDiningRoom().get(color).size()>0)
-                    board.getSchoolByOwner(p.getNickname()).removeDiningRoomStudent(color);
+                if(board.getSchoolByOwnerId(p.getClientID()).getDiningRoom().get(color).size()>0)
+                    board.getSchoolByOwnerId(p.getClientID()).removeDiningRoomStudent(color);
             }
 
         }

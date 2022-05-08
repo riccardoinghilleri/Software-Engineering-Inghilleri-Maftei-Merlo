@@ -11,14 +11,14 @@ import java.util.List;
 import java.util.Map;
 
 public class School implements Serializable {
-    private final String owner;
+    private final Player owner;
     private final List<Student> entrance;
     private final Map<CharacterColor, List<Student>> diningRoom;
     private final List<Tower> towers;
     public final List<Professor> professors;
     private final PlayerColor playerColor;
 
-    public School(String owner, PlayerColor playerColor, int playersNumber) {
+    public School(Player owner, PlayerColor playerColor, int playersNumber) {
         this.owner = owner;
         this.playerColor = playerColor;
         this.entrance = new ArrayList<>();
@@ -27,10 +27,10 @@ public class School implements Serializable {
         this.professors = new ArrayList<>();
         if (playersNumber == 2)
             for (int i = 0; i < 8; i++)
-                towers.add(new Tower(owner, playerColor));
+                towers.add(new Tower(getOwnerId(), playerColor));
         else if (playersNumber == 3)
             for (int i = 0; i < 6; i++)
-                towers.add(new Tower(owner, playerColor));
+                towers.add(new Tower(getOwnerId(), playerColor));
         for (CharacterColor c : CharacterColor.values()) {
             this.diningRoom.put(c, new ArrayList<Student>());
         }
@@ -56,8 +56,11 @@ public class School implements Serializable {
         return towers;
     }
 
-    public String getOwner() {
+    public Player getOwner(){
         return owner;
+    }
+    public int getOwnerId() {
+        return owner.getClientID();
     }
 
     public List<Student> getEntrance() {
@@ -173,8 +176,8 @@ public class School implements Serializable {
         box.append(Constants.cursorRight(x));
         for (int j = 0; j < 31; j++) {
             if (j == 0 || j == 30) box.append(vertical_wall);
-            else if (j > (29 - owner.length()) / 2 && owner_index < owner.length()) {
-                box.append(owner.charAt(owner_index));
+            else if (j > (29 - owner.getNickname().length()) / 2 && owner_index < owner.getNickname().length()) {
+                box.append(owner.getNickname().charAt(owner_index));
                 owner_index++;
             } else box.append(" ");
         }

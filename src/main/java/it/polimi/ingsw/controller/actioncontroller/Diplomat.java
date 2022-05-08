@@ -15,25 +15,23 @@ public class Diplomat implements CharacterCardStrategy{
 
     @Override
     public void useEffect(ActionMessage actionMessage) {
-        String newOwner = board.getTotalInfluence(actionMessage.getData());
-        String oldOwner = gameModel.getBoard().getIslands().get(actionMessage.getData()).getTowers().get(0).getOwner();
+        int newOwner = board.getTotalInfluence(actionMessage.getData());
+        int oldOwner = gameModel.getBoard().getIslands().get(actionMessage.getData()).getTowers().get(0).getOwner();
         //se nessuno controlla isola non faccio cambiamenti
-        if (!newOwner.equalsIgnoreCase("NONE")) {
+        if (newOwner!=-1) {
             //se l'isola non contiene torri sposto le torri dalla scuola all'isola
             if (gameModel.getBoard().getIslands().get(actionMessage.getData()).getTowers().isEmpty()) {
-                gameModel.getBoard().moveTower(gameModel.getPlayerByNickname(newOwner).getNickname(), actionMessage.getData());
+                gameModel.getBoard().moveTower(newOwner, actionMessage.getData(),"island");
             }
             //altrimenti tolgo le tower presenti e metto quelle del nuovo owner
-            else if(newOwner.equalsIgnoreCase(oldOwner)){
-                gameModel.getBoard().moveTower(actionMessage.getData(), oldOwner);
-                gameModel.getBoard().moveTower(newOwner, actionMessage.getData());
+            else if(newOwner!=oldOwner){
+                gameModel.getBoard().moveTower(oldOwner,actionMessage.getData(),"school");
+                gameModel.getBoard().moveTower(newOwner, actionMessage.getData(),"island");
             }
             gameModel.getBoard().checkNearIsland(actionMessage.getData());
             if(gameModel.getBoard().getIslands().size()==3) {
                 //TODO controllare se c'è un vincitore
             }
         }
-
-
     }
 }

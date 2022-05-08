@@ -11,9 +11,9 @@ class TowerTest {
 
     @Test
     public void CorrectNameAndColor(){
-        String owner="player1";
+        int owner=1;
         PlayerColor color= PlayerColor.values()[new Random().nextInt(PlayerColor.values().length)];
-        Tower tower= new Tower(owner, color);
+        Tower tower= new Tower(1, color);
         assertEquals(owner, tower.getOwner());
         assertEquals(color, tower.getColor());
     }

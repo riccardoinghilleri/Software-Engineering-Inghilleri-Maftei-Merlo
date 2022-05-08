@@ -175,11 +175,11 @@ public class GameHandler implements PropertyChangeListener {
                 askActionMessage = new AskActionMessage(controller.getPhase(),
                         ((BoardExpert) gameModel.getBoard()).getCharacterCardbyName(controller.getCharacterCardName()),
                         gameModel.getBoard().getIslands(), gameModel.getBoard()
-                        .getSchoolByOwner(gameModel.getCurrentPlayer().getNickname()));
+                        .getSchoolByOwnerId(gameModel.getCurrentPlayer().getClientID()));
                 break;
             case DEFAULT_MOVEMENTS:
                 askActionMessage = new AskActionMessage(controller.getPhase(), gameModel.getBoard()
-                        .getSchoolByOwner(gameModel.getCurrentPlayer().getNickname()),
+                        .getSchoolByOwnerId(gameModel.getCurrentPlayer().getClientID()),
                         gameModel.getBoard().getIslands());
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
                         + gameModel.getCurrentPlayer().getNickname() + " is moving a student from the Entrance..."));

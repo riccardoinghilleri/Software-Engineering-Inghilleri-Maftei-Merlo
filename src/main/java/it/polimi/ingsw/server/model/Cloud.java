@@ -54,7 +54,7 @@ public class Cloud implements Serializable {
                     } else cloud.append(" ");
                 } else {
                     if (j == 0 || j == 10) cloud.append("•");
-                    cloud.append(" ");
+                    else cloud.append(" ");
                 }
             }
             cloud.append("\n");

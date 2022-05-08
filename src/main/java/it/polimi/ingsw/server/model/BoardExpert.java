@@ -8,7 +8,7 @@ import java.util.*;
 
 public class BoardExpert extends Board{
     int boardCoins;
-    Map<String, Integer> playerCoins;
+    int [] playerCoins;
     CharacterCard[] characterCards;
 
     public BoardExpert(List<Player> players, GameModel gameModel) {
@@ -18,15 +18,15 @@ public class BoardExpert extends Board{
         //--ESTRAGGO 3 CARTE PERSONAGGIO CASUALI--
         characterCards = createThreeRandomCharacterCards();
         //--ASSEGNO AD OGNI PLAYER UNA MONETA--
-        playerCoins = new HashMap<>();
+        playerCoins = new int[players.size()];
         for(Player p: players){
-            playerCoins.put(p.getNickname(),1);
+            playerCoins[p.getClientID()]=1;
             boardCoins--;
         }
     }
 
-    public Integer getPlayerCoins(String playerNickname) {
-        return playerCoins.get(playerNickname);
+    public Integer getPlayerCoins(int clientId) {
+        return playerCoins[clientId];
     }
 
     public int getBoardCoins() {
@@ -48,15 +48,15 @@ public class BoardExpert extends Board{
     }
 
     //Rimuove le monete dal player e ne mette il costo - 1 nella board, aggiunge una moneta alla carta personaggio
-    public void moveCoin(String player, CharacterCard card){
-        playerCoins.replace(player,playerCoins.get(player)-card.getCost());
+    public void moveCoin(int clientId, CharacterCard card){
+        playerCoins[clientId]-=card.getCost();
         boardCoins+=(card.getCost())-1;
         card.updateCost();
     }
 
     //Aggiunge una moneta al player
-    public void addCointoPlayer(String player){
-        playerCoins.replace(player,playerCoins.get(player)+1);
+    public void addCointoPlayer(int clientId){
+        playerCoins[clientId]+=1;
         boardCoins--;
     }
 

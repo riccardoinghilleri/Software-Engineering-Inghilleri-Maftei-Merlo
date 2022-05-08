@@ -60,7 +60,7 @@ public class Board implements Serializable {
 
         //--CREAZIONE SCUOLE--
         for (Player p : players) {
-            schools[p.getClientID()] = new School(p.getNickname(), p.getColor(), playersNumber);
+            schools[p.getClientID()] = new School(p, p.getColor(), playersNumber);
         }
         setInitialEntrance();
     }
@@ -86,13 +86,8 @@ public class Board implements Serializable {
     }
 
     //TODO ECCEZIONE SE NICKNAME E' SBAGLIATO
-    public School getSchoolByOwner(String nickname) {
-        int flag = -1;
-        for (int i = 0; i < schools.length && flag == -1; i++) {
-            if (nickname.equalsIgnoreCase(schools[i].getOwner()))
-                flag = i;
-        }
-        return schools[flag];
+    public School getSchoolByOwnerId(int clientId) {
+        return schools[clientId];
     }
 
     //TODO ECCEZIONE SE NICKNAME E' SBAGLIATO - NON SO SE SERVE
@@ -116,12 +111,12 @@ public class Board implements Serializable {
         }
     }
 
-    public void moveStudent(String fromSchool, int toIsland, String color) {
-        islands.get(toIsland).addStudent(getSchoolByOwner(fromSchool).removeEntranceStudent(CharacterColor.valueOf(color)));
+    public void moveStudent(int clientId, int toIsland, String color) {
+        islands.get(toIsland).addStudent(getSchoolByOwnerId(clientId).removeEntranceStudent(CharacterColor.valueOf(color)));
     }
 
-    public void moveStudent(int fromCloud, String toSchool) {
-        getSchoolByOwner(toSchool).addEntranceStudents(clouds[fromCloud].removeStudents());
+    public void moveStudent(int fromCloud, int clientId) {
+        getSchoolByOwnerId(clientId).addEntranceStudents(clouds[fromCloud].removeStudents());
     }
 
     public void moveMotherNature(int chosenSteps) {
@@ -131,85 +126,84 @@ public class Board implements Serializable {
     }
 
     public void updateProfessor(CharacterColor color) {
-        String oldOwner = professors[color.ordinal()].getOwner();
-        String newOwner = null;
+        int oldOwner = professors[color.ordinal()].getOwner();
+        int newOwner = -1;
         int max = 0;
-        if (!oldOwner.equalsIgnoreCase("NONE")) {
-            max = getSchoolByOwner(oldOwner).getDiningRoom().get(color).size();
+        if (oldOwner!=-1) {
+            max = getSchoolByOwnerId(oldOwner).getDiningRoom().get(color).size();
         }
         for (School s : schools) {
             if (max < s.getDiningRoom().get(color).size()) {
                 max = s.getDiningRoom().get(color).size();
-                newOwner = s.getOwner();
+                newOwner = s.getOwnerId();
             }
         }
-        if (newOwner != null) {
+        if (newOwner != -1) {
             professors[color.ordinal()].setOwner(newOwner);
             //Per la grafica:
-            if (!oldOwner.equalsIgnoreCase("NONE"))
-                getSchoolByOwner(newOwner).addProfessor(getSchoolByOwner(oldOwner).removeProfessor(color));
+            if (oldOwner!=-1)
+                getSchoolByOwnerId(newOwner).addProfessor(getSchoolByOwnerId(oldOwner).removeProfessor(color));
             else
-                getSchoolByOwner(newOwner).addProfessor(professors[color.ordinal()]);
+                getSchoolByOwnerId(newOwner).addProfessor(professors[color.ordinal()]);
         }
     }
 
     //Calcolo dell'influenza tenendo conto di tutti i professori e le tower
     //Ritorna il player che ha piu influenza sull'isola scelta
-    public String getTotalInfluence(int islandPosition) {
-        Map<String, Integer> owners = new HashMap<>();
-        for (Player player : gameModel.getPlayers()) {
-            owners.put(player.getNickname(), 0);
+    public int getTotalInfluence(int islandPosition) {
+        int[] influence = new int[playersNumber];
+        for (int i=0 ;i<playersNumber;i++) {
+           influence[i]=0;
         }
-        owners = getStudentInfluence(islandPosition, owners, Arrays.asList(CharacterColor.values()));
+        influence = getStudentInfluence(islandPosition, influence, Arrays.asList(CharacterColor.values()));
         // Aggiungo l'influenza delle torri
         if (!islands.get(islandPosition).getTowers().isEmpty()) {
-            owners = getTowersInfluence(islandPosition, owners);
+            influence = getTowersInfluence(islandPosition, influence);
         }
-        return getMaxInfluence(owners);
+        return getMaxInfluence(influence);
     }
 
     //Calcolo influenza dei player data dagli studenti presenti sull'isola
-    public Map<String, Integer> getStudentInfluence(int islandPosition, Map<String, Integer> owners, List<CharacterColor> characterColors) {
+    public int[] getStudentInfluence(int islandPosition, int[] influence, List<CharacterColor> characterColors) {
         Map<CharacterColor, List<Student>> students = islands.get(islandPosition).getStudents();
-        String owner;
+        int owner;
         for (CharacterColor c : characterColors) {
             owner = professors[c.ordinal()].getOwner();
-            if (!owner.equals("NONE"))
-                owners.replace(owner, owners.get(owner) + students.get(c).size());
+            if (owner!=-1)
+                influence[owner]+=students.get(c).size();
         }
-        return owners;
+        return influence;
     }
     //Calcolo influenza dei player data dalle torri presenti sull'isola
 
-    public Map<String, Integer> getTowersInfluence(int islandPosition, Map<String, Integer> owners) {
-        String owner = islands.get(islandPosition).getTowers().get(0).getOwner();
-        owners.replace(owner, owners.get(owner) + islands.get(islandPosition).getTowers().size());
-        return owners;
+    public int[] getTowersInfluence(int islandPosition, int[] influence) {
+        int owner = islands.get(islandPosition).getTowers().get(0).getOwner();
+        influence[owner]+= islands.get(islandPosition).getTowers().size();
+        return influence;
     }
 
     //Data una Mappa<String,Integer> restituisce il player con piu influenza
-    public String getMaxInfluence(Map<String, Integer> owners) {
+    public int getMaxInfluence(int[] influence) {
         int max = 0;
-        String result = "NONE";
-        for (String s : owners.keySet()) {
-            if (owners.get(s) > max) {
-                max = owners.get(s);
-                result = s;
-            } else if (owners.get(s) == max)
-                result = "NONE";
+        int result = -1;
+        for (int i=0;i<playersNumber;i++) {
+            if (influence[i]> max) {
+                max = influence[i];
+                result = i;
+            } else if (influence[i] == max)
+                result = -1;
         }
         return result;
     }
 
     //Muove una torre dalla scuola all'isola indicata
-    public void moveTower(String fromSchool, int toIsland) {
-        islands.get(toIsland).addTower(getSchoolByOwner(fromSchool).removeTower());
+    public void moveTower(int clientId, int island, String destination) {
+        if(destination.equalsIgnoreCase("island"))
+        islands.get(island).addTower(getSchoolByOwnerId(clientId).removeTower());
+        else getSchoolByOwnerId(clientId).restockTower(islands.get(island).removeTowers());
     }
 
     //Muove una torre da una isola alla scuola
-    public void moveTower(int fromIsland, String toSchool) {
-        getSchoolByOwner(toSchool).restockTower(islands.get(fromIsland).removeTowers());
-    }
 
     //Restituisce una lista di num studenti casuali
     public List<Student> removeRandomStudents(int studentsNumber) {
@@ -230,6 +224,8 @@ public class Board implements Serializable {
     //Controlla se le isole adiacenti a quella indicata hanno una torre delle stesso colore.
     //In questo caso, sposta tutti gli elementi delle isole adiacenti in quella indicata
     public void checkNearIsland(int islandPosition) {
+        if(islands.get(islandPosition).getTowers().isEmpty())
+            return;
         //controllo che l'isola adiacente successiva abbia delle torri
         if (!islands.get((islandPosition + 1) % islands.size()).getTowers().isEmpty() &&
                 islands.get(islandPosition).getColorTower().equals(islands.get((islandPosition + 1) % islands.size()).getColorTower())) {
@@ -249,16 +245,17 @@ public class Board implements Serializable {
             }
             islands.get(islandPosition).addTowers(islands.get(position).getTowers());
             islands.remove(position);
-        }
+            islands.get(position).setMotherNature(true);
+        } else islands.get(islandPosition).setMotherNature(true);
     }
 
     public void findWinner() {
-        Player winner = gameModel.getPlayerByNickname(getSchools()[0].getOwner());
+        Player winner = gameModel.getPlayerById(0);
         int min_tower = getSchools()[0].getTowersNumber();
         for (int i = 1; i < playersNumber; i++) {
             if (getSchools()[i].getTowersNumber() < min_tower) {
                 min_tower = getSchools()[i].getTowersNumber();
-                winner = gameModel.getPlayerByNickname(getSchools()[i].getOwner());
+                winner = gameModel.getPlayerById(i);
             } else if (getSchools()[i].getTowersNumber() == min_tower) {
                 winner = null;
             }
@@ -266,7 +263,7 @@ public class Board implements Serializable {
         if (winner == null) {
             int[] professors = new int[playersNumber];
             for (Professor p : this.professors) {
-                professors[gameModel.getPlayerByNickname(p.getOwner()).getClientID()]++;
+                professors[p.getOwner()]++;
             }
             int max = professors[0];
             winner = gameModel.getPlayerById(0);
@@ -291,7 +288,7 @@ public class Board implements Serializable {
         board.append(Constants.cursorUp(high));
         //Stampo players
         for(Player player: gameModel.getPlayers()){
-            int coin = gameModel.isExpertGame()? ((BoardExpert)gameModel.getBoard()).getPlayerCoins(player.getNickname()) : -1;
+            int coin = gameModel.isExpertGame()? ((BoardExpert)gameModel.getBoard()).getPlayerCoins(player.getClientID()) : -1;
             if (gameModel.getCurrentPlayer().getClientID() == player.getClientID())
                 board.append(player.draw(2 + x, 0, coin, true));
             else
@@ -303,9 +300,9 @@ public class Board implements Serializable {
         else board.append(Constants.cursorUp(playersNumber * 9 ));
         //board.append(Constants.cursorRight(34));
         //111
-        distance = (111 - ((islands.size() - 2) / 2) * 21) / (1 + ((islands.size() - 2) / 2)); //TODO potrebbe non essere divisibile e avere un resto
+        distance = (111 - (int)Math.ceil(((float)islands.size() - 2.0) / 2.0) * 21) / (1 + (int)Math.ceil(((float)islands.size() - 2.0) / 2.0)); //TODO potrebbe non essere divisibile e avere un resto
         //stampa prima fila di isole
-        for (int i = 0; i < (islands.size() - 2) / 2; i++) {
+        for (int i = 0; i < Math.ceil(((float)islands.size() - 2.0) / 2.0); i++) {
             board.append(islands.get(i + 1).draw(x + 36 + distance * (i + 1) + i * 21, 0, i + 2));
             board.append(Constants.cursorUp(5));
         }
@@ -321,10 +318,10 @@ public class Board implements Serializable {
         board.append(Constants.cursorUp(1));
         board.append(islands.get(islands.size() / 2 + 1).draw(143 + x, 0, islands.size() / 2 + 2));
         board.append(Constants.cursorDown(1));
-        distance = (111 - (islands.size() - ((islands.size() - 2) / 2) - 2) * 21)
-                / (1 + (islands.size() - ((islands.size() - 2) / 2) - 2));
+        distance = (111 - (int)Math.floor(((float)islands.size() - 2.0) / 2.0) * 21)
+                / (1 + (int)Math.floor(((float)islands.size() - 2.0) / 2.0));
         //stampo ultima fila di isole
-        for (int i = islands.size() - 1; i >= ((islands.size() - 2) / 2) + 2; i--) {
+        for (int i = islands.size() - 1; i >= Math.ceil(((float)islands.size() - 2.0) / 2.0) + 2; i--) {
             board.append(islands.get(i).draw(x + 37 + distance * (cont + 1) + cont * 21, 0, i + 1));
             board.append(Constants.cursorUp(5));
             cont++;

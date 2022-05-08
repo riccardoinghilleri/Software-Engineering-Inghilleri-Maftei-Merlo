@@ -127,8 +127,8 @@ public class Server implements Runnable {
                 }
             }
         } finally {
-            lockQueue.unlock();
             System.out.println(this);
+            lockQueue.unlock();
         }
     }
     private void warnPlayers(List<VirtualView> queue){
@@ -180,7 +180,9 @@ public class Server implements Runnable {
 
     @Override
     public String toString() {
-        //Constants.clearScreen();
+        Constants.clearScreen();
+        Constants.clearScreen();
+
         //todo stampare titolo in grande
         return "Queues' Status: \n" +
                 "1) TwoPlayersNormal: " + twoPlayersNormal.size() + " players\n" +

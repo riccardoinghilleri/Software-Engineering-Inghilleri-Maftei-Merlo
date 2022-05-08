@@ -13,18 +13,18 @@ public class Diner extends ActionController {
     @Override
     public void updateProfessor(String color) {
         CharacterColor c = CharacterColor.valueOf(color);
-        String owner = getGameModel().getBoard().getProfessorByColor(c).getOwner();
+        int owner = getGameModel().getBoard().getProfessorByColor(c).getOwner();
         int max=0;
-        if(!owner.equalsIgnoreCase("NONE")) {
-            max = getGameModel().getBoard().getSchoolByOwner(owner).getDiningRoom().get(CharacterColor.valueOf(color)).size();
+        if(owner!=-1) {
+            max = getGameModel().getBoard().getSchoolByOwnerId(owner).getDiningRoom().get(CharacterColor.valueOf(color)).size();
         }
         for(School s: getGameModel().getBoard().getSchools()){
             if(max<s.getDiningRoom().get(c).size()){
                 max=s.getDiningRoom().get(c).size();
-                owner=s.getOwner();
+                owner=s.getOwnerId();
             }
             else if (max<=s.getDiningRoom().get(c).size() && s.getOwner().equals(getGameModel().getCurrentPlayer().getNickname()))
-                owner=getGameModel().getCurrentPlayer().getNickname();
+                owner=getGameModel().getCurrentPlayer().getClientID();
         }
         getGameModel().getBoard().getProfessorByColor(c).setOwner(owner);
     }

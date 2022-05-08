@@ -3,8 +3,6 @@ package it.polimi.ingsw.constants;
 import it.polimi.ingsw.enums.CharacterColor;
 import it.polimi.ingsw.enums.PlayerColor;
 
-import java.io.IOException;
-
 public class Constants {
     public static final String ANSI_RESET = "\033[0m";
     public static final String ANSI_RED = "\033[31m";
@@ -22,6 +20,14 @@ public class Constants {
                     " ██╔════╝ ██╔══██╗ ██║ ██╔══██║ ██║╚═███║    ██║      ██╔╝   ╚════██║\n" +
                     " ███████╗ ██║  ██║ ██║ ██║  ██║ ██║  ╚██║    ██║     ██╔╝    ███████║\n" +
                     " ╚══════╝ ╚═╝  ╚═╝ ╚═╝ ╚═╝  ╚═╝ ╚═╝   ╚═╝    ╚═╝     ╚═╝     ╚══════╝\n";
+
+    public static final String SERVER_STATUS =
+                    " ███████╗ ███████╗ ██████╗  ██╗     ██╗ ███████╗ ██████╗        ███████╗ ████████╗  █████╗  ████████╗ ██╗  ██╗ ███████╗\n" +
+                    " ██╔════╝ ██╔════╝ ██╔══██╗ ╚██╗   ██╔╝ ██╔════╝ ██╔══██╗       ██╔════╝ ╚══██╔══╝ ██╔══██╗ ╚══██╔══╝ ██║  ██║ ██╔════╝\n" +
+                    " ███████╗ ███████╗ ██████╔╝  ╚██╗ ██╔╝  ███████╗ ██████╔╝       ███████╗    ██║    ███████║    ██║    ██║  ██║ ███████╗\n" +
+                    " ╚════██║ ██╔════╝ ██╔══██╗   ╚████╔╝   ██╔════╝ ██╔══██╗       ╚════██║    ██║    ██╔══██║    ██║    ██║  ██║ ╚════██║\n" +
+                    " ███████║ ███████╗ ██║  ██║    ╚██╔╝    ███████╗ ██║  ██║       ███████║    ██║    ██║  ██║    ██║    ╚█████╔╝ ███████║\n" +
+                    " ╚══════╝ ╚══════╝ ╚═╝  ╚═╝     ╚═╝     ╚══════╝ ╚═╝  ╚═╝       ╚══════╝    ╚═╝    ╚═╝  ╚═╝    ╚═╝     ╚════╝  ╚══════╝\n";
 
     public static String getAnsi(CharacterColor characterColor) {
         if (characterColor == CharacterColor.RED) return ANSI_RED;

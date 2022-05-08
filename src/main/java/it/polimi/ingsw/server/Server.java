@@ -43,6 +43,7 @@ public class Server implements Runnable {
     }
 
     public static void main(String[] args) {
+        Constants.clearScreen();
         System.out.println(Constants.ERIANTYS);
         System.out.println("Inghilleri Riccardo - Maftei Daniela - Merlo Manuela\n");
         Scanner scanner = new Scanner(System.in);

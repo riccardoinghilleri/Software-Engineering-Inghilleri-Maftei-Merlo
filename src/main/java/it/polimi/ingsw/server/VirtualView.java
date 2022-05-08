@@ -66,7 +66,6 @@ public class VirtualView implements Runnable {
             //startPinger();
 
             while (active.get()) {
-
                 Object clientMessage = is.readObject();
                 if (!(clientMessage instanceof InfoMessage && ((InfoMessage) clientMessage).getString().equalsIgnoreCase("PING"))) {
                     if (inGame)

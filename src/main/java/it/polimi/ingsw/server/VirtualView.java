@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class VirtualView implements Runnable {
@@ -78,7 +79,7 @@ public class VirtualView implements Runnable {
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-            closeConnection(false);
+            forcedClose();
         }
     }
 
@@ -91,6 +92,26 @@ public class VirtualView implements Runnable {
             os.writeObject(message);
             os.flush();
             os.reset();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void forcedClose(){
+        active.set(false);
+        stopTimer();
+        try {
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

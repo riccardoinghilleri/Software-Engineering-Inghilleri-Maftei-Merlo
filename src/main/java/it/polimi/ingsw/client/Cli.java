@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -20,7 +21,7 @@ public class Cli implements View {
     private static int port;
     private static String address;
 
-    private final ClientConnection connection;
+    private  ClientConnection connection;
     private boolean expertMode;
 
     private boolean alreadyAskedCard;
@@ -31,11 +32,8 @@ public class Cli implements View {
         InputController.setScanner(reader);
         printer = new PrintStream(System.out);
         InputController.setPrinter(printer);
-        connection = new ClientConnection(this);
         alreadyAskedCard = false;
         alreadyAskedMovements = false;
-        Thread t = new Thread(connection);
-        t.start();
     }
 
     public static int getPort() {
@@ -48,39 +46,52 @@ public class Cli implements View {
 
     public static void main(String[] args) {
         Constants.clearScreen();
-        Constants.clearScreen();
+        //Constants.clearScreen();
         PrintStream printer = new PrintStream(System.out);
         Scanner scanner = new Scanner(System.in);
-        Pattern pattern = Pattern.compile("^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.(?!$)|$)){4}$");
         printer.println(Constants.ERIANTYS);
         printer.println("Inghilleri Riccardo - Maftei Daniela - Merlo Manuela\n");
+        Cli cli = new Cli();
+        cli.setupConnection();
+    }
+
+    public void setupConnection() {
         printer.println(">Insert the server IP address");
-        address = scanner.nextLine();
+        address = reader.nextLine();
+        Pattern pattern = Pattern.compile("^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.(?!$)|$)){4}$");
         Matcher m = pattern.matcher(address);
         while (!m.matches()) {
             printer.println(">Invalid input. Please try again");
-            address = scanner.nextLine();
+            address = reader.nextLine();
             m = pattern.matcher(address);
         }
         printer.println(">Insert the server port");
         boolean error;
         do {
             try {
-                port = Integer.parseInt(scanner.nextLine());
+                port = Integer.parseInt(reader.nextLine());
                 error = false;
                 while (port < 1024 || port > 65535) {
                     System.out.println(">Invalid input: you have to choose a number between 1024 and 65535. Please try again");
-                    port = Integer.parseInt(scanner.nextLine());
+                    port = Integer.parseInt(reader.nextLine());
                     if (port < 1024 || port > 65535)
                         Constants.clearRowBelow(2);
                 }
             } catch (NumberFormatException e) {
-                System.out.println(">Invalid input: you have to insert a number. Please try again.");
+                printer.println(">Invalid input: you have to insert a number. Please try again.");
                 error = true;
             }
         } while (error);
-        Cli cli = new Cli();
-        cli.setupGameSetting();
+        try{
+            connection = new ClientConnection(this);
+            Thread t = new Thread(connection);
+            t.start();
+            setupGameSetting();
+        }catch(IOException e){
+            printer.println("Error while opening the socket");
+            setupConnection();
+        }
+
     }
 
     private void setupGameSetting() {
@@ -99,7 +110,7 @@ public class Cli implements View {
 
     public void setupNickname(NicknameMessage message) {
         Constants.clearScreen();
-        Constants.clearScreen();
+        //Constants.clearScreen();
         String response;
         String nickname;
         if (message.getAlreadyAsked())
@@ -136,8 +147,8 @@ public class Cli implements View {
 
     public void displayBoard(UpdateBoard message) {
         Constants.clearScreen();
-        Constants.clearScreen();
-        printer.println(message.getBoard().draw(1,1));
+        //Constants.clearScreen();
+        printer.println(message.getBoard().draw(1, 1));
     }
 
     public void askAction(AskActionMessage message) {
@@ -207,7 +218,7 @@ public class Cli implements View {
                 printer.println(">Do you want to move your student to your DiningRoom" +
                         " or on an Island?");
 
-                temp=InputController.checkString(List.of("DININGROOM","ISLAND"));
+                temp = InputController.checkString(List.of("DININGROOM", "ISLAND"));
                 /*temp = reader.nextLine();
                 while (!temp.equalsIgnoreCase("DiningRoom") && !temp.equalsIgnoreCase("Island")) {
                     printer.println(">Invalid input. Please, try again!");
@@ -232,7 +243,7 @@ public class Cli implements View {
                 List<Integer> availableIndexClouds = new ArrayList<>();
                 for (int i = 0; i < message.getClouds().length; i++) {
                     if (!(message.getClouds())[i].getStudents().isEmpty()) {
-                        availableIndexClouds.add(i+1);
+                        availableIndexClouds.add(i + 1);
                         //    printer.println("CLOUD #" + i + "\n" + (message.getClouds())[i].draw());
                     }
                 }
@@ -244,7 +255,7 @@ public class Cli implements View {
                     if(!availableIndexClouds.contains(data))
                         Constants.clearRowBelow(2);
                 }*/
-                answer.setData(InputController.checkInt(availableIndexClouds)-1);
+                answer.setData(InputController.checkInt(availableIndexClouds) - 1);
                 answer.setAction(Action.CHOOSE_CLOUD);
                 connection.send(answer);
                 break;

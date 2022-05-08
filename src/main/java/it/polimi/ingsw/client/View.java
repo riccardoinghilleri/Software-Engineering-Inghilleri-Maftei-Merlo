@@ -9,5 +9,7 @@ public interface View {
     public void setupNickname(NicknameMessage message);
     public void displayBoard(UpdateBoard message);
 
+    public void setupConnection();
+
 }
 

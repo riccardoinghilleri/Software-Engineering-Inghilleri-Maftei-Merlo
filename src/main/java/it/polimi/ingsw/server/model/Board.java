@@ -245,8 +245,14 @@ public class Board implements Serializable {
             }
             islands.get(islandPosition).addTowers(islands.get(position).getTowers());
             islands.remove(position);
+            islands.get(motherNaturePosition).setMotherNature(false);
             islands.get(position).setMotherNature(true);
-        } else islands.get(islandPosition).setMotherNature(true);
+            motherNaturePosition=position;
+        } else {
+            islands.get(motherNaturePosition).setMotherNature(false);
+            islands.get(islandPosition).setMotherNature(true);
+            motherNaturePosition=islandPosition;
+        }
     }
 
     public void findWinner() {

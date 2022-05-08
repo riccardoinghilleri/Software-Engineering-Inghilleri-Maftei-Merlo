@@ -16,7 +16,7 @@ public class Constants {
     public static final String ANSI_BLACK = "\033[96m"; //TODO ciano per adesso
     public static final String ANSI_GREY = "\033[90m";
     public static final String ERIANTYS =
-            " ███████╗ ██████╗  ██╗  █████╗  ██╗   ██╗ ████████╗ ██╗  ██╗ ███████╗\n" +
+                    " ███████╗ ██████╗  ██╗  █████╗  ██╗   ██╗ ████████╗ ██╗  ██╗ ███████╗\n" +
                     " ██╔════╝ ██╔══██╗ ██║ ██╔══██╗ ███╗  ██║ ╚══██╔══╝ ╚██╗██╔╝ ██╔════╝\n" +
                     " ███████╗ ██████╔╝ ██║ ███████║ ██╔██╗██║    ██║     ╚═██╔╝  ███████╗\n" +
                     " ██╔════╝ ██╔══██╗ ██║ ██╔══██║ ██║╚═███║    ██║      ██╔╝   ╚════██║\n" +
@@ -42,10 +42,12 @@ public class Constants {
     public static String moveCursor(int y, int x) {
         return "\033[" + y + ";" + x + "H";
     }
+
     //quando si sale utilizzare 1 posizione in meno
     public static String cursorUp(int y) {
         return "\033[" + y + "A";
     }
+
     //usare una posizione in piu quando si scende
     public static String cursorDown(int y) {
         return "\033[" + y + "B";
@@ -65,10 +67,10 @@ public class Constants {
     }
 
     public static void clearScreen() {
-        try{
+        try {
             String operatingSystem = System.getProperty("os.name"); //Check the current operating system
 
-            if(operatingSystem.contains("Windows")){
+            if (operatingSystem.contains("Windows")) {
                 ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "cls");
                 Process startProcess = pb.inheritIO().start();
                 startProcess.waitFor();
@@ -77,7 +79,7 @@ public class Constants {
                 Process startProcess = pb.inheritIO().start();
                 startProcess.waitFor();
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -89,10 +91,9 @@ public class Constants {
             for (int i = 0; i < 29; i++) {
                 frame.append(Constants.cursorRight(x));
                 for (int j = 0; j < 166; j++) {
-                    if(i==0 || i==28 || j==0 || j==165) {
+                    if (i == 0 || i == 28 || j == 0 || j == 165) {
                         frame.append("█");
-                    }
-                    else frame.append(" ");
+                    } else frame.append(" ");
                 }
                 frame.append("\n");
             }
@@ -100,10 +101,9 @@ public class Constants {
             for (int i = 0; i < 35; i++) {
                 frame.append(Constants.cursorRight(x));
                 for (int j = 0; j < 181; j++) {
-                    if(i==0 || i==34 || j==0 || j==180) {
+                    if (i == 0 || i == 34 || j == 0 || j == 180) {
                         frame.append("█");
-                    }
-                    else frame.append(" ");
+                    } else frame.append(" ");
                 }
                 frame.append("\n");
             }
@@ -111,7 +111,7 @@ public class Constants {
         return frame;
     }
 
-    public static void clearRowBelow(int y){
+    public static void clearRowBelow(int y) {
         System.out.println(cursorUp(y));
         System.out.print("\033[H\033[2J");
     }

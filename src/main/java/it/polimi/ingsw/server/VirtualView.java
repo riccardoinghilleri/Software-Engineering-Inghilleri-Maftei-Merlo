@@ -1,8 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.server.ConnectionMessage.InfoMessage;
-import it.polimi.ingsw.server.ConnectionMessage.Message;
-import it.polimi.ingsw.server.ConnectionMessage.SettingsMessage;
+import it.polimi.ingsw.server.ConnectionMessage.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -67,8 +65,11 @@ public class VirtualView implements Runnable {
 
             while (active.get()) {
                 Object clientMessage = is.readObject();
+                stopTimer();
                 if (!(clientMessage instanceof InfoMessage && ((InfoMessage) clientMessage).getString().equalsIgnoreCase("PING"))) {
-                    if (inGame)
+                    if (clientMessage instanceof InfoMessage && ((InfoMessage) clientMessage).getString().equalsIgnoreCase("QUIT"))
+                    closeConnection(false,true);
+                    else if (inGame)
                         gameHandler.manageMessage(this, (Message) clientMessage);
                     else if (!alreadySettings) {/*checkSettings((SettingsMessage) clientMessage);*/
                         server.addClientConnectionToQueue(this, ((SettingsMessage) clientMessage).getPlayersNumber(), ((SettingsMessage) clientMessage).isExpertMode());
@@ -77,61 +78,44 @@ public class VirtualView implements Runnable {
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            forcedClose();
+            closeConnection(false,false);
         }
     }
 
     public void sendMessage(Message message) {
         //TODO potrebbe servire un lock per l'output stream
         //TODO inserire period e boolean timer
-        /*if (timer)
-            startTimer(period);*/
+        //(timer)
+        if(message instanceof AskActionMessage)
+            startTimer(15000);
         try {
             os.writeObject(message);
             os.flush();
             os.reset();
         } catch (IOException e) {
-            e.printStackTrace();
+            closeConnection(false,false);
         }
     }
+    public synchronized void closeConnection(boolean timerEnded, boolean quit) {
+        if (!closed.get()) {
 
-    private void forcedClose(){
-        active.set(false);
-        stopTimer();
-        try {
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            os.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public synchronized void closeConnection(boolean timerEnded) {
-        if (closed.compareAndSet(false, true)) {
-
+            closed.set(true);
             active.set(false);
-            stopTimer();
 
             if (timerEnded) {
                 sendMessage(new InfoMessage("TIMER_ENDED"));
                 gameHandler.endGame(clientId);
-            }
+            }else stopTimer();
+
+            if(quit)
+                gameHandler.endGame(clientId);
 
             sendMessage(new InfoMessage("CONNECTION_CLOSED"));
 
-            //TODO serve aspettare 10 secondi prima di chiudere tutto?
+            //per non avere SocketException lato client se cerca di inviare un messaggio dopo che
+            //è stata chiusa la connessione
             try {
-                Thread.sleep(10000);
+                Thread.sleep(30000);
             } catch (InterruptedException ignored) {
             }
 
@@ -153,27 +137,6 @@ public class VirtualView implements Runnable {
         }
 
     }
-
-    /*private void checkSettings(SettingsMessage message) {
-        stopTimer();
-        boolean error = false;
-        if (message.getPlayersNumber() != 2 && message.getPlayersNumber() != 1 && !(message.getGameMode() != 2 || message.getGameMode() != 2)) {
-            sendMessage(new ServerMessage("Incorret Number of player, please try again"), true, 10000);
-            error = true;
-        } else if (message.getGameMode() != 1 || message.getGameMode() != 2 && (message.getPlayersNumber() != 2 && message.getPlayersNumber() != 3)) {
-            sendMessage(new ServerMessage("Incorret Game Mode, please try again"), true, 10000);
-            error = true;
-        } else {
-            sendMessage(new ServerMessage("Incorret settings, please try again"), true, 10000);
-            error = true;
-        }
-        if (!error) {
-            int palyerNumber = message.getPlayersNumber() == 1 ? 2 : 3;
-            boolean gameMode = message.getGameMode() == 1 ? true : false;
-            server.addClientConnectionToQueue(this, message.getPlayersNumber(), gameMode);
-        }
-    }*/
-
     private void startPinger() {
         pinger = new Thread(() -> {
             while (active.get()) {
@@ -185,24 +148,24 @@ public class VirtualView implements Runnable {
                 }
             }
         });
+        pinger.start();
     }
 
     private void startTimer(int period) {
         timer = new Thread(() -> {
             try {
                 Thread.sleep(period);
-                closeConnection(true);
+                closeConnection(true,false);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         });
+        timer.start();
     }
-
     private void stopTimer() {
         if (timer != null && timer.isAlive()) {
             timer.interrupt();
             timer = null;
         }
     }
-
 }

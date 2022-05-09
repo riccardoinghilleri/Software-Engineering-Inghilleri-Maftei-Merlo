@@ -1,4 +1,5 @@
 package it.polimi.ingsw.server;
+
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.server.ConnectionMessage.InfoMessage;
 
@@ -78,6 +79,7 @@ public class Server implements Runnable {
                 Socket clientSocket = serverSocket.accept();
                 VirtualView virtualView = new VirtualView(clientSocket, this);
                 this.executor.execute(virtualView);
+
             }
         } catch (IOException e) {
             if (serverSocket != null && !serverSocket.isClosed()) {
@@ -90,41 +92,47 @@ public class Server implements Runnable {
         }
     }
 
+    /*private void stopServer() {
+        Thread t = new Thread(() -> {
+            String s = null;
+            Scanner scanner = new Scanner(System.in);
+            while (true) {
+                if (scanner.hasNextLine()) {
+                    s = scanner.nextLine();
+                    if (s.equalsIgnoreCase("QUIT"))
+                        System.exit(0);
+                }
+            }
+        });
+        t.start();
+    }*/
 
     public void addClientConnectionToQueue(VirtualView client, int playersNumber, boolean expertMode) {
-        lockQueue.lock(); //Forse troppi controlli, si potrebbe migliorare
+        lockQueue.lock();
         try {
             if (playersNumber == 2) {
                 if (!expertMode) {
                     twoPlayersNormal.add(client);
-                    if (twoPlayersNormal.size() == 2) {
+                    client.sendMessage(new InfoMessage(Constants.WAITING));
+                    if (twoPlayersNormal.size() == 2)
                         createGameHandler(1);
-                    } else {
-                        warnPlayers(twoPlayersNormal);
-                    }
                 } else {
                     twoPlayersExpert.add(client);
-                    if (twoPlayersExpert.size() == 2) {
+                    client.sendMessage(new InfoMessage(Constants.WAITING));
+                    if (twoPlayersExpert.size() == 2)
                         createGameHandler(2);
-                    }else {
-                        warnPlayers(twoPlayersExpert);
-                    }
                 }
             } else {
                 if (!expertMode) {
                     threePlayersNormal.add(client);
-                    if (threePlayersNormal.size() == 3) {
+                    client.sendMessage(new InfoMessage(Constants.WAITING));
+                    if (threePlayersNormal.size() == 3)
                         createGameHandler(3);
-                    }else {
-                        warnPlayers(threePlayersNormal);
-                    }
                 } else {
                     threePlayersExpert.add(client);
-                    if (threePlayersExpert.size() == 3) {
+                    client.sendMessage(new InfoMessage(Constants.WAITING));
+                    if (threePlayersExpert.size() == 3)
                         createGameHandler(4);
-                    }else {
-                        warnPlayers(threePlayersExpert);
-                    }
                 }
             }
         } finally {
@@ -132,10 +140,11 @@ public class Server implements Runnable {
             lockQueue.unlock();
         }
     }
-    private void warnPlayers(List<VirtualView> queue){
+
+    /*private void warnPlayers(List<VirtualView> queue) {
         for (VirtualView v : queue)
             v.sendMessage(new InfoMessage(">Waiting for other players..."));
-    }
+    }*/
 
 
     public void createGameHandler(int queue) {
@@ -174,6 +183,7 @@ public class Server implements Runnable {
             assert activeGames.contains(gameHandler);
             activeGames.remove(gameHandler);
         } finally {
+            System.out.println(this);
             lockGames.unlock();
         }
     }
@@ -182,9 +192,8 @@ public class Server implements Runnable {
     public String toString() {
         Constants.clearScreen();
         //Constants.clearScreen();
-        System.out.println(Constants.ERIANTYS);
-        System.out.println("Inghilleri Riccardo - Maftei Daniela - Merlo Manuela\n");
-        //todo stampare titolo in grande
+        System.out.println(Constants.SERVER_STATUS);
+        //System.out.println("Inghilleri Riccardo - Maftei Daniela - Merlo Manuela\n");
         return "Queues' Status: \n" +
                 "1) TwoPlayersNormal: " + twoPlayersNormal.size() + " players\n" +
                 "2) TwoPlayersExpert: " + twoPlayersExpert.size() + " players\n" +

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client;
 
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,23 +16,24 @@ import it.polimi.ingsw.enums.CharacterColor;
 
 public class Cli implements View {
     private final PrintStream printer;
-    private final Scanner reader;
+    private Scanner reader;
     private static int port;
     private static String address;
 
-    private  ClientConnection connection;
+    private ClientConnection connection;
     private boolean expertMode;
-
     private boolean alreadyAskedCard;
     private boolean alreadyAskedMovements;
+    private String command  = "";
+    private boolean stopCli;
 
     public Cli() {
         reader = new Scanner(System.in);
-        InputController.setScanner(reader);
         printer = new PrintStream(System.out);
-        InputController.setPrinter(printer);
         alreadyAskedCard = false;
         alreadyAskedMovements = false;
+        InputController.setPrinter(printer);
+        InputController.setScanner(reader);
     }
 
     public static int getPort() {
@@ -46,9 +46,7 @@ public class Cli implements View {
 
     public static void main(String[] args) {
         Constants.clearScreen();
-        //Constants.clearScreen();
         PrintStream printer = new PrintStream(System.out);
-        Scanner scanner = new Scanner(System.in);
         printer.println(Constants.ERIANTYS);
         printer.println("Inghilleri Riccardo - Maftei Daniela - Merlo Manuela\n");
         Cli cli = new Cli();
@@ -82,16 +80,15 @@ public class Cli implements View {
                 error = true;
             }
         } while (error);
-        try{
+        try {
             connection = new ClientConnection(this);
             Thread t = new Thread(connection);
             t.start();
             setupGameSetting();
-        }catch(IOException e){
+        } catch (IOException e) {
             printer.println("Error while opening the socket");
             setupConnection();
         }
-
     }
 
     private void setupGameSetting() {
@@ -99,18 +96,18 @@ public class Cli implements View {
         int playersNumber = InputController.checkParseInt();
         while (playersNumber != 2 && playersNumber != 3) {
             printer.println(">Invalid input. Try again. ");
-            //printer.println(">Choose number of players [2/3]: ");
             playersNumber = InputController.checkParseInt();
         }
         printer.println(">Do you want to play in ExpertMode? [y/n]: ");
         String response = InputController.checkYNInput();
         this.expertMode = response.equalsIgnoreCase("y");
         connection.send(new SettingsMessage(playersNumber, this.expertMode));
-    }
-
-    public void setupNickname(NicknameMessage message) {
         Constants.clearScreen();
-        //Constants.clearScreen();
+    }
+    public void setupNickname(NicknameMessage message) {
+        clearBuffer();
+        Constants.clearScreen();
+        printer.println(Constants.SETUP_GAME);
         String response;
         String nickname;
         if (message.getAlreadyAsked())
@@ -126,18 +123,10 @@ public class Cli implements View {
 
     //metodo utilizzando per la scelta dei colori e del wizard
     public void setupMultipleChoice(MultipleChoiceMessage message) {
-        //String choice;
+        clearBuffer();
         printer.println(">These are the available choices:");
         for (String s : message.getAvailableChoices())
             printer.println(s + "\t");
-        /*choice = reader.nextLine().toUpperCase();
-        while (!message.getAvailableChoices().contains(choice.toUpperCase())) {
-            printer.println(">Invalid Input.Please try again.");
-            choice = reader.nextLine().toUpperCase();
-            if (!message.getAvailableChoices().contains(choice.toUpperCase()))
-                Constants.clearRowBelow(2);
-        }
-        connection.send(new SetupMessage(choice));*/
         connection.send(new SetupMessage(InputController.checkString(message.getAvailableChoices())));
     }
 
@@ -146,12 +135,14 @@ public class Cli implements View {
     }
 
     public void displayBoard(UpdateBoard message) {
+        synchronized (printer){
         Constants.clearScreen();
-        //Constants.clearScreen();
         printer.println(message.getBoard().draw(1, 1));
+        }
     }
 
     public void askAction(AskActionMessage message) {
+        clearBuffer();
         String response;
         String temp;
         ActionMessage answer = new ActionMessage();
@@ -179,28 +170,23 @@ public class Cli implements View {
                 break;
             case CHOOSE_CHARACTER_CARD:
                 alreadyAskedMovements = false;
-                printer.println(">Do you want to use a Character Card? [y/n]");
-                response = InputController.checkYNInput();
+                printer.println(">Do you want to use a Character Card? [y/n/getDESC]");
+                response = InputController.checkString(List.of("Y","N","GETDESC"));
                 answer.setAction(Action.CHOOSE_CHARACTER_CARD);
+                if(response.equalsIgnoreCase("getDESC")){
+                    for(CharacterCard card: message.getCharacterCards())
+                        printer.println("> "+ card.getName()+ ": "+ card.getDescription());
+                    printer.println(">Do you want to use a Character Card? [y/n]");
+                }
+                response = InputController.checkYNInput();
                 if (response.equalsIgnoreCase("n")) {
                     answer.setCharacterCardName(null);
-                } else {
-                    //printer.println(">These are the available Character Cards:");
+                } else if( response.equalsIgnoreCase("y")){
                     List<String> characterCards = new ArrayList<>();
                     for (CharacterCard characterCard : message.getCharacterCards()) {
                         characterCards.add(characterCard.getName().toString());
-                        //printer.println(characterCard);
-                        //printer.println(characterCard.draw());
                     }
                     printer.println(">Write the name of the card that you want to use: ");
-                    /*String characterCardName = reader.nextLine().toUpperCase();
-                    while (!characterCards.contains(characterCardName)) {
-                        printer.println(">Invalid input. Please try again");
-                        characterCardName = reader.nextLine().toUpperCase();
-                        if (!characterCards.contains(characterCardName))
-                            Constants.clearRowBelow(2);
-                    }
-                    answer.setCharacterCardName(characterCardName);*/
                     answer.setCharacterCardName(InputController.checkString(characterCards));
                 }
                 connection.send(answer);
@@ -211,50 +197,30 @@ public class Cli implements View {
             case DEFAULT_MOVEMENTS:
                 alreadyAskedCard = false;
                 answer.setAction(Action.DEFAULT_MOVEMENTS);
-                //printer.println(">These are your entrance's students:");
-                //printer.println(message.getSchool().draw());
                 answer.setParameter(chooseStudentColor(message.getSchool().getEntrance(), true,
                         ">Please choose the color of the student that you want to move from your Entrance:"));
                 printer.println(">Do you want to move your student to your DiningRoom" +
                         " or on an Island?");
-
                 temp = InputController.checkString(List.of("DININGROOM", "ISLAND"));
-                /*temp = reader.nextLine();
-                while (!temp.equalsIgnoreCase("DiningRoom") && !temp.equalsIgnoreCase("Island")) {
-                    printer.println(">Invalid input. Please, try again!");
-                    temp = reader.nextLine();
-                    if (!temp.equalsIgnoreCase("DiningRoom") && !temp.equalsIgnoreCase("Island"))
-                        Constants.clearRowBelow(2);
-                }*/
                 if (temp.equalsIgnoreCase("Island")) {
                     answer.setData(chooseIsland(message.getIslands()) - 1);
                 }
                 connection.send(answer);
                 break;
             case MOVE_MOTHER_NATURE:
-                //printer.println(">You can move mother nature " + message.getData() + " steps far.");
                 printer.println(">Please choose how many steps you want mother nature do:");
                 answer.setData(InputController.checkRange(1, message.getData()));
                 answer.setAction(Action.MOVE_MOTHER_NATURE);
                 connection.send(answer);
                 break;
             case CHOOSE_CLOUD:
-                //printer.println(">These are the available clouds:");
                 List<Integer> availableIndexClouds = new ArrayList<>();
                 for (int i = 0; i < message.getClouds().length; i++) {
                     if (!(message.getClouds())[i].getStudents().isEmpty()) {
                         availableIndexClouds.add(i + 1);
-                        //    printer.println("CLOUD #" + i + "\n" + (message.getClouds())[i].draw());
                     }
                 }
                 printer.println(">Please choose your cloud.");
-                /*int data = InputController.checkParseInt();
-                while (!availableIndexClouds.contains(data)) {
-                    printer.println(">Invalid input. Please try again.");
-                    data = InputController.checkParseInt()-1;
-                    if(!availableIndexClouds.contains(data))
-                        Constants.clearRowBelow(2);
-                }*/
                 answer.setData(InputController.checkInt(availableIndexClouds) - 1);
                 answer.setAction(Action.CHOOSE_CLOUD);
                 connection.send(answer);
@@ -265,6 +231,7 @@ public class Cli implements View {
 
     //Gestisce i parametri da settare in base alla character card
     private void manageCharacterCardChoice(AskActionMessage message) {
+        clearBuffer();
         ActionMessage answer = new ActionMessage();
         CharacterCard characterCard = message.getChosenCharacterCard();
         answer.setAction(Action.USE_CHARACTER_CARD);
@@ -286,24 +253,14 @@ public class Cli implements View {
                     alreadyAskedMovements = true;
                     answer.setData(InputController.checkRange(1, 3));
                 }
-                //printer.println(">Students on the Character Card: ");
                 answer.setParameter(chooseStudentColor(((CharacterCardwithStudents) characterCard).getStudents(),
                         true, ">Please choose the color of the student that you want to move from the Card:"));
-                //printer.println(">These are your entrance's students:");
                 answer.setParameter(chooseStudentColor(message.getSchool().getEntrance(), true,
                         ">Please choose the color of the student that you want to move from your Entrance:"));
                 break;
             case LUMBERJACK://colore a caso disponibile in character color
             case THIEF://colore casuale
                 printer.println("Choose a color: ");
-                /*parameter = reader.nextLine().toUpperCase();
-                while (!Arrays.asList(CharacterColor.values()).contains(CharacterColor.valueOf(parameter))) {
-                    printer.println(">Invalid input. Please try again");
-                    parameter = reader.nextLine().toUpperCase();
-                    if((!Arrays.asList(CharacterColor.values()).contains(CharacterColor.valueOf(parameter))))
-                        Constants.clearRowBelow(2);
-                }
-                answer.setParameter(parameter);*/
                 answer.setParameter(InputController.checkString(List.of("RED,PINK,GREEN,YELLOW,BLUE")));
                 break;
             case PERFORMER://colori della carta e nell?ingresso
@@ -311,8 +268,6 @@ public class Cli implements View {
                     printer.println("How many students do you want to change?");
                     answer.setData(InputController.checkRange(1, 2));
                 }
-                //printer.println(">This is your School: ");
-                //printer.println(message.getSchool().toString());
                 printer.println(">Choose the student that you want to move from your Dining Room to your Entrance: ");
                 parameter = reader.nextLine().toUpperCase();
                 while (message.getSchool().getDiningRoom().get(CharacterColor.valueOf(parameter)).size() < 1) {
@@ -334,9 +289,6 @@ public class Cli implements View {
     }
 
     private int chooseIsland(List<Island> islands) {
-        //for (int i = 1; i <= islands.size(); i++) {
-        //    printer.println("#" + i + "\n" + islands.get(i - 1).draw());
-        //}
         printer.println(">Choose an island: ");
         return InputController.checkRange(1, islands.size());
     }
@@ -345,20 +297,24 @@ public class Cli implements View {
         List<String> availableStudentsColors = new ArrayList<>();
         for (Student s : students) {
             availableStudentsColors.add(s.getColor().toString());
-            //if (enablePrint)
-            //    printer.print(s + "\t");
         }
-        //printer.print("\n");
         printer.println(message);
-        /*
-        while (!availableStudentsColors.contains(parameter)) {
-            printer.println(">Invalid input. Please try again");
-            parameter = reader.nextLine().toUpperCase();
-            if(!availableStudentsColors.contains(parameter))
-                Constants.clearRowBelow(2);
-        }
-        return parameter;*/
         return InputController.checkString(availableStudentsColors);
     }
+
+    public void clearBuffer() {
+        InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+        try {
+            if (inputStreamReader.ready()) {
+                String result = reader.nextLine();
+                if (result.equalsIgnoreCase("quit")) {
+                    connection.send(new InfoMessage("QUIT"));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
 

@@ -94,7 +94,7 @@ public class GameHandler implements PropertyChangeListener {
                                         "Please choose another one."));
                         sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel
                                 .getCurrentPlayer().getNickname() + " chosen an invalid Assistant Card..."));
-                    } else sendAll(new UpdateBoard(gameModel.getBoard()));
+                    } //else sendAll(new UpdateBoard(gameModel.getBoard()));
                     if (controller.getPhase() == Action.CHOOSE_ASSISTANT_CARD)
                         pianificationTurn();
                     else if (controller.getPhase() == Action.DEFAULT_MOVEMENTS
@@ -106,7 +106,7 @@ public class GameHandler implements PropertyChangeListener {
                     String error = controller.nextAction((ActionMessage) message);
                     if (error != null) {
                         clients.get(currentClientConnection).sendMessage(new InfoMessage(error));
-                    } else sendAll(new UpdateBoard(gameModel.getBoard()));
+                    } //else sendAll(new UpdateBoard(gameModel.getBoard()));
                     if (controller.getPhase() == Action.SETUP_CLOUD && turnNumber < 10) {
                         turnNumber++;
                         phase = GameHandlerPhase.PIANIFICATION;
@@ -153,8 +153,8 @@ public class GameHandler implements PropertyChangeListener {
     private void pianificationTurn() {
         if (controller.getPhase() == Action.SETUP_CLOUD) {
             controller.setClouds();
-            sendAll(new UpdateBoard(gameModel.getBoard()));
         }
+        sendAll(new UpdateBoard(gameModel.getBoard()));
         currentClientConnection = gameModel.getCurrentPlayer().getClientID();
         clients.get(currentClientConnection)
                 .sendMessage(new AskActionMessage(controller.getPhase(), gameModel
@@ -164,6 +164,7 @@ public class GameHandler implements PropertyChangeListener {
     }
 
     private void actionTurn() {
+        sendAll(new UpdateBoard(gameModel.getBoard()));
         currentClientConnection = gameModel.getCurrentPlayer().getClientID();
         AskActionMessage askActionMessage = null;
         switch (controller.getPhase()) {
@@ -222,10 +223,12 @@ public class GameHandler implements PropertyChangeListener {
     }
 
     public void endGame(int disconnected) {
-        sendAll(new InfoMessage(">Player: " + gameModel.getPlayerById(disconnected).getNickname()
-                + "has disconnected, the match will now end" + "\nThanks for playing!"));
+
+        sendAllExcept(disconnected,new InfoMessage(">Player: " + gameModel.getPlayerById(disconnected).getNickname()
+                + " has disconnected, the match will now end" + "\nThanks for playing!"));
+        clients.remove(clients.get(disconnected));
         for (VirtualView client : clients) {
-            client.closeConnection(false);
+            client.closeConnection(false,false);
         }
         server.removeGameHandler(this);
         //TODO implementare il reset del game se vogliono rigiocare
@@ -235,7 +238,7 @@ public class GameHandler implements PropertyChangeListener {
         sendAll(new InfoMessage(">The winner is " + gameModel.getWinner().getNickname()
                 + "!" + "\nThanks for playing!"));
         for (VirtualView client : clients) {
-            client.closeConnection(false);
+            client.closeConnection(false,false);
         }
         server.removeGameHandler(this);
     }

@@ -34,7 +34,7 @@ public class Controller {
         characterCardMovements = 0;
         defaultMovements = 0;
         alreadyUsedCharacterCard = false;
-        this.maxCharacterCardsMovements=-1;
+        this.maxCharacterCardsMovements = -1;
         listeners = new PropertyChangeSupport(this);
         listeners.addPropertyChangeListener("end_game", gameHandler);
         listeners.addPropertyChangeListener("set_assistantCard", gameHandler);
@@ -76,7 +76,11 @@ public class Controller {
             playerTurnNumber = 0;
             gameModel.setPlayersOrder();
             startPlayerTurn();
-        } else gameModel.setCurrentPlayer(playerTurnNumber);
+        } else {
+            Player nextPlayer= gameModel.getPlayerById((gameModel.getCurrentPlayer().getClientID()+1)% gameModel.getPlayersNumber());
+            gameModel.setCurrentPlayer(gameModel.getPlayers().indexOf(nextPlayer));
+            //gameModel.setCurrentPlayer(playerTurnNumber);
+        }
         return true;
     }
 
@@ -136,8 +140,8 @@ public class Controller {
                     ((Lumberjack) actionController).setColor(actionMessage.getParameters().get(0));
                     phase = availableActions.remove(0);
                 } else {
-                    if((characterCardName.equalsIgnoreCase("PERFORMER") || characterCardName.equalsIgnoreCase("CLOWN")) && characterCardMovements==0){
-                        maxCharacterCardsMovements=actionMessage.getData();
+                    if ((characterCardName.equalsIgnoreCase("PERFORMER") || characterCardName.equalsIgnoreCase("CLOWN")) && characterCardMovements == 0) {
+                        maxCharacterCardsMovements = actionMessage.getData();
                     }
                     actionController.useCharacterCardEffect(actionMessage);
                     characterCardMovements++;
@@ -195,7 +199,7 @@ public class Controller {
                     return " You can not move mother nature so far";
                 }
                 int newOwner = actionController.moveMotherNature(actionMessage);
-                if (newOwner!=-1
+                if (newOwner != -1
                         && gameModel.getBoard().getSchoolByOwnerId(newOwner).getTowersNumber() == 0) {
                     gameModel.setWinner(gameModel.getPlayerById(newOwner));
                     listeners.firePropertyChange("end_game", null, null);
@@ -308,8 +312,8 @@ public class Controller {
     private void checkAlreadyUsedCharacterCard(String characterCardName) throws AlreadyUsedCharacterCardException {
         if ((!characterCardName.equalsIgnoreCase("CLOWN")
                 && !characterCardName.equalsIgnoreCase("PERFORMER"))
-                || (characterCardName.equalsIgnoreCase("CLOWN") && characterCardMovements >= Math.min(3,maxCharacterCardsMovements))
-                || (characterCardName.equalsIgnoreCase("PERFORMER") && characterCardMovements >= Math.min(2,maxCharacterCardsMovements))) {
+                || (characterCardName.equalsIgnoreCase("CLOWN") && characterCardMovements >= Math.min(3, maxCharacterCardsMovements))
+                || (characterCardName.equalsIgnoreCase("PERFORMER") && characterCardMovements >= Math.min(2, maxCharacterCardsMovements))) {
             throw new AlreadyUsedCharacterCardException();
         }
     }

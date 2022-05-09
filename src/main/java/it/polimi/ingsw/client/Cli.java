@@ -177,8 +177,8 @@ public class Cli implements View {
                     for(CharacterCard card: message.getCharacterCards())
                         printer.println("> "+ card.getName()+ ": "+ card.getDescription());
                     printer.println(">Do you want to use a Character Card? [y/n]");
+                    response = InputController.checkYNInput();
                 }
-                response = InputController.checkYNInput();
                 if (response.equalsIgnoreCase("n")) {
                     answer.setCharacterCardName(null);
                 } else if( response.equalsIgnoreCase("y")){

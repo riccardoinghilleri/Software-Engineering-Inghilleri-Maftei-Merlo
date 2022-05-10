@@ -155,14 +155,16 @@ public class GameHandler implements PropertyChangeListener {
             controller.setClouds();
         }
         sendAll(new UpdateBoard(gameModel.getBoard()));
+        clients.get(currentClientConnection)
+                .sendMessage(new TurnMessage(true));
         currentClientConnection = gameModel.getCurrentPlayer().getClientID();
         clients.get(currentClientConnection)
                 .sendMessage(new AskActionMessage(controller.getPhase(), gameModel
                         .getCurrentPlayer().getDeck().getAssistantCards()));
+        sendAllExcept(currentClientConnection, new TurnMessage(false));
         sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel
                 .getCurrentPlayer().getNickname() + " is choosing the AssistantCard..."));
     }
-
     private void actionTurn() {
         sendAll(new UpdateBoard(gameModel.getBoard()));
         currentClientConnection = gameModel.getCurrentPlayer().getClientID();
@@ -277,6 +279,13 @@ public class GameHandler implements PropertyChangeListener {
                 break;
             case "set_assistantCard":
                 sendAllExcept(gameModel.getCurrentPlayer().getClientID(), new InfoMessage(">" + gameModel.getCurrentPlayer().getNickname() + " has chosen che AssistantCard with priority #" + ((ActionMessage) evt.getNewValue()).getData()));
+                break;
+            case "change_turn":
+                clients.get(currentClientConnection)
+                        .sendMessage(new TurnMessage(true));
+                sendAllExcept(currentClientConnection, new TurnMessage(false));
+                break;
+
         }
     }
 }

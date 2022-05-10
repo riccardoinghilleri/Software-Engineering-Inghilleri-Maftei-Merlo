@@ -19,13 +19,10 @@ public class Cli implements View {
     private Scanner reader;
     private static int port;
     private static String address;
-
     private ClientConnection connection;
     private boolean expertMode;
     private boolean alreadyAskedCard;
     private boolean alreadyAskedMovements;
-    private String command  = "";
-    private boolean stopCli;
 
     public Cli() {
         reader = new Scanner(System.in);
@@ -91,6 +88,13 @@ public class Cli implements View {
         }
     }
 
+    @Override
+    public void enable(TurnMessage message) {
+        if (message.isEnable())
+            stopClearBuffer();
+        else startClearBuffer();
+    }
+
     private void setupGameSetting() {
         printer.println(">Choose number of players [2/3]: ");
         int playersNumber = InputController.checkParseInt();
@@ -104,8 +108,8 @@ public class Cli implements View {
         connection.send(new SettingsMessage(playersNumber, this.expertMode));
         Constants.clearScreen();
     }
+
     public void setupNickname(NicknameMessage message) {
-        clearBuffer();
         Constants.clearScreen();
         printer.println(Constants.SETUP_GAME);
         String response;
@@ -123,7 +127,6 @@ public class Cli implements View {
 
     //metodo utilizzando per la scelta dei colori e del wizard
     public void setupMultipleChoice(MultipleChoiceMessage message) {
-        clearBuffer();
         printer.println(">These are the available choices:");
         for (String s : message.getAvailableChoices())
             printer.println(s + "\t");
@@ -135,14 +138,13 @@ public class Cli implements View {
     }
 
     public void displayBoard(UpdateBoard message) {
-        synchronized (printer){
-        Constants.clearScreen();
-        printer.println(message.getBoard().draw(1, 1));
+        synchronized (printer) {
+            Constants.clearScreen();
+            printer.println(message.getBoard().draw(1, 1));
         }
     }
 
     public void askAction(AskActionMessage message) {
-        clearBuffer();
         String response;
         String temp;
         ActionMessage answer = new ActionMessage();
@@ -171,17 +173,17 @@ public class Cli implements View {
             case CHOOSE_CHARACTER_CARD:
                 alreadyAskedMovements = false;
                 printer.println(">Do you want to use a Character Card? [y/n/getDESC]");
-                response = InputController.checkString(List.of("Y","N","GETDESC"));
+                response = InputController.checkString(List.of("Y", "N", "GETDESC"));
                 answer.setAction(Action.CHOOSE_CHARACTER_CARD);
-                if(response.equalsIgnoreCase("getDESC")){
-                    for(CharacterCard card: message.getCharacterCards())
-                        printer.println("> "+ card.getName()+ ": "+ card.getDescription());
+                if (response.equalsIgnoreCase("getDESC")) {
+                    for (CharacterCard card : message.getCharacterCards())
+                        printer.println("> " + card.getName() + ": " + card.getDescription());
                     printer.println(">Do you want to use a Character Card? [y/n]");
                     response = InputController.checkYNInput();
                 }
                 if (response.equalsIgnoreCase("n")) {
                     answer.setCharacterCardName(null);
-                } else if( response.equalsIgnoreCase("y")){
+                } else if (response.equalsIgnoreCase("y")) {
                     List<String> characterCards = new ArrayList<>();
                     for (CharacterCard characterCard : message.getCharacterCards()) {
                         characterCards.add(characterCard.getName().toString());
@@ -231,7 +233,6 @@ public class Cli implements View {
 
     //Gestisce i parametri da settare in base alla character card
     private void manageCharacterCardChoice(AskActionMessage message) {
-        clearBuffer();
         ActionMessage answer = new ActionMessage();
         CharacterCard characterCard = message.getChosenCharacterCard();
         answer.setAction(Action.USE_CHARACTER_CARD);
@@ -301,18 +302,33 @@ public class Cli implements View {
         printer.println(message);
         return InputController.checkString(availableStudentsColors);
     }
+    private Thread clearBuffer;
 
-    public void clearBuffer() {
-        InputStreamReader inputStreamReader = new InputStreamReader(System.in);
-        try {
-            if (inputStreamReader.ready()) {
-                String result = reader.nextLine();
-                if (result.equalsIgnoreCase("quit")) {
-                    connection.send(new InfoMessage("QUIT"));
+    private void startClearBuffer() {
+        clearBuffer = new Thread(() -> {
+            String result = null;
+            InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+            while (true) {
+                try {
+                    if (inputStreamReader.ready()){
+                        result = reader.nextLine();
+                    if (result != null && result.equalsIgnoreCase("quit"))
+                        connection.send(new InfoMessage("QUIT"));
+                    else if (result != null)
+                        printer.println("It is not your turn.Please wait.");
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        });
+        clearBuffer.start();
+    }
+    private void stopClearBuffer() {
+        if (clearBuffer != null && clearBuffer.isAlive()) {
+            reader.reset();
+            clearBuffer.interrupt();
+            clearBuffer = null;
         }
     }
 }

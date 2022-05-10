@@ -87,7 +87,7 @@ public class VirtualView implements Runnable {
         //TODO inserire period e boolean timer
         //(timer)
         if(message instanceof AskActionMessage)
-            startTimer(15000);
+            startTimer(45000);
         try {
             os.writeObject(message);
             os.flush();
@@ -115,7 +115,7 @@ public class VirtualView implements Runnable {
             //per non avere SocketException lato client se cerca di inviare un messaggio dopo che
             //è stata chiusa la connessione
             try {
-                Thread.sleep(30000);
+                Thread.sleep(10000);
             } catch (InterruptedException ignored) {
             }
 

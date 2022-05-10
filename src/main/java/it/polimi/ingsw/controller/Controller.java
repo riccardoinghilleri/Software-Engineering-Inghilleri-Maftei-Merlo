@@ -38,6 +38,7 @@ public class Controller {
         listeners = new PropertyChangeSupport(this);
         listeners.addPropertyChangeListener("end_game", gameHandler);
         listeners.addPropertyChangeListener("set_assistantCard", gameHandler);
+        listeners.addPropertyChangeListener("change_turn", gameHandler);
         availableActions = new ArrayList<>();
     }
 
@@ -93,6 +94,7 @@ public class Controller {
             phase = Action.CHOOSE_CHARACTER_CARD;
         } else phase = availableActions.remove(0);
         gameModel.setCurrentPlayer(playerTurnNumber);
+        listeners.firePropertyChange("change_turn",null,null);
         actionController = new ActionController(gameModel);
     }
 

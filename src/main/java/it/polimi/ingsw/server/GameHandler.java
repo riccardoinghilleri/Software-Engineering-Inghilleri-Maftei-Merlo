@@ -154,10 +154,10 @@ public class GameHandler implements PropertyChangeListener {
         if (controller.getPhase() == Action.SETUP_CLOUD) {
             controller.setClouds();
         }
+        currentClientConnection = gameModel.getCurrentPlayer().getClientID();
         sendAll(new UpdateBoard(gameModel.getBoard()));
         clients.get(currentClientConnection)
                 .sendMessage(new TurnMessage(true));
-        currentClientConnection = gameModel.getCurrentPlayer().getClientID();
         clients.get(currentClientConnection)
                 .sendMessage(new AskActionMessage(controller.getPhase(), gameModel
                         .getCurrentPlayer().getDeck().getAssistantCards()));
@@ -285,7 +285,6 @@ public class GameHandler implements PropertyChangeListener {
                         .sendMessage(new TurnMessage(true));
                 sendAllExcept(currentClientConnection, new TurnMessage(false));
                 break;
-
         }
     }
 }

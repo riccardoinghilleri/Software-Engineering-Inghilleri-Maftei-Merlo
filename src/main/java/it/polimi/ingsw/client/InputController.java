@@ -8,7 +8,6 @@ import java.util.Scanner;
 public class InputController {
     private static Scanner reader;
     private static PrintStream printer;
-
     public static void setScanner(Scanner scanner) {
         reader = scanner;
     }
@@ -16,7 +15,6 @@ public class InputController {
     public static void setPrinter(PrintStream printStream) {
         printer = printStream;
     }
-
     public static int checkParseInt() {
         int result = -1;
         boolean error;
@@ -54,7 +52,6 @@ public class InputController {
         }
         return data;
     }
-
     public static String checkString(List<String> values){
         String parameter = reader.nextLine().toUpperCase();
         while (!values.contains(parameter)) {
@@ -65,8 +62,6 @@ public class InputController {
         }
         return parameter;
     }
-
-
     public static int checkRange(int min,int max) {
         int data = InputController.checkParseInt();
         while (data < min || data > max) {

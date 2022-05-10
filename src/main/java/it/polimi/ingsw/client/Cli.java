@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import java.io.*;
+import java.nio.CharBuffer;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,6 +32,7 @@ public class Cli implements View {
         alreadyAskedMovements = false;
         InputController.setPrinter(printer);
         InputController.setScanner(reader);
+
     }
 
     public static int getPort() {
@@ -49,7 +51,6 @@ public class Cli implements View {
         Cli cli = new Cli();
         cli.setupConnection();
     }
-
     public void setupConnection() {
         printer.println(">Insert the server IP address");
         address = reader.nextLine();
@@ -302,31 +303,32 @@ public class Cli implements View {
         printer.println(message);
         return InputController.checkString(availableStudentsColors);
     }
-    private Thread clearBuffer;
 
+    private Thread clearBuffer;
     private void startClearBuffer() {
         clearBuffer = new Thread(() -> {
-            String result = null;
+            String result;
             InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+            Scanner scanner = new Scanner(System.in);
             while (true) {
                 try {
-                    if (inputStreamReader.ready()){
-                        result = reader.nextLine();
-                    if (result != null && result.equalsIgnoreCase("quit"))
+                    if (inputStreamReader.ready()) {
+                        result = scanner.nextLine();
+                        if (result != null && result.equalsIgnoreCase("quit"))
                         connection.send(new InfoMessage("QUIT"));
-                    else if (result != null)
-                        printer.println("It is not your turn.Please wait.");
+                        else if (result != null)
+                            printer.println("It is not your turn.Please wait.");
                     }
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                  throw new RuntimeException(e);
+               }
             }
         });
         clearBuffer.start();
     }
+
     private void stopClearBuffer() {
         if (clearBuffer != null && clearBuffer.isAlive()) {
-            reader.reset();
             clearBuffer.interrupt();
             clearBuffer = null;
         }

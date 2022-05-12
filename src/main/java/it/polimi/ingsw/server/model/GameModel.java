@@ -60,15 +60,6 @@ public class GameModel implements Serializable {
         currentPlayer = players.get(position);
     }
 
-    /*public Player getPlayerByNickname(String nickname) {
-        Player result = null;
-        for (Player p : players) {
-            if (p.getNickname().equals(nickname))
-                result = p;
-        }
-        return result;
-    }*/
-
     public Player getPlayerById(int id) {
         Player result = null;
         for (Player p : players) {
@@ -105,11 +96,6 @@ class PlayerComparator implements Comparator<Player> {
     @Override
     public int compare(Player p1, Player p2) {
         return Integer.compare(p1.getChosenAssistantCard().getPriority(), p2.getChosenAssistantCard().getPriority());
-        /*if(p1.getChoosenAssistantCard().getPriority()<p2.getChoosenAssistantCard().getPriority())
-            return -1;
-        else if (p1.getChoosenAssistantCard().getPriority()>p2.getChoosenAssistantCard().getPriority())
-            return 1;
-        else return 0;*/
     }
 }
 

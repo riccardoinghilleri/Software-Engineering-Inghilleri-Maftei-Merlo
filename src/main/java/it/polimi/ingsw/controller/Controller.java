@@ -113,7 +113,8 @@ public class Controller {
                     characterCardName = actionMessage.getCharacterCardName();
                     alreadyUsedCharacterCard = true;
                     //se non ho settato una strategia e il nome non è lumberjack oppure il nome è postaman
-                    if ((!setCharacterCardEffect(actionMessage) && !characterCardName.equalsIgnoreCase("LUMBERJACK")) || characterCardName.equalsIgnoreCase("POSTMAN")) {
+                    if ((!setCharacterCardEffect(actionMessage) && !characterCardName.equalsIgnoreCase("LUMBERJACK"))
+                            || characterCardName.equalsIgnoreCase("POSTMAN")) {
                         phase = availableActions.remove(0);
                     } else phase = Action.USE_CHARACTER_CARD;
                 }

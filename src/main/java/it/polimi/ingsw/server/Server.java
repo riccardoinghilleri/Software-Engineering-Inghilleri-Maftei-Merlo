@@ -24,6 +24,8 @@ public class Server implements Runnable {
     private final List<VirtualView> twoPlayersExpert;
     private final List<VirtualView> threePlayersNormal;
     private final List<VirtualView> threePlayersExpert;
+    private final List<VirtualView> fourPlayersNormal;
+    private final List<VirtualView> fourPlayersExpert;
 
     //pool di thread che gestisce le connessioni dei client
     private final ExecutorService executor;
@@ -41,6 +43,8 @@ public class Server implements Runnable {
         this.twoPlayersExpert = new ArrayList<>();
         this.threePlayersNormal = new ArrayList<>();
         this.threePlayersExpert = new ArrayList<>();
+        this.fourPlayersNormal = new ArrayList<>();
+        this.fourPlayersExpert = new ArrayList<>();
     }
 
     public static void main(String[] args) {
@@ -64,7 +68,6 @@ public class Server implements Runnable {
                 error = true;
             }
         } while (error);
-
         System.out.println(">Waiting for players...");
         Server server = new Server();
         Thread t = new Thread(server);
@@ -79,7 +82,6 @@ public class Server implements Runnable {
                 Socket clientSocket = serverSocket.accept();
                 VirtualView virtualView = new VirtualView(clientSocket, this);
                 this.executor.execute(virtualView);
-
             }
         } catch (IOException e) {
             if (serverSocket != null && !serverSocket.isClosed()) {
@@ -91,21 +93,6 @@ public class Server implements Runnable {
             }
         }
     }
-
-    /*private void stopServer() {
-        Thread t = new Thread(() -> {
-            String s = null;
-            Scanner scanner = new Scanner(System.in);
-            while (true) {
-                if (scanner.hasNextLine()) {
-                    s = scanner.nextLine();
-                    if (s.equalsIgnoreCase("QUIT"))
-                        System.exit(0);
-                }
-            }
-        });
-        t.start();
-    }*/
 
     public void addClientConnectionToQueue(VirtualView client, int playersNumber, boolean expertMode) {
         lockQueue.lock();
@@ -122,7 +109,7 @@ public class Server implements Runnable {
                     if (twoPlayersExpert.size() == 2)
                         createGameHandler(2);
                 }
-            } else {
+            } else if (playersNumber == 3) {
                 if (!expertMode) {
                     threePlayersNormal.add(client);
                     client.sendMessage(new InfoMessage(Constants.WAITING));
@@ -134,18 +121,24 @@ public class Server implements Runnable {
                     if (threePlayersExpert.size() == 3)
                         createGameHandler(4);
                 }
+            } else {
+                if (!expertMode) {
+                    fourPlayersNormal.add(client);
+                    client.sendMessage(new InfoMessage(Constants.WAITING));
+                    if (fourPlayersNormal.size() == 4)
+                        createGameHandler(5);
+                } else {
+                    threePlayersExpert.add(client);
+                    client.sendMessage(new InfoMessage(Constants.WAITING));
+                    if (fourPlayersExpert.size() == 4)
+                        createGameHandler(6);
+                }
             }
         } finally {
             System.out.println(this);
             lockQueue.unlock();
         }
     }
-
-    /*private void warnPlayers(List<VirtualView> queue) {
-        for (VirtualView v : queue)
-            v.sendMessage(new InfoMessage(">Waiting for other players..."));
-    }*/
-
 
     public void createGameHandler(int queue) {
         lockGames.lock();
@@ -166,6 +159,14 @@ public class Server implements Runnable {
                 case 4:
                     activeGames.add(new GameHandler(currentGameId, true, threePlayersExpert, this));
                     threePlayersExpert.clear();
+                    break;
+                case 5:
+                    activeGames.add(new GameHandler(currentGameId, false, fourPlayersNormal, this));
+                    fourPlayersNormal.clear();
+                    break;
+                case 6:
+                    activeGames.add(new GameHandler(currentGameId, true, fourPlayersExpert, this));
+                    fourPlayersExpert.clear();
                     break;
             }
             currentGameId++;
@@ -199,6 +200,8 @@ public class Server implements Runnable {
                 "2) TwoPlayersExpert: " + twoPlayersExpert.size() + " players\n" +
                 "3) ThreePlayersNormal: " + threePlayersNormal.size() + " players\n" +
                 "4) ThreePlayersExpert: " + threePlayersExpert.size() + " players\n" +
+                "5) FourPlayersNormal: " + fourPlayersNormal.size() + " players\n" +
+                "6) FourPlayersExpert: " + fourPlayersExpert.size() + " players\n" +
                 "Active Games: " + activeGames.size();
     }
 }

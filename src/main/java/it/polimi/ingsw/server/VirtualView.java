@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class VirtualView implements Runnable {
@@ -15,8 +14,8 @@ public class VirtualView implements Runnable {
 
     private boolean alreadySettings;
 
-    private AtomicBoolean active;
-    private AtomicBoolean closed;
+    private final AtomicBoolean active;
+    private final AtomicBoolean closed;
 
     private final Socket socket;
     private final Server server;
@@ -68,7 +67,7 @@ public class VirtualView implements Runnable {
                 stopTimer();
                 if (!(clientMessage instanceof InfoMessage && ((InfoMessage) clientMessage).getString().equalsIgnoreCase("PING"))) {
                     if (clientMessage instanceof InfoMessage && ((InfoMessage) clientMessage).getString().equalsIgnoreCase("QUIT"))
-                    closeConnection(false,true);
+                        closeConnection(false, true);
                     else if (inGame)
                         gameHandler.manageMessage(this, (Message) clientMessage);
                     else if (!alreadySettings) {/*checkSettings((SettingsMessage) clientMessage);*/
@@ -78,7 +77,7 @@ public class VirtualView implements Runnable {
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
-            closeConnection(false,false);
+            closeConnection(false, false);
         }
     }
 
@@ -86,16 +85,17 @@ public class VirtualView implements Runnable {
         //TODO potrebbe servire un lock per l'output stream
         //TODO inserire period e boolean timer
         //(timer)
-        if(message instanceof AskActionMessage)
+        if (message instanceof AskActionMessage)
             startTimer(45000);
         try {
             os.writeObject(message);
             os.flush();
             os.reset();
         } catch (IOException e) {
-            closeConnection(false,false);
+            closeConnection(false, false);
         }
     }
+
     public synchronized void closeConnection(boolean timerEnded, boolean quit) {
         if (!closed.get()) {
 
@@ -105,9 +105,9 @@ public class VirtualView implements Runnable {
             if (timerEnded) {
                 sendMessage(new InfoMessage("TIMER_ENDED"));
                 gameHandler.endGame(clientId);
-            }else stopTimer();
+            } else stopTimer();
 
-            if(quit)
+            if (quit)
                 gameHandler.endGame(clientId);
 
             sendMessage(new InfoMessage("CONNECTION_CLOSED"));
@@ -121,15 +121,7 @@ public class VirtualView implements Runnable {
 
             try {
                 is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
                 os.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
                 socket.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -137,6 +129,7 @@ public class VirtualView implements Runnable {
         }
 
     }
+
     private void startPinger() {
         pinger = new Thread(() -> {
             while (active.get()) {
@@ -155,13 +148,14 @@ public class VirtualView implements Runnable {
         timer = new Thread(() -> {
             try {
                 Thread.sleep(period);
-                closeConnection(true,false);
+                closeConnection(true, false);
             } catch (InterruptedException e) {
                 //e.printStackTrace();
             }
         });
         timer.start();
     }
+
     private void stopTimer() {
         if (timer != null && timer.isAlive()) {
             timer.interrupt();

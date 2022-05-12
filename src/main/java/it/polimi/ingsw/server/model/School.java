@@ -25,14 +25,14 @@ public class School implements Serializable {
         this.diningRoom = new HashMap<>();
         this.towers = new ArrayList<>();
         this.professors = new ArrayList<>();
-        if (playersNumber == 2)
+        if (playersNumber == 2 || (playersNumber==4 && (owner.getClientID()==0 || owner.getClientID()==1)))
             for (int i = 0; i < 8; i++)
                 towers.add(new Tower(getOwnerId(), playerColor));
         else if (playersNumber == 3)
             for (int i = 0; i < 6; i++)
                 towers.add(new Tower(getOwnerId(), playerColor));
         for (CharacterColor c : CharacterColor.values()) {
-            this.diningRoom.put(c, new ArrayList<Student>());
+            this.diningRoom.put(c, new ArrayList<>());
         }
     }
 
@@ -170,7 +170,7 @@ public class School implements Serializable {
         String vertical_wall = "║";
         Constants.moveObject(box,x,top_wall);
         int entrance_index = 0;
-        int diningRoom_index = 0;
+        int diningRoom_index;
         int towers_index = 0;
         int owner_index = 0;
         box.append(Constants.cursorRight(x));

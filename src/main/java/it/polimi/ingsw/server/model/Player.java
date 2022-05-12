@@ -38,6 +38,10 @@ public class Player implements Serializable {
         return chosenAssistantCard;
     }
 
+    public void setClientID(int clientID) {
+        this.clientID = clientID;
+    }
+
     public void setColor(String color) {
         this.color = PlayerColor.valueOf(color.toUpperCase());
     }
@@ -54,7 +58,7 @@ public class Player implements Serializable {
         String bottom_wall = "╚══════════════╝\n";
         String line;
         Constants.moveObject(box, x, top_wall);
-        if(currentPlayer) line = "║✷" + this.nickname; //TODO mettere una stellina invece dell'asterisco
+        if(currentPlayer) line = "║\u2737" + this.nickname; //TODO mettere una stellina invece dell'asterisco
         else line = "║ " + this.nickname;
         Constants.moveObject(box, x, line);
         box.append(" ".repeat(Math.max(0, (15 - 2 - this.nickname.length()))));

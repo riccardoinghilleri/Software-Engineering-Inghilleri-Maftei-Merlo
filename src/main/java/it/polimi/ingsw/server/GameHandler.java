@@ -19,7 +19,6 @@ import java.util.List;
 public class GameHandler implements PropertyChangeListener {
     private final int gameId; //TODO non so se serve
     private final int playersNumber;
-    private final boolean expertMode;
     private int currentClientConnection;
     private final GameModel gameModel;
 
@@ -38,7 +37,6 @@ public class GameHandler implements PropertyChangeListener {
         this.gameId = gameId;
         this.playersNumber = clients.size();
         this.currentClientConnection = 0;
-        this.expertMode = expertMode;
         this.clients = new ArrayList<>(clients);
         for (int i = 0; i < clients.size(); i++) { //setto i client ID
             clients.get(i).setClientId(i);
@@ -81,7 +79,6 @@ public class GameHandler implements PropertyChangeListener {
                     phase = GameHandlerPhase.PIANIFICATION;
                     gameModel.createBoard();
                     pianificationTurn();
-                    //TODO forse si deve fare il display della board
                 } else {
                     phase = GameHandlerPhase.SETUP_NICKNAME;
                     setupGame();
@@ -143,10 +140,24 @@ public class GameHandler implements PropertyChangeListener {
                 setupGame();
             }
         } else if (phase == GameHandlerPhase.SETUP_WIZARD) {
+            if (availableWizards.size() > 1) {
             clients.get(currentClientConnection).sendMessage(new InfoMessage("Please choose your wizard:"));
             clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(availableWizards));
             sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel
-                    .getPlayerById(currentClientConnection).getNickname() + " is choosing his wizard..."));
+                    .getPlayerById(currentClientConnection).getNickname() + " is choosing his wizard..."));}
+        } else {
+            clients.get(currentClientConnection)
+                    .sendMessage(new InfoMessage(">The Game has chosen wizard for you.\n" +
+                            ">Your wizard is " + availableWizards.get(0)));
+            sendAllExcept(currentClientConnection, new InfoMessage(">The game assigned to "
+                    + gameModel.getPlayerById(currentClientConnection).getNickname() + " the last wizard:  "
+                    + availableWizards.get(0).toString()));
+            gameModel.getPlayerById(currentClientConnection).getDeck().setWizard(availableWizards.get(0).toString());
+            setClientIdOrder();
+            turnNumber = 1;
+            phase = GameHandlerPhase.PIANIFICATION;
+            gameModel.createBoard();
+            pianificationTurn();
         }
     }
 
@@ -165,6 +176,7 @@ public class GameHandler implements PropertyChangeListener {
         sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel
                 .getCurrentPlayer().getNickname() + " is choosing the AssistantCard..."));
     }
+
     private void actionTurn() {
         sendAll(new UpdateBoard(gameModel.getBoard()));
         currentClientConnection = gameModel.getCurrentPlayer().getClientID();
@@ -266,6 +278,23 @@ public class GameHandler implements PropertyChangeListener {
         for (VirtualView client : clients) {
             if (client.getClientId() != clientId)
                 client.sendMessage(message);
+        }
+    }
+
+    //Serve per 4 giocatori. In questo modo il primo è bianco con torri e il secondo nero con torri
+    private void setClientIdOrder(){
+        if(!gameModel.getPlayerById(0).getColor().equals(PlayerColor.WHITE)
+                && !gameModel.getPlayerById(1).getColor().equals(PlayerColor.WHITE)){
+            int whiteIndex=0, blackIndex=1;
+            for(Player player:gameModel.getPlayers()) {
+                if(player.getColor().equals(PlayerColor.WHITE)){
+                    player.setClientID(whiteIndex);
+                    whiteIndex+=2;
+                } else{
+                    player.setClientID(blackIndex);
+                    blackIndex+=2;
+                }
+            }
         }
     }
 

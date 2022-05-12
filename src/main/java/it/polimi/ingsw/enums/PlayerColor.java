@@ -13,6 +13,10 @@ public enum PlayerColor {
         available.add(BLACK);
         available.add(WHITE);
         if (playersNumber == 3) available.add(GREY);
+        if (playersNumber == 4) {
+            available.add(BLACK);
+            available.add(WHITE);
+        }
         return available;
     }
 }

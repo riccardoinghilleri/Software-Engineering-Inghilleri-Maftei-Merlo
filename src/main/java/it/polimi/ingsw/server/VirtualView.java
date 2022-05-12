@@ -86,7 +86,7 @@ public class VirtualView implements Runnable {
         //TODO inserire period e boolean timer
         //(timer)
         if (message instanceof AskActionMessage)
-            startTimer(45000);
+            startTimer(120000);
         try {
             os.writeObject(message);
             os.flush();

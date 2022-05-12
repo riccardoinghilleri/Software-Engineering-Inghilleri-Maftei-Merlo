@@ -306,25 +306,27 @@ public class Cli implements View {
 
     private Thread clearBuffer;
     private void startClearBuffer() {
-        clearBuffer = new Thread(() -> {
-            String result;
-            InputStreamReader inputStreamReader = new InputStreamReader(System.in);
-            Scanner scanner = new Scanner(System.in);
-            while (true) {
-                try {
-                    if (inputStreamReader.ready()) {
-                        result = scanner.nextLine();
-                        if (result != null && result.equalsIgnoreCase("quit"))
-                        connection.send(new InfoMessage("QUIT"));
-                        else if (result != null)
-                            printer.println("It is not your turn.Please wait.");
+        synchronized (System.in) {
+            clearBuffer = new Thread(() -> {
+                String result;
+                InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+                Scanner scanner = new Scanner(System.in);
+                while (true) {
+                    try {
+                        if (inputStreamReader.ready()) {
+                            result = scanner.nextLine();
+                            if (result != null && result.equalsIgnoreCase("quit"))
+                                connection.send(new InfoMessage("QUIT"));
+                            else if (result != null)
+                                printer.println("It is not your turn.Please wait.");
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
-                } catch (IOException e) {
-                  throw new RuntimeException(e);
-               }
-            }
-        });
-        clearBuffer.start();
+                }
+            });
+            clearBuffer.start();
+        }
     }
 
     private void stopClearBuffer() {

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.enums.CharacterColor;
+import it.polimi.ingsw.enums.PlayerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,10 +9,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
-    Board board;
     GameModel gameModel;
     GameModel gameModel3;
+    GameModel gameModel4;
+
+    Board board;
     Board board3;
+    Board board4;
 
     @BeforeEach
     void setUp() {
@@ -22,6 +26,7 @@ class BoardTest {
         gameModel.getPlayerById(1).setColor("BLACK");
         board=new Board(gameModel.getPlayers(),gameModel);
 
+
         gameModel3= new GameModel(false);
         gameModel3.createPlayer("manu",0);
         gameModel3.createPlayer("ricky",1);
@@ -30,18 +35,31 @@ class BoardTest {
         gameModel3.getPlayerById(1).setColor("BLACK");
         gameModel3.getPlayerById(2).setColor("GREY");
         board3 = new Board(gameModel3.getPlayers(),gameModel);
+
+
+        gameModel4= new GameModel(false);
+        gameModel4.createPlayer("manu",0);
+        gameModel4.createPlayer("ricky",1);
+        gameModel4.createPlayer("dani",2);
+        gameModel4.createPlayer("teo",3);
+        gameModel4.getPlayerById(0).setColor("WHITE");
+        gameModel4.getPlayerById(1).setColor("BLACK");
+        gameModel4.getPlayerById(2).setColor("BLACK");
+        gameModel4.getPlayerById(3).setColor("WHITE");
+        board4 = new Board(gameModel4.getPlayers(),gameModel);
+
+
     }
 
     @Test
     public void Board(){
-
         assertEquals(2,board.getClouds().length);
         assertEquals(2,board.getSchools().length);
         assertEquals(3,board3.getClouds().length);
         assertEquals(3,board3.getSchools().length);
+        assertEquals(4,board4.getClouds().length);
+        assertEquals(4,board4.getSchools().length);
         assertEquals(board.getSchools()[0],board.getSchoolByOwnerId(0));
-        assertEquals(7,board.getSchoolByOwnerId(0).getEntrance().size());
-        assertEquals(7,board.getSchoolByOwnerId(1).getEntrance().size());
         assertEquals(board.getSchools()[1],board.getSchoolByOwnerId(1));
         assertEquals(12,board.getIslands().size());
         for(int i=0;i<12;i++) {
@@ -57,7 +75,19 @@ class BoardTest {
             assertNotNull(board.getProfessorByColor(c));
             assertSame(c,board.getProfessorByColor(c).getColor());
         }
+        assertEquals(board4.getSchools()[0].getTowersNumber(),8);
+        assertEquals(board4.getSchools()[0].getTowerColor(), PlayerColor.WHITE);
+        assertEquals(board4.getSchools()[1].getTowersNumber(),8);
+        assertEquals(board4.getSchools()[1].getTowerColor(), PlayerColor.BLACK);
+        assertEquals(board4.getSchools()[2].getTowersNumber(),0);
+        assertEquals(board4.getSchools()[2].getTowersNumber(),0);
+    }
 
+    @Test
+    public void testgetStudentsSize(){
+        assertEquals(130-10-7*2,board.getStudentsSize());
+        assertEquals(130-10-9*3,board3.getStudentsSize());
+        assertEquals(130-10-7*4,board4.getStudentsSize());
     }
 
     @Test
@@ -76,9 +106,16 @@ class BoardTest {
 
     @Test
     public void testInitialEntrance(){
+        assertEquals(7,board.getSchoolByOwnerId(0).getEntrance().size());
+        assertEquals(7,board.getSchoolByOwnerId(1).getEntrance().size());
         assertEquals(9,board3.getSchoolByOwnerId(0).getEntrance().size());
         assertEquals(9,board3.getSchoolByOwnerId(1).getEntrance().size());
         assertEquals(9,board3.getSchoolByOwnerId(2).getEntrance().size());
+        assertEquals(7,board4.getSchoolByOwnerId(0).getEntrance().size());
+        assertEquals(7,board4.getSchoolByOwnerId(1).getEntrance().size());
+        assertEquals(7,board4.getSchoolByOwnerId(2).getEntrance().size());
+        assertEquals(7,board4.getSchoolByOwnerId(3).getEntrance().size());
+
     }
 
     @Test
@@ -155,25 +192,47 @@ class BoardTest {
 
     @Test
     public void testGetTotalInfluence(){
-        Student student0=new Student(CharacterColor.valueOf("GREEN"));
-        Student student1=new Student(CharacterColor.valueOf("PINK"));
-        Student student2=new Student(CharacterColor.valueOf("YELLOW"));
-        Student student4=new Student(CharacterColor.valueOf("GREEN"));
-        Student student5=new Student(CharacterColor.valueOf("YELLOW"));
-        board.getIslands().get(6).addStudent(student0);
+        Student student1=new Student(CharacterColor.valueOf("GREEN"));
+        Student student2=new Student(CharacterColor.valueOf("PINK"));
+        Student student3=new Student(CharacterColor.valueOf("YELLOW"));
+        Student student4=new Student(CharacterColor.valueOf("RED"));
         board.getIslands().get(6).addStudent(student1);
         board.getIslands().get(6).addStudent(student2);
-        board.getSchoolByOwnerId(0).addDiningRoomStudent(student4);
-        board.updateProfessor(student4.getColor());
+        board.getIslands().get(6).addStudent(student3);
+        board.getSchoolByOwnerId(0).addDiningRoomStudent(student1);
+        board.updateProfessor(student1.getColor());
         assertEquals(0,board.getProfessorByColor(CharacterColor.valueOf("GREEN")).getOwner());
         assertEquals(0,board.getTotalInfluence(6));
-        board.getSchoolByOwnerId(1).addDiningRoomStudent(student5);
+        board.getSchoolByOwnerId(1).addDiningRoomStudent(student3);
         board.updateProfessor(CharacterColor.valueOf("YELLOW"));
-        assertEquals(1,board.getProfessorByColor(student5.getColor()).getOwner());
+        assertEquals(1,board.getProfessorByColor(student3.getColor()).getOwner());
         assertEquals(-1,board.getTotalInfluence(6));
-
         board.moveTower(1,6,"island");
         assertEquals(1,board.getTotalInfluence(6));
+
+        //aggiungo all'isola 6 gli studenti verde, rosa, giallo e rosso
+        board4.getIslands().get(6).addStudent(student1);
+        board4.getIslands().get(6).addStudent(student2);
+        board4.getIslands().get(6).addStudent(student3);
+        board4.getIslands().get(6).addStudent(student4);
+        //la squadra bianca ha influenza sui colori verde e giallo
+        //la squadra nera ha influenza sul rosa
+        board4.getSchoolByOwnerId(0).addDiningRoomStudent(student1);
+        board4.updateProfessor(student1.getColor());
+        board4.getSchoolByOwnerId(2).addDiningRoomStudent(student3);
+        board4.updateProfessor(student3.getColor());
+        board4.getSchoolByOwnerId(1).addDiningRoomStudent(student2);
+        board4.updateProfessor(student2.getColor());
+        assertEquals(0,board4.getProfessorByColor(student1.getColor()).getOwner());
+        assertEquals(2,board4.getProfessorByColor(student3.getColor()).getOwner());
+        assertEquals(1,board4.getProfessorByColor(student2.getColor()).getOwner());
+        assertEquals(-1,board4.getProfessorByColor(CharacterColor.RED).getOwner());
+        assertEquals(0,board4.getTotalInfluence(6));
+        board4.moveTower(1,6,"island");
+        assertEquals(-1,board4.getTotalInfluence(6));
+        board4.getSchoolByOwnerId(3).addDiningRoomStudent(student4);
+        board4.updateProfessor(student4.getColor());
+        assertEquals(1,board4.getTotalInfluence(6));
     }
 
     @Test

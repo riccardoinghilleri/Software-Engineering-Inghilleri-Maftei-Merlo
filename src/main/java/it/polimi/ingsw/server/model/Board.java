@@ -359,7 +359,7 @@ public class Board implements Serializable {
             board.append(Constants.cursorUp(3));
         }
         board.append(Constants.cursorUp(1));
-        board.append(islands.get(islands.size() / 2 + 1).draw(143 + x, 0, islands.size() / 2 + 2));
+        board.append(islands.get((int) Math.ceil(((float) islands.size() - 2.0) / 2.0)+1).draw(143 + x, 0, (int) Math.ceil(((float) islands.size() - 2.0) / 2.0)+ 2));
         board.append(Constants.cursorDown(1));
         distance = (111 - (int) Math.floor(((float) islands.size() - 2.0) / 2.0) * 21)
                 / (1 + (int) Math.floor(((float) islands.size() - 2.0) / 2.0));

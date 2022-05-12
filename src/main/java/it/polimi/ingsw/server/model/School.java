@@ -59,6 +59,7 @@ public class School implements Serializable {
     public Player getOwner(){
         return owner;
     }
+
     public int getOwnerId() {
         return owner.getClientID();
     }

@@ -269,7 +269,8 @@ public class Controller {
     private void checkSameAssistantCard(int priority) throws SameAssistantCardException {
         //TODO forse sarebbe utile avere una lista con le assistantcards scelte nel turno corrente nella board e non nel player
         List<Integer> chosenAssistantCards = new ArrayList<>(); //lista contenente le assistantcards già scelte nel turno corrente
-        for (int i = 0; i < playerTurnNumber; i++) {
+        for (int i = 0; i < gameModel.getPlayersNumber(); i++) {
+            if(gameModel.getPlayers().get(i).getChosenAssistantCard()!=null)
             chosenAssistantCards.add(gameModel.getPlayers().get(i).getChosenAssistantCard().getPriority());
         }
         /*if(chosenAssistantCards.contains(priority)

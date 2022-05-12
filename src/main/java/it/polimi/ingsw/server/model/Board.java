@@ -77,6 +77,10 @@ public class Board implements Serializable {
         return clouds;
     }
 
+    protected int getPlayersNumber() {
+        return playersNumber;
+    }
+
     public List<Island> getIslands() {
         return islands;
     }
@@ -172,10 +176,10 @@ public class Board implements Serializable {
             if (owner != -1)
                 influence[owner] += students.get(c).size();
         }
-        if(playersNumber==4){
-            int[] teamInfluence= new int[2];
-            teamInfluence[0]=influence[0]+influence[2];
-            teamInfluence[1]=influence[1]+influence[3];
+        if (playersNumber == 4) {
+            int[] teamInfluence = new int[2];
+            teamInfluence[0] = influence[0] + influence[2];
+            teamInfluence[1] = influence[1] + influence[3];
             return teamInfluence;
         }
         return influence;
@@ -293,23 +297,49 @@ public class Board implements Serializable {
 
     public StringBuilder draw(int x, int y) {
         StringBuilder board = new StringBuilder();
-        int high = !gameModel.isExpertGame ? 27 : 33;
+        int high;
+        if (!gameModel.isExpertGame) high = 27;
+        else if (playersNumber < 4) high = 33;
+        else high = 34;
         int distance;
-        int cont = 0; //Si potrebbe togliere, ma l'ultimo for diventa illeggibile
+        int movement_players = 0; //serve per stampare il terzo e il quarto player
+        int coin;
+        int count = 0; //Si potrebbe togliere, ma l'ultimo for diventa illeggibile
         //Stampo cornice
-        board.append(Constants.boardFrame(x, y, gameModel.isExpertGame));
+        board.append(Constants.boardFrame(x, y, gameModel.isExpertGame, playersNumber));
         board.append(Constants.cursorUp(high));
         //Stampo players
-        for (Player player : gameModel.getPlayers()) {
-            int coin = gameModel.isExpertGame() ? ((BoardExpert) gameModel.getBoard()).getPlayerCoins(player.getClientID()) : -1;
-            if (gameModel.getCurrentPlayer().getClientID() == player.getClientID())
-                board.append(player.draw(2 + x, 0, coin, true));
-            else
-                board.append(player.draw(2 + x, 0, coin, false));
-            board.append(Constants.cursorDown(1));
+        if (playersNumber != 4) {
+            for (Player player : gameModel.getPlayers()) {
+                coin = gameModel.isExpertGame() ? ((BoardExpert) gameModel.getBoard()).getPlayerCoins(player.getClientID()) : -1;
+                if (gameModel.getCurrentPlayer().getClientID() == player.getClientID())
+                    board.append(player.draw(2 + x, 0, coin, true));
+                else
+                    board.append(player.draw(2 + x, 0, coin, false));
+                board.append(Constants.cursorDown(1));
+            }
+        } else {
+            for (int i = 0; i < 4; i++) {
+                if (i == 2) {
+                    if (gameModel.isExpertGame)
+                        board.append(Constants.cursorUp(2 * 11));
+                    else board.append(Constants.cursorUp(2 * 9));
+                    movement_players = 163;
+                }
+                coin = gameModel.isExpertGame()
+                        ? ((BoardExpert) gameModel.getBoard()).getPlayerCoins(gameModel.getPlayers().get(i).getClientID())
+                        : -1;
+                if (gameModel.getCurrentPlayer().getClientID() == gameModel.getPlayers().get(i).getClientID())
+                    board.append(gameModel.getPlayers().get(i).draw(movement_players + 2 + x, 0, coin, true));
+                else
+                    board.append(gameModel.getPlayers().get(i).draw(movement_players + 2 + x, 0, coin, false));
+                board.append(Constants.cursorDown(1));
+            }
         }
-        if (gameModel.isExpertGame)
+        if (gameModel.isExpertGame && playersNumber<4)
             board.append(Constants.cursorUp(playersNumber * 11 - 2));
+        else if(gameModel.isExpertGame && playersNumber==4) board.append(Constants.cursorUp(2 * 11));
+        else if(!gameModel.isExpertGame && playersNumber==4) board.append(Constants.cursorUp(2 * 9));
         else board.append(Constants.cursorUp(playersNumber * 9));
         //board.append(Constants.cursorRight(34));
         //111
@@ -335,25 +365,35 @@ public class Board implements Serializable {
                 / (1 + (int) Math.floor(((float) islands.size() - 2.0) / 2.0));
         //stampo ultima fila di isole
         for (int i = islands.size() - 1; i >= Math.ceil(((float) islands.size() - 2.0) / 2.0) + 2; i--) {
-            board.append(islands.get(i).draw(x + 37 + distance * (cont + 1) + cont * 21, 0, i + 1));
+            board.append(islands.get(i).draw(x + 37 + distance * (count + 1) + count * 21, 0, i + 1));
             board.append(Constants.cursorUp(5));
-            cont++;
+            count++;
         }
-        if (gameModel.isExpertGame) {
+        if (gameModel.isExpertGame && playersNumber<4) {
             board.append(Constants.cursorDown(8));
-        } else board.append(Constants.cursorDown(6));
+        } else if(gameModel.isExpertGame && playersNumber==4) board.append(Constants.cursorDown(6));
+        else board.append(Constants.cursorDown(6));
         if (playersNumber == 2) {
             distance = 15;
             board.append(schools[0].draw(53 + x, 0));
             board.append(Constants.cursorUp(8));
             board.append(schools[1].draw(x + 53 + distance + 31, 0));
-        } else {
+        } else if(playersNumber==3){
             distance = 3;
             board.append(schools[0].draw(42 + x, 0));
             board.append(Constants.cursorUp(8));
             board.append(schools[1].draw(42 + x + distance + 31, 0));
             board.append(Constants.cursorUp(8));
             board.append(schools[2].draw(42 + x + distance * 2 + 31 * 2, 0));
+        } else {
+            distance=2;
+            board.append(schools[0].draw(25 + x, 0));
+            board.append(Constants.cursorUp(8));
+            board.append(schools[1].draw(25 + x + distance + 31, 0));
+            board.append(Constants.cursorUp(8));
+            board.append(schools[2].draw(25 + x + distance * 2 + 31 * 2, 0));
+            board.append(Constants.cursorUp(8));
+            board.append(schools[3].draw(25 + x + distance * 3 + 31 * 3, 0));
         }
         board.append(Constants.cursorDown(2));
         return board;

@@ -97,9 +97,9 @@ public class Cli implements View {
     }
 
     private void setupGameSetting() {
-        printer.println(">Choose number of players [2/3]: ");
+        printer.println(">Choose number of players [2/3/4]: ");
         int playersNumber = InputController.checkParseInt();
-        while (playersNumber != 2 && playersNumber != 3) {
+        while (playersNumber < 2 || playersNumber > 4) {
             printer.println(">Invalid input. Try again. ");
             playersNumber = InputController.checkParseInt();
         }

@@ -142,13 +142,19 @@ public class BoardExpert extends Board{
 
     public StringBuilder draw(int x, int y) {
         StringBuilder boardExpert = new StringBuilder(super.draw(x,y));
-        boardExpert.append(Constants.cursorUp(32));
-        //165+x
-        for(CharacterCard characterCard: characterCards){
-            boardExpert.append(characterCard.draw(165+x, 0));
-            boardExpert.append(Constants.cursorDown(1));
+        if(getPlayersNumber()!=4)
+            boardExpert.append(Constants.cursorUp(32));
+        else{
+            boardExpert.append(Constants.cursorUp(1));
         }
-        boardExpert.append(Constants.cursorDown(13));
+        //165+x
+        int distance=1;
+        for(CharacterCard characterCard: characterCards){
+            boardExpert.append(characterCard.draw(49+x+3*distance+14*distance, 0));
+            boardExpert.append(Constants.cursorUp(6));
+            distance++;
+        }
+        boardExpert.append(Constants.cursorDown(7));
 
         return boardExpert;
     }

@@ -158,7 +158,7 @@ public class Island implements Serializable {
                     } else island.append(" ");
                 } else if (i == 4) {
                     if (j == 8 && hasMotherNature) island.append("M");
-                    else if (j == 12 && hasNoEntryTile()) island.append("⊘");
+                    else if (j == 12 && hasNoEntryTile()) island.append("X");
                     else island.append(" ");
                 }
             }

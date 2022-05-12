@@ -113,24 +113,30 @@ public class Constants {
         }
     }
 
-    public static StringBuilder boardFrame(int x, int y, boolean expertMode) {
+    public static StringBuilder boardFrame(int x, int y, boolean expertMode, int playersNumber) {
         StringBuilder frame = new StringBuilder();
         frame.append(Constants.cursorDown(y));
+        int four_x=0, four_y=0;
         if (!expertMode) {
+            if(playersNumber==4) four_x=17;
             for (int i = 0; i < 29; i++) {
                 frame.append(Constants.cursorRight(x));
-                for (int j = 0; j < 166; j++) {
-                    if (i == 0 || i == 28 || j == 0 || j == 165) {
+                for (int j = 0; j < 166+four_x; j++) {
+                    if (i == 0 || i == 28 || j == 0 || j == 165+four_x) {
                         frame.append("█");
                     } else frame.append(" ");
                 }
                 frame.append("\n");
             }
         } else {
-            for (int i = 0; i < 35; i++) {
+            if(playersNumber==4){
+                four_x=2;
+                four_y=1;
+            }
+            for (int i = 0; i < 35+four_y; i++) {
                 frame.append(Constants.cursorRight(x));
-                for (int j = 0; j < 181; j++) {
-                    if (i == 0 || i == 34 || j == 0 || j == 180) {
+                for (int j = 0; j < 181+four_x; j++) {
+                    if (i == 0 || i == 34+four_y || j == 0 || j == 180+four_x) {
                         frame.append("█");
                     } else frame.append(" ");
                 }

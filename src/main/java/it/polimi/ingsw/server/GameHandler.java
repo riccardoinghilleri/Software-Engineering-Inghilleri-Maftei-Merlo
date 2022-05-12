@@ -14,6 +14,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class GameHandler implements PropertyChangeListener {
@@ -141,23 +143,25 @@ public class GameHandler implements PropertyChangeListener {
             }
         } else if (phase == GameHandlerPhase.SETUP_WIZARD) {
             if (availableWizards.size() > 1) {
-            clients.get(currentClientConnection).sendMessage(new InfoMessage("Please choose your wizard:"));
-            clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(availableWizards));
-            sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel
-                    .getPlayerById(currentClientConnection).getNickname() + " is choosing his wizard..."));}
-        } else {
-            clients.get(currentClientConnection)
-                    .sendMessage(new InfoMessage(">The Game has chosen wizard for you.\n" +
-                            ">Your wizard is " + availableWizards.get(0)));
-            sendAllExcept(currentClientConnection, new InfoMessage(">The game assigned to "
-                    + gameModel.getPlayerById(currentClientConnection).getNickname() + " the last wizard:  "
-                    + availableWizards.get(0).toString()));
-            gameModel.getPlayerById(currentClientConnection).getDeck().setWizard(availableWizards.get(0).toString());
-            setClientIdOrder();
-            turnNumber = 1;
-            phase = GameHandlerPhase.PIANIFICATION;
-            gameModel.createBoard();
-            pianificationTurn();
+                clients.get(currentClientConnection).sendMessage(new InfoMessage("Please choose your wizard:"));
+                clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(availableWizards));
+                sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel
+                        .getPlayerById(currentClientConnection).getNickname() + " is choosing his wizard..."));
+            } else {
+                clients.get(currentClientConnection)
+                        .sendMessage(new InfoMessage(">The Game has chosen wizard for you.\n" +
+                                ">Your wizard is " + availableWizards.get(0)));
+                sendAllExcept(currentClientConnection, new InfoMessage(">The game assigned to "
+                        + gameModel.getPlayerById(currentClientConnection).getNickname() + " the last wizard:  "
+                        + availableWizards.get(0).toString()));
+                gameModel.getPlayerById(currentClientConnection).getDeck().setWizard(availableWizards.get(0).toString());
+                setClientIdOrder();
+                Collections.sort(clients,new IdComparator());
+                turnNumber = 1;
+                phase = GameHandlerPhase.PIANIFICATION;
+                gameModel.createBoard();
+                pianificationTurn();
+            }
         }
     }
 
@@ -200,14 +204,14 @@ public class GameHandler implements PropertyChangeListener {
                         + gameModel.getCurrentPlayer().getNickname() + " is moving a student from the Entrance..."));
                 break;
             case MOVE_MOTHER_NATURE:
-                if (controller.getCharacterCardName()==null || !controller.getCharacterCardName().equalsIgnoreCase("POSTMAN"))
+                if (controller.getCharacterCardName() == null || !controller.getCharacterCardName().equalsIgnoreCase("POSTMAN"))
                     askActionMessage = new AskActionMessage(controller.getPhase(), gameModel
                             .getPlayerById(currentClientConnection)
                             .getChosenAssistantCard().getMotherNatureSteps());
-                else if(controller.getCharacterCardName().equalsIgnoreCase("POSTMAN"))
+                else if (controller.getCharacterCardName().equalsIgnoreCase("POSTMAN"))
                     askActionMessage = new AskActionMessage(controller.getPhase(), gameModel
                             .getPlayerById(currentClientConnection)
-                            .getChosenAssistantCard().getMotherNatureSteps() + 2 );
+                            .getChosenAssistantCard().getMotherNatureSteps() + 2);
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
                         + gameModel.getCurrentPlayer().getNickname() + " is choosing where to move mother nature..."));
                 break;
@@ -238,11 +242,11 @@ public class GameHandler implements PropertyChangeListener {
 
     public void endGame(int disconnected) {
 
-        sendAllExcept(disconnected,new InfoMessage(">Player: " + gameModel.getPlayerById(disconnected).getNickname()
+        sendAllExcept(disconnected, new InfoMessage(">Player: " + gameModel.getPlayerById(disconnected).getNickname()
                 + " has disconnected, the match will now end" + "\nThanks for playing!"));
         clients.remove(clients.get(disconnected));
         for (VirtualView client : clients) {
-            client.closeConnection(false,false);
+            client.closeConnection(false, false);
         }
         server.removeGameHandler(this);
         //TODO implementare il reset del game se vogliono rigiocare
@@ -252,7 +256,7 @@ public class GameHandler implements PropertyChangeListener {
         sendAll(new InfoMessage(">The winner is " + gameModel.getWinner().getNickname()
                 + "!" + "\nThanks for playing!"));
         for (VirtualView client : clients) {
-            client.closeConnection(false,false);
+            client.closeConnection(false, false);
         }
         server.removeGameHandler(this);
     }
@@ -282,18 +286,17 @@ public class GameHandler implements PropertyChangeListener {
     }
 
     //Serve per 4 giocatori. In questo modo il primo è bianco con torri e il secondo nero con torri
-    private void setClientIdOrder(){
-        if(!gameModel.getPlayerById(0).getColor().equals(PlayerColor.WHITE)
-                && !gameModel.getPlayerById(1).getColor().equals(PlayerColor.WHITE)){
-            int whiteIndex=0, blackIndex=1;
-            for(Player player:gameModel.getPlayers()) {
-                if(player.getColor().equals(PlayerColor.WHITE)){
-                    player.setClientID(whiteIndex);
-                    whiteIndex+=2;
-                } else{
-                    player.setClientID(blackIndex);
-                    blackIndex+=2;
-                }
+    private void setClientIdOrder() {
+        int whiteIndex = 0, blackIndex = 1;
+        for (int i = 0; i < 4; i++) {
+            if (gameModel.getPlayers().get(i).getColor().equals(PlayerColor.WHITE)) {
+                gameModel.getPlayers().get(i).setClientID(whiteIndex);
+                clients.get(i).setClientId(whiteIndex);
+                whiteIndex += 2;
+            } else {
+                gameModel.getPlayers().get(i).setClientID(blackIndex);
+                clients.get(i).setClientId(blackIndex);
+                blackIndex += 2;
             }
         }
     }
@@ -315,5 +318,12 @@ public class GameHandler implements PropertyChangeListener {
                 sendAllExcept(currentClientConnection, new TurnMessage(false));
                 break;
         }
+    }
+}
+
+class IdComparator implements Comparator<VirtualView> {
+    @Override
+    public int compare(VirtualView v1, VirtualView v2) {
+        return Integer.compare(v1.getClientId(), v2.getClientId());
     }
 }

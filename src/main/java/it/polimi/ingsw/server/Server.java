@@ -128,7 +128,7 @@ public class Server implements Runnable {
                     if (fourPlayersNormal.size() == 4)
                         createGameHandler(5);
                 } else {
-                    threePlayersExpert.add(client);
+                    fourPlayersExpert.add(client);
                     client.sendMessage(new InfoMessage(Constants.WAITING));
                     if (fourPlayersExpert.size() == 4)
                         createGameHandler(6);

@@ -104,9 +104,9 @@ public class Gui extends Application implements View {
     @Override
     public void setupNickname(NicknameMessage message) {
         Platform.runLater(() -> {
-            changeScene("setupPlayer.fxml");
             SetupPlayerController controller = (SetupPlayerController) getControllerByFxmlName("setupPlayer.fxml");
-            //controller.requestNickname(message);
+            if(message.getAlreadyAsked()) controller.setNicknameNotAvailable(true);
+            changeScene("setupPlayer.fxml");
         });
     }
 

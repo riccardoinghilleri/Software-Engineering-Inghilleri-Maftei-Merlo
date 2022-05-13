@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.server.ConnectionMessage.*;
 
 import java.io.IOException;
@@ -26,8 +25,8 @@ public class ClientConnection implements Runnable {
     private final View view;
 
     public ClientConnection(View view) throws IOException {
-        this.serverAddress = Cli.getAddress();
-        this.serverPort = Cli.getPort();
+        this.serverAddress = view.getAddress();
+        this.serverPort = view.getPort();
         active = true;
         this.view = view;
         socket = new Socket(serverAddress, serverPort);

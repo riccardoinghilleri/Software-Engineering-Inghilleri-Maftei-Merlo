@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SettingsController">
+   <children>
+      <Button layoutX="270.0" layoutY="301.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
+      <TextField fx:id="address" layoutX="329.0" layoutY="90.0" />
+      <Label layoutX="124.0" layoutY="94.0" text="Insert the Server IP Address" />
+      <Label layoutX="157.0" layoutY="143.0" text="Insert the Server Port" />
+      <TextField fx:id="port" layoutX="329.0" layoutY="139.0" />
+      <Label layoutX="139.0" layoutY="191.0" text="Insert number of players" />
+      <Label layoutX="171.0" layoutY="240.0" text="Insert Game Mode" />
+      <ChoiceBox fx:id="playersNumber" layoutX="328.0" layoutY="187.0" prefWidth="150.0" />
+      <RadioButton fx:id="normal" layoutX="329.0" layoutY="240.0" mnemonicParsing="false" onAction="#getGameMode" text="Normal">
+         <toggleGroup>
+            <ToggleGroup fx:id="gamemode" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="expert" layoutX="422.0" layoutY="240.0" mnemonicParsing="false" onAction="#getGameMode" text="Expert" toggleGroup="$gamemode" />
+      <Label fx:id="title" layoutX="255.0" layoutY="39.0" text="Insert all settings" />
+   </children>
+</AnchorPane>

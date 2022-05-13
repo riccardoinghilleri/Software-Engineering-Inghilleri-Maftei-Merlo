@@ -21,7 +21,7 @@ public class Cli implements View {
     private static int port;
     private static String address;
 
-    private  ClientConnection connection;
+    private ClientConnection connection;
     private boolean expertMode;
 
     private boolean alreadyAskedCard;
@@ -36,11 +36,11 @@ public class Cli implements View {
         alreadyAskedMovements = false;
     }
 
-    public static int getPort() {
+    public int getPort() {
         return port;
     }
 
-    public static String getAddress() {
+    public String getAddress() {
         return address;
     }
 

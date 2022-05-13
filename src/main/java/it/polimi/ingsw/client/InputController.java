@@ -2,7 +2,6 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.constants.Constants;
 
-import java.awt.print.PrinterException;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Scanner;

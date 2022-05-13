@@ -97,15 +97,4 @@ public class ClientConnection implements Runnable {
         });
         t.start();
     }
-
-    /*private void startClosureManager(Message message) {
-        Thread t = new Thread(() -> {
-            manageMessage(message);
-            if (((InfoMessage) message).getString().equalsIgnoreCase("CONNECTION_CLOSED")) {
-                closeConnection();
-                System.exit(0);
-            }
-        });
-        t.start();
-    }*/
 }

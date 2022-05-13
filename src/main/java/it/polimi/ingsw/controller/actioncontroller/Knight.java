@@ -19,12 +19,12 @@ public class Knight extends ActionController {
 
     //metodo che calcola l'influenza aggiungenddo due punti addizionali al currentPlayer
     @Override
-    public int getInfluence(ActionMessage actionMessage) {
+    public int getInfluence(int index) {
         int[] influence = new int[getGameModel().getPlayers().size()];
         for (Player player : getGameModel().getPlayers()) {
             influence[player.getClientID()] = 0;
         }
-        influence = getGameModel().getBoard().getStudentInfluence(actionMessage.getData(), influence, Arrays.asList(CharacterColor.values()));
+        influence = getGameModel().getBoard().getStudentInfluence(index, influence, Arrays.asList(CharacterColor.values()));
         if (getGameModel().getPlayersNumber() < 3)
             influence[getGameModel().getCurrentPlayer().getClientID()] += 2;
         else {
@@ -32,7 +32,7 @@ public class Knight extends ActionController {
                 influence[0]++;
             else influence[1]++;
         }
-        influence = getGameModel().getBoard().getTowersInfluence(actionMessage.getData(), influence);
+        influence = getGameModel().getBoard().getTowersInfluence(index, influence);
         return getGameModel().getBoard().getMaxInfluence(influence);
     }
 }

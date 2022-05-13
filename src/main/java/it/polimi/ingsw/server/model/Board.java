@@ -244,6 +244,9 @@ public class Board implements Serializable {
                 islands.get(islandPosition).addStudents(islands.get((islandPosition + 1) % islands.size()).getStudents().get(c));
             }
             islands.get(islandPosition).addTowers(islands.get((islandPosition + 1) % islands.size()).getTowers());
+            if(islands.get((islandPosition + 1) % islands.size()).hasNoEntryTile())
+                for(int i=0;i<islands.get((islandPosition + 1) % islands.size()).getNoEntryTile();i++)
+                    islands.get(islandPosition).setNoEntryTile(true);
             islands.remove((islandPosition + 1) % islands.size());
         }
         int position = islandPosition - 1;
@@ -254,6 +257,9 @@ public class Board implements Serializable {
             for (CharacterColor c : CharacterColor.values()) {
                 islands.get(islandPosition).addStudents(islands.get(position).getStudents().get(c));
             }
+            if(islands.get((position)).hasNoEntryTile())
+                for(int i=0;i<islands.get(position).getNoEntryTile();i++)
+                    islands.get(islandPosition).setNoEntryTile(true);
             islands.get(islandPosition).addTowers(islands.get(position).getTowers());
             islands.remove(position);
             islands.get(motherNaturePosition).setMotherNature(false);

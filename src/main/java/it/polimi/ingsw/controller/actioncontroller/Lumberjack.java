@@ -19,15 +19,15 @@ public class Lumberjack extends ActionController {
     }
 
     @Override
-    public int getInfluence(ActionMessage actionMessage) {
+    public int getInfluence(int index) {
         List<CharacterColor> colors = Arrays.asList(CharacterColor.values());
         colors.remove(CharacterColor.valueOf(this.color));
         int[] influence = new int[getGameModel().getPlayers().size()];
         for(Player player : getGameModel().getPlayers()) {
             influence[player.getClientID()]=0;
         }
-        influence = getGameModel().getBoard().getStudentInfluence(actionMessage.getData(),influence, colors);
-        influence = getGameModel().getBoard().getTowersInfluence(actionMessage.getData(),influence);
+        influence = getGameModel().getBoard().getStudentInfluence(index,influence, colors);
+        influence = getGameModel().getBoard().getTowersInfluence(index,influence);
 
         return getGameModel().getBoard().getMaxInfluence(influence);
     }

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GameHandler implements PropertyChangeListener {
     private final int gameId; //TODO non so se serve
@@ -80,22 +81,16 @@ public class GameHandler implements PropertyChangeListener {
                     turnNumber = 1;
                     phase = GameHandlerPhase.PIANIFICATION;
                     gameModel.createBoard();
-                    pianificationTurn();
+                    pianificationTurn(false);
                 } else {
                     phase = GameHandlerPhase.SETUP_NICKNAME;
                     setupGame();
                 }
             } else {
                 if (phase == GameHandlerPhase.PIANIFICATION) {
-                    if (!controller.setAssistantCard((ActionMessage) message)) {
-                        clients.get(currentClientConnection)
-                                .sendMessage(new InfoMessage(">You can not choose this assistant card. " +
-                                        "Please choose another one."));
-                        sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel
-                                .getCurrentPlayer().getNickname() + " chosen an invalid Assistant Card..."));
-                    } //else sendAll(new UpdateBoard(gameModel.getBoard()));
+                    boolean done = !controller.setAssistantCard((ActionMessage) message);
                     if (controller.getPhase() == Action.CHOOSE_ASSISTANT_CARD)
-                        pianificationTurn();
+                        pianificationTurn(done);
                     else if (controller.getPhase() == Action.DEFAULT_MOVEMENTS
                             || controller.getPhase() == Action.CHOOSE_CHARACTER_CARD) {
                         phase = GameHandlerPhase.ACTION;
@@ -105,11 +100,11 @@ public class GameHandler implements PropertyChangeListener {
                     String error = controller.nextAction((ActionMessage) message);
                     if (error != null) {
                         clients.get(currentClientConnection).sendMessage(new InfoMessage(error));
-                    } //else sendAll(new UpdateBoard(gameModel.getBoard()));
+                    }
                     if (controller.getPhase() == Action.SETUP_CLOUD && turnNumber < 10) {
                         turnNumber++;
                         phase = GameHandlerPhase.PIANIFICATION;
-                        pianificationTurn();
+                        pianificationTurn(false);
                     } else if (controller.getPhase() == Action.SETUP_CLOUD && turnNumber == 10) { //finiscono i 10 turni
                         gameModel.getBoard().findWinner();
                         endGame();
@@ -125,7 +120,7 @@ public class GameHandler implements PropertyChangeListener {
             sendAllExcept(currentClientConnection, new InfoMessage(">The player #"
                     + (currentClientConnection + 1) + " is choosing his nickname..."));
         } else if (phase == GameHandlerPhase.SETUP_COLOR) {
-            if (availableColors.size() > 1) {
+            if (availableColors.stream().distinct().collect(Collectors.toList()).size() > 1) {
                 clients.get(currentClientConnection).sendMessage(new InfoMessage("Please choose your color :"));
                 clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(availableColors));
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
@@ -138,6 +133,7 @@ public class GameHandler implements PropertyChangeListener {
                         + gameModel.getPlayerById(currentClientConnection).getNickname() + " the last color:  "
                         + availableColors.get(0).toString()));
                 gameModel.getPlayerById(currentClientConnection).setColor(availableColors.get(0).toString());
+                availableColors.remove(0);
                 phase = GameHandlerPhase.SETUP_WIZARD;
                 setupGame();
             }
@@ -156,29 +152,40 @@ public class GameHandler implements PropertyChangeListener {
                         + availableWizards.get(0).toString()));
                 gameModel.getPlayerById(currentClientConnection).getDeck().setWizard(availableWizards.get(0).toString());
                 setClientIdOrder();
-                Collections.sort(clients,new IdComparator());
+                Collections.sort(clients, new IdComparator());
                 turnNumber = 1;
                 phase = GameHandlerPhase.PIANIFICATION;
                 gameModel.createBoard();
-                pianificationTurn();
+                pianificationTurn(false);
             }
         }
     }
 
-    private void pianificationTurn() {
+    private void pianificationTurn(boolean askagain) {
         if (controller.getPhase() == Action.SETUP_CLOUD) {
             controller.setClouds();
         }
-        currentClientConnection = gameModel.getCurrentPlayer().getClientID();
-        sendAll(new UpdateBoard(gameModel.getBoard()));
-        clients.get(currentClientConnection)
-                .sendMessage(new TurnMessage(true));
-        clients.get(currentClientConnection)
-                .sendMessage(new AskActionMessage(controller.getPhase(), gameModel
-                        .getCurrentPlayer().getDeck().getAssistantCards()));
-        sendAllExcept(currentClientConnection, new TurnMessage(false));
-        sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel
-                .getCurrentPlayer().getNickname() + " is choosing the AssistantCard..."));
+        if (!askagain) {
+            currentClientConnection = gameModel.getCurrentPlayer().getClientID();
+            sendAll(new UpdateBoard(gameModel.getBoard()));
+            clients.get(currentClientConnection)
+                    .sendMessage(new TurnMessage(true));
+            sendAllExcept(currentClientConnection, new TurnMessage(false));
+            clients.get(currentClientConnection)
+                    .sendMessage(new AskActionMessage(controller.getPhase(), gameModel
+                            .getCurrentPlayer().getDeck().getAssistantCards()));
+            sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel
+                    .getCurrentPlayer().getNickname() + " is choosing the AssistantCard..."));
+        } else {
+            clients.get(currentClientConnection)
+                    .sendMessage(new InfoMessage(">You can not choose this assistant card. " +
+                            "Please choose another one."));
+            clients.get(currentClientConnection)
+                    .sendMessage(new AskActionMessage(controller.getPhase(), gameModel
+                            .getCurrentPlayer().getDeck().getAssistantCards()));
+            sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel
+                    .getCurrentPlayer().getNickname() + " chosen an invalid Assistant Card..."));
+        }
     }
 
     private void actionTurn() {

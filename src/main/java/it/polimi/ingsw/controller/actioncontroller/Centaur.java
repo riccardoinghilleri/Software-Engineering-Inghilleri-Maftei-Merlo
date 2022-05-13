@@ -17,12 +17,12 @@ public class Centaur extends ActionController {
 
     //metodo che calcola l'inlfuenza senza tenere conto delle torri
     @Override
-    public int getInfluence(ActionMessage actionMessage) { //da aggiungere un getModel in actionController
+    public int getInfluence(int index) { //da aggiungere un getModel in actionController
         int[] influence = new int[getGameModel().getPlayers().size()];
         for(Player player : getGameModel().getPlayers()) {
             influence[player.getClientID()]=0;
         }
-        influence = getGameModel().getBoard().getStudentInfluence(actionMessage.getData(),influence, Arrays.asList(CharacterColor.values()));
+        influence = getGameModel().getBoard().getStudentInfluence(index,influence, Arrays.asList(CharacterColor.values()));
         return getGameModel().getBoard().getMaxInfluence(influence);
     }
 }

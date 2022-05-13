@@ -12,11 +12,11 @@ public class Island implements Serializable {
     private boolean hasMotherNature;
     private Map<CharacterColor, List<Student>> students;
     private List<Tower> towers;
-    private boolean NoEntryTile; // prima c'era isLocked
+    private int noEntryTile; // prima c'era isLocked
 
     public Island(boolean hasMotherNature) {
         this.hasMotherNature = hasMotherNature;
-        NoEntryTile = false;
+        noEntryTile = 0;
         towers = new ArrayList<>();
         students = new HashMap<>();
         for (CharacterColor c : CharacterColor.values()) {
@@ -27,7 +27,7 @@ public class Island implements Serializable {
 
     public Island(Student firstStudent) {
         this.hasMotherNature = false;
-        NoEntryTile = false;
+        noEntryTile = 0;
         towers = new ArrayList<>();
         students = new HashMap<>();
         for (CharacterColor c : CharacterColor.values()) {
@@ -52,7 +52,8 @@ public class Island implements Serializable {
     }
 
     public boolean hasNoEntryTile() {  //forse da cambiare nome al metodo
-        return NoEntryTile;
+        if (noEntryTile == 0) return false;
+        else return true;
     } //prima era isLocked
 
     public PlayerColor getColorTower() {
@@ -67,8 +68,14 @@ public class Island implements Serializable {
     }
 
     public void setNoEntryTile(boolean locked) {
-        NoEntryTile = locked;
+        if(locked)
+            noEntryTile++;
+        else noEntryTile--;
     } //forse da cambiare nome al metodo
+
+    public int getNoEntryTile(){
+        return noEntryTile;
+    }
 
     public void addTower(Tower tower) {
         towers.add(tower);
@@ -81,7 +88,6 @@ public class Island implements Serializable {
     public void addStudent(Student student) {
         this.students.get(student.getColor()).add(student);
     }
-
     public void addStudents(List<Student> students) {
         for (Student s : students) {
             addStudent(s);
@@ -108,24 +114,23 @@ public class Island implements Serializable {
                 if (i == 0 || i == 5) {
                     if (j == 3) {
                         island.append(horizontal_wall);
-                        j=17;
-                    }
-                    else island.append(" ");
+                        j = 17;
+                    } else island.append(" ");
                 } else if ((i == 1 && j == 1) || (i == 2 && j == 0) || (i == 3 && j == 20) || (i == 4 && j == 19)) {
                     island.append(to_right_wall);
                 } else if ((i == 1 && j == 19) || (i == 2 && j == 20) || (i == 3 && j == 0) || (i == 4 && j == 1)) {
                     island.append(to_left_wall);
-                } else if(i==1 && j==3){
+                } else if (i == 1 && j == 3) {
                     island.append("#");
-                    if(pos<10) {
+                    if (pos < 10) {
                         island.append(pos);
                         island.append(" ");
                     } else {
-                        island.append(pos/10);
-                        island.append(pos%10);
+                        island.append(pos / 10);
+                        island.append(pos % 10);
                     }
-                    j=5;
-                }else if (i == 1) {
+                    j = 5;
+                } else if (i == 1) {
                     if (j == 8) {
                         island.append(Constants.getAnsi(CharacterColor.BLUE));
                         island.append(students.get(CharacterColor.BLUE).size());
@@ -158,7 +163,10 @@ public class Island implements Serializable {
                     } else island.append(" ");
                 } else if (i == 4) {
                     if (j == 8 && hasMotherNature) island.append("M");
-                    else if (j == 12 && hasNoEntryTile()) island.append("X");
+                    else if (j == 11 && hasNoEntryTile()) {
+                        island.append(noEntryTile+"X");
+                        j=13;
+                    }
                     else island.append(" ");
                 }
             }

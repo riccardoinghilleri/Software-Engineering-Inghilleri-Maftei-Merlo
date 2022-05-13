@@ -46,8 +46,8 @@ public class ActionController {
     }
 
     //metodo che ritorna il player con più influenza sull'isola specificata
-    public int getInfluence(ActionMessage actionMessage) {
-        return gameModel.getBoard().getTotalInfluence(actionMessage.getData());
+    public int getInfluence(int index) {
+        return gameModel.getBoard().getTotalInfluence(index);
     }
 
     //metodo che muove gli studenti dalla sala all'ingresso
@@ -79,31 +79,38 @@ public class ActionController {
     //TODO tutte le getInfluence() devono ritornare NONE in caso di pareggio
     public int moveMotherNature(ActionMessage actionMessage) {
         int newOwner = -1;
+        //muovo madre natura
         gameModel.getBoard().moveMotherNature((actionMessage.getData()));
         int index = gameModel.getBoard().getMotherNaturePosition();
-        if (gameModel.getBoard().getIslands().get(index).hasNoEntryTile()) //Se L'isola è bloccata, tolgo il divieto e lo rimetto nella carta senza calcolare l'influenza
+        //Se L'isola è bloccata, tolgo il divieto e lo rimetto nella carta senza calcolare l'influenza
+        if (gameModel.getBoard().getIslands().get(index).hasNoEntryTile())
         {
             BoardExpert boardExpert = (BoardExpert) gameModel.getBoard();
             boardExpert.removeNoEntryTiles(index);
             ((CharacterCardwithProhibitions) boardExpert.getCharacterCardbyName("HERBOLARIA")).restockProhibitionsNumber();
         } else {
-            ActionMessage m = new ActionMessage();
-            m.setAction(Action.GET_INFLUENCE);
-            m.setData(index);
-            newOwner = getInfluence(m);
+            newOwner = getInfluence(index);
             int oldOwner;
+            //Se l'isola ha le torri, trovo il vecchio owner
             if (!gameModel.getBoard().getIslands().get(index).getTowers().isEmpty())
                 oldOwner = gameModel.getBoard().getIslands().get(index).getTowers().get(0).getOwner();
             else
                 oldOwner = -1;
-            //se nessuno controlla isola non faccio cambiamenti
-            if (newOwner!=-1) {
+            //se nessuno controllava l'isola e nessuno continua a controllarla non faccio niente
+            if(newOwner==-1 && oldOwner==-1)
+                return -1;
+            //qualcuno controllava l'isola e ora non più, rimuovo le torri dall'isola e le rimetto nella scuola
+            else if(newOwner==-1 && oldOwner!=-1){
+                gameModel.getBoard().moveTower(oldOwner,index, "school");
+            }
+            //se qualcuno controlla l'isola e non è uguale al vecchio owner
+            else if (newOwner!=-1) {
                 //se l'isola non contiene torri sposto le torri dalla scuola all'isola
-                if (gameModel.getBoard().getIslands().get(index).getTowers().isEmpty()) {
+                if (oldOwner==-1) {
                     gameModel.getBoard().moveTower(newOwner,index,"island");
                 }
                 //altrimenti tolgo le tower presenti e metto quelle del nuovo owner
-                else if (newOwner!=oldOwner) {
+                else if(oldOwner!=-1){
                     int towers_number = gameModel.getBoard().getIslands().get(index).getTowers().size();
                     int available_towers = gameModel.getBoard().getSchoolByOwnerId(newOwner).getTowersNumber();
                     gameModel.getBoard().moveTower(oldOwner,index, "school");

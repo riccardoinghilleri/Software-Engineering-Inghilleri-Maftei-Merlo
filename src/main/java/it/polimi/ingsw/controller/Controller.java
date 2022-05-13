@@ -86,6 +86,8 @@ public class Controller {
     }
 
     private void startPlayerTurn() {
+        gameModel.setCurrentPlayer(playerTurnNumber);
+        listeners.firePropertyChange("change_turn",null,null);
         characterCardMovements = 0;
         defaultMovements = 0;
         alreadyUsedCharacterCard = false;
@@ -93,8 +95,6 @@ public class Controller {
         if (gameModel.isExpertGame()) {
             phase = Action.CHOOSE_CHARACTER_CARD;
         } else phase = availableActions.remove(0);
-        gameModel.setCurrentPlayer(playerTurnNumber);
-        listeners.firePropertyChange("change_turn",null,null);
         actionController = new ActionController(gameModel);
     }
 

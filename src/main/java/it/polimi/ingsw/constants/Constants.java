@@ -5,13 +5,14 @@ import it.polimi.ingsw.enums.PlayerColor;
 
 public class Constants {
     public static final String ANSI_RESET = "\033[0m";
+    public static final String ANSI_BLACK = "\033[30;47m";
     public static final String ANSI_RED = "\033[31m";
     public static final String ANSI_GREEN = "\033[32m";
     public static final String ANSI_YELLOW = "\033[33m";
     public static final String ANSI_BLUE = "\033[34m";
     public static final String ANSI_PINK = "\033[95m";
     public static final String ANSI_WHITE = "\033[37m";
-    public static final String ANSI_BLACK = "\033[96m"; //TODO ciano per adesso
+    //public static final String ANSI_BLACK = "\033[96m"; //TODO ciano per adesso
     public static final String ANSI_GREY = "\033[90m";
     public static final String ERIANTYS =
                     " ███████╗ ██████╗  ██╗  █████╗  ██╗   ██╗ ████████╗ ██╗  ██╗ ███████╗\n" +

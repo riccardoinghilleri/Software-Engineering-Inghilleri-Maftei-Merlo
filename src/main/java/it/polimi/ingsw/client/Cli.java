@@ -5,6 +5,7 @@ import java.nio.CharBuffer;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.enums.Action;
@@ -51,6 +52,7 @@ public class Cli implements View {
         Cli cli = new Cli();
         cli.setupConnection();
     }
+
     public void setupConnection() {
         printer.println(">Insert the server IP address");
         address = reader.nextLine();
@@ -129,12 +131,14 @@ public class Cli implements View {
     //metodo utilizzando per la scelta dei colori e del wizard
     public void setupMultipleChoice(MultipleChoiceMessage message) {
         printer.println(">These are the available choices:");
-        for (String s : message.getAvailableChoices())
-            printer.println(s + "\t");
+        String result = "";
+        for (String s : message.getAvailableChoices().stream().distinct().collect(Collectors.toList()))
+            result = result.concat(s + " ");
+        printer.println(result);
         connection.send(new SetupMessage(InputController.checkString(message.getAvailableChoices())));
     }
 
-    public void displayInfo(InfoMessage message) {
+    public synchronized void displayInfo(InfoMessage message) {
         printer.println(message.getString());
     }
 
@@ -149,85 +153,97 @@ public class Cli implements View {
         String response;
         String temp;
         ActionMessage answer = new ActionMessage();
-        switch (message.getAction()) {
-            case CHOOSE_ASSISTANT_CARD:
-                alreadyAskedMovements = false;
-                List<Integer> availablePriority = new ArrayList<>();
-                for (int i = 0; i < message.getAvailableAssistantCards().size(); i++) {
-                    availablePriority.add(message.getAvailableAssistantCards().get(i).getPriority());
-                }
-                if (!alreadyAskedCard) {
-                    printer.println(">Please choose your assistant card priority.\n");
+        synchronized (printer) {
+            switch (message.getAction()) {
+                case CHOOSE_ASSISTANT_CARD:
+                    alreadyAskedMovements = false;
+                    List<Integer> availablePriority = new ArrayList<>();
                     for (int i = 0; i < message.getAvailableAssistantCards().size(); i++) {
-                        if (i == 0)
-                            printer.println(message.getAvailableAssistantCards().get(i).draw(-1, 0)); //TODO strano -1
-                        else
-                            printer.println(message.getAvailableAssistantCards().get(i).draw(i * 10 + i, 7));
                         availablePriority.add(message.getAvailableAssistantCards().get(i).getPriority());
                     }
-                    alreadyAskedCard = true;
-                }
-                answer.setData(InputController.checkInt(availablePriority));
-                answer.setAction(Action.CHOOSE_ASSISTANT_CARD);
-                connection.send(answer);
-                break;
-            case CHOOSE_CHARACTER_CARD:
-                alreadyAskedMovements = false;
-                printer.println(">Do you want to use a Character Card? [y/n/getDESC]");
-                response = InputController.checkString(List.of("Y", "N", "GETDESC"));
-                answer.setAction(Action.CHOOSE_CHARACTER_CARD);
-                if (response.equalsIgnoreCase("getDESC")) {
-                    for (CharacterCard card : message.getCharacterCards())
-                        printer.println("> " + card.getName() + ": " + card.getDescription());
-                    printer.println(">Do you want to use a Character Card? [y/n]");
-                    response = InputController.checkYNInput();
-                }
-                if (response.equalsIgnoreCase("n")) {
-                    answer.setCharacterCardName(null);
-                } else if (response.equalsIgnoreCase("y")) {
-                    List<String> characterCards = new ArrayList<>();
-                    for (CharacterCard characterCard : message.getCharacterCards()) {
-                        characterCards.add(characterCard.getName().toString());
+                    if (!alreadyAskedCard) {
+                        printer.println(">Please choose your assistant card priority.\n");
+                        for (int i = 0; i < message.getAvailableAssistantCards().size(); i++) {
+                            if (i == 0)
+                                printer.println(message.getAvailableAssistantCards().get(i).draw(-1, 0)); //TODO strano -1
+                            else
+                                printer.println(message.getAvailableAssistantCards().get(i).draw(i * 10 + i, 7));
+                            availablePriority.add(message.getAvailableAssistantCards().get(i).getPriority());
+                        }
+                        alreadyAskedCard = true;
                     }
-                    printer.println(">Write the name of the card that you want to use: ");
-                    answer.setCharacterCardName(InputController.checkString(characterCards));
-                }
-                connection.send(answer);
-                break;
-            case USE_CHARACTER_CARD:
-                manageCharacterCardChoice(message);
-                break;
-            case DEFAULT_MOVEMENTS:
-                alreadyAskedCard = false;
-                answer.setAction(Action.DEFAULT_MOVEMENTS);
-                answer.setParameter(chooseStudentColor(message.getSchool().getEntrance(), true,
-                        ">Please choose the color of the student that you want to move from your Entrance:"));
-                printer.println(">Do you want to move your student to your DiningRoom" +
-                        " or on an Island?");
-                temp = InputController.checkString(List.of("DININGROOM", "ISLAND"));
-                if (temp.equalsIgnoreCase("Island")) {
-                    answer.setData(chooseIsland(message.getIslands()) - 1);
-                }
-                connection.send(answer);
-                break;
-            case MOVE_MOTHER_NATURE:
-                printer.println(">Please choose how many steps you want mother nature do:");
-                answer.setData(InputController.checkRange(1, message.getData()));
-                answer.setAction(Action.MOVE_MOTHER_NATURE);
-                connection.send(answer);
-                break;
-            case CHOOSE_CLOUD:
-                List<Integer> availableIndexClouds = new ArrayList<>();
-                for (int i = 0; i < message.getClouds().length; i++) {
-                    if (!(message.getClouds())[i].getStudents().isEmpty()) {
-                        availableIndexClouds.add(i + 1);
+                    answer.setData(InputController.checkInt(availablePriority));
+                    answer.setAction(Action.CHOOSE_ASSISTANT_CARD);
+                    connection.send(answer);
+                    break;
+                case CHOOSE_CHARACTER_CARD:
+                    alreadyAskedMovements = false;
+                    printer.println(">Do you want to use a Character Card? [y/n/getDESC]");
+                    response = InputController.checkString(List.of("Y", "N", "GETDESC"));
+                    answer.setAction(Action.CHOOSE_CHARACTER_CARD);
+                    if (response.equalsIgnoreCase("getDESC")) {
+                        for (CharacterCard card : message.getCharacterCards())
+                            printer.println("> " + card.getName() + ": " + card.getDescription());
+                        printer.println(">Do you want to use a Character Card? [y/n]");
+                        response = InputController.checkYNInput();
                     }
-                }
-                printer.println(">Please choose your cloud.");
-                answer.setData(InputController.checkInt(availableIndexClouds) - 1);
-                answer.setAction(Action.CHOOSE_CLOUD);
-                connection.send(answer);
-                break;
+                    if (response.equalsIgnoreCase("n")) {
+                        answer.setCharacterCardName(null);
+                    } else if (response.equalsIgnoreCase("y")) {
+                        List<String> characterCards = new ArrayList<>();
+                        for (CharacterCard characterCard : message.getCharacterCards()) {
+                            characterCards.add(characterCard.getName().toString());
+                        }
+                        printer.println(">Write the name of the card that you want to use: ");
+                        answer.setCharacterCardName(InputController.checkString(characterCards));
+                    }
+                    connection.send(answer);
+                    break;
+                case USE_CHARACTER_CARD:
+                    manageCharacterCardChoice(message);
+                    break;
+                case DEFAULT_MOVEMENTS:
+                    alreadyAskedCard = false;
+                    String parameter = null;
+                    answer.setAction(Action.DEFAULT_MOVEMENTS);
+                    do {
+                        parameter = chooseStudentColor(message.getSchool().getEntrance(), true,
+                                ">Please choose the color of the student that you want to move from your Entrance:");
+                        answer.setParameter(parameter);
+                        printer.println(">Do you want to move your student to your DiningRoom" +
+                                " or on an Island?");
+                        temp = InputController.checkString(List.of("DININGROOM", "ISLAND"));
+                        if (temp.equalsIgnoreCase("DININGROOM")) {
+                            if (message.getSchool().getDiningRoom().get(CharacterColor.valueOf(parameter)).size() == 10) {
+                                printer.println("You can't move this student to the diningRoom.");
+                            }
+                        }
+                    } while (temp.equalsIgnoreCase("DININGROOM") && message.getSchool().getDiningRoom().get(CharacterColor.valueOf(parameter)).size() == 10);
+
+                    if (temp.equalsIgnoreCase("Island")) {
+                        answer.setData(chooseIsland(message.getIslands()) - 1);
+                    }
+                    connection.send(answer);
+                    break;
+                case MOVE_MOTHER_NATURE:
+                    printer.println(">Please choose how many steps you want mother nature do:");
+                    answer.setData(InputController.checkRange(1, message.getData()));
+                    answer.setAction(Action.MOVE_MOTHER_NATURE);
+                    connection.send(answer);
+                    break;
+                case CHOOSE_CLOUD:
+                    List<Integer> availableIndexClouds = new ArrayList<>();
+                    for (int i = 0; i < message.getClouds().length; i++) {
+                        if (!(message.getClouds())[i].getStudents().isEmpty()) {
+                            availableIndexClouds.add(i + 1);
+                        }
+                    }
+                    printer.println(">Please choose your cloud.");
+                    answer.setData(InputController.checkInt(availableIndexClouds) - 1);
+                    answer.setAction(Action.CHOOSE_CLOUD);
+                    connection.send(answer);
+                    break;
+            }
         }
     }
 
@@ -305,8 +321,9 @@ public class Cli implements View {
     }
 
     private Thread clearBuffer;
-    private void startClearBuffer() {
-        synchronized (System.in) {
+
+    private synchronized void startClearBuffer() {
+        synchronized (this) {
             clearBuffer = new Thread(() -> {
                 String result;
                 InputStreamReader inputStreamReader = new InputStreamReader(System.in);

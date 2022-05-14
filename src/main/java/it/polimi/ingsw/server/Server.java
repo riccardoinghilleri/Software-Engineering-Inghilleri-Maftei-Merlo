@@ -11,7 +11,15 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantLock;
-
+/**
+ * The server class has 4 different aims and tasks:
+ * -Accept connections from client
+ * -Enter clients in different queues depending on the game mode chosen
+ * -Create Games once reached enough clients;
+ * -Remove a game from the list of active Games once it is finished.
+ * It implements runnable, has a port and a currentGameId, 4 queue of connections depending on the game mode chosen.
+ * It also manages the list of active games.
+ */
 public class Server implements Runnable {
     private static int port;
     private int currentGameId;
@@ -31,7 +39,10 @@ public class Server implements Runnable {
     //un client potrebbe chiamare il metodo addClientConnection che accede ad una coda e il server potrebbe chiamare createGame
     ReentrantLock lockQueue = new ReentrantLock(true);
     ReentrantLock lockGames = new ReentrantLock(true);
-
+    /**
+     * The constructor of the class.
+     * It creates also a pool of concurrent thread.
+     */
     public Server() {
         this.executor = Executors.newCachedThreadPool(); //creo pool di thread concorrenti
         this.currentGameId = 1;
@@ -41,7 +52,11 @@ public class Server implements Runnable {
         this.threePlayersNormal = new ArrayList<>();
         this.threePlayersExpert = new ArrayList<>();
     }
-
+    /**
+     * This method is the main server. Using this method the server can be run.
+     * It allows the client to insert the Ip address and port, throwing an exception
+     * if the client inserts a non-existent port.
+     */
     public static void main(String[] args) {
         Constants.clearScreen();
         System.out.println(Constants.ERIANTYS);
@@ -69,7 +84,9 @@ public class Server implements Runnable {
         Thread t = new Thread(server);
         t.start();
     }
-
+    /**
+     * Method Run creates a socket between the server and the virtualView.
+     */
     @Override
     public void run() {
         try {
@@ -90,7 +107,12 @@ public class Server implements Runnable {
         }
     }
 
-
+    /**
+     * The method creates the queue according the game mode and number of players chosen by each client.
+     * @param client connection with the client
+     * @param playersNumber number of players involved in the specified game
+     * @param expertMode chosen game mode
+     */
     public void addClientConnectionToQueue(VirtualView client, int playersNumber, boolean expertMode) {
         lockQueue.lock(); //Forse troppi controlli, si potrebbe migliorare
         try {
@@ -137,7 +159,12 @@ public class Server implements Runnable {
             v.sendMessage(new InfoMessage(">Waiting for other players..."));
     }
 
-
+    /**
+     * This method removes the connections from the server and gives them to the GameHandler and updates
+     * the currentGameID.
+     * From this point all the games are managed by each gameHandler, and the server losts them.
+     * @param queue parameter that tells from which queue to remove the connections
+     */
     public void createGameHandler(int queue) {
         lockGames.lock();
         try {
@@ -167,7 +194,10 @@ public class Server implements Runnable {
         //rimuove le connessioni dalla queue e le passa al gameHandler
         //aggiorna il currentGameId
     }
-
+    /**
+     * This method removes the specified gameHandler from the activeGames( e.g. when a game ends)
+     * @param gameHandler the game wanted to be done.
+     */
     public void removeGameHandler(GameHandler gameHandler) {
         lockGames.lock();
         try {

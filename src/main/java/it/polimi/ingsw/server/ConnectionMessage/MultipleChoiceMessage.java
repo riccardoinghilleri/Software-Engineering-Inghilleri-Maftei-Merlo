@@ -4,6 +4,10 @@ import it.polimi.ingsw.client.View;
 
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * This message contains a List of parameters declaring the availability of the latter ( e.g. colors or magician)
+ */
+
 
 public class MultipleChoiceMessage implements Message,ServerMessage{
     private final List<String> availableChoices;

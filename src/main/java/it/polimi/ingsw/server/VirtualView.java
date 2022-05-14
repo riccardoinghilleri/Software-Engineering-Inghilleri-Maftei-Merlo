@@ -10,7 +10,11 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.concurrent.atomic.AtomicBoolean;
-
+/**
+ * This class  communicates with the ClientConnection through the socket created by the server.
+ * It forwards messages based on the value of an inGame attribute either to the server or gameHandler.
+ * if inGame == false, the messages are forwarded to the server, else to the gameHandler.
+ */
 public class VirtualView implements Runnable {
     private int clientId;
     private boolean inGame;
@@ -28,7 +32,10 @@ public class VirtualView implements Runnable {
 
     private Thread pinger;
     private Thread timer;
-
+    /**
+     * The constructor of the class.
+     * It needs a socket and the server.
+     */
     public VirtualView(Socket socket, Server server) {
         this.socket = socket;
         this.clientId = -1;
@@ -54,7 +61,9 @@ public class VirtualView implements Runnable {
     public void setInGame(boolean inGame) {
         this.inGame = inGame;
     }
-
+    /**
+     * This method opens an output and input stream. and forwards the messages.
+     */
     @Override
     public void run() {
         try {
@@ -81,7 +90,9 @@ public class VirtualView implements Runnable {
             forcedClose();
         }
     }
-
+    /**
+     * Method to send a message throw the output stream
+     */
     public void sendMessage(Message message) {
         //TODO potrebbe servire un lock per l'output stream
         //TODO inserire period e boolean timer
@@ -95,6 +106,9 @@ public class VirtualView implements Runnable {
             e.printStackTrace();
         }
     }
+    /**
+     * This method closes forcefully the input stream, the output and the socket.
+     * It also interrupts the timer thread     */
 
     private void forcedClose(){
         active.set(false);
@@ -115,7 +129,11 @@ public class VirtualView implements Runnable {
             e.printStackTrace();
         }
     }
-
+    /**
+     * This method closes a connection after waiting for several seconds and not receiving an answer.
+     * This method is called by the gameHandler to disconnects a client
+     * @param timerEnded boolean that tells if the time is up.
+     */
     public synchronized void closeConnection(boolean timerEnded) {
         if (closed.compareAndSet(false, true)) {
 
@@ -173,7 +191,9 @@ public class VirtualView implements Runnable {
             server.addClientConnectionToQueue(this, message.getPlayersNumber(), gameMode);
         }
     }*/
-
+    /**
+     * This message tests the connection with the ping message
+     */
     private void startPinger() {
         pinger = new Thread(() -> {
             while (active.get()) {
@@ -186,7 +206,9 @@ public class VirtualView implements Runnable {
             }
         });
     }
-
+    /**
+     * This method creates and starts the Timer thread.
+     */
     private void startTimer(int period) {
         timer = new Thread(() -> {
             try {
@@ -198,6 +220,10 @@ public class VirtualView implements Runnable {
         });
     }
 
+    /**
+     * This method  interrupts the timer thread , after checking that the latter is alive.
+     * It is used when a client disconnects
+     */
     private void stopTimer() {
         if (timer != null && timer.isAlive()) {
             timer.interrupt();

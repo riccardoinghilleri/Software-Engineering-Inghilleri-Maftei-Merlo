@@ -6,6 +6,10 @@ import it.polimi.ingsw.server.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * This class presents the concrete action asked the player.
+ * It has a different method for each move allowed.
+ */
 
 public class AskActionMessage implements Message, ServerMessage {
     private final Action action;
@@ -19,6 +23,11 @@ public class AskActionMessage implements Message, ServerMessage {
     private final CharacterCard chosenCharacterCard;
 
     //CHOOSE_ASSISTANT_CARD
+    /**
+     * This constructor represents the action 'CHOOSE_ASSISTANT_CARD'
+     * @param availability list of assistant Cards left in the decks
+     */
+
     public AskActionMessage(Action action, List<AssistantCard> availability) {
         this.action = action;
         this.data = -1;
@@ -29,6 +38,10 @@ public class AskActionMessage implements Message, ServerMessage {
         this.islands = null;
         this.chosenCharacterCard=null;
     }
+    /**
+     * This constructor represents the action 'CHOOSE_CHARACTER_CARD'
+     * @param characterCards : list of character Cards left in the board
+     */
 
     public AskActionMessage(Action action, CharacterCard[] characterCards) {
         this.action = action;
@@ -40,6 +53,11 @@ public class AskActionMessage implements Message, ServerMessage {
         this.islands = null;
         this.chosenCharacterCard=null;
     }
+    /**
+     * This constructor asks how the player wants to use the character card,
+     * therefore it needs as parameter the card, the player's school and also the islands since
+     * some special movements involves islands
+     */
 
     //USE_CHARACTER_CARD
     public AskActionMessage(Action action, CharacterCard characterCard, List<Island> islands, School school) {
@@ -54,6 +72,14 @@ public class AskActionMessage implements Message, ServerMessage {
     }
 
     //DEFAULT_MOVEMENTS
+    /**
+     * This constructor is for the 'DEFAULT_ACTIONS' action(when a player moves a student from the entrance to
+     * the dining room or to an island)
+     * @param action  type of action
+     * @param islands islands involved in the choice
+     * @param school school involved in the choice
+     */
+
     public AskActionMessage(Action action, School school, List<Island> islands) {
         this.action = action;
         this.data = -1;
@@ -66,6 +92,13 @@ public class AskActionMessage implements Message, ServerMessage {
     }
 
     //CHOOSE_CLOUD
+
+    /**
+     * This constructor is for the 'CHOOSE_CLOUD' action
+     * @param action the type of action
+     * @param availability array of clouds still available to chose from
+     */
+
     public AskActionMessage(Action action, Cloud[] availability) {
         this.action = action;
         this.data = -1;
@@ -78,6 +111,11 @@ public class AskActionMessage implements Message, ServerMessage {
     }
 
     //MOVE_MOTHER_NATURE
+    /**
+     * This constructor represents the action 'MOVE_MOTHER_NATURE'
+     * @param data : how many steps mothernature needs to be moved
+     */
+
     public AskActionMessage(Action action, int data) {
         this.action = action;
         this.data = data;
@@ -88,6 +126,9 @@ public class AskActionMessage implements Message, ServerMessage {
         this.islands = null;
         this.chosenCharacterCard=null;
     }
+    /**
+     * getters and setters for the parameters of the class
+     */
 
     public CharacterCard getChosenCharacterCard() {
         return chosenCharacterCard;
@@ -121,6 +162,9 @@ public class AskActionMessage implements Message, ServerMessage {
         return action;
     }
 
+    /**
+     * This method forwards the message to the view
+     */
 
     @Override
     public void forward(View view) {

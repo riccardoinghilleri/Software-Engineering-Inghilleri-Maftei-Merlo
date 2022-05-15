@@ -132,9 +132,7 @@ public class GameHandler implements PropertyChangeListener {
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
                         + gameModel.getPlayerById(currentClientConnection).getNickname() + " is choosing his color..."));
             } else {
-                clients.get(currentClientConnection)
-                        .sendMessage(new InfoMessage(">The Game has chosen the color for you.\n" +
-                                ">Your color is " + availableColors.get(0)));
+                clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(availableColors));
                 sendAllExcept(currentClientConnection, new InfoMessage(">The game assigned to "
                         + gameModel.getPlayerById(currentClientConnection).getNickname() + " the last color:  "
                         + availableColors.get(0).toString()));
@@ -148,6 +146,7 @@ public class GameHandler implements PropertyChangeListener {
             sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel
                     .getPlayerById(currentClientConnection).getNickname() + " is choosing his wizard..."));
         }
+        //TODO sistemare caso in cui ho solo 1 mago disponibile. Fare come con il colore!
     }
 
     private void pianificationTurn() {

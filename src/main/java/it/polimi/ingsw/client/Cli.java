@@ -82,12 +82,12 @@ public class Cli implements View {
                 error = true;
             }
         } while (error);
-        try{
+        try {
             connection = new ClientConnection(this);
             Thread t = new Thread(connection);
             t.start();
             setupGameSetting();
-        }catch(IOException e){
+        } catch (IOException e) {
             printer.println("Error while opening the socket");
             setupConnection();
         }
@@ -127,9 +127,12 @@ public class Cli implements View {
     //metodo utilizzando per la scelta dei colori e del wizard
     public void setupMultipleChoice(MultipleChoiceMessage message) {
         //String choice;
-        printer.println(">These are the available choices:");
-        for (String s : message.getAvailableChoices())
-            printer.println(s + "\t");
+        if (message.getAvailableChoices().size() == 1) {
+            printer.println(">The Game has chosen for you: " + message.getAvailableChoices().get(0));
+        } else {
+            printer.println(">These are the available choices:");
+            for (String s : message.getAvailableChoices())
+                printer.println(s + "\t");
         /*choice = reader.nextLine().toUpperCase();
         while (!message.getAvailableChoices().contains(choice.toUpperCase())) {
             printer.println(">Invalid Input.Please try again.");
@@ -138,7 +141,8 @@ public class Cli implements View {
                 Constants.clearRowBelow(2);
         }
         connection.send(new SetupMessage(choice));*/
-        connection.send(new SetupMessage(InputController.checkString(message.getAvailableChoices())));
+            connection.send(new SetupMessage(InputController.checkString(message.getAvailableChoices())));
+        }
     }
 
     public void displayInfo(InfoMessage message) {

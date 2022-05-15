@@ -5,7 +5,7 @@ import it.polimi.ingsw.client.ClientConnection;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.gui.controllers.GuiController;
 import it.polimi.ingsw.client.gui.controllers.SetupPlayerController;
-import it.polimi.ingsw.client.gui.controllers.WaitingController;
+
 import it.polimi.ingsw.server.ConnectionMessage.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -98,15 +98,26 @@ public class Gui extends Application implements View {
 
     @Override
     public void setupMultipleChoice(MultipleChoiceMessage message) {
+        Platform.runLater(() -> {
+            SetupPlayerController controller = (SetupPlayerController) getControllerByFxmlName("setupPlayer.fxml");
+            if (!controller.getCheck().isDisable() && !controller.getNickname().isDisable()) {
+                controller.enablePlayerColors(message.getAvailableChoices());
+            } else {
+                controller.enableWizards(message.getAvailableChoices());
+                //WaitingController controller = (WaitingController) getControllerByFxmlName("waiting.fxml");
 
+            }
+        });
     }
 
     @Override
     public void setupNickname(NicknameMessage message) {
         Platform.runLater(() -> {
             SetupPlayerController controller = (SetupPlayerController) getControllerByFxmlName("setupPlayer.fxml");
-            if(message.getAlreadyAsked()) controller.setNicknameNotAvailable(true);
-            changeScene("setupPlayer.fxml");
+            if (message.getAlreadyAsked()) {
+                controller.setNicknameNotAvailable(true);
+                controller.setCheckNickname(false);
+            } else changeScene("setupPlayer.fxml");
         });
     }
 

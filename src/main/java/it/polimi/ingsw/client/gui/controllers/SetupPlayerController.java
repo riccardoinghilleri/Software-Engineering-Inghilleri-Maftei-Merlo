@@ -1,53 +1,101 @@
 package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.Gui;
-import it.polimi.ingsw.server.ConnectionMessage.NicknameMessage;
+
 import it.polimi.ingsw.server.ConnectionMessage.SetupMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 
-public class SetupPlayerController {
+import java.util.List;
+
+
+public class SetupPlayerController implements GuiController {
 
     private Gui gui;
-    private String color;
-    private String magician;
     @FXML
-    private RadioButton black,white,grey,fairy,gandalf,king,wise;
+    private Button check;
     @FXML
-    private Label nicknameNotAvailable, nickname;
+    private Label nicknameNotAvailable;
+    @FXML
+    private TextField nickname;
+    @FXML
+    private AnchorPane wizardsPane, playerColorsPane;
 
+    //bottone checkNickname
     public void checkNickname() {
         gui.getConnection().send(new SetupMessage(nickname.getText()));
     }
 
-    public void setNicknameNotAvailable(boolean b){
-        nicknameNotAvailable.setVisible(b);
+    public Button getCheck() {
+        return check;
     }
 
-    public void play(){
-
+    public TextField getNickname() {
+        return nickname;
     }
 
-    public void getPlayerColor(ActionEvent event) {
-        if(black.isSelected()){
-            color="BLACK";
-        } else if(white.isSelected()){
-            color="WHITE";
-        } else if(grey.isSelected()){
-            color="GREY";
+    //attiva anchor pane per la scelta del colore
+    public void enablePlayerColors(List<String> colors) {
+        check.setDisable(true);
+        nickname.setDisable(true);
+        if (colors.size() > 1) {
+            for (Node node : playerColorsPane.getChildren()) {
+                AnchorPane tower = (AnchorPane) node;
+                if (colors.contains(tower.getId().toUpperCase())) {
+                    tower.setDisable(false);
+                }
+            }
+        } else {
+            automaticChoiceAlert(colors.get(0));
         }
     }
-    public void getMagician(ActionEvent event) {
-        if(fairy.isSelected()){
-            magician="FAIRY";
-        } else if(gandalf.isSelected()){
-            magician="GANDALF";
-        } else if(king.isSelected()){
-            magician="KING";
-        } else if(wise.isSelected()){
-            magician="WISE";
+
+    public void enableWizards(List<String> wizards) {
+        playerColorsPane.setDisable(true);
+        if (wizards.size() > 1) {
+            for (Node node : wizardsPane.getChildren()) {
+                AnchorPane wizard = (AnchorPane) node;
+                if (wizards.contains(wizard.getId().toUpperCase())) {
+                    wizard.setDisable(false);
+                }
+            }
+        } else {
+            automaticChoiceAlert(wizards.get(0));
         }
+
+    }
+
+
+    public void automaticChoiceAlert(String choice) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Automatic Choice");
+        alert.setHeaderText(">The Game has chosen for you: " + choice);
+
+        alert.showAndWait();
+    }
+
+    public void setNicknameNotAvailable(boolean visible) {
+        nicknameNotAvailable.setVisible(visible);
+    }
+
+    public void setWizard(ActionEvent event) {
+        gui.getConnection().send(new SetupMessage(((Button) event.getSource()).getText().toUpperCase()));
+        gui.changeScene("waiting.fxml");
+    }
+
+    public void setPlayerColor(ActionEvent event) {
+        gui.getConnection().send(new SetupMessage(((Button) event.getSource()).getText().toUpperCase()));
+    }
+
+    public void setCheckNickname(boolean disable) {
+        check.setDisable(disable);
+    }
+
+    @Override
+    public void setGui(Gui gui) {
+        this.gui = gui;
     }
 }

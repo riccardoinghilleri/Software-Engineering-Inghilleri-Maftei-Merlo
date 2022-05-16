@@ -170,7 +170,7 @@ public class Cli implements View {
                     printer.println(">Please choose your assistant card priority.\n");
                     for (int i = 0; i < message.getAvailableAssistantCards().size(); i++) {
                         if (i == 0)
-                            printer.println(message.getAvailableAssistantCards().get(i).draw(-1, 0)); //TODO strano -1
+                            printer.println(message.getAvailableAssistantCards().get(i).draw(-1, 0));
                         else
                             printer.println(message.getAvailableAssistantCards().get(i).draw(i * 10 + i, 7));
                         availablePriority.add(message.getAvailableAssistantCards().get(i).getPriority());

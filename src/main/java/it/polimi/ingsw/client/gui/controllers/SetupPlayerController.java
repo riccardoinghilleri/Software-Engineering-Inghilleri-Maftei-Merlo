@@ -65,15 +65,12 @@ public class SetupPlayerController implements GuiController {
         } else {
             automaticChoiceAlert(wizards.get(0));
         }
-
     }
-
 
     public void automaticChoiceAlert(String choice) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Automatic Choice");
         alert.setHeaderText(">The Game has chosen for you: " + choice);
-
         alert.showAndWait();
     }
 

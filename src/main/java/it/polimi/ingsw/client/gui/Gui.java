@@ -4,8 +4,10 @@ package it.polimi.ingsw.client.gui;
 import it.polimi.ingsw.client.ClientConnection;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.gui.controllers.GuiController;
+import it.polimi.ingsw.client.gui.controllers.MainSceneController;
 import it.polimi.ingsw.client.gui.controllers.SetupPlayerController;
 
+import it.polimi.ingsw.client.gui.controllers.WaitingController;
 import it.polimi.ingsw.server.ConnectionMessage.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -47,6 +49,16 @@ public class Gui extends Application implements View {
         return controllers.get(name);
     }
 
+    public GuiController getControllerByScene(Scene scene){
+        String currentSceneFxmlName=null;
+        for(String s: scenes.keySet()){
+            if(scenes.get(s).equals(currentScene)){
+                currentSceneFxmlName=s;
+            }
+        }
+        return getControllerByFxmlName(currentSceneFxmlName);
+    }
+
     public void setAddress(String address) {
         this.address = address;
     }
@@ -62,7 +74,8 @@ public class Gui extends Application implements View {
     }
 
     private void setup() {
-        List<String> fxmlList = new ArrayList<>(Arrays.asList("settings.fxml", "waiting.fxml", "setupPlayer.fxml"));
+        List<String> fxmlList = new ArrayList<>(Arrays.asList("settings.fxml",
+                "waiting.fxml", "setupPlayer.fxml", "assistantCards.fxml", "mainScene.fxml"));
         try {
             for (String s : fxmlList) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + s));
@@ -88,12 +101,28 @@ public class Gui extends Application implements View {
 
     @Override
     public void askAction(AskActionMessage message) {
-
+        switch(message.getAction()){
+            case CHOOSE_ASSISTANT_CARD:
+                Stage chooseAssistantCard= new Stage();
+                chooseAssistantCard.setTitle("Eriantys");
+                chooseAssistantCard.setScene(scenes.get("assistantCards.fxml"));
+                chooseAssistantCard.showAndWait(); //TODO forse serve platformrunlater
+                break;
+            case CHOOSE_CHARACTER_CARD:
+                break;
+            case USE_CHARACTER_CARD:
+                break;
+            case DEFAULT_MOVEMENTS:
+                break;
+            case MOVE_MOTHER_NATURE:
+                break;
+            case CHOOSE_CLOUD:
+                break;
+        }
     }
 
     @Override
     public void displayInfo(InfoMessage message) {
-
     }
 
     @Override
@@ -101,11 +130,11 @@ public class Gui extends Application implements View {
         Platform.runLater(() -> {
             SetupPlayerController controller = (SetupPlayerController) getControllerByFxmlName("setupPlayer.fxml");
             if (!controller.getCheck().isDisable() && !controller.getNickname().isDisable()) {
+                controller.setNicknameNotAvailable(false);
                 controller.enablePlayerColors(message.getAvailableChoices());
             } else {
                 controller.enableWizards(message.getAvailableChoices());
                 //WaitingController controller = (WaitingController) getControllerByFxmlName("waiting.fxml");
-
             }
         });
     }
@@ -123,7 +152,12 @@ public class Gui extends Application implements View {
 
     @Override
     public void displayBoard(UpdateBoard message) {
-
+        Platform.runLater(() -> {
+            if(getControllerByScene(currentScene) instanceof WaitingController)
+                changeScene("mainScene.fxml");
+            MainSceneController controller = (MainSceneController) getControllerByScene(currentScene);
+            controller.update(message);
+        });
     }
 
     @Override

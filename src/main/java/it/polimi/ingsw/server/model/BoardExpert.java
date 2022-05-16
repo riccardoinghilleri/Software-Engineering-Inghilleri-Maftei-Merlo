@@ -101,7 +101,7 @@ public class BoardExpert extends Board{
 
     /**
      * This method creates randomly 3 CharacterCards,
-     * calling the constructors of the 3 different types of cards
+     * calling the constructors of the 3 different types of cards, specifying the name, the coins and what the card can do.
      * @return a list of 3 Cards
      */
     protected CharacterCard[] createThreeRandomCharacterCards(){

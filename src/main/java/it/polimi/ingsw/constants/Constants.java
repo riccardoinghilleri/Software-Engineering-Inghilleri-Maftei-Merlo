@@ -3,6 +3,9 @@ package it.polimi.ingsw.constants;
 import it.polimi.ingsw.enums.CharacterColor;
 import it.polimi.ingsw.enums.PlayerColor;
 
+/**
+ * This class contains the colors string and the writing to be shown on the screen when a client start playing in CLI mode.
+ */
 public class Constants {
     public static final String ANSI_RESET = "\033[0m";
     public static final String ANSI_RED = "\033[31m";
@@ -52,6 +55,11 @@ public class Constants {
                     "    ╚██╔═██╔╝    ██║  ██║ ██║    ██║    ██║ ██║  ╚██║ ███████║ ██╗ ██╗ ██╗\n" +
                     "     ╚═╝ ╚═╝     ╚═╝  ╚═╝ ╚═╝    ╚═╝    ╚═╝ ╚═╝   ╚═╝ ╚══════╝ ╚═╝ ╚═╝ ╚═╝\n";
 
+    /**
+     * This method returns the Ansi_code which corresponds to the specified color
+     * @param characterColor the colors of students
+     * @return the string of the color corresponding to the ansi_code
+     */
     public static String getAnsi(CharacterColor characterColor) {
         if (characterColor == CharacterColor.RED) return ANSI_RED;
         else if (characterColor == CharacterColor.GREEN) return ANSI_GREEN;
@@ -60,7 +68,11 @@ public class Constants {
         else if (characterColor == CharacterColor.PINK) return ANSI_PINK;
         else return null;
     }
-
+    /**
+     * This method returns the Ansi_code which corresponds to the specified color
+     * @param playerColor the colors of students
+     * @return the string of the color corresponding to the ansi_code
+     */
     public static String getAnsi(PlayerColor playerColor) {
         if (playerColor == PlayerColor.WHITE) return ANSI_WHITE;
         else if (playerColor == PlayerColor.BLACK) return ANSI_BLACK;

@@ -1,0 +1,22 @@
+.button {
+    -fx-font-size: 13;
+    -fx-text-fill: white;
+    -fx-font-family: "Britannic Bold";
+    -fx-background-color:transparent;
+    -fx-background-image: url("../graphics/btn/transparent_gold_button.png");
+    -fx-background-size: stretch;
+}
+
+.image{
+    -fx-image:url("../graphics/gold_frame.png");
+}
+.container{
+    -fx-width:160px;
+    -fx-height:225px;
+}
+.error{
+    -fx-text-fill: red;
+}
+.mainPane{
+ -fx-background-image: url("../graphics/backgrounds/Eriantys_slider.jpg");
+}

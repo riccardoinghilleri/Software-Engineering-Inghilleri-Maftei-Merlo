@@ -7,48 +7,73 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="mainPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SetupPlayerController">
+<AnchorPane fx:id="mainPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainPanel" stylesheets="@../css/setupGame.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SetupPlayerController">
    <children>
-      <AnchorPane fx:id="wizardsPane" layoutY="232.0" prefHeight="162.0" prefWidth="600.0">
+      <ImageView fitHeight="400.0" fitWidth="600.0" opacity="0.64" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/backgrounds/Eriantys_slider_885x590.jpg" />
+         </image>
+      </ImageView>
+      <AnchorPane fx:id="wizardsPane" layoutX="-1.0" layoutY="237.0" prefHeight="162.0" prefWidth="600.0">
          <children>
-            <AnchorPane fx:id="fairy" disable="true" layoutX="65.0" layoutY="8.0" prefHeight="131.0" prefWidth="60.0">
+            <AnchorPane fx:id="gandalf" disable="true" layoutX="182.0" prefHeight="147.0" prefWidth="94.0">
                <children>
-                  <ImageView fx:id="fairy" fitHeight="105.0" fitWidth="135.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../graphics/fairy.png" />
-                     </image>
-                  </ImageView>
-                  <Button layoutX="-1.0" layoutY="105.0" mnemonicParsing="false" onAction="#setWizard" prefWidth="69.0" text="FAIRY" />
-               </children>
-            </AnchorPane>
-            <AnchorPane fx:id="gandalf" disable="true" layoutX="198.0" layoutY="8.0" prefHeight="131.0" prefWidth="61.0">
-               <children>
-                  <Button layoutY="105.0" mnemonicParsing="false" onAction="#setWizard" prefWidth="69.0" text="GANDALF" />
-                  <ImageView fx:id="gandalf" fitHeight="105.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="gandalf" fitHeight="113.0" fitWidth="76.0" layoutX="10.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../graphics/gandalf.png" />
                      </image>
                   </ImageView>
+                  <ImageView fitHeight="127.0" fitWidth="94.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/gold_frame.png" />
+                     </image>
+                  </ImageView>
+                  <Button layoutX="2.0" layoutY="125.0" mnemonicParsing="false" onAction="#setWizard" prefHeight="22.0" prefWidth="90.0" text="GANDALF" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="king" disable="true" layoutX="333.0" layoutY="8.0" prefHeight="123.0" prefWidth="28.0">
+            <AnchorPane fx:id="king" disable="true" layoutX="321.0" prefHeight="146.0" prefWidth="94.0">
                <children>
-                  <Button layoutX="-1.0" layoutY="105.0" mnemonicParsing="false" onAction="#setWizard" prefWidth="69.0" text="KING" />
-                  <ImageView fx:id="king" fitHeight="105.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true">
+                  <Button layoutX="2.0" layoutY="125.0" mnemonicParsing="false" onAction="#setWizard" prefWidth="90.0" text="KING" />
+                  <ImageView fx:id="king" fitHeight="113.0" fitWidth="76.0" layoutX="10.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../graphics/king.png" />
                      </image>
                   </ImageView>
+                  <ImageView fitHeight="127.0" fitWidth="94.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/gold_frame.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="wise" disable="true" layoutX="466.0" layoutY="8.0" prefHeight="131.0" prefWidth="61.0">
+            <AnchorPane fx:id="wise" disable="true" layoutX="459.0" prefHeight="146.0" prefWidth="94.0">
                <children>
-                  <Button layoutY="105.0" mnemonicParsing="false" onAction="#setWizard" prefWidth="69.0" text="WISE" />
-                  <ImageView fx:id="wise" fitHeight="105.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true">
+                  <Button layoutX="2.0" layoutY="125.0" mnemonicParsing="false" onAction="#setWizard" prefWidth="90.0" text="WISE" />
+                  <ImageView fx:id="wise" fitHeight="113.0" fitWidth="76.0" layoutX="10.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../graphics/wise.png" />
                      </image>
                   </ImageView>
+                  <ImageView fitHeight="127.0" fitWidth="94.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/gold_frame.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="fairy" disable="true" layoutX="44.0" prefHeight="146.0" prefWidth="94.0">
+               <children>
+                  <ImageView fx:id="fairy" fitHeight="113.0" fitWidth="76.0" layoutX="10.0" layoutY="8.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../graphics/fairy.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="131.0" fitWidth="94.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/gold_frame.png" />
+                     </image>
+                  </ImageView>
+                  <Button contentDisplay="CENTER" ellipsisString="" layoutX="2.0" layoutY="125.0" mnemonicParsing="false" onAction="#setWizard" prefWidth="90.0" style="-fx-border-radius: 0;" text="FAIRY" textOverrun="WORD_ELLIPSIS" />
                </children>
             </AnchorPane>
          </children>
@@ -65,7 +90,7 @@
                   <Button layoutY="69.0" mnemonicParsing="false" onAction="#setPlayerColor" prefWidth="69.0" text="WHITE" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="black" disable="true" layoutX="264.0" layoutY="18.0" prefHeight="94.0" prefWidth="70.0">
+            <AnchorPane fx:id="black" disable="true" layoutX="265.0" layoutY="14.0" prefHeight="94.0" prefWidth="70.0">
                <children>
                   <Button layoutY="69.0" mnemonicParsing="false" onAction="#setPlayerColor" prefWidth="69.0" text="BLACK" />
                   <ImageView fx:id="black" fitHeight="75.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
@@ -87,9 +112,9 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <Label layoutX="143.0" layoutY="45.0" text="Nickname" />
-      <TextField fx:id="nickname" layoutX="268.0" layoutY="41.0" prefHeight="26.0" prefWidth="159.0" promptText="Choose a Nickname" />
-      <Button fx:id="check" layoutX="427.0" layoutY="41.0" mnemonicParsing="false" onAction="#checkNickname" text="Check" />
+      <Label alignment="CENTER" layoutX="140.0" layoutY="41.0" prefHeight="26.0" prefWidth="80.0" styleClass="golden_label" stylesheets="@../css/setupGame.css" text="NICKNAME" />
+      <TextField fx:id="nickname" layoutX="220.0" layoutY="41.0" prefHeight="26.0" prefWidth="159.0" promptText="Choose a Nickname" />
+      <Button fx:id="check" layoutX="379.0" layoutY="41.0" mnemonicParsing="false" onAction="#checkNickname" prefHeight="26.0" prefWidth="80.0" text="CHECK" />
       <Label fx:id="nicknameNotAvailable" layoutX="268.0" layoutY="67.0" text="The nickname is not available!" textFill="RED" visible="false" />
    </children>
 </AnchorPane>

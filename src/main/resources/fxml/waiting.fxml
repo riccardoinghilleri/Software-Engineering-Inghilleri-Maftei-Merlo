@@ -2,12 +2,18 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.WaitingController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="mainFrame" stylesheets="@../css/setupGame.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.WaitingController">
    <children>
-      <ProgressBar layoutX="121.0" layoutY="347.0" prefHeight="27.0" prefWidth="358.0" />
-      <Label alignment="CENTER" layoutX="275.0" layoutY="191.0" text="Waiting..." />
+      <ImageView accessibleRole="PROGRESS_INDICATOR" fitHeight="400.0" fitWidth="600.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/backgrounds/Eriantys_slider_885x590.jpg" />
+         </image>
+      </ImageView>
+      <ProgressBar accessibleRole="DATE_PICKER" layoutX="121.0" layoutY="347.0" prefHeight="27.0" prefWidth="358.0" styleClass="progress_bar" />
+      <Label alignment="CENTER" layoutX="218.0" layoutY="185.0" styleClass="waiting_label" text="WAITING . . ." />
    </children>
 </AnchorPane>

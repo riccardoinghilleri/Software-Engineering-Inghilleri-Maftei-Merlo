@@ -1,0 +1,25 @@
+.mainPanel {
+
+}
+
+.button {
+    -fx-font-size: 13;
+    -fx-text-fill: white;
+    -fx-font-family: "Britannic Bold";
+    -fx-background-color:transparent;
+    -fx-background-image: url("../graphics/btn/transparent_gold_button.png");
+    -fx-background-size: stretch;
+}
+.golden_label{
+    -fx-font-size: 15;
+    -fx-text-fill:white;
+    -fx-background-image: url("../graphics/backgrounds/transparent_golden_label.png");
+    -fx-font-family: "Britannic Bold";
+     -fx-background-size: stretch;
+}
+.waiting_label{
+    -fx-font-size: 30;
+    -fx-text-fill:white;
+    -fx-font-family: "Britannic Bold";
+    -fx-background-size: stretch;
+}

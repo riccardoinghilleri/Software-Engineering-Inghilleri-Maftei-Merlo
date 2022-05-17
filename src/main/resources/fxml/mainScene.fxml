@@ -13,7 +13,7 @@
 
 <AnchorPane prefHeight="640.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainSceneController">
    <children>
-      <GridPane prefHeight="411.0" prefWidth="960.0">
+      <GridPane fx:id="clouds_islands_grid" prefHeight="411.0" prefWidth="960.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="137.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="137.0" />
@@ -355,7 +355,7 @@
                   <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
             </GridPane>
-            <GridPane maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <GridPane fx:id="gridisland1" maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />

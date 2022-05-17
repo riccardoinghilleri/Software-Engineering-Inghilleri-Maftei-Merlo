@@ -3,11 +3,8 @@ package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.client.ClientConnection;
 import it.polimi.ingsw.client.View;
-import it.polimi.ingsw.client.gui.controllers.GuiController;
-import it.polimi.ingsw.client.gui.controllers.MainSceneController;
-import it.polimi.ingsw.client.gui.controllers.SetupPlayerController;
+import it.polimi.ingsw.client.gui.controllers.*;
 
-import it.polimi.ingsw.client.gui.controllers.WaitingController;
 import it.polimi.ingsw.server.ConnectionMessage.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -103,10 +100,15 @@ public class Gui extends Application implements View {
     public void askAction(AskActionMessage message) {
         switch(message.getAction()){
             case CHOOSE_ASSISTANT_CARD:
-                Stage chooseAssistantCard= new Stage();
-                chooseAssistantCard.setTitle("Eriantys");
-                chooseAssistantCard.setScene(scenes.get("assistantCards.fxml"));
-                chooseAssistantCard.showAndWait(); //TODO forse serve platformrunlater
+                Platform.runLater(() -> {
+                    Stage chooseAssistantCard= new Stage();
+                    chooseAssistantCard.setTitle("Eriantys");
+                    chooseAssistantCard.setScene(scenes.get("assistantCards.fxml"));
+                    AssistantCardsController controller = (AssistantCardsController) getControllerByFxmlName("assistantCards.fxml");
+                    controller.setStage(chooseAssistantCard);
+                    controller.enableCards(message.getAvailableAssistantCards());
+                    chooseAssistantCard.showAndWait();
+                });
                 break;
             case CHOOSE_CHARACTER_CARD:
                 break;
@@ -156,7 +158,7 @@ public class Gui extends Application implements View {
             if(getControllerByScene(currentScene) instanceof WaitingController)
                 changeScene("mainScene.fxml");
             MainSceneController controller = (MainSceneController) getControllerByScene(currentScene);
-            controller.update(message);
+            //controller.update(message);
         });
     }
 

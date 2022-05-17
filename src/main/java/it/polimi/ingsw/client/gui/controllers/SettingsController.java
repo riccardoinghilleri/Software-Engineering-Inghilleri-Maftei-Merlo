@@ -25,7 +25,7 @@ public class SettingsController implements Initializable, GuiController {
     private boolean expertMode;
 
     @FXML
-    private Label title;
+    private Label title, warningIp, warningPort;
     @FXML
     private TextField address;
     @FXML

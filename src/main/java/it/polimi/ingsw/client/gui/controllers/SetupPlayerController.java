@@ -7,6 +7,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.effect.Glow;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.List;
@@ -43,14 +46,32 @@ public class SetupPlayerController implements GuiController {
         nickname.setDisable(true);
         if (colors.size() > 1) {
             for (Node node : playerColorsPane.getChildren()) {
-                AnchorPane tower = (AnchorPane) node;
+                ImageView tower = (ImageView) node;
                 if (colors.contains(tower.getId().toUpperCase())) {
                     tower.setDisable(false);
+                    /*tower.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
+                        select(event);
+                        event.consume();
+                    });
+                    tower.addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
+                        unselect(event);
+                        event.consume();
+                    });*/
                 }
             }
         } else {
             automaticChoiceAlert(colors.get(0));
         }
+    }
+
+    public void select(MouseEvent event) {
+        Object object =  event.getSource();
+        ((Node)object).setEffect(new Glow(0.8));
+    }
+
+    public void unselect(MouseEvent event) {
+        Object object =  event.getSource();
+        ((Node)object).setEffect(null);
     }
 
     public void enableWizards(List<String> wizards) {
@@ -60,6 +81,14 @@ public class SetupPlayerController implements GuiController {
                 AnchorPane wizard = (AnchorPane) node;
                 if (wizards.contains(wizard.getId().toUpperCase())) {
                     wizard.setDisable(false);
+                    /*wizard.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
+                        select(event);
+                        event.consume();
+                    });
+                    wizard.addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
+                        unselect(event);
+                        event.consume();
+                    });*/
                 }
             }
         } else {
@@ -83,8 +112,8 @@ public class SetupPlayerController implements GuiController {
         gui.changeScene("waiting.fxml");
     }
 
-    public void setPlayerColor(ActionEvent event) {
-        gui.getConnection().send(new SetupMessage(((Button) event.getSource()).getText().toUpperCase()));
+    public void setPlayerColor(MouseEvent event) {
+        gui.getConnection().send(new SetupMessage(((ImageView) event.getSource()).getId().toUpperCase()));
     }
 
     public void setCheckNickname(boolean disable) {

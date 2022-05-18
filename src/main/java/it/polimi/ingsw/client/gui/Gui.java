@@ -8,9 +8,11 @@ import it.polimi.ingsw.client.gui.controllers.*;
 import it.polimi.ingsw.server.ConnectionMessage.*;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.stage.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ public class Gui extends Application implements View {
     private String address;
     private int port;
 
+    private boolean alreadyAskedAssistantCard =false;
 
     public static void main(String[] args) {
         launch(args);
@@ -103,10 +106,17 @@ public class Gui extends Application implements View {
                 Platform.runLater(() -> {
                     Stage chooseAssistantCard= new Stage();
                     chooseAssistantCard.setTitle("Eriantys");
+                    chooseAssistantCard.setResizable(false);
+                    chooseAssistantCard.setAlwaysOnTop(true);
                     chooseAssistantCard.setScene(scenes.get("assistantCards.fxml"));
+                    chooseAssistantCard.initModality(Modality.APPLICATION_MODAL);
+                    chooseAssistantCard.setOnCloseRequest(Event::consume);
                     AssistantCardsController controller = (AssistantCardsController) getControllerByFxmlName("assistantCards.fxml");
                     controller.setStage(chooseAssistantCard);
                     controller.enableCards(message.getAvailableAssistantCards());
+                    if(alreadyAskedAssistantCard)
+                        controller.error();
+                    alreadyAskedAssistantCard=true;
                     chooseAssistantCard.showAndWait();
                 });
                 break;

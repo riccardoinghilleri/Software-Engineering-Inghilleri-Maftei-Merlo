@@ -97,7 +97,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <Label alignment="CENTER" layoutX="140.0" layoutY="41.0" prefHeight="26.0" prefWidth="80.0" styleClass="golden_label" stylesheets="@../css/setupGame.css" text="NICKNAME" />
+      <Label alignment="CENTER" layoutX="140.0" layoutY="41.0" prefHeight="26.0" prefWidth="80.0" styleClass="gold_label" stylesheets="@../css/setupGame.css" text="NICKNAME" />
       <TextField fx:id="nickname" layoutX="220.0" layoutY="41.0" prefHeight="26.0" prefWidth="159.0" promptText="Choose a Nickname" />
       <Button fx:id="check" layoutX="379.0" layoutY="41.0" mnemonicParsing="false" onAction="#checkNickname" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="26.0" prefWidth="80.0" text="CHECK" />
       <Label fx:id="nicknameNotAvailable" layoutX="220.0" layoutY="67.0" text="The nickname is not available!" textFill="RED" visible="false" />

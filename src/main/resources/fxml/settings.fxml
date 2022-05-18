@@ -6,23 +6,33 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SettingsController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="mainPane" stylesheets="@../css/setupGame.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SettingsController">
    <children>
-      <Button layoutX="270.0" layoutY="301.0" mnemonicParsing="false" onAction="#confirm" text="Confirm" />
-      <TextField fx:id="address" layoutX="329.0" layoutY="90.0" />
-      <Label layoutX="124.0" layoutY="94.0" text="Insert the Server IP Address" />
-      <Label layoutX="157.0" layoutY="143.0" text="Insert the Server Port" />
-      <TextField fx:id="port" layoutX="329.0" layoutY="139.0" />
-      <Label layoutX="139.0" layoutY="191.0" text="Insert number of players" />
-      <Label layoutX="171.0" layoutY="240.0" text="Insert Game Mode" />
-      <ChoiceBox fx:id="playersNumber" layoutX="328.0" layoutY="187.0" prefWidth="150.0" />
-      <RadioButton fx:id="normal" layoutX="329.0" layoutY="240.0" mnemonicParsing="false" onAction="#getGameMode" text="Normal">
+      <ImageView fitHeight="400.0" fitWidth="600.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/backgrounds/Eriantys_slider_885x590.jpg" />
+         </image>
+      </ImageView>
+      <Button layoutX="251.0" layoutY="306.0" mnemonicParsing="false" onAction="#confirm" prefHeight="36.0" prefWidth="94.0" text="Confirm" />
+      <TextField fx:id="address" layoutX="320.0" layoutY="105.0" />
+      <Label alignment="CENTER" layoutX="79.0" layoutY="105.0" prefHeight="26.0" prefWidth="200.0" styleClass="gold_label" text="Insert the Server IP Address" textAlignment="CENTER" />
+      <Label alignment="CENTER" layoutX="120.0" layoutY="155.0" prefHeight="26.0" prefWidth="160.0" styleClass="gold_label" text="Insert the Server Port" />
+      <TextField fx:id="port" layoutX="320.0" layoutY="155.0" />
+      <Label alignment="CENTER" layoutX="100.0" layoutY="205.0" prefHeight="26.0" prefWidth="180.0" styleClass="gold_label" text="Insert number of players" />
+      <Label alignment="CENTER" layoutX="149.0" layoutY="255.0" prefHeight="26.0" prefWidth="130.0" styleClass="gold_label" text="Insert Game Mode" textAlignment="CENTER" />
+      <ChoiceBox fx:id="playersNumber" layoutX="320.0" layoutY="205.0" prefWidth="150.0" />
+      <RadioButton fx:id="normal" layoutX="320.0" layoutY="259.0" mnemonicParsing="false" onAction="#getGameMode" selected="true" text="Normal">
          <toggleGroup>
             <ToggleGroup fx:id="gamemode" />
          </toggleGroup></RadioButton>
-      <RadioButton fx:id="expert" layoutX="422.0" layoutY="240.0" mnemonicParsing="false" onAction="#getGameMode" text="Expert" toggleGroup="$gamemode" />
-      <Label fx:id="title" layoutX="255.0" layoutY="39.0" text="Insert all settings" />
+      <RadioButton fx:id="expert" layoutX="410.0" layoutY="259.0" mnemonicParsing="false" onAction="#getGameMode" text="Expert" toggleGroup="$gamemode" />
+      <Label fx:id="title" layoutX="210.0" layoutY="25.0" styleClass="title" text="Eriantys" />
+      <Label fx:id="warningIp" alignment="CENTER" layoutX="320.0" layoutY="131.0" prefHeight="18.0" prefWidth="150.0" text="Invalid Server Ip" textAlignment="CENTER" textFill="RED" visible="false" />
+      <Label fx:id="warningPort" alignment="CENTER" layoutX="320.0" layoutY="181.0" prefHeight="18.0" prefWidth="150.0" text="Invalid server port" textFill="RED" visible="false" />
+      <Label fx:id="warningConnection" alignment="CENTER" layoutX="169.0" layoutY="351.0" prefHeight="18.0" prefWidth="258.0" styleClass="error" text="Error while opening the socket, please try again." textFill="RED" visible="false" />
    </children>
 </AnchorPane>

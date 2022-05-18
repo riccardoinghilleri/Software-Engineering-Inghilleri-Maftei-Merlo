@@ -79,6 +79,11 @@ public class AssistantCardsController implements GuiController {
         ((Node)object).setEffect(null);
     }
 
+    public void error(){
+        warning.setText("You cannot choose this card. Please try again");
+        warning.setVisible(true);
+    }
+
     public void choose() {
         if (priority != -1) {
             ActionMessage message = new ActionMessage();

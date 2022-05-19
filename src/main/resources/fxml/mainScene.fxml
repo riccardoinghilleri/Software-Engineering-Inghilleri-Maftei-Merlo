@@ -3,15 +3,20 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="640.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainSceneController">
+<AnchorPane prefHeight="640.0" prefWidth="960.0" stylesheets="@../css/mainScene.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainSceneController">
    <children>
       <GridPane fx:id="clouds_islands_grid" prefHeight="411.0" prefWidth="960.0">
         <columnConstraints>
@@ -265,9 +270,11 @@
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="100.0" />
                </columnConstraints>
                <rowConstraints>
+                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
@@ -355,173 +362,418 @@
                   <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
             </GridPane>
-            <GridPane fx:id="gridisland1" maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
          </children>
       </GridPane>
-      <Button fx:id="twoPlayersBtn" layoutX="808.0" layoutY="443.0" mnemonicParsing="false" onAction="#viewInfoPlayer" text="Player Button" />
-      <Button fx:id="threePlayersBtn" layoutX="808.0" layoutY="500.0" mnemonicParsing="false" onAction="#viewInfoPlayer" text="Player Button" />
-      <Button fx:id="fourthPlayersBtn" layoutX="808.0" layoutY="559.0" mnemonicParsing="false" onAction="#viewInfoPlayer" text="Player Button" />
       <AnchorPane fx:id="schoolPane" layoutX="218.0" layoutY="411.0" prefHeight="229.0" prefWidth="523.0">
          <children>
-            <ImageView fitHeight="229.0" fitWidth="523.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="background" fitHeight="229.0" fitWidth="523.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../graphics/Plancia_DEF3.png" />
                </image>
             </ImageView>
-            <GridPane fx:id="greenStudentsGrid" layoutX="96.0" layoutY="27.0">
-              <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="24.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="24.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="24.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="24.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-            </GridPane>
-            <GridPane fx:id="redStudentsGrid" layoutX="96.0" layoutY="64.0">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="24.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="24.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="24.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="24.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-            <GridPane fx:id="yellowStudentsGrid" layoutX="96.0" layoutY="101.0">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="24.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="24.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="24.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="24.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-            <GridPane fx:id="pinkStudentsGrid" layoutX="96.0" layoutY="138.0">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="24.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="24.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="24.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="24.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-            <GridPane fx:id="blueStudentsGrid" layoutX="96.0" layoutY="175.0">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="24.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="24.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="24.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="24.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-            <GridPane fx:id="professorsGrid" layoutX="369.0" layoutY="22.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="25.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-            </GridPane>
-            <GridPane fx:id="towersGrid" layoutX="418.0" layoutY="38.0">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="40.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="40.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-            <GridPane fx:id="entranceGrid" layoutX="14.0" layoutY="20.0">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="30.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="30.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
+            <AnchorPane fx:id="entrance" layoutX="13.0" layoutY="26.0" prefHeight="174.0" prefWidth="61.0">
+               <children>
+                  <Circle fill="WHITE" layoutX="46.3" layoutY="13.5" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
+                     <stroke>
+                        <RadialGradient centerX="0.49339207048458145" centerY="0.46969696247216425" radius="0.6651376321775104">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="1.0" green="0.6913705468177795" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="0.8666666746139526" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </RadialGradient>
+                     </stroke>
+                  </Circle>
+                  <Circle fill="WHITE" layoutX="15.5" layoutY="50.5" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
+                     <stroke>
+                        <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="1.0" green="0.6913705468177795" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="0.8666666746139526" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </RadialGradient>
+                     </stroke>
+                  </Circle>
+                  <Circle fill="WHITE" layoutX="46.3" layoutY="50.5" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
+                     <stroke>
+                        <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="1.0" green="0.6913705468177795" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="0.8666666746139526" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </RadialGradient>
+                     </stroke>
+                  </Circle>
+                  <Circle fill="WHITE" layoutX="15.5" layoutY="88.0" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
+                     <stroke>
+                        <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="1.0" green="0.6913705468177795" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="0.8666666746139526" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </RadialGradient>
+                     </stroke>
+                  </Circle>
+                  <Circle fill="WHITE" layoutX="46.3" layoutY="88.0" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
+                     <stroke>
+                        <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="1.0" green="0.6913705468177795" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="0.8666666746139526" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </RadialGradient>
+                     </stroke>
+                  </Circle>
+                  <Circle fill="WHITE" layoutX="15.5" layoutY="125.0" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
+                     <stroke>
+                        <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="1.0" green="0.6913705468177795" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="0.8666666746139526" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </RadialGradient>
+                     </stroke>
+                  </Circle>
+                  <Circle fill="WHITE" layoutX="46.3" layoutY="125.0" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
+                     <stroke>
+                        <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="1.0" green="0.6913705468177795" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="0.8666666746139526" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </RadialGradient>
+                     </stroke>
+                  </Circle>
+                  <Circle fill="WHITE" layoutX="15.5" layoutY="162.0" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
+                     <stroke>
+                        <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="1.0" green="0.6913705468177795" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="0.8666666746139526" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </RadialGradient>
+                     </stroke>
+                  </Circle>
+                  <Circle fill="WHITE" layoutX="46.3" layoutY="162.0" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
+                     <stroke>
+                        <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="1.0" green="0.6913705468177795" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="0.8666666746139526" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </RadialGradient>
+                     </stroke>
+                  </Circle>
+                  <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="35.0" layoutY="2.0" onMouseClicked="#setStudentColor" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="entrance1" fitHeight="22.5" fitWidth="22.5" layoutX="4.5" layoutY="39.5" onMouseClicked="#setStudentColor" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="35.0" layoutY="39.5" onMouseClicked="#setStudentColor" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="22.4" fitWidth="22.5" layoutX="4.0" layoutY="77.0" onMouseClicked="#setStudentColor" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="35.0" layoutY="77.0" onMouseClicked="#setStudentColor" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="4.0" layoutY="114.0" onMouseClicked="#setStudentColor" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="35.0" layoutY="114.0" onMouseClicked="#setStudentColor" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="4.0" layoutY="151.0" onMouseClicked="#setStudentColor" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="redGrid" fitHeight="22.5" fitWidth="22.5" layoutX="35.0" layoutY="151.0" onMouseClicked="#setStudentColor" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="greenStudents" layoutX="96.5" layoutY="26.0" prefHeight="27.0" prefWidth="250.0">
+               <children>
+                  <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="1.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="green_student" visible="false" />
+                  <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="26.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="green_student" visible="false" />
+                  <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="50.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="green_student" visible="false" />
+                  <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="75.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="green_student" visible="false" />
+                  <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="100.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="green_student" visible="false" />
+                  <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="125.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="green_student" visible="false" />
+                  <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="150.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="green_student" visible="false" />
+                  <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="175.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="green_student" visible="false" />
+                  <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="200.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="green_student" visible="false" />
+                  <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="225.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="green_student" visible="false" />
+                  <Circle fx:id="greenCircle" fill="WHITE" layoutX="12.0" layoutY="14.0" onMouseClicked="#sendMessage" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
+                     <stroke>
+                        <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="1.0" green="0.6913705468177795" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="0.8666666746139526" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </RadialGradient>
+                     </stroke>
+                  </Circle>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="redStudents" layoutX="96.5" layoutY="63.0" prefHeight="27.0" prefWidth="250.0">
+               <children>
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="red_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="25.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="red_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="50.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="red_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="75.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="red_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="100.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="red_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="125.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="red_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="150.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="red_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="175.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="red_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="200.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="red_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="225.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="red_student" visible="false" />
+                  <Circle fx:id="redCircle" fill="WHITE" layoutX="12.0" layoutY="15.0" onMouseClicked="#sendMessage" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
+                     <stroke>
+                        <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="1.0" green="0.6913705468177795" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="0.8666666746139526" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </RadialGradient>
+                     </stroke>
+                  </Circle>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="yellowStudents" layoutX="96.5" layoutY="100.0" prefHeight="27.0" prefWidth="250.0">
+               <children>
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="1.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="yellow_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="25.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="yellow_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="50.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="yellow_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="75.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="yellow_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="100.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="yellow_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="125.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="yellow_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="150.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="yellow_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="175.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="yellow_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="200.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="yellow_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="225.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="yellow_student" visible="false" />
+                  <Circle fx:id="yellowCircle" fill="WHITE" layoutX="12.0" layoutY="14.0" onMouseClicked="#sendMessage" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
+                     <stroke>
+                        <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="1.0" green="0.6913705468177795" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="0.8666666746139526" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </RadialGradient>
+                     </stroke>
+                  </Circle>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="pinkStudents" layoutX="96.5" layoutY="137.0" prefHeight="27.0" prefWidth="250.0">
+               <children>
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="pink_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="25.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="pink_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="50.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="pink_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="75.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="pink_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="100.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="pink_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="125.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="pink_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="150.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="pink_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="175.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="pink_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="200.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="pink_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="225.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="pink_student" visible="false" />
+                  <Circle fx:id="pinkCircle" fill="WHITE" layoutX="12.0" layoutY="14.0" onMouseClicked="#sendMessage" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
+                     <stroke>
+                        <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="1.0" green="0.6913705468177795" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="0.8666666746139526" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </RadialGradient>
+                     </stroke>
+                  </Circle>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="blueStudents" layoutX="96.5" layoutY="173.5" prefHeight="27.0" prefWidth="250.0">
+               <children>
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="blue_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="25.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="blue_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="50.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="blue_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="75.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="blue_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="100.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="blue_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="125.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="blue_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="150.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="blue_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="175.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="blue_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="200.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="blue_student" visible="false" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="225.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="blue_student" visible="false" />
+                  <Circle fx:id="blueCircle" fill="WHITE" layoutX="12.0" layoutY="14.0" onMouseClicked="#sendMessage" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
+                     <stroke>
+                        <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="1.0" green="0.6913705468177795" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="0.8666666746139526" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </RadialGradient>
+                     </stroke>
+                  </Circle>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="professors" layoutX="369.0" layoutY="26.0" prefHeight="174.0" prefWidth="26.0">
+               <children>
+                  <ImageView fitHeight="23.5" fitWidth="23.5" layoutX="0.8" layoutY="1.5" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/teacher_green.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="23.5" fitWidth="23.5" layoutX="0.8" layoutY="38.5" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/teacher_red.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="23.5" fitWidth="23.5" layoutX="0.8" layoutY="75.5" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/teacher_yellow.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="23.5" fitWidth="23.5" layoutX="0.8" layoutY="112.5" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/teacher_pink.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="23.5" fitWidth="23.5" layoutX="0.8" layoutY="149.8" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/teacher_blue.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="towers" layoutX="426.0" layoutY="44.0" prefHeight="150.0" prefWidth="66.0">
+               <children>
+                  <ImageView fitHeight="27.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="27.0" fitWidth="27.0" layoutX="39.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="27.0" fitWidth="27.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="27.0" fitWidth="27.0" layoutX="39.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="27.0" fitWidth="27.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="27.0" fitWidth="27.0" layoutX="39.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="27.0" fitWidth="27.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="27.0" fitWidth="27.0" layoutX="39.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
-      <Label layoutX="19.0" layoutY="411.0" text="Current Player Name" textAlignment="CENTER">
+      <Label fx:id="nickname" alignment="CENTER" layoutX="37.0" layoutY="411.0" prefHeight="27.0" prefWidth="180.0" style="-fx-background-color: gold;" text="Current Player Name" textAlignment="CENTER">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="75.0" layoutY="437.0" text="Action to do" />
-      <ImageView fx:id="chosenAssistantCard" fitHeight="174.0" fitWidth="137.0" layoutX="49.0" layoutY="460.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="assistantCard" fitHeight="174.0" fitWidth="137.0" layoutX="69.0" layoutY="449.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../graphics/assistantCards/Assistente1.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="186.0" fitWidth="137.0" layoutX="40.0" layoutY="456.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="186.0" fitWidth="137.0" layoutX="61.0" layoutY="444.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../graphics/gold_frame.png" />
          </image>
       </ImageView>
+      <Button fx:id="right" layoutX="741.0" layoutY="500.0" mnemonicParsing="false" onAction="#changeSchool" prefHeight="50.0" prefWidth="38.0" styleClass="button_right" />
+      <Button fx:id="left" layoutX="14.0" layoutY="500.0" mnemonicParsing="false" onAction="#changeSchool" prefHeight="50.0" prefWidth="30.0" styleClass="button_left" />
+      <AnchorPane layoutX="779.0" layoutY="414.0" prefHeight="227.0" prefWidth="200.0">
+         <children>
+            <TextArea fx:id="infoText" editable="false" prefHeight="150.0" prefWidth="180.0" wrapText="true">
+               <font>
+                  <Font name="System Bold Italic" size="15.0" />
+               </font>
+            </TextArea>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

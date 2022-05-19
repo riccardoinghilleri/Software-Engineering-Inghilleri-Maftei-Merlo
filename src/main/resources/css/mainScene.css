@@ -1,0 +1,26 @@
+.green_student{
+    -fx-image:url("../graphics/pieces/student_green.png");
+}
+.red_student{
+    -fx-image:url("../graphics/pieces/student_red.png");
+}
+.yellow_student{
+    -fx-image:url("../graphics/pieces/student_yellow.png");
+}
+.pink_student{
+    -fx-image:url("../graphics/pieces/student_pink.png");
+}
+.blue_student{
+    -fx-image:url("../graphics/pieces/student_blue.png");
+}
+
+.button_right {
+    -fx-background-color:transparent;
+    -fx-background-image: url("../graphics/btn/right_arrow.png");
+    -fx-background-size: stretch;
+}
+.button_left {
+    -fx-background-color:transparent;
+    -fx-background-image: url("../graphics/btn/left_arrow.png");
+    -fx-background-size: stretch;
+}

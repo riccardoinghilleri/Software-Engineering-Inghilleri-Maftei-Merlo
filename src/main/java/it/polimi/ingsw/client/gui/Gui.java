@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.ClientConnection;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.gui.controllers.*;
 
+import it.polimi.ingsw.enums.Action;
 import it.polimi.ingsw.server.ConnectionMessage.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -101,6 +102,7 @@ public class Gui extends Application implements View {
 
     @Override
     public void askAction(AskActionMessage message) {
+        MainSceneController mainSceneController= (MainSceneController) getControllerByFxmlName("mainScene.fxml");
         switch(message.getAction()){
             case CHOOSE_ASSISTANT_CARD:
                 Platform.runLater(() -> {
@@ -125,16 +127,30 @@ public class Gui extends Application implements View {
             case USE_CHARACTER_CARD:
                 break;
             case DEFAULT_MOVEMENTS:
+                mainSceneController.setInfoText("CHOOSE THE ENTRANCE STUDENT: ");
+                mainSceneController.setCurrentClientId(message.getSchool().getOwner().getClientID());
+                mainSceneController.setAction(Action.DEFAULT_MOVEMENTS);
                 break;
             case MOVE_MOTHER_NATURE:
+                mainSceneController.setInfoText("MOVE MOTHER NATURE: ");
+                mainSceneController.setAction(Action.MOVE_MOTHER_NATURE);
                 break;
             case CHOOSE_CLOUD:
+                mainSceneController.setInfoText("CHOOSE CLOUD:  ");
                 break;
         }
     }
 
     @Override
     public void displayInfo(InfoMessage message) {
+        Platform.runLater(() -> {
+            if(getControllerByScene(currentScene) instanceof WaitingController)
+                ((WaitingController)getControllerByScene(currentScene)).setInfoText(message.getString());
+            else if (getControllerByScene(currentScene) instanceof MainSceneController)
+                ((MainSceneController)getControllerByScene(currentScene)).setInfoText(message.getString());
+        });
+
+
     }
 
     @Override
@@ -169,9 +185,9 @@ public class Gui extends Application implements View {
                 changeScene("mainScene.fxml");
             MainSceneController controller = (MainSceneController) getControllerByScene(currentScene);
             //controller.update(message);
+            controller.setSchool(message.getBoard().getSchools());
         });
     }
-
     @Override
     public void setupConnection() {
 

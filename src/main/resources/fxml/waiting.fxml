@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,5 +16,6 @@
       </ImageView>
       <ProgressBar accessibleRole="DATE_PICKER" layoutX="121.0" layoutY="347.0" prefHeight="27.0" prefWidth="358.0" styleClass="progress_bar" />
       <Label alignment="CENTER" layoutX="218.0" layoutY="185.0" styleClass="waiting_label" text="WAITING . . ." />
+      <TextArea fx:id="infoText" layoutX="118.0" layoutY="230.0" prefHeight="107.0" prefWidth="358.0" />
    </children>
 </AnchorPane>

@@ -103,19 +103,29 @@
                         <Image url="@../graphics/island1broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="55.0" layoutY="-3.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="30.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/noEntryTile.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" disable="true" layoutX="100.0" layoutY="100.0" text="x3" textFill="WHITE" visible="false">
+                  <Label alignment="CENTER" layoutX="100.0" layoutY="100.0" text="x3" textFill="WHITE" visible="false">
                      <font>
                         <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="35.0" fitWidth="30.0" layoutX="65.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/white_tower.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="94.0" layoutY="8.0" text="x1" visible="false">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                </children>
@@ -207,19 +217,29 @@
                         <Image url="@../graphics/island2broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="52.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="36.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/noEntryTile.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" disable="true" layoutX="101.0" layoutY="100.0" text="x2" textFill="WHITE" visible="false">
+                  <Label alignment="CENTER" layoutX="101.0" layoutY="100.0" text="x2" textFill="WHITE" visible="false">
                      <font>
                         <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="35.0" fitWidth="30.0" layoutX="67.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/white_tower.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="96.0" layoutY="8.0" text="x1" visible="false">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                </children>
@@ -311,19 +331,29 @@
                         <Image url="@../graphics/island3broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="49.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="35.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/noEntryTile.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" disable="true" layoutX="101.0" layoutY="99.0" text="x2" textFill="WHITE" visible="false">
+                  <Label alignment="CENTER" layoutX="101.0" layoutY="99.0" text="x2" textFill="WHITE" visible="false">
                      <font>
                         <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="35.0" fitWidth="30.0" layoutX="67.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/white_tower.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="96.0" layoutY="8.0" text="x1" visible="false">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                </children>
@@ -415,19 +445,25 @@
                         <Image url="@../graphics/island1broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="55.0" layoutY="-3.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="30.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/noEntryTile.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" disable="true" layoutX="100.0" layoutY="100.0" text="x3" textFill="WHITE" visible="false">
+                  <Label alignment="CENTER" layoutX="100.0" layoutY="100.0" text="x3" textFill="WHITE" visible="false">
                      <font>
                         <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="35.0" fitWidth="30.0" layoutX="65.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+                  <Label layoutX="94.0" layoutY="8.0" text="x1" visible="false">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                </children>
@@ -519,19 +555,29 @@
                         <Image url="@../graphics/island2broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="52.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="36.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/noEntryTile.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" disable="true" layoutX="101.0" layoutY="100.0" text="x2" textFill="WHITE" visible="false">
+                  <Label alignment="CENTER" layoutX="101.0" layoutY="100.0" text="x2" textFill="WHITE" visible="false">
                      <font>
                         <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="35.0" fitWidth="30.0" layoutX="67.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/white_tower.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="96.0" layoutY="8.0" text="x1" visible="false">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                </children>
@@ -623,19 +669,29 @@
                         <Image url="@../graphics/island3broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="49.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="35.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/noEntryTile.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" disable="true" layoutX="101.0" layoutY="99.0" text="x2" textFill="WHITE" visible="false">
+                  <Label alignment="CENTER" layoutX="101.0" layoutY="99.0" text="x2" textFill="WHITE" visible="false">
                      <font>
                         <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="35.0" fitWidth="30.0" layoutX="67.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/white_tower.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="96.0" layoutY="8.0" text="x1" visible="false">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                </children>
@@ -727,19 +783,25 @@
                         <Image url="@../graphics/island1broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="55.0" layoutY="-3.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="30.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/noEntryTile.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" disable="true" layoutX="100.0" layoutY="100.0" text="x3" textFill="WHITE" visible="false">
+                  <Label alignment="CENTER" layoutX="100.0" layoutY="100.0" text="x3" textFill="WHITE" visible="false">
                      <font>
                         <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="35.0" fitWidth="30.0" layoutX="65.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+                  <Label layoutX="94.0" layoutY="9.0" text="x1" visible="false">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                </children>
@@ -831,19 +893,29 @@
                         <Image url="@../graphics/island2broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="52.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="36.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/noEntryTile.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" disable="true" layoutX="101.0" layoutY="100.0" text="x2" textFill="WHITE" visible="false">
+                  <Label alignment="CENTER" layoutX="101.0" layoutY="100.0" text="x2" textFill="WHITE" visible="false">
                      <font>
                         <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="35.0" fitWidth="30.0" layoutX="67.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/white_tower.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="96.0" layoutY="8.0" text="x1" visible="false">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                </children>
@@ -935,19 +1007,29 @@
                         <Image url="@../graphics/island3broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="49.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="35.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/noEntryTile.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" disable="true" layoutX="101.0" layoutY="99.0" text="x2" textFill="WHITE" visible="false">
+                  <Label alignment="CENTER" layoutX="101.0" layoutY="99.0" text="x2" textFill="WHITE" visible="false">
                      <font>
                         <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="35.0" fitWidth="30.0" layoutX="67.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/white_tower.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="96.0" layoutY="8.0" text="x1" visible="false">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                </children>
@@ -1039,19 +1121,25 @@
                         <Image url="@../graphics/island1broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="55.0" layoutY="-3.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="30.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/noEntryTile.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" disable="true" layoutX="100.0" layoutY="100.0" text="x3" textFill="WHITE" visible="false">
+                  <Label alignment="CENTER" layoutX="100.0" layoutY="100.0" text="x3" textFill="WHITE" visible="false">
                      <font>
                         <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="35.0" fitWidth="30.0" layoutX="65.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+                  <Label layoutX="94.0" layoutY="9.0" text="x1" visible="false">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                </children>
@@ -1143,19 +1231,29 @@
                         <Image url="@../graphics/island2broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="52.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="36.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/noEntryTile.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" disable="true" layoutX="101.0" layoutY="100.0" text="x2" textFill="WHITE" visible="false">
+                  <Label alignment="CENTER" layoutX="101.0" layoutY="100.0" text="x2" textFill="WHITE" visible="false">
                      <font>
                         <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="35.0" fitWidth="30.0" layoutX="67.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/white_tower.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="96.0" layoutY="8.0" text="x1" visible="false">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                </children>
@@ -1247,19 +1345,29 @@
                         <Image url="@../graphics/island3broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="49.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="35.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
                   </ImageView>
-                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/noEntryTile.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" disable="true" layoutX="101.0" layoutY="99.0" text="x2" textFill="WHITE" visible="false">
+                  <Label alignment="CENTER" layoutX="101.0" layoutY="99.0" text="x2" textFill="WHITE" visible="false">
                      <font>
                         <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="35.0" fitWidth="30.0" layoutX="67.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/white_tower.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="96.0" layoutY="8.0" text="x1" visible="false">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                </children>
@@ -1680,7 +1788,7 @@
       </AnchorPane>
       <AnchorPane fx:id="cloudsPane" layoutX="137.0" layoutY="137.0" prefHeight="137.0" prefWidth="685.0">
          <children>
-            <AnchorPane disable="true" onMouseClicked="#chooseCloud" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="107.0" prefWidth="107.0" visible="false" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
+            <AnchorPane prefHeight="107.0" prefWidth="107.0" visible="false" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
                <children>
                   <ImageView fitHeight="107.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -1691,9 +1799,14 @@
                   <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="55.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="55.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView disable="true" fitHeight="107.0" fitWidth="107.0" onMouseClicked="#chooseCloud" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/cloudbroke.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane disable="true" layoutX="152.0" layoutY="15.0" onMouseClicked="#chooseCloud" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="107.0" prefWidth="107.0" visible="false">
+            <AnchorPane layoutX="152.0" layoutY="15.0" prefHeight="107.0" prefWidth="107.0" visible="false">
                <children>
                   <ImageView fitHeight="107.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -1704,9 +1817,14 @@
                   <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="55.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="55.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView disable="true" fitHeight="107.0" fitWidth="107.0" onMouseClicked="#chooseCloud" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/cloudbroke.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane disable="true" layoutX="289.0" layoutY="15.0" onMouseClicked="#chooseCloud" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="107.0" prefWidth="107.0" visible="false">
+            <AnchorPane layoutX="289.0" layoutY="15.0" prefHeight="107.0" prefWidth="107.0" visible="false">
                <children>
                   <ImageView fitHeight="107.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -1717,9 +1835,14 @@
                   <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="55.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="55.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView disable="true" fitHeight="107.0" fitWidth="107.0" onMouseClicked="#chooseCloud" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/cloudbroke.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane disable="true" layoutX="426.0" layoutY="15.0" onMouseClicked="#chooseCloud" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="107.0" prefWidth="107.0" visible="false">
+            <AnchorPane layoutX="426.0" layoutY="15.0" prefHeight="107.0" prefWidth="107.0" visible="false">
                <children>
                   <ImageView fitHeight="107.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -1730,9 +1853,14 @@
                   <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="55.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="55.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView disable="true" fitHeight="107.0" fitWidth="107.0" onMouseClicked="#chooseCloud" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/cloudbroke.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane disable="true" layoutX="563.0" layoutY="15.0" onMouseClicked="#chooseCloud" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="107.0" prefWidth="107.0" visible="false">
+            <AnchorPane layoutX="563.0" layoutY="15.0" prefHeight="107.0" prefWidth="107.0" visible="false">
                <children>
                   <ImageView fitHeight="107.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -1743,6 +1871,11 @@
                   <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="55.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="55.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView disable="true" fitHeight="107.0" fitWidth="107.0" onMouseClicked="#chooseCloud" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/cloudbroke.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
          </children>

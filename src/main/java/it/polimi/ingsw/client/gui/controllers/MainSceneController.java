@@ -121,10 +121,10 @@ public class MainSceneController implements GuiController {
     public void select(MouseEvent event) {
         if (event.getSource() instanceof Circle) {
             ((Circle) event.getSource()).setStroke(Color.BLACK);
-        } else if(((ImageView)event.getSource()).getId().split("_")[1].equalsIgnoreCase("island")){
-            ((ImageView)event.getSource()).setEffect(new Glow(1.0));
-        }
-        else {
+        } else if (((ImageView) event.getSource()).getId().split("_")[1].equalsIgnoreCase("island")
+                || ((ImageView) event.getSource()).getId().split("_")[1].equalsIgnoreCase("cloud")) {
+            ((ImageView) event.getSource()).setEffect(new Glow(1.0));
+        } else {
             int id = Integer.parseInt(((ImageView) event.getSource()).getId().split("_")[0]) - 9;
             ((Circle) entrance.getChildren().get(id)).setStroke(Color.BLACK);
         }
@@ -134,10 +134,10 @@ public class MainSceneController implements GuiController {
     public void unselect(MouseEvent event) {
         if (event.getSource() instanceof Circle) {
             ((Circle) event.getSource()).setStroke(Color.rgb(255, 223, 0));
-        }else if(((ImageView)event.getSource()).getId().split("_")[1].equalsIgnoreCase("island")){
-            ((ImageView)event.getSource()).setEffect(null);
-        }
-        else {
+        } else if (((ImageView) event.getSource()).getId().split("_")[1].equalsIgnoreCase("island")
+                || ((ImageView) event.getSource()).getId().split("_")[1].equalsIgnoreCase("cloud")) {
+            ((ImageView) event.getSource()).setEffect(null);
+        } else {
             int id = Integer.parseInt(((ImageView) event.getSource()).getId().split("_")[0]) - 9;
             ((Circle) entrance.getChildren().get(id)).setStroke(Color.rgb(255, 223, 0));
         }
@@ -152,6 +152,7 @@ public class MainSceneController implements GuiController {
         if (message.getAction() == Action.DEFAULT_MOVEMENTS) {
             message.getParameters().clear();
             glowDiningroom(studentColor, true);
+            enableAllIslandsBroke();
         }
         message.setParameter(studentColor.toUpperCase());
     }
@@ -213,35 +214,31 @@ public class MainSceneController implements GuiController {
                 case 2:
                     //cloudsPane.getChildren().get(1).setDisable(false);
                     cloudsPane.getChildren().get(1).setVisible(true);
-                    cloudsPane.getChildren().get(1).setId("0");
+                    ((AnchorPane) cloudsPane.getChildren().get(1)).getChildren().get(5).setId("0_cloud");
                     //cloudsPane.getChildren().get(3).setDisable(false);
                     cloudsPane.getChildren().get(3).setVisible(true);
-                    cloudsPane.getChildren().get(1).setId("1");
+                    ((AnchorPane) cloudsPane.getChildren().get(3)).getChildren().get(5).setId("1_cloud");
                     break;
                 case 3:
                     //cloudsPane.getChildren().get(0).setDisable(false);
                     cloudsPane.getChildren().get(0).setVisible(true);
-                    cloudsPane.getChildren().get(1).setId("0");
+                    ((AnchorPane) cloudsPane.getChildren().get(0)).getChildren().get(5).setId("0_cloud");
                     //cloudsPane.getChildren().get(2).setDisable(false);
                     cloudsPane.getChildren().get(2).setVisible(true);
-                    cloudsPane.getChildren().get(1).setId("1");
+                    ((AnchorPane) cloudsPane.getChildren().get(2)).getChildren().get(5).setId("1_cloud");
                     //cloudsPane.getChildren().get(4).setDisable(false);
                     cloudsPane.getChildren().get(4).setVisible(true);
-                    cloudsPane.getChildren().get(1).setId("2");
+                    ((AnchorPane) cloudsPane.getChildren().get(4)).getChildren().get(5).setId("2_cloud");
                     break;
                 case 4:
-                    //cloudsPane.getChildren().get(0).setDisable(false);
                     cloudsPane.getChildren().get(0).setVisible(true);
-                    cloudsPane.getChildren().get(1).setId("0");
-                    //cloudsPane.getChildren().get(1).setDisable(false);
+                    ((AnchorPane) cloudsPane.getChildren().get(0)).getChildren().get(5).setId("0_cloud");
                     cloudsPane.getChildren().get(1).setVisible(true);
-                    cloudsPane.getChildren().get(1).setId("1");
-                    //cloudsPane.getChildren().get(3).setDisable(false);
+                    ((AnchorPane) cloudsPane.getChildren().get(1)).getChildren().get(5).setId("1_cloud");
                     cloudsPane.getChildren().get(3).setVisible(true);
-                    cloudsPane.getChildren().get(1).setId("2");
-                    //cloudsPane.getChildren().get(4).setDisable(false);
+                    ((AnchorPane) cloudsPane.getChildren().get(3)).getChildren().get(5).setId("2_cloud");
                     cloudsPane.getChildren().get(4).setVisible(true);
-                    cloudsPane.getChildren().get(1).setId("3");
+                    ((AnchorPane) cloudsPane.getChildren().get(4)).getChildren().get(5).setId("3_cloud");
                     break;
             }
             firstTime = false;
@@ -270,7 +267,7 @@ public class MainSceneController implements GuiController {
         for (i = 0; i < message.getBoard().getIslands().size(); i++) {
             j = 1;
             shape = (AnchorPane) islandsPane.getChildren().get(i);
-            shape.getChildren().get(6).setId((i+1)+"_island"); //a ogni broke setto l'indice dell'isola (uso i+1 come la cli)
+            shape.getChildren().get(6).setId((i + 1) + "_island"); //a ogni broke setto l'indice dell'isola (uso i+1 come la cli)
             if (message.getBoard().getIslands().get(i).hasMotherNature()) {
                 shape.getChildren().get(7).setVisible(true);
             } else {
@@ -279,6 +276,16 @@ public class MainSceneController implements GuiController {
             if (message.getBoard().getIslands().get(i).hasNoEntryTile()) {
                 ((Label) shape.getChildren().get(9)).setText("x1"); //TODO fare il caso con più NoEntryTile
                 shape.getChildren().get(8).setVisible(true);
+            }
+            if(!message.getBoard().getIslands().get(i).getTowers().isEmpty()){
+                ((ImageView)shape.getChildren().get(10))
+                        .setImage(new Image(Objects.requireNonNull(getClass()
+                                .getResourceAsStream(message.getBoard().getIslands()
+                                        .get(i).getColorTower().toString().toLowerCase() + "_tower.png"))));
+                shape.getChildren().get(10).setVisible(true);
+                ((Label)shape.getChildren().get(11)).setText("x"+message.getBoard()
+                        .getIslands().get(i).getTowers().size());
+                shape.getChildren().get(11).setVisible(true);
             }
             for (CharacterColor color : message.getBoard().getIslands().get(i).getStudents().keySet()) {
                 if (!message.getBoard().getIslands().get(i).getStudents().get(color).isEmpty()) {
@@ -295,28 +302,18 @@ public class MainSceneController implements GuiController {
         }
     }
 
-    //TODO quando si devono muovere gli studenti dalle isole si deve abilitare l'immagine (ImageView) degli studenti.
-
     public void chooseCloud(MouseEvent event) {
-        AnchorPane chosenCloud = (AnchorPane) event.getSource();
-        ActionMessage answer = new ActionMessage();
-        answer.setData(Integer.parseInt(chosenCloud.getId()));
-        emptyCloud(chosenCloud);
+        int index = Integer.parseInt(((ImageView) event.getSource()).getId().split("_")[0]);
+        message.setData(index);
         disableClouds();
-        gui.getConnection().send(answer);
+        gui.getConnection().send(message);
     }
 
     public void setIsland(MouseEvent event) {
-        int index = Integer.parseInt(((ImageView) event.getSource()).getId());
+        int index = Integer.parseInt(((ImageView) event.getSource()).getId().split("_")[0]);
         disableAllIslandsBroke();
-        ActionMessage answer = new ActionMessage();
-        if (phase == Action.MOVE_MOTHER_NATURE) {
-            answer.setData(index);
-            answer.setAction(Action.MOVE_MOTHER_NATURE);
-        } else if (phase == Action.DEFAULT_MOVEMENTS) {
-            //TODO da fare il movimento di una studente su un'isola
-        }
-        gui.getConnection().send(answer);
+        message.setData(index - 1);
+        gui.getConnection().send(message);
     }
 
     public void enableAllIslandsBroke() {
@@ -334,12 +331,11 @@ public class MainSceneController implements GuiController {
     }
 
     public void enableIslandsBroke(int motherNatureSteps) {
-        phase=Action.MOVE_MOTHER_NATURE;
         int motherNatureIndex = -1;
         for (Node node : islandsPane.getChildren()) {
             AnchorPane island = (AnchorPane) node;
             if (island.getChildren().get(7).isVisible()) {
-                motherNatureIndex = Integer.parseInt(island.getChildren().get(6).getId());
+                motherNatureIndex = Integer.parseInt(island.getChildren().get(6).getId().split("_")[0]);
                 break;
             }
         }
@@ -354,32 +350,34 @@ public class MainSceneController implements GuiController {
     public void enableClouds(AskActionMessage message) {
         for (int i = 0; i < message.getClouds().length; i++) {
             if (!(message.getClouds())[i].getStudents().isEmpty()) {
-                Objects.requireNonNull(getCloudById(i)).setDisable(false);
+                AnchorPane cloud = getCloudById(i);
+                cloud.getChildren().get(5).setDisable(false);
             }
         }
     }
 
     public void disableClouds() {
         for (Node node : cloudsPane.getChildren()) {
-            node.setDisable(true);
+            ((AnchorPane)node).getChildren().get(5).setDisable(true);
         }
     }
 
     private AnchorPane getCloudById(int index) {
         for (Node cloud : cloudsPane.getChildren()) {
-            if (cloud.isVisible() && Integer.parseInt(cloud.getId()) == index) {
+            ImageView broke = (ImageView) ((AnchorPane) cloud).getChildren().get(5);
+            if (cloud.isVisible() && Integer.parseInt(broke.getId().split("_")[0]) == index) {
                 return (AnchorPane) cloud;
             }
         }
         return null;
     }
-
+    /*
     private void emptyCloud(AnchorPane cloud) {
         for (int i = 1; i < cloud.getChildren().size(); i++) {
             ((ImageView) cloud.getChildren().get(i)).setImage(null);
         }
 
-    }
+    }*/
 
     @Override
     public void setGui(Gui gui) {

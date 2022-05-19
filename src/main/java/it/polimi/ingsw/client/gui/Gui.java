@@ -144,16 +144,14 @@ public class Gui extends Application implements View {
                 mainSceneController.setInfoText("MOVE MOTHER NATURE: ");
                 mainSceneController.setAction(Action.MOVE_MOTHER_NATURE);
                 Platform.runLater(() -> {
-                    MainSceneController controller = (MainSceneController) getControllerByFxmlName("mainScene.fxml");
-                    controller.enableIslandsBroke(message.getData());
+                    mainSceneController.enableIslandsBroke(message.getData());
                 });
                 break;
             case CHOOSE_CLOUD:
-                mainSceneController.setInfoText("CHOOSE CLOUD:  ");
+                mainSceneController.setInfoText("CHOOSE A CLOUD:  ");
+                mainSceneController.setAction(Action.CHOOSE_CLOUD);
                 Platform.runLater(() -> {
-                    MainSceneController controller = (MainSceneController) getControllerByFxmlName("mainScene.fxml");
-                    controller.enableClouds(message);
-                    //TODO bisogna settare un label dicendo di scegliere una nuvola
+                    mainSceneController.enableClouds(message);
                 });
                 break;
         }

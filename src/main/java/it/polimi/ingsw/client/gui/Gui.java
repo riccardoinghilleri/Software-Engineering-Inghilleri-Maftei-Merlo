@@ -28,6 +28,7 @@ public class Gui extends Application implements View {
     private final HashMap<String, Scene> scenes = new HashMap<>(); //TODO forse è meglio avere un costruttore?
     private final HashMap<String, GuiController> controllers = new HashMap<>(); //TODO forse è meglio avere un costruttore?
 
+    private Integer playersNumber=2;
     private String address;
     private int port;
 
@@ -44,6 +45,14 @@ public class Gui extends Application implements View {
     public void setConnection(ClientConnection connection) {
         if (this.connection == null)
             this.connection = connection;
+    }
+
+    public Integer getPlayersNumber() {
+        return playersNumber;
+    }
+
+    public void setPlayersNumber(Integer playersNumber) {
+        this.playersNumber = playersNumber;
     }
 
     public GuiController getControllerByFxmlName(String name) {
@@ -134,9 +143,18 @@ public class Gui extends Application implements View {
             case MOVE_MOTHER_NATURE:
                 mainSceneController.setInfoText("MOVE MOTHER NATURE: ");
                 mainSceneController.setAction(Action.MOVE_MOTHER_NATURE);
+                Platform.runLater(() -> {
+                    MainSceneController controller = (MainSceneController) getControllerByFxmlName("mainScene.fxml");
+                    controller.enableIslandsBroke(message.getData());
+                });
                 break;
             case CHOOSE_CLOUD:
                 mainSceneController.setInfoText("CHOOSE CLOUD:  ");
+                Platform.runLater(() -> {
+                    MainSceneController controller = (MainSceneController) getControllerByFxmlName("mainScene.fxml");
+                    controller.enableClouds(message);
+                    //TODO bisogna settare un label dicendo di scegliere una nuvola
+                });
                 break;
         }
     }
@@ -184,10 +202,11 @@ public class Gui extends Application implements View {
             if(getControllerByScene(currentScene) instanceof WaitingController)
                 changeScene("mainScene.fxml");
             MainSceneController controller = (MainSceneController) getControllerByScene(currentScene);
-            //controller.update(message);
+            controller.update(message);
             controller.setSchool(message.getBoard().getSchools());
         });
     }
+
     @Override
     public void setupConnection() {
 

@@ -28,7 +28,6 @@ import java.util.regex.Pattern;
 public class SettingsController implements Initializable, GuiController {
 
     private Gui gui;
-    private Integer myChoicePlayersNumber = 2;
     private boolean expertMode;
     @FXML
     private TextField address;
@@ -67,7 +66,7 @@ public class SettingsController implements Initializable, GuiController {
                 gui.setConnection(new ClientConnection(gui));
                 Thread t = new Thread(gui.getConnection());
                 t.start();
-                gui.getConnection().send(new SettingsMessage(this.myChoicePlayersNumber, this.expertMode));
+                gui.getConnection().send(new SettingsMessage(gui.getPlayersNumber(), this.expertMode));
                 gui.changeScene("waiting.fxml");
             } catch (IOException e) {
                 //e.printStackTrace();
@@ -81,7 +80,7 @@ public class SettingsController implements Initializable, GuiController {
     }
 
     public void getPlayersNumberChoice(ActionEvent event) {
-        myChoicePlayersNumber = playersNumber.getValue();
+        gui.setPlayersNumber(playersNumber.getValue());
     }
 
     public void getGameMode(ActionEvent event) {

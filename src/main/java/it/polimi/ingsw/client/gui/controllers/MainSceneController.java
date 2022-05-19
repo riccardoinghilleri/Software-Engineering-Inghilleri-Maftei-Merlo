@@ -4,16 +4,21 @@ import it.polimi.ingsw.client.gui.Gui;
 import it.polimi.ingsw.enums.Action;
 import it.polimi.ingsw.enums.CharacterColor;
 import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
+import it.polimi.ingsw.server.ConnectionMessage.AskActionMessage;
+import it.polimi.ingsw.server.ConnectionMessage.UpdateBoard;
+import it.polimi.ingsw.server.model.Cloud;
+import it.polimi.ingsw.server.model.Student;
 import it.polimi.ingsw.server.model.School;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -23,9 +28,11 @@ import java.util.Objects;
 public class MainSceneController implements GuiController {
 
     private Gui gui;
+    public boolean firstTime = true;
+    private Action phase;
 
     @FXML
-    private AnchorPane schoolPane;
+    private AnchorPane schoolPane, cloudsPane, islandsPane;
     @FXML
     Label nickname;
 
@@ -77,6 +84,7 @@ public class MainSceneController implements GuiController {
         }
     }
 
+
     public void glowDiningroom(String color, boolean visible) {
         int size = -1;
         if (displayedSchool == currentClientId) {
@@ -113,7 +121,10 @@ public class MainSceneController implements GuiController {
     public void select(MouseEvent event) {
         if (event.getSource() instanceof Circle) {
             ((Circle) event.getSource()).setStroke(Color.BLACK);
-        } else {
+        } else if(((ImageView)event.getSource()).getId().split("_")[1].equalsIgnoreCase("island")){
+            ((ImageView)event.getSource()).setEffect(new Glow(1.0));
+        }
+        else {
             int id = Integer.parseInt(((ImageView) event.getSource()).getId().split("_")[0]) - 9;
             ((Circle) entrance.getChildren().get(id)).setStroke(Color.BLACK);
         }
@@ -123,7 +134,10 @@ public class MainSceneController implements GuiController {
     public void unselect(MouseEvent event) {
         if (event.getSource() instanceof Circle) {
             ((Circle) event.getSource()).setStroke(Color.rgb(255, 223, 0));
-        } else {
+        }else if(((ImageView)event.getSource()).getId().split("_")[1].equalsIgnoreCase("island")){
+            ((ImageView)event.getSource()).setEffect(null);
+        }
+        else {
             int id = Integer.parseInt(((ImageView) event.getSource()).getId().split("_")[0]) - 9;
             ((Circle) entrance.getChildren().get(id)).setStroke(Color.rgb(255, 223, 0));
         }
@@ -140,7 +154,6 @@ public class MainSceneController implements GuiController {
             glowDiningroom(studentColor, true);
         }
         message.setParameter(studentColor.toUpperCase());
-
     }
 
     public void changeSchool(ActionEvent event) {
@@ -190,6 +203,180 @@ public class MainSceneController implements GuiController {
         } else {
             schoolPane.setDisable(false);
             glowEntrance(true);
+        }
+
+    }
+
+    public void update(UpdateBoard message) {
+        if (firstTime) {
+            switch (gui.getPlayersNumber()) {
+                case 2:
+                    //cloudsPane.getChildren().get(1).setDisable(false);
+                    cloudsPane.getChildren().get(1).setVisible(true);
+                    cloudsPane.getChildren().get(1).setId("0");
+                    //cloudsPane.getChildren().get(3).setDisable(false);
+                    cloudsPane.getChildren().get(3).setVisible(true);
+                    cloudsPane.getChildren().get(1).setId("1");
+                    break;
+                case 3:
+                    //cloudsPane.getChildren().get(0).setDisable(false);
+                    cloudsPane.getChildren().get(0).setVisible(true);
+                    cloudsPane.getChildren().get(1).setId("0");
+                    //cloudsPane.getChildren().get(2).setDisable(false);
+                    cloudsPane.getChildren().get(2).setVisible(true);
+                    cloudsPane.getChildren().get(1).setId("1");
+                    //cloudsPane.getChildren().get(4).setDisable(false);
+                    cloudsPane.getChildren().get(4).setVisible(true);
+                    cloudsPane.getChildren().get(1).setId("2");
+                    break;
+                case 4:
+                    //cloudsPane.getChildren().get(0).setDisable(false);
+                    cloudsPane.getChildren().get(0).setVisible(true);
+                    cloudsPane.getChildren().get(1).setId("0");
+                    //cloudsPane.getChildren().get(1).setDisable(false);
+                    cloudsPane.getChildren().get(1).setVisible(true);
+                    cloudsPane.getChildren().get(1).setId("1");
+                    //cloudsPane.getChildren().get(3).setDisable(false);
+                    cloudsPane.getChildren().get(3).setVisible(true);
+                    cloudsPane.getChildren().get(1).setId("2");
+                    //cloudsPane.getChildren().get(4).setDisable(false);
+                    cloudsPane.getChildren().get(4).setVisible(true);
+                    cloudsPane.getChildren().get(1).setId("3");
+                    break;
+            }
+            firstTime = false;
+        }
+        //Riempimento nuvole
+        AnchorPane shape;
+        int i = 0, j;
+        for (Cloud cloud : message.getBoard().getClouds()) {
+            j = 1;
+            while (!cloudsPane.getChildren().get(i).isVisible()) {
+                i++;
+            }
+            shape = (AnchorPane) cloudsPane.getChildren().get(i);
+            for (Student s : cloud.getStudents()) {
+                ((ImageView) shape.getChildren().get(j))
+                        .setImage(new Image(Objects.requireNonNull(getClass()
+                                .getResourceAsStream("/graphics/pieces/student_"
+                                        + s.getColor()
+                                        + ".png"))));
+                j++;
+            }
+            i++;
+        }
+        //Riempimento isole
+        AnchorPane studentsPane;
+        for (i = 0; i < message.getBoard().getIslands().size(); i++) {
+            j = 1;
+            shape = (AnchorPane) islandsPane.getChildren().get(i);
+            shape.getChildren().get(6).setId((i+1)+"_island"); //a ogni broke setto l'indice dell'isola (uso i+1 come la cli)
+            if (message.getBoard().getIslands().get(i).hasMotherNature()) {
+                shape.getChildren().get(7).setVisible(true);
+            } else {
+                shape.getChildren().get(7).setVisible(false);
+            }
+            if (message.getBoard().getIslands().get(i).hasNoEntryTile()) {
+                ((Label) shape.getChildren().get(9)).setText("x1"); //TODO fare il caso con più NoEntryTile
+                shape.getChildren().get(8).setVisible(true);
+            }
+            for (CharacterColor color : message.getBoard().getIslands().get(i).getStudents().keySet()) {
+                if (!message.getBoard().getIslands().get(i).getStudents().get(color).isEmpty()) {
+                    studentsPane = (AnchorPane) shape.getChildren().get(j);
+                    studentsPane.getChildren().get(1).setId(i + "_" + color);//setto id all'immagine dello studente
+                    Label studentsNumber = (Label) studentsPane.getChildren().get(2);
+                    studentsNumber.setText("x" + message.getBoard().getIslands()
+                            .get(i).getStudents().get(color).size());
+                    studentsPane.setDisable(false);
+                    studentsPane.setVisible(true);
+                }
+                j++;
+            }
+        }
+    }
+
+    //TODO quando si devono muovere gli studenti dalle isole si deve abilitare l'immagine (ImageView) degli studenti.
+
+    public void chooseCloud(MouseEvent event) {
+        AnchorPane chosenCloud = (AnchorPane) event.getSource();
+        ActionMessage answer = new ActionMessage();
+        answer.setData(Integer.parseInt(chosenCloud.getId()));
+        emptyCloud(chosenCloud);
+        disableClouds();
+        gui.getConnection().send(answer);
+    }
+
+    public void setIsland(MouseEvent event) {
+        int index = Integer.parseInt(((ImageView) event.getSource()).getId());
+        disableAllIslandsBroke();
+        ActionMessage answer = new ActionMessage();
+        if (phase == Action.MOVE_MOTHER_NATURE) {
+            answer.setData(index);
+            answer.setAction(Action.MOVE_MOTHER_NATURE);
+        } else if (phase == Action.DEFAULT_MOVEMENTS) {
+            //TODO da fare il movimento di una studente su un'isola
+        }
+        gui.getConnection().send(answer);
+    }
+
+    public void enableAllIslandsBroke() {
+        for (Node node : islandsPane.getChildren()) {
+            ((AnchorPane) node).getChildren().get(6).setDisable(false);
+            ((AnchorPane) node).getChildren().get(6).setVisible(true);
+        }
+    }
+
+    public void disableAllIslandsBroke() {
+        for (Node node : islandsPane.getChildren()) {
+            ((AnchorPane) node).getChildren().get(6).setDisable(true);
+            ((AnchorPane) node).getChildren().get(6).setVisible(false);
+        }
+    }
+
+    public void enableIslandsBroke(int motherNatureSteps) {
+        phase=Action.MOVE_MOTHER_NATURE;
+        int motherNatureIndex = -1;
+        for (Node node : islandsPane.getChildren()) {
+            AnchorPane island = (AnchorPane) node;
+            if (island.getChildren().get(7).isVisible()) {
+                motherNatureIndex = Integer.parseInt(island.getChildren().get(6).getId());
+                break;
+            }
+        }
+        for (int i = 0; i < motherNatureSteps; i++) {
+            AnchorPane island = (AnchorPane) islandsPane.getChildren()
+                    .get((i + motherNatureIndex) % islandsPane.getChildren().size());
+            island.getChildren().get(6).setDisable(false);
+            island.getChildren().get(6).setVisible(true);
+        }
+    }
+
+    public void enableClouds(AskActionMessage message) {
+        for (int i = 0; i < message.getClouds().length; i++) {
+            if (!(message.getClouds())[i].getStudents().isEmpty()) {
+                Objects.requireNonNull(getCloudById(i)).setDisable(false);
+            }
+        }
+    }
+
+    public void disableClouds() {
+        for (Node node : cloudsPane.getChildren()) {
+            node.setDisable(true);
+        }
+    }
+
+    private AnchorPane getCloudById(int index) {
+        for (Node cloud : cloudsPane.getChildren()) {
+            if (cloud.isVisible() && Integer.parseInt(cloud.getId()) == index) {
+                return (AnchorPane) cloud;
+            }
+        }
+        return null;
+    }
+
+    private void emptyCloud(AnchorPane cloud) {
+        for (int i = 1; i < cloud.getChildren().size(); i++) {
+            ((ImageView) cloud.getChildren().get(i)).setImage(null);
         }
 
     }

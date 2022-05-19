@@ -5,6 +5,5 @@ public enum CharacterColor {
     RED,
     YELLOW,
     PINK,
-    BLUE;
-
+    BLUE
 }

@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
@@ -18,352 +14,1259 @@
 
 <AnchorPane prefHeight="640.0" prefWidth="960.0" stylesheets="@../css/mainScene.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainSceneController">
    <children>
-      <GridPane fx:id="clouds_islands_grid" prefHeight="411.0" prefWidth="960.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="137.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="137.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="137.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="137.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="137.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="137.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="137.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="137.0" minHeight="10.0" prefHeight="137.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="137.0" minHeight="10.0" prefHeight="137.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="137.0" minHeight="10.0" prefHeight="137.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <AnchorPane fx:id="islandsPane" prefHeight="411.0" prefWidth="960.0">
          <children>
-            <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
-               <image>
-                  <Image url="@../graphics/island2.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
-               <image>
-                  <Image url="@../graphics/island3.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
-               <image>
-                  <Image url="@../graphics/island1.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
-               <image>
-                  <Image url="@../graphics/island2.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5">
-               <image>
-                  <Image url="@../graphics/island3.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
-               <image>
-                  <Image url="@../graphics/island1.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="1">
-               <image>
-                  <Image url="@../graphics/island1.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="2">
-               <image>
-                  <Image url="@../graphics/island2.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2">
-               <image>
-                  <Image url="@../graphics/island3.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
-               <image>
-                  <Image url="@../graphics/island1.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
-               <image>
-                  <Image url="@../graphics/island2.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <image>
-                  <Image url="@../graphics/island3.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="107.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="1">
-               <image>
-                  <Image url="@../graphics/cloud_card.png" />
-               </image>
-               <GridPane.margin>
-                  <Insets left="15.0" />
-               </GridPane.margin>
-            </ImageView>
-            <ImageView fitHeight="107.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1">
-               <image>
-                  <Image url="@../graphics/cloud_card.png" />
-               </image>
-               <GridPane.margin>
-                  <Insets left="15.0" />
-               </GridPane.margin>
-            </ImageView>
-            <ImageView fitHeight="107.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
-               <image>
-                  <Image url="@../graphics/cloud_card.png" />
-               </image>
-               <GridPane.margin>
-                  <Insets left="15.0" />
-               </GridPane.margin>
-            </ImageView>
-            <ImageView fitHeight="107.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
-               <image>
-                  <Image url="@../graphics/cloud_card.png" />
-               </image>
-               <GridPane.margin>
-                  <Insets left="15.0" />
-               </GridPane.margin>
-            </ImageView>
-            <ImageView fitHeight="107.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <image>
-                  <Image url="@../graphics/cloud_card.png" />
-               </image>
-               <GridPane.margin>
-                  <Insets left="15.0" />
-               </GridPane.margin>
-            </ImageView>
-            <GridPane fx:id="firstCloudGrid" maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="25.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="25.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-            </GridPane>
-            <GridPane fx:id="fifthCloudGrid" maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="0.0" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="25.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="25.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-            <GridPane fx:id="fourthCloudGrid" maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="0.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="25.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="25.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-            <GridPane fx:id="thirdCloudGrid" maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="0.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="25.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="25.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-            <GridPane fx:id="secondCloudGrid" maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="0.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="25.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="25.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-            <GridPane maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-            <GridPane maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="0.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-            <GridPane maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="0.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-            <GridPane maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="0.0" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-            <GridPane maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="0.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-            <GridPane maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="0.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-            <GridPane maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="0.0" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-            <GridPane maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="0.0" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-            <GridPane maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="0.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-            <GridPane maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="0.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-            <GridPane maxHeight="50.0" maxWidth="50.0" prefHeight="50.0" prefWidth="0.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
+            <AnchorPane layoutY="137.0" prefHeight="137.0" prefWidth="137.0">
+               <children>
+                  <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/island1.png" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="33.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_green.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="69.0" layoutY="33.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_red.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x5" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="57.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_yellow.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="69.0" layoutY="57.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_pink.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="81.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_blue.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <ImageView disable="true" fitHeight="137.0" fitWidth="137.0" onMouseClicked="#setIsland" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/island1broke.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="55.0" layoutY="-3.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/mother_nature.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/noEntryTile.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" disable="true" layoutX="100.0" layoutY="100.0" text="x3" textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="137.0" prefHeight="137.0" prefWidth="137.0">
+               <children>
+                  <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/island2.png" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane disable="true" layoutX="30.0" layoutY="31.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_green.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="71.0" layoutY="31.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_red.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x5" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="30.0" layoutY="55.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_yellow.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="71.0" layoutY="55.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_pink.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="30.0" layoutY="79.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_blue.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <ImageView disable="true" fitHeight="137.0" fitWidth="137.0" onMouseClicked="#setIsland" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/island2broke.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="52.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/mother_nature.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/noEntryTile.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" disable="true" layoutX="101.0" layoutY="100.0" text="x2" textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="274.0" prefHeight="137.0" prefWidth="137.0">
+               <children>
+                  <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/island3.png" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="33.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_green.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="69.0" layoutY="33.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_red.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x5" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="57.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_yellow.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="69.0" layoutY="57.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_pink.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="81.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_blue.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <ImageView disable="true" fitHeight="137.0" fitWidth="137.0" onMouseClicked="#setIsland" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/island3broke.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="49.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/mother_nature.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/noEntryTile.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" disable="true" layoutX="101.0" layoutY="99.0" text="x2" textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="411.0" prefHeight="137.0" prefWidth="137.0">
+               <children>
+                  <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/island1.png" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="33.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_green.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="69.0" layoutY="33.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_red.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x5" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="57.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_yellow.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="69.0" layoutY="57.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_pink.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="81.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_blue.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <ImageView disable="true" fitHeight="137.0" fitWidth="137.0" onMouseClicked="#setIsland" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/island1broke.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="55.0" layoutY="-3.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/mother_nature.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/noEntryTile.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" disable="true" layoutX="100.0" layoutY="100.0" text="x3" textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="548.0" prefHeight="137.0" prefWidth="137.0">
+               <children>
+                  <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/island2.png" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane disable="true" layoutX="30.0" layoutY="31.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_green.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="71.0" layoutY="31.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_red.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x5" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="30.0" layoutY="55.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_yellow.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="71.0" layoutY="55.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_pink.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="30.0" layoutY="79.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_blue.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <ImageView disable="true" fitHeight="137.0" fitWidth="137.0" onMouseClicked="#setIsland" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/island2broke.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="52.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/mother_nature.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/noEntryTile.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" disable="true" layoutX="101.0" layoutY="100.0" text="x2" textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="685.0" prefHeight="137.0" prefWidth="137.0">
+               <children>
+                  <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/island3.png" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="33.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_green.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="69.0" layoutY="33.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_red.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x5" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="57.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_yellow.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="69.0" layoutY="57.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_pink.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="81.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_blue.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <ImageView disable="true" fitHeight="137.0" fitWidth="137.0" onMouseClicked="#setIsland" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/island3broke.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="49.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/mother_nature.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/noEntryTile.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" disable="true" layoutX="101.0" layoutY="99.0" text="x2" textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="822.0" layoutY="137.0" prefHeight="137.0" prefWidth="137.0">
+               <children>
+                  <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/island1.png" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="33.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_green.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="69.0" layoutY="33.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_red.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x5" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="57.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_yellow.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="69.0" layoutY="57.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_pink.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="81.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_blue.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <ImageView disable="true" fitHeight="137.0" fitWidth="137.0" onMouseClicked="#setIsland" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/island1broke.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="55.0" layoutY="-3.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/mother_nature.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/noEntryTile.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" disable="true" layoutX="100.0" layoutY="100.0" text="x3" textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="685.0" layoutY="274.0" prefHeight="137.0" prefWidth="137.0">
+               <children>
+                  <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/island2.png" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane disable="true" layoutX="30.0" layoutY="31.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_green.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="71.0" layoutY="31.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_red.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x5" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="30.0" layoutY="55.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_yellow.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="71.0" layoutY="55.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_pink.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="30.0" layoutY="79.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_blue.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <ImageView disable="true" fitHeight="137.0" fitWidth="137.0" onMouseClicked="#setIsland" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/island2broke.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="52.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/mother_nature.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/noEntryTile.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" disable="true" layoutX="101.0" layoutY="100.0" text="x2" textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="548.0" layoutY="274.0" prefHeight="137.0" prefWidth="137.0">
+               <children>
+                  <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/island3.png" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="33.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_green.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="69.0" layoutY="33.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_red.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x5" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="57.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_yellow.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="69.0" layoutY="57.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_pink.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="81.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_blue.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <ImageView disable="true" fitHeight="137.0" fitWidth="137.0" onMouseClicked="#setIsland" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/island3broke.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="49.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/mother_nature.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/noEntryTile.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" disable="true" layoutX="101.0" layoutY="99.0" text="x2" textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="411.0" layoutY="274.0" prefHeight="137.0" prefWidth="137.0">
+               <children>
+                  <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/island1.png" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="33.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_green.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="69.0" layoutY="33.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_red.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x5" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="57.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_yellow.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="69.0" layoutY="57.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_pink.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="81.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_blue.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <ImageView disable="true" fitHeight="137.0" fitWidth="137.0" onMouseClicked="#setIsland" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/island1broke.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="55.0" layoutY="-3.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/mother_nature.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/noEntryTile.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" disable="true" layoutX="100.0" layoutY="100.0" text="x3" textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="274.0" layoutY="274.0" prefHeight="137.0" prefWidth="137.0">
+               <children>
+                  <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/island2.png" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane disable="true" layoutX="30.0" layoutY="31.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_green.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="71.0" layoutY="31.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_red.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x5" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="30.0" layoutY="55.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_yellow.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="71.0" layoutY="55.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_pink.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="30.0" layoutY="79.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_blue.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <ImageView disable="true" fitHeight="137.0" fitWidth="137.0" onMouseClicked="#setIsland" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/island2broke.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="52.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/mother_nature.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/noEntryTile.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" disable="true" layoutX="101.0" layoutY="100.0" text="x2" textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="137.0" layoutY="274.0" prefHeight="137.0" prefWidth="137.0">
+               <children>
+                  <ImageView fitHeight="137.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/island3.png" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="33.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_green.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="69.0" layoutY="33.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_red.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x5" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="57.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_yellow.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="69.0" layoutY="57.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_pink.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane disable="true" layoutX="28.0" layoutY="81.0" prefHeight="18.0" prefWidth="45.0" visible="false">
+                     <children>
+                        <Circle fill="WHITE" layoutX="11.0" layoutY="11.0" radius="11.0" stroke="WHITE" strokeType="INSIDE" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../graphics/pieces/student_blue.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="25.0" layoutY="2.0" minWidth="0.0" prefHeight="18.0" prefWidth="22.0" text="x1" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <ImageView disable="true" fitHeight="137.0" fitWidth="137.0" onMouseClicked="#setIsland" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/island3broke.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="35.0" fitWidth="35.0" layoutX="49.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/pieces/mother_nature.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView disable="true" fitHeight="55.0" fitWidth="55.0" layoutX="82.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../graphics/noEntryTile.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" disable="true" layoutX="101.0" layoutY="99.0" text="x2" textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
          </children>
-      </GridPane>
+      </AnchorPane>
+
       <AnchorPane fx:id="schoolPane" layoutX="218.0" layoutY="411.0" prefHeight="229.0" prefWidth="523.0">
          <children>
             <ImageView fx:id="background" fitHeight="229.0" fitWidth="523.0" pickOnBounds="true" preserveRatio="true">
@@ -773,6 +1676,75 @@
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </TextArea>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="cloudsPane" layoutX="137.0" layoutY="137.0" prefHeight="137.0" prefWidth="685.0">
+         <children>
+            <AnchorPane disable="true" onMouseClicked="#chooseCloud" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="107.0" prefWidth="107.0" visible="false" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
+               <children>
+                  <ImageView fitHeight="107.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/cloud_card.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="55.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="55.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </AnchorPane>
+            <AnchorPane disable="true" layoutX="152.0" layoutY="15.0" onMouseClicked="#chooseCloud" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="107.0" prefWidth="107.0" visible="false">
+               <children>
+                  <ImageView fitHeight="107.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/cloud_card.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="55.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="55.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </AnchorPane>
+            <AnchorPane disable="true" layoutX="289.0" layoutY="15.0" onMouseClicked="#chooseCloud" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="107.0" prefWidth="107.0" visible="false">
+               <children>
+                  <ImageView fitHeight="107.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/cloud_card.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="55.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="55.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </AnchorPane>
+            <AnchorPane disable="true" layoutX="426.0" layoutY="15.0" onMouseClicked="#chooseCloud" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="107.0" prefWidth="107.0" visible="false">
+               <children>
+                  <ImageView fitHeight="107.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/cloud_card.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="55.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="55.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </AnchorPane>
+            <AnchorPane disable="true" layoutX="563.0" layoutY="15.0" onMouseClicked="#chooseCloud" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="107.0" prefWidth="107.0" visible="false">
+               <children>
+                  <ImageView fitHeight="107.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../graphics/cloud_card.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="55.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="55.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>

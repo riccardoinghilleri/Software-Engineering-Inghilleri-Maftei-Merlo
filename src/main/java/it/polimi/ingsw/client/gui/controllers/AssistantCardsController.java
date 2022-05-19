@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
 import it.polimi.ingsw.server.model.AssistantCard;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
@@ -31,36 +32,19 @@ public class AssistantCardsController implements GuiController {
 
     public void enableCards(List<AssistantCard> cards) {
         for (AssistantCard card : cards) {
-            ImageView imageFrame = (ImageView) mainPane.getChildren().get(card.getPriority()+9);
-            ImageView image = (ImageView) mainPane.getChildren().get(card.getPriority()-1);
+            ImageView imageFrame = (ImageView) mainPane.getChildren().get(card.getPriority() + 9);
+            ImageView image = (ImageView) mainPane.getChildren().get(card.getPriority() - 1);
             image.setOpacity(1);
             imageFrame.setOpacity(1);
             imageFrame.setDisable(false);
-            /*imageFrame.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                setPriority(event);
-                event.consume();
-            });
-            imageFrame.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
-                select(event);
-                event.consume();
-            });
-            imageFrame.addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
-                unselect(event);
-                event.consume();
-            });*/
-
         }
     }
 
     public void setPriority(MouseEvent event) {
         warning.setVisible(false);
-        if(priority!=-1){
-            ImageView oldImage=(ImageView) mainPane.getChildren().get(priority+9);
+        if (priority != -1) {
+            ImageView oldImage = (ImageView) mainPane.getChildren().get(priority + 9);
             oldImage.setEffect(null);
-            /*oldImage.addEventHandler(MouseEvent.MOUSE_EXITED, evt -> {
-                unselect(evt);
-                evt.consume();
-            });*/
             oldImage.setOnMouseExited(this::unselect);
         }
         ImageView image = (ImageView) event.getSource();
@@ -70,16 +54,16 @@ public class AssistantCardsController implements GuiController {
     }
 
     public void select(MouseEvent event) {
-        Object object =  event.getSource();
-        ((Node)object).setEffect(new Glow(0.8));
+        Object object = event.getSource();
+        ((Node) object).setEffect(new Glow(0.8));
     }
 
     public void unselect(MouseEvent event) {
-        Object object =  event.getSource();
-        ((Node)object).setEffect(null);
+        Object object = event.getSource();
+        ((Node) object).setEffect(null);
     }
 
-    public void error(){
+    public void error() {
         warning.setText("You cannot choose this card. Please try again");
         warning.setVisible(true);
     }
@@ -90,10 +74,22 @@ public class AssistantCardsController implements GuiController {
             message.setAction(Action.CHOOSE_CHARACTER_CARD);
             message.setData(priority);
             gui.getConnection().send(message);
+            disableAllCards();
             stage.close();
         } else {
             warning.setText("Please select a card");
             warning.setVisible(true);
+        }
+    }
+
+    private void disableAllCards() {
+        priority=-1;
+        for (Node node : mainPane.getChildren()) {
+            if (!(node instanceof Button) && ! (node instanceof Label)) {
+                node.setDisable(true);
+                node.setOpacity(0.4);
+            }
+            warning.setVisible(false);
         }
     }
 

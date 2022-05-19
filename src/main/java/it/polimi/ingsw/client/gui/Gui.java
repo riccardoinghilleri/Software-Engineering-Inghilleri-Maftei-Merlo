@@ -10,7 +10,6 @@ import it.polimi.ingsw.server.ConnectionMessage.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.*;
@@ -136,9 +135,13 @@ public class Gui extends Application implements View {
             case USE_CHARACTER_CARD:
                 break;
             case DEFAULT_MOVEMENTS:
-                mainSceneController.setInfoText("CHOOSE THE ENTRANCE STUDENT: ");
-                mainSceneController.setCurrentClientId(message.getSchool().getOwner().getClientID());
-                mainSceneController.setAction(Action.DEFAULT_MOVEMENTS);
+                alreadyAskedAssistantCard=false;
+                Platform.runLater(() -> {
+                    mainSceneController.setInfoText("CHOOSE THE ENTRANCE STUDENT: ");
+                    mainSceneController.setCurrentClientId(message.getSchool().getOwner().getClientID());
+                    mainSceneController.setAction(Action.DEFAULT_MOVEMENTS);
+                });
+
                 break;
             case MOVE_MOTHER_NATURE:
                 mainSceneController.setInfoText("MOVE MOTHER NATURE: ");

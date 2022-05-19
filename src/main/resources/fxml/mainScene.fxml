@@ -103,7 +103,7 @@
                         <Image url="@../graphics/island1broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="30.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
@@ -217,7 +217,7 @@
                         <Image url="@../graphics/island2broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="36.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="36.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
@@ -331,7 +331,7 @@
                         <Image url="@../graphics/island3broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="35.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="35.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
@@ -445,7 +445,7 @@
                         <Image url="@../graphics/island1broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="30.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
@@ -555,7 +555,7 @@
                         <Image url="@../graphics/island2broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="36.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="36.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
@@ -669,7 +669,7 @@
                         <Image url="@../graphics/island3broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="35.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="35.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
@@ -783,7 +783,7 @@
                         <Image url="@../graphics/island1broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="30.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
@@ -893,7 +893,7 @@
                         <Image url="@../graphics/island2broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="36.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="36.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
@@ -1007,7 +1007,7 @@
                         <Image url="@../graphics/island3broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="35.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="35.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
@@ -1121,7 +1121,7 @@
                         <Image url="@../graphics/island1broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="30.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
@@ -1231,7 +1231,7 @@
                         <Image url="@../graphics/island2broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="36.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="36.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>
@@ -1345,7 +1345,7 @@
                         <Image url="@../graphics/island3broke.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="35.0" onMouseEntered="#select" onMouseExited="#unselect" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="35.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../graphics/pieces/mother_nature.png" />
                      </image>

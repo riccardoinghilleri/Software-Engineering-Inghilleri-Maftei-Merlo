@@ -29,7 +29,7 @@ public class MainSceneController implements GuiController {
 
     private Gui gui;
     public boolean firstTime = true;
-    private Action phase;
+    private int motherNatureIndex;
 
     @FXML
     private AnchorPane schoolPane, cloudsPane, islandsPane;
@@ -68,11 +68,14 @@ public class MainSceneController implements GuiController {
     public void sendMessage(MouseEvent event) {
         if (event.getSource() instanceof Circle)
             ((Circle) event.getSource()).setVisible(false);
+        disableAllIslandsBroke();
         gui.getConnection().send(message);
     }
 
     public void setCurrentClientId(int id) {
         currentClientId = id;
+        displayedSchool=id;
+        createPlayer(school[id]);
     }
 
 
@@ -86,36 +89,35 @@ public class MainSceneController implements GuiController {
 
 
     public void glowDiningroom(String color, boolean visible) {
-        int size = -1;
-        if (displayedSchool == currentClientId) {
-            switch (color) {
-                case "GREEN":
-                    size = school[displayedSchool].getDiningRoom().get(CharacterColor.GREEN).size();
-                    greenCircle.setLayoutX(size == 0 ? 12 : 12 * 3 * (size));
-                    greenCircle.setVisible(visible);
-                    break;
-                case "RED":
-                    size = school[displayedSchool].getDiningRoom().get(CharacterColor.RED).size();
-                    redCircle.setLayoutX(size == 0 ? 12 : 12 * 3 * (size));
-                    redCircle.setVisible(visible);
-                    break;
-                case "YELLOW":
-                    size = school[displayedSchool].getDiningRoom().get(CharacterColor.YELLOW).size();
-                    yellowCircle.setLayoutX(size == 0 ? 12 : 12 * 3 * (size));
-                    yellowCircle.setVisible(visible);
-                    break;
-                case "PINK":
-                    size = school[displayedSchool].getDiningRoom().get(CharacterColor.PINK).size();
-                    pinkCircle.setLayoutX(size == 0 ? 12 : 12 * 3 * (size));
-                    pinkCircle.setVisible(visible);
-                    break;
-                case "BLUE":
-                    size = school[displayedSchool].getDiningRoom().get(CharacterColor.BLUE).size();
-                    blueCircle.setLayoutX(size == 0 ? 12 : 12 * 3 * (size));
-                    blueCircle.setVisible(visible);
-                    break;
-            }
+        int size;
+        switch (color) {
+            case "GREEN":
+                size = school[displayedSchool].getDiningRoom().get(CharacterColor.GREEN).size();
+                greenCircle.setLayoutX(size == 0 ? 12 : 12 * 3 * (size));
+                greenCircle.setVisible(visible);
+                break;
+            case "RED":
+                size = school[displayedSchool].getDiningRoom().get(CharacterColor.RED).size();
+                redCircle.setLayoutX(size == 0 ? 12 : 12 * 3 * (size));
+                redCircle.setVisible(visible);
+                break;
+            case "YELLOW":
+                size = school[displayedSchool].getDiningRoom().get(CharacterColor.YELLOW).size();
+                yellowCircle.setLayoutX(size == 0 ? 12 : 12 * 3 * (size));
+                yellowCircle.setVisible(visible);
+                break;
+            case "PINK":
+                size = school[displayedSchool].getDiningRoom().get(CharacterColor.PINK).size();
+                pinkCircle.setLayoutX(size == 0 ? 12 : 12 * 3 * (size));
+                pinkCircle.setVisible(visible);
+                break;
+            case "BLUE":
+                size = school[displayedSchool].getDiningRoom().get(CharacterColor.BLUE).size();
+                blueCircle.setLayoutX(size == 0 ? 12 : 12 * 3 * (size));
+                blueCircle.setVisible(visible);
+                break;
         }
+
     }
 
     public void select(MouseEvent event) {
@@ -128,7 +130,6 @@ public class MainSceneController implements GuiController {
             int id = Integer.parseInt(((ImageView) event.getSource()).getId().split("_")[0]) - 9;
             ((Circle) entrance.getChildren().get(id)).setStroke(Color.BLACK);
         }
-
     }
 
     public void unselect(MouseEvent event) {
@@ -196,8 +197,12 @@ public class MainSceneController implements GuiController {
             ((AnchorPane) blueStudents).getChildren().get(i).setVisible(i < school.getDiningRoom().get(CharacterColor.BLUE).size());
         for (int i = 0; i < 5; i++)
             ((AnchorPane) professors).getChildren().get(i).setVisible(school.getProfessorByColor(CharacterColor.values()[i]) != null);
-        for (int i = 0; i < 8; i++)
-            ((ImageView) ((AnchorPane) towers).getChildren().get(i)).setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/graphics/pieces/" + school.getTowerColor().toString() + "_tower.png"))));
+        for (int i = 0; i < 8; i++) {
+            ImageView tower = (ImageView) ((AnchorPane) towers).getChildren().get(i);
+            tower.setImage(new Image(Objects.requireNonNull(getClass()
+                    .getResourceAsStream("/graphics/pieces/" + school.getTowerColor().toString() + "_tower.png"))));
+            tower.setVisible(i < school.getTowersNumber());
+        }
         if (school.getOwnerId() != currentClientId || (message != null && message.getAction() != Action.DEFAULT_MOVEMENTS)) {
             schoolPane.setDisable(true);
             glowEntrance(false);
@@ -252,6 +257,7 @@ public class MainSceneController implements GuiController {
                 i++;
             }
             shape = (AnchorPane) cloudsPane.getChildren().get(i);
+            emptyCloud(shape);
             for (Student s : cloud.getStudents()) {
                 ((ImageView) shape.getChildren().get(j))
                         .setImage(new Image(Objects.requireNonNull(getClass()
@@ -263,31 +269,29 @@ public class MainSceneController implements GuiController {
             i++;
         }
         //Riempimento isole
+        motherNatureIndex = message.getBoard().getMotherNaturePosition();
         AnchorPane studentsPane;
         for (i = 0; i < message.getBoard().getIslands().size(); i++) {
             j = 1;
             shape = (AnchorPane) islandsPane.getChildren().get(i);
-            shape.getChildren().get(6).setId((i + 1) + "_island"); //a ogni broke setto l'indice dell'isola (uso i+1 come la cli)
-            if (message.getBoard().getIslands().get(i).hasMotherNature()) {
-                shape.getChildren().get(7).setVisible(true);
-            } else {
-                shape.getChildren().get(7).setVisible(false);
-            }
+            shape.getChildren().get(6).setId(i + "_island");
+            shape.getChildren().get(7).setVisible(message.getBoard().getIslands().get(i).hasMotherNature());
+
             if (message.getBoard().getIslands().get(i).hasNoEntryTile()) {
                 ((Label) shape.getChildren().get(9)).setText("x1"); //TODO fare il caso con più NoEntryTile
                 shape.getChildren().get(8).setVisible(true);
             }
-            if(!message.getBoard().getIslands().get(i).getTowers().isEmpty()){
-                ((ImageView)shape.getChildren().get(10))
+            if (!message.getBoard().getIslands().get(i).getTowers().isEmpty()) {
+                ((ImageView) shape.getChildren().get(10))
                         .setImage(new Image(Objects.requireNonNull(getClass()
-                                .getResourceAsStream(message.getBoard().getIslands()
+                                .getResourceAsStream("/graphics/pieces/" + message.getBoard().getIslands()
                                         .get(i).getColorTower().toString().toLowerCase() + "_tower.png"))));
                 shape.getChildren().get(10).setVisible(true);
-                ((Label)shape.getChildren().get(11)).setText("x"+message.getBoard()
+                ((Label) shape.getChildren().get(11)).setText("x" + message.getBoard()
                         .getIslands().get(i).getTowers().size());
                 shape.getChildren().get(11).setVisible(true);
             }
-            for (CharacterColor color : message.getBoard().getIslands().get(i).getStudents().keySet()) {
+            for (CharacterColor color : CharacterColor.values()) {
                 if (!message.getBoard().getIslands().get(i).getStudents().get(color).isEmpty()) {
                     studentsPane = (AnchorPane) shape.getChildren().get(j);
                     studentsPane.getChildren().get(1).setId(i + "_" + color);//setto id all'immagine dello studente
@@ -306,13 +310,22 @@ public class MainSceneController implements GuiController {
         int index = Integer.parseInt(((ImageView) event.getSource()).getId().split("_")[0]);
         message.setData(index);
         disableClouds();
+        //emptyCloud(Objects.requireNonNull(getCloudById(index)));
         gui.getConnection().send(message);
     }
 
     public void setIsland(MouseEvent event) {
         int index = Integer.parseInt(((ImageView) event.getSource()).getId().split("_")[0]);
+        if (message.getAction() == Action.DEFAULT_MOVEMENTS)
+            glowDiningroom(studentColor, false);
+        else {
+            if (index < motherNatureIndex) {
+                index += islandsPane.getChildren().size();
+            }
+            index -= motherNatureIndex;
+        }
         disableAllIslandsBroke();
-        message.setData(index - 1);
+        message.setData(index);
         gui.getConnection().send(message);
     }
 
@@ -331,17 +344,9 @@ public class MainSceneController implements GuiController {
     }
 
     public void enableIslandsBroke(int motherNatureSteps) {
-        int motherNatureIndex = -1;
-        for (Node node : islandsPane.getChildren()) {
-            AnchorPane island = (AnchorPane) node;
-            if (island.getChildren().get(7).isVisible()) {
-                motherNatureIndex = Integer.parseInt(island.getChildren().get(6).getId().split("_")[0]);
-                break;
-            }
-        }
         for (int i = 0; i < motherNatureSteps; i++) {
             AnchorPane island = (AnchorPane) islandsPane.getChildren()
-                    .get((i + motherNatureIndex) % islandsPane.getChildren().size());
+                    .get((i + 1 + motherNatureIndex) % islandsPane.getChildren().size());
             island.getChildren().get(6).setDisable(false);
             island.getChildren().get(6).setVisible(true);
         }
@@ -352,13 +357,15 @@ public class MainSceneController implements GuiController {
             if (!(message.getClouds())[i].getStudents().isEmpty()) {
                 AnchorPane cloud = getCloudById(i);
                 cloud.getChildren().get(5).setDisable(false);
+                cloud.getChildren().get(5).setVisible(true);
             }
         }
     }
 
     public void disableClouds() {
         for (Node node : cloudsPane.getChildren()) {
-            ((AnchorPane)node).getChildren().get(5).setDisable(true);
+            ((AnchorPane) node).getChildren().get(5).setDisable(true);
+            ((AnchorPane) node).getChildren().get(5).setVisible(false);
         }
     }
 
@@ -371,13 +378,12 @@ public class MainSceneController implements GuiController {
         }
         return null;
     }
-    /*
+
     private void emptyCloud(AnchorPane cloud) {
-        for (int i = 1; i < cloud.getChildren().size(); i++) {
+        for (int i = 1; i < cloud.getChildren().size()-1; i++) {
             ((ImageView) cloud.getChildren().get(i)).setImage(null);
         }
-
-    }*/
+    }
 
     @Override
     public void setGui(Gui gui) {

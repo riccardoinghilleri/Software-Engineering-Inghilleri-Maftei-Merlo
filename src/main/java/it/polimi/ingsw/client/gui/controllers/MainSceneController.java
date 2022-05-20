@@ -30,6 +30,7 @@ public class MainSceneController implements GuiController {
     private Gui gui;
     public boolean firstTime = true;
     private int motherNatureIndex;
+    private int sup_islands, inf_islands;
 
     @FXML
     private AnchorPane schoolPane, cloudsPane, islandsPane;
@@ -74,7 +75,7 @@ public class MainSceneController implements GuiController {
 
     public void setCurrentClientId(int id) {
         currentClientId = id;
-        displayedSchool=id;
+        displayedSchool = id;
         createPlayer(school[id]);
     }
 
@@ -93,27 +94,27 @@ public class MainSceneController implements GuiController {
         switch (color) {
             case "GREEN":
                 size = school[displayedSchool].getDiningRoom().get(CharacterColor.GREEN).size();
-                greenCircle.setLayoutX(size == 0 ? 12 : 12 * 3 * (size));
+                greenCircle.setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
                 greenCircle.setVisible(visible);
                 break;
             case "RED":
                 size = school[displayedSchool].getDiningRoom().get(CharacterColor.RED).size();
-                redCircle.setLayoutX(size == 0 ? 12 : 12 * 3 * (size));
+                redCircle.setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
                 redCircle.setVisible(visible);
                 break;
             case "YELLOW":
                 size = school[displayedSchool].getDiningRoom().get(CharacterColor.YELLOW).size();
-                yellowCircle.setLayoutX(size == 0 ? 12 : 12 * 3 * (size));
+                yellowCircle.setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
                 yellowCircle.setVisible(visible);
                 break;
             case "PINK":
                 size = school[displayedSchool].getDiningRoom().get(CharacterColor.PINK).size();
-                pinkCircle.setLayoutX(size == 0 ? 12 : 12 * 3 * (size));
+                pinkCircle.setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
                 pinkCircle.setVisible(visible);
                 break;
             case "BLUE":
                 size = school[displayedSchool].getDiningRoom().get(CharacterColor.BLUE).size();
-                blueCircle.setLayoutX(size == 0 ? 12 : 12 * 3 * (size));
+                blueCircle.setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
                 blueCircle.setVisible(visible);
                 break;
         }
@@ -171,39 +172,45 @@ public class MainSceneController implements GuiController {
 
     public void createPlayer(School school) {
         nickname.setText(school.getOwner().getNickname());
-        int priority = (school.getOwner().getChosenAssistantCard() == null ? -1 : school.getOwner().getChosenAssistantCard().getPriority());
+        int priority = (school.getOwner().getChosenAssistantCard() == null ? -1
+                : school.getOwner().getChosenAssistantCard().getPriority());
         String wizard = school.getOwner().getDeck().getWizard().toString();
         if (priority != -1)
-            assistantCard.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/graphics/assistantCards/Assistente" + priority + ".png"))));
+            assistantCard.setImage(new Image(Objects.requireNonNull(getClass()
+                    .getResourceAsStream("/graphics/assistantCards/Assistente" + priority + ".png"))));
         else
-            assistantCard.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/graphics/assistantCards/" + wizard + ".png"))));
+            assistantCard.setImage(new Image(Objects.requireNonNull(getClass()
+                    .getResourceAsStream("/graphics/assistantCards/" + wizard + ".png"))));
         for (int i = 9; i < 18; i++) {
             ImageView image = ((ImageView) entrance.getChildren().get(i));
             if (i < 9 + school.getEntrance().size()) {
-                image.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/graphics/pieces/student_" + school.getEntrance().get(i - 9).getColor().toString() + ".png"))));
+                image.setImage(new Image(Objects.requireNonNull(getClass()
+                        .getResourceAsStream("/graphics/pieces/student_"
+                                + school.getEntrance().get(i - 9).getColor().toString() + ".png"))));
                 image.setId(i + "_" + school.getEntrance().get(i - 9).getColor().toString());
                 image.setVisible(true);
             } else image.setVisible(false);
         }
         for (int i = 0; i < 10; i++)
-            ((AnchorPane) greenStudents).getChildren().get(i).setVisible(i < school.getDiningRoom().get(CharacterColor.GREEN).size());
+            greenStudents.getChildren().get(i).setVisible(i < school.getDiningRoom().get(CharacterColor.GREEN).size());
         for (int i = 0; i < 10; i++)
-            ((AnchorPane) redStudents).getChildren().get(i).setVisible(i < school.getDiningRoom().get(CharacterColor.RED).size());
+            redStudents.getChildren().get(i).setVisible(i < school.getDiningRoom().get(CharacterColor.RED).size());
         for (int i = 0; i < 10; i++)
-            ((AnchorPane) yellowStudents).getChildren().get(i).setVisible(i < school.getDiningRoom().get(CharacterColor.YELLOW).size());
+            yellowStudents.getChildren().get(i).setVisible(i < school.getDiningRoom().get(CharacterColor.YELLOW).size());
         for (int i = 0; i < 10; i++)
-            ((AnchorPane) pinkStudents).getChildren().get(i).setVisible(i < school.getDiningRoom().get(CharacterColor.PINK).size());
+            pinkStudents.getChildren().get(i).setVisible(i < school.getDiningRoom().get(CharacterColor.PINK).size());
         for (int i = 0; i < 10; i++)
-            ((AnchorPane) blueStudents).getChildren().get(i).setVisible(i < school.getDiningRoom().get(CharacterColor.BLUE).size());
+            blueStudents.getChildren().get(i).setVisible(i < school.getDiningRoom().get(CharacterColor.BLUE).size());
         for (int i = 0; i < 5; i++)
-            ((AnchorPane) professors).getChildren().get(i).setVisible(school.getProfessorByColor(CharacterColor.values()[i]) != null);
+            professors.getChildren().get(i).setVisible(school.getProfessorByColor(CharacterColor.values()[i]) != null);
         for (int i = 0; i < 8; i++) {
-            ImageView tower = (ImageView) ((AnchorPane) towers).getChildren().get(i);
+            ImageView tower = (ImageView) towers.getChildren().get(i);
             tower.setImage(new Image(Objects.requireNonNull(getClass()
                     .getResourceAsStream("/graphics/pieces/" + school.getTowerColor().toString() + "_tower.png"))));
             tower.setVisible(i < school.getTowersNumber());
         }
-        if (school.getOwnerId() != currentClientId || (message != null && message.getAction() != Action.DEFAULT_MOVEMENTS)) {
+        if (school.getOwnerId() != currentClientId
+                || (message != null && message.getAction() != Action.DEFAULT_MOVEMENTS)) {
             schoolPane.setDisable(true);
             glowEntrance(false);
         } else {
@@ -217,21 +224,16 @@ public class MainSceneController implements GuiController {
         if (firstTime) {
             switch (gui.getPlayersNumber()) {
                 case 2:
-                    //cloudsPane.getChildren().get(1).setDisable(false);
                     cloudsPane.getChildren().get(1).setVisible(true);
                     ((AnchorPane) cloudsPane.getChildren().get(1)).getChildren().get(5).setId("0_cloud");
-                    //cloudsPane.getChildren().get(3).setDisable(false);
                     cloudsPane.getChildren().get(3).setVisible(true);
                     ((AnchorPane) cloudsPane.getChildren().get(3)).getChildren().get(5).setId("1_cloud");
                     break;
                 case 3:
-                    //cloudsPane.getChildren().get(0).setDisable(false);
                     cloudsPane.getChildren().get(0).setVisible(true);
                     ((AnchorPane) cloudsPane.getChildren().get(0)).getChildren().get(5).setId("0_cloud");
-                    //cloudsPane.getChildren().get(2).setDisable(false);
                     cloudsPane.getChildren().get(2).setVisible(true);
                     ((AnchorPane) cloudsPane.getChildren().get(2)).getChildren().get(5).setId("1_cloud");
-                    //cloudsPane.getChildren().get(4).setDisable(false);
                     cloudsPane.getChildren().get(4).setVisible(true);
                     ((AnchorPane) cloudsPane.getChildren().get(4)).getChildren().get(5).setId("2_cloud");
                     break;
@@ -247,6 +249,8 @@ public class MainSceneController implements GuiController {
                     break;
             }
             firstTime = false;
+            sup_islands = 5;
+            inf_islands = 5;
         }
         //Riempimento nuvole
         AnchorPane shape;
@@ -268,7 +272,34 @@ public class MainSceneController implements GuiController {
             }
             i++;
         }
+        //Aggiornamento disposizione isole
+        int islandsToRemove;
+        double distance;
+        if ((int) Math.ceil(((float) message.getBoard().getIslands().size() - 2.0) / 2.0) < sup_islands) {
+            islandsToRemove = (int) (sup_islands - Math.ceil(((float) message.getBoard().getIslands().size() - 2.0) / 2.0));
+            islandsPane.getChildren().subList(1, islandsToRemove + 1).clear();
+            sup_islands = (int) Math.ceil(((float) message.getBoard().getIslands().size() - 2.0) / 2.0);
+            distance = (685 - sup_islands * 137) / (double) (sup_islands + 1);
+            for (int count = 1; count <= sup_islands; count++) {
+                shape = (AnchorPane) islandsPane.getChildren().get(count);
+                shape.setLayoutX(137 * count + distance * count);
+                shape.setLayoutY(0);
+            }
+        }
+        if (message.getBoard().getIslands().size() - 2 - sup_islands < inf_islands) {
+            islandsToRemove = inf_islands - (message.getBoard().getIslands().size() - 2 - sup_islands);
+            int oldSize = islandsPane.getChildren().size();
+            islandsPane.getChildren().subList(oldSize - islandsToRemove, oldSize).clear();
+            inf_islands = message.getBoard().getIslands().size() - 2 - sup_islands;
+            distance = (685 - inf_islands * 137) / (double) (inf_islands + 1);
+            for (int count = islandsPane.getChildren().size() - 1; count >= sup_islands + 2; count--) {
+                shape = (AnchorPane) islandsPane.getChildren().get(count);
+                shape.setLayoutX(137 * (islandsPane.getChildren().size() - count) + distance * (islandsPane.getChildren().size() - count));
+                shape.setLayoutY(274);
+            }
+        }
         //Riempimento isole
+        clearAllIslands();
         motherNatureIndex = message.getBoard().getMotherNaturePosition();
         AnchorPane studentsPane;
         for (i = 0; i < message.getBoard().getIslands().size(); i++) {
@@ -280,6 +311,7 @@ public class MainSceneController implements GuiController {
             if (message.getBoard().getIslands().get(i).hasNoEntryTile()) {
                 ((Label) shape.getChildren().get(9)).setText("x1"); //TODO fare il caso con più NoEntryTile
                 shape.getChildren().get(8).setVisible(true);
+                shape.getChildren().get(9).setVisible(true);
             }
             if (!message.getBoard().getIslands().get(i).getTowers().isEmpty()) {
                 ((ImageView) shape.getChildren().get(10))
@@ -356,7 +388,7 @@ public class MainSceneController implements GuiController {
         for (int i = 0; i < message.getClouds().length; i++) {
             if (!(message.getClouds())[i].getStudents().isEmpty()) {
                 AnchorPane cloud = getCloudById(i);
-                cloud.getChildren().get(5).setDisable(false);
+                Objects.requireNonNull(cloud).getChildren().get(5).setDisable(false);
                 cloud.getChildren().get(5).setVisible(true);
             }
         }
@@ -380,10 +412,25 @@ public class MainSceneController implements GuiController {
     }
 
     private void emptyCloud(AnchorPane cloud) {
-        for (int i = 1; i < cloud.getChildren().size()-1; i++) {
+        for (int i = 1; i < cloud.getChildren().size() - 1; i++) {
             ((ImageView) cloud.getChildren().get(i)).setImage(null);
         }
     }
+
+    private void clearAllIslands() {
+        for (Node node : islandsPane.getChildren()) {
+            AnchorPane island = (AnchorPane) node;
+            for (int i = 1; i <= 5; i++) { //studenti
+                island.getChildren().get(i).setDisable(true);
+                island.getChildren().get(i).setVisible(false);
+            }
+            for (int i = 8; i <= 11; i++) { //torri e noEntryTiles
+                island.getChildren().get(10).setVisible(false);//torre
+            }
+
+        }
+    }
+
 
     @Override
     public void setGui(Gui gui) {

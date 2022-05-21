@@ -9,10 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -101,6 +98,15 @@ public class SettingsController implements Initializable, GuiController {
     @Override
     public void setGui(Gui gui) {
         this.gui = gui;
+    }
+
+    public void pressButton(MouseEvent event){
+        ((Button)event.getSource()).getStyleClass().add("buttonPressed");
+
+    }
+    public void releaseButton(MouseEvent event){
+        ((Button)event.getSource()).getStyleClass().clear();
+        ((Button)event.getSource()).getStyleClass().add("button");
     }
 }
 

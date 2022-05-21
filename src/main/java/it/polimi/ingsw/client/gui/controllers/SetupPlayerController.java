@@ -124,4 +124,13 @@ public class SetupPlayerController implements GuiController {
     public void setGui(Gui gui) {
         this.gui = gui;
     }
+
+    public void pressButton(MouseEvent event){
+        ((Button)event.getSource()).getStyleClass().add("buttonPressed");
+
+    }
+    public void releaseButton(MouseEvent event){
+        ((Button)event.getSource()).getStyleClass().clear();
+        ((Button)event.getSource()).getStyleClass().add("button");
+    }
 }

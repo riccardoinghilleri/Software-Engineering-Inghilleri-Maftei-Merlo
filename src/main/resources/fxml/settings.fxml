@@ -17,7 +17,7 @@
             <Image url="@../graphics/backgrounds/Eriantys_slider_885x590.jpg" />
          </image>
       </ImageView>
-      <Button layoutX="251.0" layoutY="306.0" mnemonicParsing="false" onAction="#confirm" prefHeight="36.0" prefWidth="94.0" text="Confirm" />
+      <Button layoutX="233.0" layoutY="304.0" mnemonicParsing="false" onAction="#confirm" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="46.0" prefWidth="130.0" text="CONFIRM" />
       <TextField fx:id="address" layoutX="320.0" layoutY="105.0" />
       <Label alignment="CENTER" layoutX="79.0" layoutY="105.0" prefHeight="26.0" prefWidth="200.0" styleClass="gold_label" text="Insert the Server IP Address" textAlignment="CENTER" />
       <Label alignment="CENTER" layoutX="120.0" layoutY="155.0" prefHeight="26.0" prefWidth="160.0" styleClass="gold_label" text="Insert the Server Port" />

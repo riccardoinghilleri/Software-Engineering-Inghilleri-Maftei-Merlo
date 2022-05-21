@@ -1,12 +1,18 @@
-.button {
-    -fx-font-size: 13;
+.button{
     -fx-text-fill: white;
-    -fx-font-family: "Britannic Bold";
+    -fx-font-family: "Forte";
     -fx-background-color:transparent;
     -fx-background-image: url("../graphics/btn/gold_button.png");
     -fx-background-size: stretch;
 }
 
+.buttonPressed{
+-fx-text-fill: white;
+    -fx-font-family: "Forte";
+    -fx-background-color:transparent;
+    -fx-background-image: url("../graphics/btn/button_Pressed.png");
+    -fx-background-size: stretch;
+}
 .image{
     -fx-image:url("../graphics/gold_frame.png");
 }

@@ -512,23 +512,27 @@ public class MainSceneController implements GuiController {
     }
 
     public void pressButton(MouseEvent event){
-        ((Button)event.getSource()).setId("buttonPressed");
+        ((Button)event.getSource()).getStyleClass().add("buttonPressed");
+
     }
     public void releaseButton(MouseEvent event){
-        ((Button)event.getSource()).setId("buttonReleased");
+        ((Button)event.getSource()).getStyleClass().clear();
+        ((Button)event.getSource()).getStyleClass().add("button");
     }
 
     public void openShop(){
         Platform.runLater(() -> {
             Stage shop= new Stage();
             shop.setTitle("CharacterCard Shop");
+            shop.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/graphics/icon.png"))));
             shop.setResizable(false);
             shop.setAlwaysOnTop(true);
             shop.setScene(gui.getScenes().get("shop.fxml"));
             shop.initModality(Modality.APPLICATION_MODAL);
-            shop.setOnCloseRequest(Event::consume);
+            //shop.setOnCloseRequest(Event::consume);
             ShopController controller =(ShopController) gui.getControllerByFxmlName("shop.fxml");
             controller.setStage(shop);
+            shop.show();
         });
     }
     private void moveIsland(AnchorPane island, int diff) {

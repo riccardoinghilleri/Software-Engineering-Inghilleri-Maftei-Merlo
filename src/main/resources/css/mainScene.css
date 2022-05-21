@@ -36,16 +36,17 @@
     -fx-background-image:url("../graphics/backgrounds/panel.png");
     -fx-background-position:-30px -62px;
 }
-#buttonReleased{
+.button{
     -fx-text-fill: white;
-    -fx-font-family: "Britannic Bold";
+    -fx-font-family: "Forte";
     -fx-background-color:transparent;
     -fx-background-image: url("../graphics/btn/gold_button.png");
     -fx-background-size: stretch;
 }
-#buttonPressed{
+
+.buttonPressed{
 -fx-text-fill: white;
-    -fx-font-family: "Britannic Bold";
+    -fx-font-family: "Forte";
     -fx-background-color:transparent;
     -fx-background-image: url("../graphics/btn/button_Pressed.png");
     -fx-background-size: stretch;

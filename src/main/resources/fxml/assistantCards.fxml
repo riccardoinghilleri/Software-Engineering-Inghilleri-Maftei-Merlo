@@ -68,7 +68,7 @@
       <ImageView fx:id="image8" disable="true" fitHeight="258.0" fitWidth="180.0" layoutX="360.0" layoutY="255.0" onMouseClicked="#setPriority" onMouseEntered="#select" onMouseExited="#unselect" opacity="0.4" pickOnBounds="true" preserveRatio="true" styleClass="image" />
       <ImageView fx:id="image9" disable="true" fitHeight="258.0" fitWidth="180.0" layoutX="537.0" layoutY="255.0" onMouseClicked="#setPriority" onMouseEntered="#select" onMouseExited="#unselect" opacity="0.4" pickOnBounds="true" preserveRatio="true" styleClass="image" />
       <ImageView fx:id="image10" disable="true" fitHeight="258.0" fitWidth="180.0" layoutX="713.0" layoutY="252.0" onMouseClicked="#setPriority" onMouseEntered="#select" onMouseExited="#unselect" opacity="0.4" pickOnBounds="true" preserveRatio="true" styleClass="image" />
-      <Button fx:id="chooseBtn" layoutX="368.0" layoutY="516.0" mnemonicParsing="false" onAction="#choose" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="42.0" prefWidth="160.0" text="CHOOSE" />
+      <Button fx:id="chooseBtn" layoutX="368.0" layoutY="516.0" mnemonicParsing="false" onAction="#choose" onDragEntered="#pressButton" onDragExited="#releaseButton" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="42.0" prefWidth="160.0" text="CHOOSE" />
       <Label fx:id="warning" alignment="CENTER" layoutX="279.0" layoutY="558.0" prefHeight="18.0" prefWidth="339.0" text="Warning" textAlignment="CENTER" textFill="RED" visible="false" />
    </children>
 </AnchorPane>

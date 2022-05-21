@@ -1778,9 +1778,9 @@
       <Button fx:id="left" layoutX="8.0" layoutY="500.0" mnemonicParsing="false" onAction="#changeSchool" prefHeight="50.0" prefWidth="38.0" styleClass="button_left" />
       <AnchorPane layoutX="770.0" layoutY="412.0" prefHeight="227.0" prefWidth="190.0" styleClass="infoBoard">
          <children>
-            <Label layoutX="70.0" layoutY="14.0" text="INFO" textFill="WHITE">
+            <Label layoutX="63.0" layoutY="14.0" text="INFO" textFill="WHITE">
                <font>
-                  <Font name="Britannic Bold" size="24.0" />
+                  <Font name="Forte" size="24.0" />
                </font>
             </Label>
             <Label fx:id="infoText" alignment="TOP_CENTER" layoutX="23.0" layoutY="67.0" prefHeight="118.0" prefWidth="144.0" textFill="WHITE" wrapText="true">
@@ -1788,7 +1788,7 @@
                   <Font name="Britannic Bold" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="buttonReleased" layoutX="24.0" layoutY="154.0" mnemonicParsing="false" onMouseClicked="#openShop" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="50.0" prefWidth="138.0" text="Shop" textFill="WHITE">
+            <Button fx:id="buttonReleased" layoutX="24.0" layoutY="154.0" mnemonicParsing="false" onMouseClicked="#openShop" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="50.0" prefWidth="138.0" text="SHOP" textFill="WHITE">
                <font>
                   <Font name="Britannic Bold" size="14.0" />
                </font>

@@ -2,12 +2,20 @@
  -fx-background-image: url("../graphics/backgrounds/Eriantys_slider.jpg");
 }
 .button{
+    -fx-text-fill: white;
     -fx-font-family: "Forte";
     -fx-background-color:transparent;
     -fx-background-image: url("../graphics/btn/gold_button.png");
     -fx-background-size: stretch;
-}}
+}
+.buttonPressed{
 
+-fx-text-fill: white;
+    -fx-font-family: "Forte";
+    -fx-background-color:transparent;
+    -fx-background-image: url("../graphics/btn/button_Pressed.png");
+    -fx-background-size: stretch;
+}
 #right{
     -fx-background-color:transparent;
     -fx-background-image: url("../graphics/btn/gold_arrow.png");

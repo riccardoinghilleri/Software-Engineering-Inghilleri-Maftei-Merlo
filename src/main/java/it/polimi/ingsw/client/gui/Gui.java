@@ -12,13 +12,11 @@ import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Gui extends Application implements View {
     private ClientConnection connection = null;
@@ -65,7 +63,7 @@ public class Gui extends Application implements View {
     public GuiController getControllerByScene(Scene scene){
         String currentSceneFxmlName=null;
         for(String s: scenes.keySet()){
-            if(scenes.get(s).equals(currentScene)){
+            if(scenes.get(s).equals(scene)){
                 currentSceneFxmlName=s;
             }
         }
@@ -103,11 +101,13 @@ public class Gui extends Application implements View {
         currentScene = scenes.get("settings.fxml");
     }
 
+
     @Override
     public void start(Stage primaryStage) {
         setup();
         this.stage = primaryStage;
         stage.setTitle("Eriantys");
+        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/graphics/icon.png"))));
         stage.setScene(currentScene);
         stage.show();
     }
@@ -120,6 +120,7 @@ public class Gui extends Application implements View {
                 Platform.runLater(() -> {
                     Stage chooseAssistantCard= new Stage();
                     chooseAssistantCard.setTitle("Eriantys");
+                    chooseAssistantCard.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/graphics/icon.png"))));
                     chooseAssistantCard.setResizable(false);
                     chooseAssistantCard.setAlwaysOnTop(true);
                     chooseAssistantCard.setScene(scenes.get("assistantCards.fxml"));

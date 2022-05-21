@@ -93,6 +93,14 @@ public class AssistantCardsController implements GuiController {
         }
     }
 
+    public void pressButton(MouseEvent event){
+        ((Button)event.getSource()).getStyleClass().add("buttonPressed");
+
+    }
+    public void releaseButton(MouseEvent event){
+        ((Button)event.getSource()).getStyleClass().clear();
+        ((Button)event.getSource()).getStyleClass().add("button");
+    }
     public void setStage(Stage stage) {
         this.stage = stage;
     }

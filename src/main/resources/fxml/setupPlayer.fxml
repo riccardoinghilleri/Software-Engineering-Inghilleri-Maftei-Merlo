@@ -28,7 +28,7 @@
                         <Image url="@../graphics/gold_frame.png" />
                      </image>
                   </ImageView>
-                  <Button layoutX="2.0" layoutY="125.0" mnemonicParsing="false" onAction="#setWizard" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="22.0" prefWidth="90.0" text="GANDALF" />
+                  <Button layoutX="2.0" layoutY="125.0" mnemonicParsing="false" onAction="#setWizard" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="22.0" prefWidth="90.0" text="GANDALF" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="king" disable="true" layoutX="321.0" prefHeight="146.0" prefWidth="94.0">
@@ -43,7 +43,7 @@
                         <Image url="@../graphics/gold_frame.png" />
                      </image>
                   </ImageView>
-                  <Button layoutX="2.0" layoutY="125.0" mnemonicParsing="false" onAction="#setWizard" onMouseEntered="#select" onMouseExited="#unselect" prefWidth="90.0" text="KING" />
+                  <Button layoutX="2.0" layoutY="125.0" mnemonicParsing="false" onAction="#setWizard" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefWidth="90.0" text="KING" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="wise" disable="true" layoutX="459.0" onDragEntered="#select" onDragExited="#unselect" prefHeight="146.0" prefWidth="94.0">
@@ -58,7 +58,7 @@
                         <Image url="@../graphics/gold_frame.png" />
                      </image>
                   </ImageView>
-                  <Button layoutX="2.0" layoutY="125.0" mnemonicParsing="false" onAction="#setWizard" onMouseEntered="#select" onMouseExited="#unselect" prefWidth="90.0" text="WISE" />
+                  <Button layoutX="2.0" layoutY="125.0" mnemonicParsing="false" onAction="#setWizard" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefWidth="90.0" text="WISE" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="fairy" disable="true" layoutX="44.0" prefHeight="146.0" prefWidth="94.0">
@@ -73,7 +73,7 @@
                         <Image url="@../graphics/gold_frame.png" />
                      </image>
                   </ImageView>
-                  <Button contentDisplay="CENTER" ellipsisString="" layoutX="2.0" layoutY="125.0" mnemonicParsing="false" onAction="#setWizard" onDragEntered="#select" onDragExited="#unselect" onMouseEntered="#select" onMouseExited="#unselect" prefWidth="90.0" style="-fx-border-radius: 0;" text="FAIRY" textOverrun="WORD_ELLIPSIS" />
+                  <Button contentDisplay="CENTER" ellipsisString="" layoutX="2.0" layoutY="125.0" mnemonicParsing="false" onAction="#setWizard" onDragEntered="#select" onDragExited="#unselect" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefWidth="90.0" style="-fx-border-radius: 0;" text="FAIRY" textOverrun="WORD_ELLIPSIS" />
                </children>
             </AnchorPane>
          </children>
@@ -99,7 +99,7 @@
       </AnchorPane>
       <Label alignment="CENTER" layoutX="140.0" layoutY="41.0" prefHeight="26.0" prefWidth="80.0" styleClass="gold_label" stylesheets="@../css/setupGame.css" text="NICKNAME" />
       <TextField fx:id="nickname" layoutX="220.0" layoutY="41.0" prefHeight="26.0" prefWidth="159.0" promptText="Choose a Nickname" />
-      <Button fx:id="check" layoutX="379.0" layoutY="41.0" mnemonicParsing="false" onAction="#checkNickname" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="26.0" prefWidth="80.0" text="CHECK" />
+      <Button fx:id="check" layoutX="379.0" layoutY="41.0" mnemonicParsing="false" onAction="#checkNickname" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="26.0" prefWidth="80.0" text="CHECK" />
       <Label fx:id="nicknameNotAvailable" layoutX="220.0" layoutY="67.0" text="The nickname is not available!" textFill="RED" visible="false" />
    </children>
 </AnchorPane>

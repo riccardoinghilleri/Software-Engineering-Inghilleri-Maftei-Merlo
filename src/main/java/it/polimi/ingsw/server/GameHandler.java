@@ -94,7 +94,10 @@ public class GameHandler implements PropertyChangeListener {
                                         "Please choose another one."));
                         sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel
                                 .getCurrentPlayer().getNickname() + " chosen an invalid Assistant Card..."));
-                    } else sendAll(new UpdateBoard(gameModel.getBoard()));
+                    } else {
+                        sendAll(new UpdateBoard(gameModel.getBoard()));
+                        gameModel.getBoard().getLastRemovedIslands().clear();
+                    }
                     if (controller.getPhase() == Action.CHOOSE_ASSISTANT_CARD)
                         pianificationTurn();
                     else if (controller.getPhase() == Action.DEFAULT_MOVEMENTS
@@ -106,7 +109,10 @@ public class GameHandler implements PropertyChangeListener {
                     String error = controller.nextAction((ActionMessage) message);
                     if (error != null) {
                         clients.get(currentClientConnection).sendMessage(new InfoMessage(error));
-                    } else sendAll(new UpdateBoard(gameModel.getBoard()));
+                    } else {
+                        sendAll(new UpdateBoard(gameModel.getBoard()));
+                        gameModel.getBoard().getLastRemovedIslands().clear();
+                    }
                     if (controller.getPhase() == Action.SETUP_CLOUD && turnNumber < 10) {
                         turnNumber++;
                         phase = GameHandlerPhase.PIANIFICATION;
@@ -153,6 +159,7 @@ public class GameHandler implements PropertyChangeListener {
         if (controller.getPhase() == Action.SETUP_CLOUD) {
             controller.setClouds();
             sendAll(new UpdateBoard(gameModel.getBoard()));
+            gameModel.getBoard().getLastRemovedIslands().clear();
         }
         currentClientConnection = gameModel.getCurrentPlayer().getClientID();
         clients.get(currentClientConnection)
@@ -184,14 +191,14 @@ public class GameHandler implements PropertyChangeListener {
                         + gameModel.getCurrentPlayer().getNickname() + " is moving a student from the Entrance..."));
                 break;
             case MOVE_MOTHER_NATURE:
-                if (controller.getCharacterCardName()==null || !controller.getCharacterCardName().equalsIgnoreCase("POSTMAN"))
+                if (controller.getCharacterCardName() == null || !controller.getCharacterCardName().equalsIgnoreCase("POSTMAN"))
                     askActionMessage = new AskActionMessage(controller.getPhase(), gameModel
                             .getPlayerById(currentClientConnection)
                             .getChosenAssistantCard().getMotherNatureSteps());
-                else if(controller.getCharacterCardName().equalsIgnoreCase("POSTMAN"))
+                else if (controller.getCharacterCardName().equalsIgnoreCase("POSTMAN"))
                     askActionMessage = new AskActionMessage(controller.getPhase(), gameModel
                             .getPlayerById(currentClientConnection)
-                            .getChosenAssistantCard().getMotherNatureSteps() + 2 );
+                            .getChosenAssistantCard().getMotherNatureSteps() + 2);
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
                         + gameModel.getCurrentPlayer().getNickname() + " is choosing where to move mother nature..."));
                 break;

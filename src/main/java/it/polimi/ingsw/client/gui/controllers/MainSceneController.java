@@ -9,7 +9,13 @@ import it.polimi.ingsw.server.ConnectionMessage.UpdateBoard;
 import it.polimi.ingsw.server.model.Cloud;
 import it.polimi.ingsw.server.model.Student;
 import it.polimi.ingsw.server.model.School;
+import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -22,6 +28,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 
 import java.util.Objects;
 
@@ -35,7 +42,7 @@ public class MainSceneController implements GuiController {
     @FXML
     private AnchorPane schoolPane, cloudsPane, islandsPane;
     @FXML
-    Label nickname,infoText;
+    Label nickname, infoText;
     @FXML
     AnchorPane entrance, greenStudents, redStudents, yellowStudents, pinkStudents, blueStudents, professors, towers;
     @FXML
@@ -269,31 +276,102 @@ public class MainSceneController implements GuiController {
             i++;
         }
         //Aggiornamento disposizione isole
-        int islandsToRemove;
-        double distance;
+        if (message.getBoard().getLastRemovedIslands().size() > 0) {
+            double sup_distance, inf_distance;
+            Timeline timeline;
+            boolean sup = false, inf = false;
+            int old_sup_islands = sup_islands;
+            for (Integer index : message.getBoard().getLastRemovedIslands()) {
+                islandsPane.getChildren().remove((int) index);
+                if (index <= old_sup_islands) {
+                    sup_islands--;
+                    sup = true;
+                } else {
+                    inf_islands--;
+                    inf = true;
+                }
+            }
+            sup_distance = (685 - sup_islands * 137) / (double) (sup_islands + 1);
+            inf_distance = (685 - inf_islands * 137) / (double) (inf_islands + 1);
+            for (int count = 1; count <= sup_islands && sup; count++) {
+                AnchorPane island = (AnchorPane) islandsPane.getChildren().get(count);
+                double oldXPosition = island.getLayoutX();
+                double finalX = 137 * count + sup_distance * count;
+                timeline = new Timeline(new KeyFrame(
+                        Duration.seconds(0.025), // ogni quanto va chiamata la funzione
+                        x -> moveIsland(island, (int) (finalX - oldXPosition)))
+                );
+                timeline.setCycleCount((int) (Math.abs(oldXPosition - finalX)));
+                timeline.play();
+            }
+            for (int count = islandsPane.getChildren().size() - 1; count >= sup_islands + 2 && inf; count--) {
+                AnchorPane island = (AnchorPane) islandsPane.getChildren().get(count);
+                double oldXPosition = island.getLayoutX();
+                double finalX = 137 * (islandsPane.getChildren().size() - count) + inf_distance * (islandsPane.getChildren().size() - count);
+                timeline = new Timeline(new KeyFrame(
+                        Duration.seconds(0.025), // ogni quanto va chiamata la funzione
+                        x -> moveIsland(island, (int) (finalX - oldXPosition)))
+                );
+                timeline.setCycleCount((int) (Math.abs(oldXPosition - finalX)));
+                timeline.play();
+            }
+            message.getBoard().getLastRemovedIslands().clear();
+        }
+
+        /*
         if ((int) Math.ceil(((float) message.getBoard().getIslands().size() - 2.0) / 2.0) < sup_islands) {
-            islandsToRemove = (int) (sup_islands - Math.ceil(((float) message.getBoard().getIslands().size() - 2.0) / 2.0));
-            islandsPane.getChildren().subList(1, islandsToRemove + 1).clear();
+            //islandsToRemove = (int) (sup_islands - Math.ceil(((float) message.getBoard().getIslands().size() - 2.0) / 2.0));
+            FadeTransition fadeTransition = new FadeTransition(Duration.seconds(3), islandsPane.getChildren().get(1));
+            fadeTransition.setFromValue(1.0);
+            fadeTransition.setToValue(0.0);
+            playAnimationAndWaitForFinish(fadeTransition);
+            for(Integer index : message.getBoard().getLastRemovedIslands()){
+                if(index<=sup_islands){
+                    islandsPane.getChildren().remove((int)index);
+                }
+            }
             sup_islands = (int) Math.ceil(((float) message.getBoard().getIslands().size() - 2.0) / 2.0);
             distance = (685 - sup_islands * 137) / (double) (sup_islands + 1);
             for (int count = 1; count <= sup_islands; count++) {
-                shape = (AnchorPane) islandsPane.getChildren().get(count);
+                AnchorPane island = (AnchorPane) islandsPane.getChildren().get(count);
+                double oldXPosition = island.getLayoutX();
+                double finalX = 137 * count + distance * count;
+                timeline = new Timeline(new KeyFrame(
+                        Duration.seconds(0.025), // ogni quanto va chiamata la funzione
+                        x -> moveIsland(island,(int)(finalX-oldXPosition)))
+                );
+                timeline.setCycleCount((int) (oldXPosition - finalX));
+                timeline.play();
                 shape.setLayoutX(137 * count + distance * count);
                 shape.setLayoutY(0);
             }
+
         }
         if (message.getBoard().getIslands().size() - 2 - sup_islands < inf_islands) {
-            islandsToRemove = inf_islands - (message.getBoard().getIslands().size() - 2 - sup_islands);
+            //islandsToRemove = inf_islands - (message.getBoard().getIslands().size() - 2 - sup_islands);
             int oldSize = islandsPane.getChildren().size();
-            islandsPane.getChildren().subList(oldSize - islandsToRemove, oldSize).clear();
+            for(Integer index : message.getBoard().getLastRemovedIslands()){
+                if(index>sup_islands){
+                    islandsPane.getChildren().remove((int)index);
+                }
+            }
             inf_islands = message.getBoard().getIslands().size() - 2 - sup_islands;
             distance = (685 - inf_islands * 137) / (double) (inf_islands + 1);
             for (int count = islandsPane.getChildren().size() - 1; count >= sup_islands + 2; count--) {
-                shape = (AnchorPane) islandsPane.getChildren().get(count);
+                AnchorPane island = (AnchorPane) islandsPane.getChildren().get(count);
+                double oldXPosition = island.getLayoutX();
+                double finalX = 137 * (islandsPane.getChildren().size() - count) + distance * (islandsPane.getChildren().size() - count);
+                timeline = new Timeline(new KeyFrame(
+                        Duration.seconds(0.025), // ogni quanto va chiamata la funzione
+                        x -> moveIsland(island,(int)(finalX-oldXPosition)))
+                );
+                timeline.setCycleCount((int) (Math.abs(oldXPosition - finalX)));
+                timeline.play();
                 shape.setLayoutX(137 * (islandsPane.getChildren().size() - count) + distance * (islandsPane.getChildren().size() - count));
                 shape.setLayoutY(274);
             }
-        }
+        }*/
+
         //Riempimento isole
         clearAllIslands();
         motherNatureIndex = message.getBoard().getMotherNaturePosition();
@@ -426,6 +504,46 @@ public class MainSceneController implements GuiController {
 
         }
     }
+
+    private void moveIsland(AnchorPane island, int diff) {
+        if (diff < 0) {
+            island.setLayoutX(island.getLayoutX() - 1);
+        } else island.setLayoutX(island.getLayoutX() + 1);
+    }
+    /*
+    private synchronized void playAnimationAndWaitForFinish(final Animation animation) {
+        if (Platform.isFxApplicationThread()) {
+            throw new IllegalThreadStateException("Cannot be executed on main JavaFX thread");
+        }
+        final Thread currentThread = Thread.currentThread();
+        final EventHandler<ActionEvent> originalOnFinished = animation.getOnFinished();
+        animation.setOnFinished(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                if (originalOnFinished != null) {
+                    originalOnFinished.handle(event);
+                }
+                synchronized (currentThread) {
+                    currentThread.notify();
+                }
+            }
+        });
+        Platform.runLater(new Runnable() {
+
+            @Override
+            public void run() {
+                animation.play();
+            }
+        });
+        synchronized (currentThread) {
+            try {
+                currentThread.wait();
+            } catch (InterruptedException ex) {
+                //somebody interrupted me, OK
+            }
+        }
+    }*/
 
 
     @Override

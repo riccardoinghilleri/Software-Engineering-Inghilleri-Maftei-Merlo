@@ -41,6 +41,10 @@ public class Gui extends Application implements View {
         return connection;
     }
 
+    public HashMap<String, Scene> getScenes() {
+        return scenes;
+    }
+
     public void setConnection(ClientConnection connection) {
         if (this.connection == null)
             this.connection = connection;
@@ -84,7 +88,7 @@ public class Gui extends Application implements View {
 
     private void setup() {
         List<String> fxmlList = new ArrayList<>(Arrays.asList("settings.fxml",
-                "waiting.fxml", "setupPlayer.fxml", "assistantCards.fxml", "mainScene.fxml"));
+                "waiting.fxml", "setupPlayer.fxml", "assistantCards.fxml", "mainScene.fxml","shop.fxml"));
         try {
             for (String s : fxmlList) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + s));

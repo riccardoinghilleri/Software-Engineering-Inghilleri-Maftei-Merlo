@@ -14,10 +14,14 @@ import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
@@ -28,6 +32,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.Objects;
@@ -505,6 +511,26 @@ public class MainSceneController implements GuiController {
         }
     }
 
+    public void pressButton(MouseEvent event){
+        ((Button)event.getSource()).setId("buttonPressed");
+    }
+    public void releaseButton(MouseEvent event){
+        ((Button)event.getSource()).setId("buttonReleased");
+    }
+
+    public void openShop(){
+        Platform.runLater(() -> {
+            Stage shop= new Stage();
+            shop.setTitle("CharacterCard Shop");
+            shop.setResizable(false);
+            shop.setAlwaysOnTop(true);
+            shop.setScene(gui.getScenes().get("shop.fxml"));
+            shop.initModality(Modality.APPLICATION_MODAL);
+            shop.setOnCloseRequest(Event::consume);
+            ShopController controller =(ShopController) gui.getControllerByFxmlName("shop.fxml");
+            controller.setStage(shop);
+        });
+    }
     private void moveIsland(AnchorPane island, int diff) {
         if (diff < 0) {
             island.setLayoutX(island.getLayoutX() - 1);

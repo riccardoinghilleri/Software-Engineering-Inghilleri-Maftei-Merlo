@@ -1769,13 +1769,13 @@
             <Image url="@../graphics/assistantCards/Assistente1.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="186.0" fitWidth="137.0" layoutX="61.0" layoutY="444.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="186.0" fitWidth="137.0" layoutX="59.0" layoutY="443.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../graphics/gold_frame.png" />
          </image>
       </ImageView>
-      <Button fx:id="right" layoutX="731.0" layoutY="500.0" mnemonicParsing="false" onAction="#changeSchool" prefHeight="50.0" prefWidth="38.0" styleClass="button_right" />
-      <Button fx:id="left" layoutX="14.0" layoutY="500.0" mnemonicParsing="false" onAction="#changeSchool" prefHeight="50.0" prefWidth="30.0" styleClass="button_left" />
+      <Button fx:id="right" layoutX="741.0" layoutY="500.0" mnemonicParsing="false" onAction="#changeSchool" prefHeight="50.0" prefWidth="38.0" styleClass="button_right" />
+      <Button fx:id="left" layoutX="8.0" layoutY="500.0" mnemonicParsing="false" onAction="#changeSchool" prefHeight="50.0" prefWidth="38.0" styleClass="button_left" />
       <AnchorPane layoutX="770.0" layoutY="412.0" prefHeight="227.0" prefWidth="190.0" styleClass="infoBoard">
          <children>
             <Label layoutX="70.0" layoutY="14.0" text="INFO" textFill="WHITE">
@@ -1788,6 +1788,11 @@
                   <Font name="Britannic Bold" size="14.0" />
                </font>
             </Label>
+            <Button fx:id="buttonReleased" layoutX="24.0" layoutY="154.0" mnemonicParsing="false" onMouseClicked="#openShop" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="50.0" prefWidth="138.0" text="Shop" textFill="WHITE">
+               <font>
+                  <Font name="Britannic Bold" size="14.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="cloudsPane" layoutX="137.0" layoutY="137.0" prefHeight="137.0" prefWidth="685.0">

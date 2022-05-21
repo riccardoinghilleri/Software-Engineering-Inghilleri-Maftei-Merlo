@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="mainPane" stylesheets="@../css/shop.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.ShopController">
+   <children>
+      <Rectangle arcHeight="50.0" arcWidth="50.0" height="300.0" layoutX="100.0" layoutY="50.0" stroke="#ffdf00" strokeType="INSIDE" strokeWidth="5.0" width="400.0">
+         <fill>
+            <RadialGradient centerX="0.5088105642848078" centerY="0.5" radius="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="0.8666666746139526" opacity="0.5927051901817322" />
+                     </color>
+                  </Stop>
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Rectangle>
+      <ImageView fitHeight="220.0" fitWidth="176.0" layoutX="129.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/gold_frame.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="150.0" layoutY="329.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="125.0" text="BUY" textFill="WHITE" />
+      <Button layoutX="325.0" layoutY="329.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="125.0" text="Close" />
+   </children>
+</AnchorPane>

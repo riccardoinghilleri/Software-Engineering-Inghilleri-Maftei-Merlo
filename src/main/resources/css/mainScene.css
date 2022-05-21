@@ -13,14 +13,15 @@
 .blue_student{
     -fx-image:url("../graphics/pieces/student_blue.png");
 }
-.button_right {
+#right{
     -fx-background-color:transparent;
-    -fx-background-image: url("../graphics/btn/right_arrow.png");
+    -fx-background-image: url("../graphics/btn/gold_arrow.png");
     -fx-background-size: stretch;
 }
-.button_left {
+
+#left{
     -fx-background-color:transparent;
-    -fx-background-image: url("../graphics/btn/left_arrow.png");
+    -fx-background-image: url("../graphics/btn/left_gold_arrow.png");
     -fx-background-size: stretch;
 }
 .infoBoard{
@@ -34,4 +35,18 @@
     -fx-background-color:transparent;;
     -fx-background-image:url("../graphics/backgrounds/panel.png");
     -fx-background-position:-30px -62px;
+}
+#buttonReleased{
+    -fx-text-fill: white;
+    -fx-font-family: "Britannic Bold";
+    -fx-background-color:transparent;
+    -fx-background-image: url("../graphics/btn/gold_button.png");
+    -fx-background-size: stretch;
+}
+#buttonPressed{
+-fx-text-fill: white;
+    -fx-font-family: "Britannic Bold";
+    -fx-background-color:transparent;
+    -fx-background-image: url("../graphics/btn/button_Pressed.png");
+    -fx-background-size: stretch;
 }

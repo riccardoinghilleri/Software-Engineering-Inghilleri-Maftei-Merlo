@@ -9,7 +9,7 @@ public class WaitingController implements GuiController {
     private Gui gui;
 
     @FXML
-    TextArea infoText;
+    Label infoText;
     @Override
     public void setGui(Gui gui) {
         this.gui=gui;

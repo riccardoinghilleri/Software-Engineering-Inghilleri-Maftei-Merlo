@@ -137,23 +137,23 @@ public class Gui extends Application implements View {
             case DEFAULT_MOVEMENTS:
                 alreadyAskedAssistantCard=false;
                 Platform.runLater(() -> {
-                    mainSceneController.setInfoText("CHOOSE THE ENTRANCE STUDENT: ");
+                    mainSceneController.setInfoText("Move the entrance student: ");
                     mainSceneController.setCurrentClientId(message.getSchool().getOwner().getClientID());
                     mainSceneController.setAction(Action.DEFAULT_MOVEMENTS);
                 });
 
                 break;
             case MOVE_MOTHER_NATURE:
-                mainSceneController.setInfoText("MOVE MOTHER NATURE: ");
                 mainSceneController.setAction(Action.MOVE_MOTHER_NATURE);
                 Platform.runLater(() -> {
+                    mainSceneController.setInfoText("Move mother nature: ");
                     mainSceneController.enableIslandsBroke(message.getData());
                 });
                 break;
             case CHOOSE_CLOUD:
-                mainSceneController.setInfoText("CHOOSE A CLOUD:  ");
                 mainSceneController.setAction(Action.CHOOSE_CLOUD);
                 Platform.runLater(() -> {
+                    mainSceneController.setInfoText("Choose a cloud:  ");
                     mainSceneController.enableClouds(message);
                 });
                 break;

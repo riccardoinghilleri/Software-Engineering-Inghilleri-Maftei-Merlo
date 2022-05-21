@@ -35,11 +35,7 @@ public class MainSceneController implements GuiController {
     @FXML
     private AnchorPane schoolPane, cloudsPane, islandsPane;
     @FXML
-    Label nickname;
-
-    @FXML
-    TextArea infoText;
-
+    Label nickname,infoText;
     @FXML
     AnchorPane entrance, greenStudents, redStudents, yellowStudents, pinkStudents, blueStudents, professors, towers;
     @FXML

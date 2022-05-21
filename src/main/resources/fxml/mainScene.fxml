@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -1775,15 +1774,20 @@
             <Image url="@../graphics/gold_frame.png" />
          </image>
       </ImageView>
-      <Button fx:id="right" layoutX="741.0" layoutY="500.0" mnemonicParsing="false" onAction="#changeSchool" prefHeight="50.0" prefWidth="38.0" styleClass="button_right" />
+      <Button fx:id="right" layoutX="731.0" layoutY="500.0" mnemonicParsing="false" onAction="#changeSchool" prefHeight="50.0" prefWidth="38.0" styleClass="button_right" />
       <Button fx:id="left" layoutX="14.0" layoutY="500.0" mnemonicParsing="false" onAction="#changeSchool" prefHeight="50.0" prefWidth="30.0" styleClass="button_left" />
-      <AnchorPane layoutX="779.0" layoutY="414.0" prefHeight="227.0" prefWidth="200.0">
+      <AnchorPane layoutX="770.0" layoutY="412.0" prefHeight="227.0" prefWidth="190.0" styleClass="infoBoard">
          <children>
-            <TextArea fx:id="infoText" editable="false" prefHeight="150.0" prefWidth="180.0" wrapText="true">
+            <Label layoutX="70.0" layoutY="14.0" text="INFO" textFill="WHITE">
                <font>
-                  <Font name="System Bold Italic" size="15.0" />
+                  <Font name="Britannic Bold" size="24.0" />
                </font>
-            </TextArea>
+            </Label>
+            <Label fx:id="infoText" alignment="TOP_CENTER" layoutX="23.0" layoutY="67.0" prefHeight="118.0" prefWidth="144.0" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Britannic Bold" size="14.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="cloudsPane" layoutX="137.0" layoutY="137.0" prefHeight="137.0" prefWidth="685.0">

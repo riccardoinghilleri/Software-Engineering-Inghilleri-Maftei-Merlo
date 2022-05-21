@@ -13,7 +13,6 @@
 .blue_student{
     -fx-image:url("../graphics/pieces/student_blue.png");
 }
-
 .button_right {
     -fx-background-color:transparent;
     -fx-background-image: url("../graphics/btn/right_arrow.png");
@@ -23,4 +22,16 @@
     -fx-background-color:transparent;
     -fx-background-image: url("../graphics/btn/left_arrow.png");
     -fx-background-size: stretch;
+}
+.infoBoard{
+    -fx-background-color:transparent;
+    -fx-background-position:center;
+    -fx-background-image: url("../graphics/backgrounds/panel.png");
+    -fx-background-size: stretch;
+}
+
+.infoTextArea .content{
+    -fx-background-color:transparent;;
+    -fx-background-image:url("../graphics/backgrounds/panel.png");
+    -fx-background-position:-30px -62px;
 }

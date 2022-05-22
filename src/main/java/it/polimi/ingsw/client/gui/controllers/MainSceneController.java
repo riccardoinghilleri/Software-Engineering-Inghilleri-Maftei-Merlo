@@ -61,6 +61,10 @@ public class MainSceneController implements GuiController {
         this.message.setAction(action);
         if(action==Action.DEFAULT_MOVEMENTS)
             createPlayer(school[gui.getConnection().getClientId()]);
+        else if (action==Action.USE_CHARACTER_CARD) {
+            ShopController controller = (ShopController) gui.getControllerByFxmlName("shop.fxml");
+            controller.setMessage(this.message);
+        }
     }
 
     public void setInfoText(String text) {
@@ -263,6 +267,7 @@ public class MainSceneController implements GuiController {
         if(gui.isExpertMode()){
             ShopController controller=(ShopController)gui.getControllerByFxmlName("shop.fxml");
             controller.setCharacterCards(((BoardExpert)message.getBoard()).getCharacterCards());
+            //TODO settare monete ma non so il client id
         }
         //Riempimento nuvole
         AnchorPane shape;

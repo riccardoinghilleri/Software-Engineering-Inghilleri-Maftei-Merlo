@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.gui.controllers.*;
 
 import it.polimi.ingsw.enums.Action;
 import it.polimi.ingsw.server.ConnectionMessage.*;
+import it.polimi.ingsw.server.model.CharacterCard;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -95,7 +96,7 @@ public class Gui extends Application implements View {
 
     private void setup() {
         List<String> fxmlList = new ArrayList<>(Arrays.asList("settings.fxml",
-                "waiting.fxml", "setup.fxml", "assistantCards.fxml", "mainScene.fxml","shop.fxml"));
+                "waiting.fxml", "setup.fxml", "assistantCards.fxml", "mainScene.fxml","shop.fxml", "characterCard.fxml"));
         try {
             for (String s : fxmlList) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + s));

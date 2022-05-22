@@ -9,7 +9,7 @@
     <artifactId>PSP35</artifactId>
 
     <version>1.0-SNAPSHOT</version>
-    <name>Eryantis</name>
+    <name>Eriantys</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

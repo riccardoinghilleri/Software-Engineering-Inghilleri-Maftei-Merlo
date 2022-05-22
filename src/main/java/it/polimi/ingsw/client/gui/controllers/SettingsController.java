@@ -3,20 +3,18 @@ package it.polimi.ingsw.client.gui.controllers;
 import it.polimi.ingsw.client.ClientConnection;
 import it.polimi.ingsw.client.gui.Gui;
 import it.polimi.ingsw.server.ConnectionMessage.SettingsMessage;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
-
-import javax.swing.event.ChangeEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -41,6 +39,8 @@ public class SettingsController implements Initializable, GuiController {
     private Label warningIp, warningPort, warningConnection,subtitle;
 
     private final Integer[] numberOfPlayers = {2, 3, 4};
+
+    //1550,4*830,4   1.867
 
     public void confirm() {
         boolean error = false;
@@ -91,8 +91,10 @@ public class SettingsController implements Initializable, GuiController {
     public void getGameMode(ActionEvent event) {
         if (normal.isSelected()) {
             expertMode = false;
+            gui.setExpertMode(false);
         } else if (expert.isSelected()) {
             expertMode = true;
+            gui.setExpertMode(true);
         }
     }
 

@@ -12,7 +12,6 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="500.0" prefWidth="800.0" styleClass="mainPane" stylesheets="@../css/shop.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.ShopController">
    <children>
       <Rectangle arcHeight="50.0" arcWidth="50.0" height="400.0" layoutX="100.0" layoutY="50.0" strokeType="INSIDE" strokeWidth="10.0" width="600.0">
@@ -49,7 +48,7 @@
             </RadialGradient>
          </stroke>
       </Rectangle>
-      <Button layoutX="186.33" layoutY="424.0" mnemonicParsing="false" onAction="#buy" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="50.0" prefWidth="175.0" text="BUY">
+      <Button fx:id="buyBtn" layoutX="186.33" layoutY="424.0" mnemonicParsing="false" onAction="#buy" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="50.0" prefWidth="175.0" text="BUY">
          <textFill>
             <LinearGradient endX="0.6477273016264944" endY="0.5984848340352376">
                <stops>
@@ -70,7 +69,7 @@
             <Font name="Forte" size="18.0" />
          </font>
       </Button>
-      <Button layoutX="444.66" layoutY="424.0" mnemonicParsing="false" onAction="#close" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="50.0" prefWidth="175.0" text="CLOSE">
+      <Button fx:id="closeBtn" layoutX="444.66" layoutY="424.0" mnemonicParsing="false" onAction="#close" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="50.0" prefWidth="175.0" text="CLOSE">
          <textFill>
             <LinearGradient endX="0.4280303170283636" endY="0.5681818326314291">
                <stops>
@@ -106,14 +105,14 @@
             <Image url="@../graphics/backgrounds/wooden_board.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="223.0" fitWidth="160.0" layoutX="196.0" layoutY="148.0" pickOnBounds="true">
+      <ImageView fx:id="characterCardImg" fitHeight="223.0" fitWidth="160.0" layoutX="196.0" layoutY="148.0" pickOnBounds="true">
          <image>
             <Image url="@../graphics/characterCards/centaur.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="left" layoutX="139.0" layoutY="240.0" mnemonicParsing="false" onAction="#changeCard" prefHeight="45.0" prefWidth="40.0" />
-      <Button fx:id="right" layoutX="364.0" layoutY="240.0" mnemonicParsing="false" onAction="#changeCard" prefHeight="45.0" prefWidth="40.0" />
-      <Label alignment="TOP_CENTER" layoutX="206.0" layoutY="107.0" prefHeight="18.0" prefWidth="139.0" styleClass="title" text="NAME" textFill="WHITE">
+      <Button fx:id="left" layoutX="139.0" layoutY="240.0" mnemonicParsing="false" onAction="#changeCard" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="45.0" prefWidth="40.0" />
+      <Button fx:id="right" layoutX="364.0" layoutY="240.0" mnemonicParsing="false" onAction="#changeCard" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="45.0" prefWidth="40.0" />
+      <Label fx:id="characterCardName" alignment="TOP_CENTER" layoutX="206.0" layoutY="107.0" prefHeight="18.0" prefWidth="139.0" styleClass="title" text="NAME" textFill="WHITE">
          <font>
             <Font name="Forte" size="20.0" />
          </font>
@@ -123,7 +122,7 @@
             <Image url="@../graphics/backgrounds/wooden_board_2.png" />
          </image>
       </ImageView>
-      <Label alignment="TOP_CENTER" layoutX="452.0" layoutY="138.0" prefHeight="223.0" prefWidth="160.0" text=" LOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMVLOREM IPSUM" textAlignment="CENTER" wrapText="true">
+      <Label fx:id="characterCardDescription" alignment="TOP_CENTER" layoutX="452.0" layoutY="138.0" prefHeight="223.0" prefWidth="160.0" text=" LOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMVLOREM IPSUM" textAlignment="CENTER" wrapText="true">
          <font>
             <Font name="Forte" size="15.0" />
          </font>
@@ -159,5 +158,10 @@
             <Image url="@../graphics/Moneta_base.png" />
          </image>
       </ImageView>
+      <Label fx:id="coinsLabel" layoutX="722.0" layoutY="435.0" prefHeight="18.0" prefWidth="29.0" text="x1" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

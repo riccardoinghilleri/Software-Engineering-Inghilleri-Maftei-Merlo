@@ -1788,7 +1788,12 @@
                   <Font name="Britannic Bold" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="buttonReleased" layoutX="24.0" layoutY="154.0" mnemonicParsing="false" onMouseClicked="#openShop" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="50.0" prefWidth="138.0" text="SHOP" textFill="WHITE">
+            <Button fx:id="shopBtn" disable="true" layoutX="34.0" layoutY="167.0" mnemonicParsing="false" onAction="#openShop" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="35.0" prefWidth="119.0" text="SHOP" textFill="WHITE" visible="false">
+               <font>
+                  <Font name="Britannic Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="noBtn" disable="true" layoutX="84.0" layoutY="135.0" mnemonicParsing="false" onAction="#noCharacterCard" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="24.0" prefWidth="66.0" text="NO" textFill="WHITE" visible="false">
                <font>
                   <Font name="Britannic Bold" size="14.0" />
                </font>

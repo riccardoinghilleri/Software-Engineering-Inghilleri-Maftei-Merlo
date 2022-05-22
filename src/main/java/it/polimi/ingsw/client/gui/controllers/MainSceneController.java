@@ -6,18 +6,11 @@ import it.polimi.ingsw.enums.CharacterColor;
 import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
 import it.polimi.ingsw.server.ConnectionMessage.AskActionMessage;
 import it.polimi.ingsw.server.ConnectionMessage.UpdateBoard;
-import it.polimi.ingsw.server.model.Cloud;
-import it.polimi.ingsw.server.model.Student;
-import it.polimi.ingsw.server.model.School;
-import javafx.animation.Animation;
-import javafx.animation.FadeTransition;
+import it.polimi.ingsw.server.model.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -55,6 +48,9 @@ public class MainSceneController implements GuiController {
     ImageView assistantCard;
     @FXML
     Circle greenCircle, redCircle, yellowCircle, pinkCircle, blueCircle;
+    @FXML
+    Button shopBtn, noBtn;
+
     private School[] school;
     private int displayedSchool = 0;
     private String studentColor = null;
@@ -75,6 +71,14 @@ public class MainSceneController implements GuiController {
         this.school = school;
         createPlayer(school[gui.getConnection().getClientId()]);
         displayedSchool = gui.getConnection().getClientId();
+    }
+
+    public Button getNoBtn() {
+        return noBtn;
+    }
+
+    public Button getShopBtn() {
+        return shopBtn;
     }
 
     public void sendMessage(MouseEvent event) {
@@ -255,6 +259,10 @@ public class MainSceneController implements GuiController {
             firstTime = false;
             sup_islands = 5;
             inf_islands = 5;
+        }
+        if(gui.isExpertMode()){
+            ShopController controller=(ShopController)gui.getControllerByFxmlName("shop.fxml");
+            controller.setCharacterCards(((BoardExpert)message.getBoard()).getCharacterCards());
         }
         //Riempimento nuvole
         AnchorPane shape;
@@ -506,18 +514,19 @@ public class MainSceneController implements GuiController {
         }
     }
 
-    public void pressButton(MouseEvent event){
-        ((Button)event.getSource()).getStyleClass().add("buttonPressed");
+    public void pressButton(MouseEvent event) {
+        ((Button) event.getSource()).getStyleClass().add("buttonPressed");
 
     }
-    public void releaseButton(MouseEvent event){
-        ((Button)event.getSource()).getStyleClass().clear();
-        ((Button)event.getSource()).getStyleClass().add("button");
+
+    public void releaseButton(MouseEvent event) {
+        ((Button) event.getSource()).getStyleClass().clear();
+        ((Button) event.getSource()).getStyleClass().add("button");
     }
 
-    public void openShop(){
+    public void openShop(ActionEvent event) {
         Platform.runLater(() -> {
-            Stage shop= new Stage();
+            Stage shop = new Stage();
             shop.setTitle("CharacterCard Shop");
             shop.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/graphics/icon.png"))));
             shop.setResizable(false);
@@ -525,11 +534,26 @@ public class MainSceneController implements GuiController {
             shop.setScene(gui.getScenes().get("shop.fxml"));
             shop.initModality(Modality.APPLICATION_MODAL);
             //shop.setOnCloseRequest(Event::consume);
-            ShopController controller =(ShopController) gui.getControllerByFxmlName("shop.fxml");
+            ShopController controller = (ShopController) gui.getControllerByFxmlName("shop.fxml");
             controller.setStage(shop);
+            controller.setMessage(this.message);
+            controller.createCharacterCard();
+            //TODO devo mandarmi le monete che ho controller.setCoinsLabel();
             shop.show();
+            if (!noBtn.isDisable()) {
+                noBtn.setDisable(true);
+                noBtn.setVisible(false);
+            }
         });
     }
+
+    public void noCharacterCard(ActionEvent event) {
+        message.setCharacterCardName(null);
+        noBtn.setDisable(true);
+        noBtn.setVisible(false);
+        gui.getConnection().send(message);
+    }
+
     private void moveIsland(AnchorPane island, int diff) {
         if (diff < 0) {
             island.setLayoutX(island.getLayoutX() - 1);

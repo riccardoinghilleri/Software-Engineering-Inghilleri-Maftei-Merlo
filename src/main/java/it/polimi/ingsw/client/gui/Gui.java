@@ -25,11 +25,12 @@ public class Gui extends Application implements View {
     private final HashMap<String, Scene> scenes = new HashMap<>(); //TODO forse è meglio avere un costruttore?
     private final HashMap<String, GuiController> controllers = new HashMap<>(); //TODO forse è meglio avere un costruttore?
 
-    private Integer playersNumber=2;
+    private Integer playersNumber = 2;
     private String address;
     private int port;
+    private boolean expertMode;
 
-    private boolean alreadyAskedAssistantCard =false;
+    private boolean alreadyAskedAssistantCard = false;
 
     public static void main(String[] args) {
         launch(args);
@@ -37,6 +38,10 @@ public class Gui extends Application implements View {
 
     public ClientConnection getConnection() {
         return connection;
+    }
+
+    public void setExpertMode(boolean expertMode) {
+        this.expertMode = expertMode;
     }
 
     public HashMap<String, Scene> getScenes() {
@@ -60,14 +65,18 @@ public class Gui extends Application implements View {
         return controllers.get(name);
     }
 
-    public GuiController getControllerByScene(Scene scene){
-        String currentSceneFxmlName=null;
-        for(String s: scenes.keySet()){
-            if(scenes.get(s).equals(scene)){
-                currentSceneFxmlName=s;
+    public GuiController getControllerByScene(Scene scene) {
+        String currentSceneFxmlName = null;
+        for (String s : scenes.keySet()) {
+            if (scenes.get(s).equals(scene)) {
+                currentSceneFxmlName = s;
             }
         }
         return getControllerByFxmlName(currentSceneFxmlName);
+    }
+
+    public boolean isExpertMode() {
+        return expertMode;
     }
 
     public void setAddress(String address) {
@@ -114,11 +123,11 @@ public class Gui extends Application implements View {
 
     @Override
     public void askAction(AskActionMessage message) {
-        MainSceneController mainSceneController= (MainSceneController) getControllerByFxmlName("mainScene.fxml");
-        switch(message.getAction()){
+        MainSceneController mainSceneController = (MainSceneController) getControllerByFxmlName("mainScene.fxml");
+        switch (message.getAction()) {
             case CHOOSE_ASSISTANT_CARD:
                 Platform.runLater(() -> {
-                    Stage chooseAssistantCard= new Stage();
+                    Stage chooseAssistantCard = new Stage();
                     chooseAssistantCard.setTitle("Eriantys");
                     chooseAssistantCard.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/graphics/icon.png"))));
                     chooseAssistantCard.setResizable(false);
@@ -129,18 +138,31 @@ public class Gui extends Application implements View {
                     AssistantCardsController controller = (AssistantCardsController) getControllerByFxmlName("assistantCards.fxml");
                     controller.setStage(chooseAssistantCard);
                     controller.enableCards(message.getAvailableAssistantCards());
-                    if(alreadyAskedAssistantCard)
+                    if (alreadyAskedAssistantCard)
                         controller.error();
-                    alreadyAskedAssistantCard=true;
+                    alreadyAskedAssistantCard = true;
                     chooseAssistantCard.showAndWait();
                 });
                 break;
             case CHOOSE_CHARACTER_CARD:
+                Platform.runLater(() -> {
+                    mainSceneController.getNoBtn().setDisable(false);
+                    mainSceneController.getNoBtn().setVisible(true);
+                    ShopController shopController= (ShopController) getControllerByFxmlName("shop.fxml");
+                    shopController.getBuyBtn().setDisable(false);
+                    shopController.setCharacterCards(message.getCharacterCards());
+                    mainSceneController.setInfoText("Do you want to use a Character Card?");
+                    mainSceneController.setAction(Action.CHOOSE_CHARACTER_CARD);
+                });
                 break;
             case USE_CHARACTER_CARD:
+                Platform.runLater(() -> {
+                    mainSceneController.setInfoText("You are watching the Shop");
+                    mainSceneController.setAction(Action.USE_CHARACTER_CARD);
+                });
                 break;
             case DEFAULT_MOVEMENTS:
-                alreadyAskedAssistantCard=false;
+                alreadyAskedAssistantCard = false;
                 Platform.runLater(() -> {
                     mainSceneController.setInfoText("Move the entrance student: ");
                     mainSceneController.setAction(Action.DEFAULT_MOVEMENTS);
@@ -167,13 +189,11 @@ public class Gui extends Application implements View {
     @Override
     public void displayInfo(InfoMessage message) {
         Platform.runLater(() -> {
-            if(getControllerByScene(currentScene) instanceof WaitingController)
-                ((WaitingController)getControllerByScene(currentScene)).setInfoText(message.getString());
+            if (getControllerByScene(currentScene) instanceof WaitingController)
+                ((WaitingController) getControllerByScene(currentScene)).setInfoText(message.getString());
             else if (getControllerByScene(currentScene) instanceof MainSceneController)
-                ((MainSceneController)getControllerByScene(currentScene)).setInfoText(message.getString());
+                ((MainSceneController) getControllerByScene(currentScene)).setInfoText(message.getString());
         });
-
-
     }
 
     @Override
@@ -201,9 +221,16 @@ public class Gui extends Application implements View {
     @Override
     public void displayBoard(UpdateBoard message) {
         Platform.runLater(() -> {
-            if(getControllerByScene(currentScene) instanceof WaitingController)
+            MainSceneController controller;
+            if (getControllerByScene(currentScene) instanceof WaitingController) {
                 changeScene("mainScene.fxml");
-            MainSceneController controller = (MainSceneController) getControllerByScene(currentScene);
+                controller = (MainSceneController) getControllerByScene(currentScene);
+                if (expertMode) {
+                    controller.getShopBtn().setVisible(true);
+                    controller.getShopBtn().setDisable(false);
+                }
+            }
+            controller = (MainSceneController) getControllerByScene(currentScene);
             controller.update(message);
             controller.setSchool(message.getBoard().getSchools());
         });

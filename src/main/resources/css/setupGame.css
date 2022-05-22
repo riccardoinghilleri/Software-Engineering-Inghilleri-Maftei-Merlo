@@ -7,32 +7,28 @@
 }
 
 .buttonPressed{
--fx-text-fill: white;
+    -fx-text-fill: white;
     -fx-font-family: "Forte";
     -fx-background-color:transparent;
     -fx-background-image: url("../graphics/btn/button_Pressed.png");
     -fx-background-size: stretch;
 }
-
-.gold_label{
-    -fx-font-size: 15;
-    -fx-text-fill:white;
-    -fx-font-family: "Forte";
-    -fx-background-color:gold;
-    -fx-background-radius:5;
-}
-
 .waiting_label{
     -fx-font-size: 30;
     -fx-text-fill:white;
     -fx-font-family: "Forte";
-    -fx-background-size: stretch;
 }
-.label{
-  -fx-font-size: 20;
+.white_label{
+  -fx-font-size: 18;
   -fx-text-fill:white;
   -fx-font-family: "Forte";
 }
+.main_title{
+  -fx-font-size: 50;
+  -fx-text-fill:white;
+  -fx-font-family: "Britannic Bold";
+}
+
 .error{
   -fx-font-size: 15;
   -fx-text-fill:#b92e2e;
@@ -40,6 +36,8 @@
 }
 #title{
     -fx-font-size: 30;
+    -fx-text-fill:white;
+    -fx-font-family: "Forte";
 }
 #right{
     -fx-background-color:transparent;

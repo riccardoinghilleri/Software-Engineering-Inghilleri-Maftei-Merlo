@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 
 import javax.swing.event.ChangeEvent;
@@ -27,6 +28,8 @@ public class SettingsController implements Initializable, GuiController {
     private Gui gui;
     private boolean expertMode;
     @FXML
+    AnchorPane connection_pane,settings_pane;
+    @FXML
     private TextField address;
     @FXML
     private TextField port;
@@ -35,7 +38,7 @@ public class SettingsController implements Initializable, GuiController {
     @FXML
     private RadioButton normal, expert;
     @FXML
-    private Label warningIp, warningPort, warningConnection;
+    private Label warningIp, warningPort, warningConnection,subtitle;
 
     private final Integer[] numberOfPlayers = {2, 3, 4};
 
@@ -46,33 +49,38 @@ public class SettingsController implements Initializable, GuiController {
         warningIp.setVisible(false);
         warningPort.setVisible(false);
         warningConnection.setVisible(false);
-        if (!m.matches()) {
-            warningIp.setVisible(true);
-            address.clear();
-            error = true;
-        }
-        if (port.getText().isEmpty() || Integer.parseInt(port.getText()) < 1024 || Integer.parseInt(port.getText()) > 65535) {
-            warningPort.setVisible(true);
-            port.clear();
-            error = true;
-        }
-        if (!error) {
-            try {
-                gui.setAddress(address.getText());
-                gui.setPort(Integer.parseInt(port.getText()));
-                gui.setConnection(new ClientConnection(gui));
-                Thread t = new Thread(gui.getConnection());
-                t.start();
-                gui.getConnection().send(new SettingsMessage(gui.getPlayersNumber(), this.expertMode));
-                gui.changeScene("waiting.fxml");
-            } catch (IOException e) {
-                //e.printStackTrace();
-                warningConnection.setVisible(true);
+
+        if(connection_pane.isVisible()) {
+            if (!m.matches()) {
+                warningIp.setVisible(true);
                 address.clear();
-                port.clear();
-                //printer.println("Error while opening the socket");
-                //setupConnection();
+                error = true;
             }
+            if (port.getText().isEmpty() || Integer.parseInt(port.getText()) < 1024 || Integer.parseInt(port.getText()) > 65535) {
+                warningPort.setVisible(true);
+                port.clear();
+                error = true;
+            }
+            if (!error) {
+                try {
+                    gui.setAddress(address.getText());
+                    gui.setPort(Integer.parseInt(port.getText()));
+                    gui.setConnection(new ClientConnection(gui));
+                    Thread t = new Thread(gui.getConnection());
+                    t.start();
+                    subtitle.setText("GameMode");
+                    connection_pane.setVisible(false);
+                    settings_pane.setVisible(true);
+                } catch (IOException e) {
+                    warningConnection.setVisible(true);
+                    address.clear();
+                    port.clear();
+
+                }
+            }
+        }else {
+            gui.getConnection().send(new SettingsMessage(gui.getPlayersNumber(), this.expertMode));
+            gui.changeScene("waiting.fxml");
         }
     }
 

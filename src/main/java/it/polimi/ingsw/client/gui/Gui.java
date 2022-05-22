@@ -143,7 +143,6 @@ public class Gui extends Application implements View {
                 alreadyAskedAssistantCard=false;
                 Platform.runLater(() -> {
                     mainSceneController.setInfoText("Move the entrance student: ");
-                    mainSceneController.setCurrentClientId(message.getSchool().getOwner().getClientID());
                     mainSceneController.setAction(Action.DEFAULT_MOVEMENTS);
                 });
 

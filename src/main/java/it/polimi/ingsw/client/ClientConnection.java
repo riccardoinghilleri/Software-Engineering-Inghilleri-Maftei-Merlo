@@ -16,12 +16,13 @@ public class ClientConnection implements Runnable {
     private final String serverAddress;
     private final int serverPort;
 
+    private int clientId;
+
     private Socket socket;
     private boolean active;
 
     private ObjectOutputStream os;
     private ObjectInputStream is;
-
     private final View view;
 
     public ClientConnection(View view) throws IOException {
@@ -52,7 +53,9 @@ public class ClientConnection implements Runnable {
                 Object message = is.readObject();
                 if (message instanceof InfoMessage && ((InfoMessage) message).getString().equalsIgnoreCase("PING")) {
                     send(new InfoMessage("PING"));
-                } else manageMessage((Message) message);
+                } else if(message instanceof ConnectionIdMessage)
+                    this.clientId=((ConnectionIdMessage)message).getId();
+                else manageMessage((Message) message);
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -63,5 +66,7 @@ public class ClientConnection implements Runnable {
         ((ServerMessage) message).forward(view);
     }
 
-
+    public int getClientId() {
+        return clientId;
+    }
 }

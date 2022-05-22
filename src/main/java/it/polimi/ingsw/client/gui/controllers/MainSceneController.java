@@ -56,13 +56,15 @@ public class MainSceneController implements GuiController {
     @FXML
     Circle greenCircle, redCircle, yellowCircle, pinkCircle, blueCircle;
     private School[] school;
-    private int displayedSchool = 0, currentClientId = -1;
+    private int displayedSchool = 0;
     private String studentColor = null;
     private ActionMessage message;
 
     public void setAction(Action action) {
-        message = new ActionMessage();
+        this.message=new ActionMessage();
         this.message.setAction(action);
+        if(action==Action.DEFAULT_MOVEMENTS)
+            createPlayer(school[gui.getConnection().getClientId()]);
     }
 
     public void setInfoText(String text) {
@@ -71,8 +73,8 @@ public class MainSceneController implements GuiController {
 
     public void setSchool(School[] school) {
         this.school = school;
-        createPlayer(school[0]);
-        displayedSchool = 0;
+        createPlayer(school[gui.getConnection().getClientId()]);
+        displayedSchool = gui.getConnection().getClientId();
     }
 
     public void sendMessage(MouseEvent event) {
@@ -81,13 +83,6 @@ public class MainSceneController implements GuiController {
         disableAllIslandsBroke();
         gui.getConnection().send(message);
     }
-
-    public void setCurrentClientId(int id) {
-        currentClientId = id;
-        displayedSchool = id;
-        createPlayer(school[id]);
-    }
-
 
     public void glowEntrance(boolean value) {
         for (int i = 0; i < 9; i++) {
@@ -218,8 +213,8 @@ public class MainSceneController implements GuiController {
                     .getResourceAsStream("/graphics/pieces/" + school.getTowerColor().toString() + "_tower.png"))));
             tower.setVisible(i < school.getTowersNumber());
         }
-        if (school.getOwnerId() != currentClientId
-                || (message != null && message.getAction() != Action.DEFAULT_MOVEMENTS)) {
+        if (school.getOwnerId() != gui.getConnection().getClientId()
+                || message == null || message.getAction() != Action.DEFAULT_MOVEMENTS) {
             schoolPane.setDisable(true);
             glowEntrance(false);
         } else {

@@ -80,6 +80,9 @@ public class GameHandler implements PropertyChangeListener {
                     turnNumber = 1;
                     phase = GameHandlerPhase.PIANIFICATION;
                     gameModel.createBoard();
+                    for(VirtualView view:clients){
+                        view.sendMessage(new ConnectionIdMessage(clients.indexOf(view)));
+                    }
                     pianificationTurn();
                     //TODO forse si deve fare il display della board
                 } else {

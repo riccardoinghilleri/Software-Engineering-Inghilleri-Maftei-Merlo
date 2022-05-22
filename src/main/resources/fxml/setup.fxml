@@ -38,17 +38,17 @@
          </stroke>
       </Rectangle>
       <Rectangle fx:id="nickname_rectangle" fill="#ffa500" height="30.0" layoutX="55.0" layoutY="120.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="163.333" />
-      <Rectangle fx:id="color_rectangle" fill="#ffffff80" height="30.0" layoutX="218.333" layoutY="120.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="163.333" />
+      <Rectangle fx:id="color_rectangle" fill="#ffa10080" height="30.0" layoutX="218.333" layoutY="120.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="163.333" />
       <Rectangle fx:id="wizard_rectangle" fill="#ffa50080" height="30.0" layoutX="381.66" layoutY="120.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="163.333" />
       <Label fx:id="title" layoutX="177.0" layoutY="67.0" styleClass="title" text="BUILD your Player" />
-      <Label layoutX="95.0" layoutY="123.0" text="Nickname" />
-      <Label layoutX="275.0" layoutY="123.0" text="Color" />
-      <Label layoutX="433.0" layoutY="123.0" text="Wizard" />
+      <Label layoutX="95.0" layoutY="123.0" styleClass="white_label" text="Nickname" />
+      <Label layoutX="275.0" layoutY="123.0" styleClass="white_label" text="Color" />
+      <Label layoutX="433.0" layoutY="123.0" styleClass="white_label" text="Wizard" />
       <AnchorPane fx:id="nickname_pane" layoutX="55.0" layoutY="147.0" prefHeight="200.0" prefWidth="490.0">
          <children>
             <TextField fx:id="nickname_textField" layoutX="163.0" layoutY="85.0" prefHeight="30.0" prefWidth="163.33" />
             <Label fx:id="error_label" layoutX="70.0" layoutY="139.0" styleClass="error" text="Sorry, this nickname is not available. Please, try again." textFill="#b92e2e" visible="false" />
-            <Label fx:id="nickname_label" layoutX="148.0" layoutY="41.0" text="Choose your nickname:">
+            <Label fx:id="nickname_label" layoutX="148.0" layoutY="41.0" styleClass="white_label" text="Choose your nickname:">
                <font>
                   <Font size="14.0" />
                </font>

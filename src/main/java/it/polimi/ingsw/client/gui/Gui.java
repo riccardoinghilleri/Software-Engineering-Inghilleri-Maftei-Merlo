@@ -86,7 +86,7 @@ public class Gui extends Application implements View {
 
     private void setup() {
         List<String> fxmlList = new ArrayList<>(Arrays.asList("settings.fxml",
-                "waiting.fxml", "setupPlayer.fxml", "assistantCards.fxml", "mainScene.fxml","shop.fxml"));
+                "waiting.fxml", "setup.fxml", "assistantCards.fxml", "mainScene.fxml","shop.fxml"));
         try {
             for (String s : fxmlList) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + s));
@@ -180,13 +180,11 @@ public class Gui extends Application implements View {
     @Override
     public void setupMultipleChoice(MultipleChoiceMessage message) {
         Platform.runLater(() -> {
-            SetupPlayerController controller = (SetupPlayerController) getControllerByFxmlName("setupPlayer.fxml");
-            if (!controller.getCheck().isDisable() && !controller.getNickname().isDisable()) {
-                controller.setNicknameNotAvailable(false);
+            SetupController controller = (SetupController) getControllerByFxmlName("setup.fxml");
+            if (controller.getNickname().isVisible()) {
                 controller.enablePlayerColors(message.getAvailableChoices());
             } else {
                 controller.enableWizards(message.getAvailableChoices());
-                //WaitingController controller = (WaitingController) getControllerByFxmlName("waiting.fxml");
             }
         });
     }
@@ -194,11 +192,10 @@ public class Gui extends Application implements View {
     @Override
     public void setupNickname(NicknameMessage message) {
         Platform.runLater(() -> {
-            SetupPlayerController controller = (SetupPlayerController) getControllerByFxmlName("setupPlayer.fxml");
+            SetupController controller = (SetupController) getControllerByFxmlName("setup.fxml");
             if (message.getAlreadyAsked()) {
                 controller.setNicknameNotAvailable(true);
-                controller.setCheckNickname(false);
-            } else changeScene("setupPlayer.fxml");
+            } else changeScene("setup.fxml");
         });
     }
 

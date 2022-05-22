@@ -263,7 +263,10 @@ public class Board implements Serializable {
                 lastRemovedIslands.add(islandPosition);
             else lastRemovedIslands.add(position);
             islands.remove(position);
-            islands.get(motherNaturePosition).setMotherNature(false);
+            /*if(islands.size()>motherNaturePosition)
+                islands.get(motherNaturePosition).setMotherNature(false);*/
+            if(position==islands.size())
+                position --;
             islands.get(position).setMotherNature(true);
             motherNaturePosition = position;
         } else {

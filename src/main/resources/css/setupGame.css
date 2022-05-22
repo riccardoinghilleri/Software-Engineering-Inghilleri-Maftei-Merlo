@@ -29,10 +29,14 @@
     -fx-background-size: stretch;
 }
 .label{
-  -fx-font-size: 15;
+  -fx-font-size: 20;
   -fx-text-fill:white;
   -fx-font-family: "Forte";
-  -fx-background-size: stretch;
+}
+.error{
+  -fx-font-size: 15;
+  -fx-text-fill:#b92e2e;
+  -fx-font-family: "Forte";
 }
 #title{
     -fx-font-size: 30;

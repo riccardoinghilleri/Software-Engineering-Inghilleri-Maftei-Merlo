@@ -35,11 +35,9 @@ public class ShopController implements GuiController {
     @FXML
     private Label characterCardName, characterCardDescription, coinsLabel;
     @FXML
-    private Button buyBtn, closeBtn;
-
+    private Button buyBtn;
     @FXML
     private AnchorPane studentsPane;
-
     @FXML
     private ImageView characterCardImg;
 
@@ -77,7 +75,7 @@ public class ShopController implements GuiController {
         ((Button) event.getSource()).getStyleClass().add("button");
     }
 
-    public void buy(ActionEvent event) {
+    public void buy() {
         message.setCharacterCardName(characterCardName.getText().toUpperCase());
         buyBtn.setDisable(true);
         gui.getConnection().send(message);
@@ -112,11 +110,11 @@ public class ShopController implements GuiController {
         if (characterCards[displayedCard] instanceof CharacterCardwithStudents) {
             studentsPane.setVisible(true);
             for (int i = 0; i < 6; i++) {
-                String color = ((CharacterCardwithStudents) characterCards[displayedCard])
-                        .getStudents().get(i).getColor().toString();
                 if (i < ((CharacterCardwithStudents) characterCards[displayedCard]).getStudents().size()) {
+                    String color = ((CharacterCardwithStudents) characterCards[displayedCard])
+                            .getStudents().get(i).getColor().toString();
                     ((ImageView) studentsPane.getChildren().get(i)).setImage(new Image(Objects.requireNonNull(getClass()
-                            .getResourceAsStream("/graphics/pieces/"
+                            .getResourceAsStream("/graphics/pieces/student_"
                                     + color.toLowerCase() + ".png"))));
                     studentsPane.getChildren().get(i + 6).setVisible(true);
                     studentsPane.getChildren().get(i).setVisible(true);
@@ -126,21 +124,16 @@ public class ShopController implements GuiController {
                     studentsPane.getChildren().get(i).setVisible(false);
                 }
             }
-        } /*else if (characterCardName.getText().equalsIgnoreCase("LUMBERJACK")
-                || characterCardName.getText().equalsIgnoreCase("THIEF")) {
-            for (int i = 0; i < 5; i++) {
-                ((ImageView) studentsPane.getChildren().get(i)).setImage(new Image(Objects.requireNonNull(getClass()
-                        .getResourceAsStream("/graphics/pieces/"
-                                + CharacterColor.values()[i].toString().toLowerCase() + ".png"))));
-                studentsPane.getChildren().get(i + 6).setVisible(true);
-                studentsPane.getChildren().get(i).setVisible(true);
-                studentsPane.getChildren().get(i + 6).setId(CharacterColor.values()[i].toString());
-            }
-            studentsPane.getChildren().get(5).setVisible(false);
-            studentsPane.getChildren().get(11).setVisible(false);
-        }*/ else {
+        } else {
             studentsPane.setVisible(false);
         }
+    }
+
+    public void clear() {
+        for (int i = 0; i < 12; i++) {
+            studentsPane.getChildren().get(i).setVisible(false);
+        }
+        studentsPane.setVisible(false);
     }
 
     public void select(MouseEvent event) {

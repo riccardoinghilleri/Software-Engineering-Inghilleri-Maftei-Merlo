@@ -78,7 +78,7 @@ public class SettingsController implements Initializable, GuiController {
 
                 }
             }
-        }else {
+        } else {
             gui.getConnection().send(new SettingsMessage(gui.getPlayersNumber(), this.expertMode));
             gui.changeScene("waiting.fxml");
         }

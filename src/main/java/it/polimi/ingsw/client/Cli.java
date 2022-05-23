@@ -271,10 +271,10 @@ public class Cli implements View {
         ActionMessage answer = new ActionMessage();
         CharacterCard characterCard = message.getChosenCharacterCard();
         answer.setAction(Action.USE_CHARACTER_CARD);
-        answer.setCharacterCardName(characterCard.getName().toString());
+        answer.setCharacterCardName(characterCard.getName().toString().toUpperCase());
         String parameter;
         switch (characterCard.getName()) {
-            case PRIEST: //isole e colore dello studente
+            case PRIEST: //isole e colore dello studente sulla carta
                 answer.setParameter(chooseStudentColor(((CharacterCardwithStudents) characterCard).getStudents(),
                         false, ">Please choose the color of the student that you want to move from the Card:"));
                 answer.setData(chooseIsland(message.getIslands()) - 1);
@@ -290,11 +290,12 @@ public class Cli implements View {
                     answer.setData(InputController.checkRange(1, 3));
                 }
                 //printer.println(">Students on the Character Card: ");
+                else{
                 answer.setParameter(chooseStudentColor(((CharacterCardwithStudents) characterCard).getStudents(),
                         true, ">Please choose the color of the student that you want to move from the Card:"));
                 //printer.println(">These are your entrance's students:");
                 answer.setParameter(chooseStudentColor(message.getSchool().getEntrance(), true,
-                        ">Please choose the color of the student that you want to move from your Entrance:"));
+                        ">Please choose the color of the student that you want to move from your Entrance:"));}
                 break;
             case LUMBERJACK: //colore a caso disponibile in character color
             case THIEF: //colore casuale

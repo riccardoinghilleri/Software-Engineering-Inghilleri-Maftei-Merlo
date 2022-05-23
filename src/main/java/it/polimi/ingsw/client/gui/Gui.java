@@ -41,6 +41,7 @@ public class Gui extends Application implements View {
         return connection;
     }
 
+
     public void setExpertMode(boolean expertMode) {
         this.expertMode = expertMode;
     }
@@ -96,7 +97,7 @@ public class Gui extends Application implements View {
 
     private void setup() {
         List<String> fxmlList = new ArrayList<>(Arrays.asList("settings.fxml",
-                "waiting.fxml", "setup.fxml", "assistantCards.fxml", "mainScene.fxml","shop.fxml", "characterCard.fxml"));
+                "waiting.fxml", "setup.fxml", "assistantCards.fxml", "mainScene.fxml", "shop.fxml", "characterCard.fxml"));
         try {
             for (String s : fxmlList) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + s));
@@ -119,6 +120,7 @@ public class Gui extends Application implements View {
         stage.setTitle("Eriantys");
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/graphics/icon.png"))));
         stage.setScene(currentScene);
+        stage.setResizable(false);
         stage.show();
     }
 
@@ -136,7 +138,8 @@ public class Gui extends Application implements View {
                     chooseAssistantCard.setScene(scenes.get("assistantCards.fxml"));
                     chooseAssistantCard.initModality(Modality.APPLICATION_MODAL);
                     chooseAssistantCard.setOnCloseRequest(Event::consume);
-                    AssistantCardsController controller = (AssistantCardsController) getControllerByFxmlName("assistantCards.fxml");
+                    AssistantCardsController controller =
+                            (AssistantCardsController) getControllerByFxmlName("assistantCards.fxml");
                     controller.setStage(chooseAssistantCard);
                     controller.enableCards(message.getAvailableAssistantCards());
                     if (alreadyAskedAssistantCard)
@@ -149,17 +152,49 @@ public class Gui extends Application implements View {
                 Platform.runLater(() -> {
                     mainSceneController.getNoBtn().setDisable(false);
                     mainSceneController.getNoBtn().setVisible(true);
-                    ShopController shopController= (ShopController) getControllerByFxmlName("shop.fxml");
-                    shopController.getBuyBtn().setDisable(false);
+                    ShopController shopController = (ShopController) getControllerByFxmlName("shop.fxml");
                     shopController.setCharacterCards(message.getCharacterCards());
                     mainSceneController.setInfoText("Do you want to use a Character Card?");
                     mainSceneController.setAction(Action.CHOOSE_CHARACTER_CARD);
+                    ((CharacterCardController) (getControllerByFxmlName("characterCard.fxml")))
+                            .setAlreadyAskedMovements(false);
                 });
                 break;
             case USE_CHARACTER_CARD:
                 Platform.runLater(() -> {
-                    mainSceneController.setInfoText("You are watching the Shop");
+                    mainSceneController.setInfoText("You are using the Character Card");
                     mainSceneController.setAction(Action.USE_CHARACTER_CARD);
+                    mainSceneController.getMessage()
+                            .setCharacterCardName(message.getChosenCharacterCard().toString().toUpperCase());
+                    if (message.getChosenCharacterCard().getName().toString().equalsIgnoreCase("PERFORMER")
+                            && ((CharacterCardController) getControllerByFxmlName("characterCard.fxml"))
+                            .isAlreadyAskedMovements()) {
+                            //TODO performer. fare movimento tra diningroom ed entrance
+                    } else {
+                        switch (message.getChosenCharacterCard().getName()) {
+                            case DIPLOMAT:
+                            case HERBOLARIA:
+                                mainSceneController.enableAllIslandsBroke();
+                                break;
+                            default:
+                                Stage characterCard = new Stage();
+                                characterCard.setTitle("Eriantys");
+                                characterCard.getIcons().add(new Image(Objects.requireNonNull(getClass()
+                                        .getResourceAsStream("/graphics/icon.png"))));
+                                characterCard.setResizable(false);
+                                characterCard.setAlwaysOnTop(true);
+                                characterCard.setScene(scenes.get("characterCard.fxml"));
+                                characterCard.initModality(Modality.APPLICATION_MODAL);
+                                //characterCard.setOnCloseRequest(Event::consume);
+                                CharacterCardController controller =
+                                        (CharacterCardController) getControllerByFxmlName("characterCard.fxml");
+                                controller.setStage(characterCard);
+                                controller.setMainSceneController(mainSceneController);
+                                controller.update(message.getChosenCharacterCard());
+                                characterCard.showAndWait();
+                                break;
+                        }
+                    }
                 });
                 break;
             case DEFAULT_MOVEMENTS:
@@ -232,6 +267,7 @@ public class Gui extends Application implements View {
                 }
             }
             controller = (MainSceneController) getControllerByScene(currentScene);
+            controller.setAction(null);
             controller.update(message);
             controller.setSchool(message.getBoard().getSchools());
         });

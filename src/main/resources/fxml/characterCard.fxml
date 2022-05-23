@@ -14,12 +14,11 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="494.0" prefWidth="391.0" stylesheets="@../css/setupGame.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.CharacterCardController">
    <children>
       <ImageView fitHeight="494.0" fitWidth="391.0" opacity="0.65" pickOnBounds="true">
          <image>
-            <Image url="@../../../../../graphics/sky_background.png" />
+            <Image url="@../graphics/backgrounds/sky_background.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
@@ -27,7 +26,7 @@
             <Image url="@../graphics/backgrounds/wooden_board.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="289.0" fitWidth="216.0" layoutX="40.0" layoutY="66.0" pickOnBounds="true">
+      <ImageView fx:id="cardImg" fitHeight="289.0" fitWidth="216.0" layoutX="42.0" layoutY="66.0" pickOnBounds="true">
          <image>
             <Image url="@../graphics/characterCards/clown.jpg" />
          </image>
@@ -42,12 +41,12 @@
             <Image url="@../graphics/backgrounds/notice.png" />
          </image>
       </ImageView>
-      <Label layoutX="111.0" layoutY="18.0" text="CardName" textFill="WHITE">
+      <Label fx:id="cardName" alignment="CENTER" layoutX="100.0" layoutY="15.0" text="CardName" textFill="WHITE">
          <font>
             <Font name="Forte" size="20.0" />
          </font>
       </Label>
-      <AnchorPane fx:id="studentsPane" layoutX="20.0" layoutY="410.0" prefHeight="30.0" prefWidth="181.0">
+      <AnchorPane fx:id="studentsPane" layoutX="20.0" layoutY="410.0" prefHeight="30.0" prefWidth="181.0" visible="false">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" height="35.0" layoutX="-6.5" layoutY="-4.0" stroke="BLACK" strokeType="INSIDE" width="200.0">
                <fill>
@@ -73,6 +72,24 @@
             <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="98.4" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="green_student" />
             <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="130.4" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="green_student" />
             <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="162.4" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="green_student" />
+            <Circle fill="#ffffff00" layoutX="13.9" layoutY="13.9" onMouseClicked="#setColor" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0">
+               <stroke>
+                  <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="1.0" green="0.6913705468177795" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="0.8666666746139526" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </RadialGradient>
+               </stroke>
+            </Circle>
             <Circle fill="#ffffff00" layoutX="45.7" layoutY="13.9" onMouseClicked="#setColor" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0">
                <stroke>
                   <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
@@ -91,7 +108,7 @@
                   </RadialGradient>
                </stroke>
             </Circle>
-            <Circle fill="#ffffff00" layoutX="13.9" layoutY="13.9" onMouseClicked="#setColor" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0">
+            <Circle fill="#ffffff00" layoutX="77.5" layoutY="13.9" onMouseClicked="#setColor" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0">
                <stroke>
                   <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
                      <stops>
@@ -163,27 +180,9 @@
                   </RadialGradient>
                </stroke>
             </Circle>
-            <Circle fill="#ffffff00" layoutX="77.5" layoutY="13.9" onMouseClicked="#setColor" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0">
-               <stroke>
-                  <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="1.0" green="0.6913705468177795" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="1.0" green="0.8666666746139526" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </RadialGradient>
-               </stroke>
-            </Circle>
          </children>
       </AnchorPane>
-      <Label fx:id="infoText" alignment="TOP_CENTER" layoutX="244.0" layoutY="168.0" prefHeight="60.0" prefWidth="112.0" style="-fx-rotate: 12.5;" text="CHOOSE HOW MANY MOVEMETS" textAlignment="CENTER" wrapText="true">
+      <Label fx:id="infoText" alignment="TOP_CENTER" layoutX="244.0" layoutY="168.0" prefHeight="60.0" prefWidth="112.0" style="-fx-rotate: 12.5;" text="CHOOSE HOW MANY MOVEMENTS" textAlignment="CENTER" wrapText="true">
          <font>
             <Font name="Forte" size="14.0" />
          </font>
@@ -204,7 +203,7 @@
             </RadialGradient>
          </textFill>
       </Label>
-      <TextField fx:id="movements_textField" layoutX="14.0" layoutY="355.0" prefHeight="35.0" prefWidth="200.0" />
-      <Button fx:id="right" layoutX="188.0" layoutY="360.0" mnemonicParsing="false" onAction="#sendMovements" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="25.0" prefWidth="20.0" />
+      <TextField fx:id="movements_textField" layoutX="14.0" layoutY="355.0" prefHeight="35.0" prefWidth="200.0" visible="false" />
+      <Button fx:id="right" layoutX="188.0" layoutY="360.0" mnemonicParsing="false" onAction="#setMovements" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="25.0" prefWidth="20.0" visible="false" />
    </children>
 </AnchorPane>

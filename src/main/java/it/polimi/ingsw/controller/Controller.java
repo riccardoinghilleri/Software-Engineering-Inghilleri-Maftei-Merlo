@@ -25,24 +25,20 @@ public class Controller {
 
     private int maxCharacterCardsMovements;
 
-    private PropertyChangeSupport listeners;
+    private final PropertyChangeSupport listeners;
 
     public Controller(GameModel gameModel, GameHandler gameHandler) {
         this.gameModel = gameModel;
         this.phase = Action.SETUP_CLOUD;
         playerTurnNumber = 0;
-        characterCardMovements = 0;
+        characterCardMovements = -1;
         defaultMovements = 0;
         alreadyUsedCharacterCard = false;
-        this.maxCharacterCardsMovements=-1;
+        this.maxCharacterCardsMovements = -1;
         listeners = new PropertyChangeSupport(this);
         listeners.addPropertyChangeListener("end_game", gameHandler);
         listeners.addPropertyChangeListener("set_assistantCard", gameHandler);
         availableActions = new ArrayList<>();
-    }
-
-    public int getPlayerTurnNumber() {
-        return playerTurnNumber;
     }
 
     public String getCharacterCardName() {
@@ -81,7 +77,7 @@ public class Controller {
     }
 
     private void startPlayerTurn() {
-        characterCardMovements = 0;
+        characterCardMovements = -1;
         defaultMovements = 0;
         alreadyUsedCharacterCard = false;
         availableActions = Action.getDefaultActions();
@@ -106,7 +102,7 @@ public class Controller {
                     }
                     characterCardName = actionMessage.getCharacterCardName();
                     alreadyUsedCharacterCard = true;
-                    //se non ho settato una strategia e il nome non è lumberjack oppure il nome è postaman
+                    //se non ho settato una strategia e il nome non è lumberjack oppure il nome è postman
                     if ((!setCharacterCardEffect(actionMessage) && !characterCardName.equalsIgnoreCase("LUMBERJACK")) || characterCardName.equalsIgnoreCase("POSTMAN")) {
                         phase = availableActions.remove(0);
                     } else phase = Action.USE_CHARACTER_CARD;
@@ -136,23 +132,25 @@ public class Controller {
                     ((Lumberjack) actionController).setColor(actionMessage.getParameters().get(0));
                     phase = availableActions.remove(0);
                 } else {
-                    if((characterCardName.equalsIgnoreCase("PERFORMER") || characterCardName.equalsIgnoreCase("CLOWN")) && characterCardMovements==0){
-                        maxCharacterCardsMovements=actionMessage.getData();
-                    }
-                    actionController.useCharacterCardEffect(actionMessage);
-                    characterCardMovements++;
-                    if (characterCardName.equalsIgnoreCase("DIPLOMAT")) {
-                        for (School s : gameModel.getBoard().getSchools()) {
-                            if (s.getTowersNumber() == 0) {
-                                gameModel.setWinner(gameModel.getPlayerById(s.getOwnerId()));
-                                listeners.firePropertyChange("end_game", null, null);
+                    if ((characterCardName.equalsIgnoreCase("PERFORMER") || characterCardName.equalsIgnoreCase("CLOWN")) && characterCardMovements == -1) {
+                        maxCharacterCardsMovements = actionMessage.getData();
+                        characterCardMovements++;
+                    } else {
+                        actionController.useCharacterCardEffect(actionMessage);
+                        characterCardMovements++;
+                        if (characterCardName.equalsIgnoreCase("DIPLOMAT")) {
+                            for (School s : gameModel.getBoard().getSchools()) {
+                                if (s.getTowersNumber() == 0) {
+                                    gameModel.setWinner(gameModel.getPlayerById(s.getOwnerId()));
+                                    listeners.firePropertyChange("end_game", null, null);
+                                }
                             }
                         }
-                    }
-                    try {//TODO usare direttamente if dentro metodo check
-                        checkAlreadyUsedCharacterCard(characterCardName);
-                    } catch (AlreadyUsedCharacterCardException e) {
-                        phase = availableActions.remove(0);
+                        try {//TODO usare direttamente if dentro metodo check
+                            checkAlreadyUsedCharacterCard(characterCardName);
+                        } catch (AlreadyUsedCharacterCardException e) {
+                            phase = availableActions.remove(0);
+                        }
                     }
                 }
                 break;
@@ -195,7 +193,7 @@ public class Controller {
                     return " You can not move mother nature so far";
                 }
                 int newOwner = actionController.moveMotherNature(actionMessage);
-                if (newOwner!=-1
+                if (newOwner != -1
                         && gameModel.getBoard().getSchoolByOwnerId(newOwner).getTowersNumber() == 0) {
                     gameModel.setWinner(gameModel.getPlayerById(newOwner));
                     listeners.firePropertyChange("end_game", null, null);
@@ -308,8 +306,8 @@ public class Controller {
     private void checkAlreadyUsedCharacterCard(String characterCardName) throws AlreadyUsedCharacterCardException {
         if ((!characterCardName.equalsIgnoreCase("CLOWN")
                 && !characterCardName.equalsIgnoreCase("PERFORMER"))
-                || (characterCardName.equalsIgnoreCase("CLOWN") && characterCardMovements >= Math.min(3,maxCharacterCardsMovements))
-                || (characterCardName.equalsIgnoreCase("PERFORMER") && characterCardMovements >= Math.min(2,maxCharacterCardsMovements))) {
+                || (characterCardName.equalsIgnoreCase("CLOWN") && characterCardMovements >= Math.min(3, maxCharacterCardsMovements))
+                || (characterCardName.equalsIgnoreCase("PERFORMER") && characterCardMovements >= Math.min(2, maxCharacterCardsMovements))) {
             throw new AlreadyUsedCharacterCardException();
         }
     }

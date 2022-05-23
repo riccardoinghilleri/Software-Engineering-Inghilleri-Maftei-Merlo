@@ -57,18 +57,27 @@ public class MainSceneController implements GuiController {
     private ActionMessage message;
 
     public void setAction(Action action) {
-        this.message=new ActionMessage();
+        this.message = new ActionMessage();
         this.message.setAction(action);
-        if(action==Action.DEFAULT_MOVEMENTS)
+        if (action == Action.DEFAULT_MOVEMENTS) {
             createPlayer(school[gui.getConnection().getClientId()]);
-        else if (action==Action.USE_CHARACTER_CARD) {
-            ShopController controller = (ShopController) gui.getControllerByFxmlName("shop.fxml");
+            glowEntrance(true);
+        } else if (action == Action.USE_CHARACTER_CARD) {
+            CharacterCardController controller = (CharacterCardController) gui.getControllerByFxmlName("characterCard.fxml");
             controller.setMessage(this.message);
         }
     }
 
     public void setInfoText(String text) {
         infoText.setText(text);
+    }
+
+    public ActionMessage getMessage() {
+        return message;
+    }
+
+    public void setMessage(ActionMessage message) {
+        this.message = message;
     }
 
     public void setSchool(School[] school) {
@@ -93,6 +102,9 @@ public class MainSceneController implements GuiController {
     }
 
     public void glowEntrance(boolean value) {
+        if(value)
+            schoolPane.setDisable(false);
+        entrance.setDisable(!value);
         for (int i = 0; i < 9; i++) {
             if (entrance.getChildren().get(i + 9).isVisible())
                 entrance.getChildren().get(i).setVisible(value);
@@ -105,26 +117,31 @@ public class MainSceneController implements GuiController {
         int size;
         switch (color) {
             case "GREEN":
+                greenStudents.setDisable(false);
                 size = school[displayedSchool].getDiningRoom().get(CharacterColor.GREEN).size();
                 greenCircle.setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
                 greenCircle.setVisible(visible);
                 break;
             case "RED":
+                redStudents.setDisable(false);
                 size = school[displayedSchool].getDiningRoom().get(CharacterColor.RED).size();
                 redCircle.setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
                 redCircle.setVisible(visible);
                 break;
             case "YELLOW":
+                yellowStudents.setDisable(false);
                 size = school[displayedSchool].getDiningRoom().get(CharacterColor.YELLOW).size();
                 yellowCircle.setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
                 yellowCircle.setVisible(visible);
                 break;
             case "PINK":
+                pinkStudents.setDisable(false);
                 size = school[displayedSchool].getDiningRoom().get(CharacterColor.PINK).size();
                 pinkCircle.setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
                 pinkCircle.setVisible(visible);
                 break;
             case "BLUE":
+                blueStudents.setDisable(false);
                 size = school[displayedSchool].getDiningRoom().get(CharacterColor.BLUE).size();
                 blueCircle.setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
                 blueCircle.setVisible(visible);
@@ -167,6 +184,8 @@ public class MainSceneController implements GuiController {
             message.getParameters().clear();
             glowDiningroom(studentColor, true);
             enableAllIslandsBroke();
+        } else if (message.getAction() == Action.USE_CHARACTER_CARD) {
+            glowEntrance(false);
         }
         message.setParameter(studentColor.toUpperCase());
     }
@@ -221,10 +240,11 @@ public class MainSceneController implements GuiController {
                     .getResourceAsStream("/graphics/pieces/" + school.getTowerColor().toString() + "_tower.png"))));
             tower.setVisible(i < school.getTowersNumber());
         }
+        glowEntrance(false);
         if (school.getOwnerId() != gui.getConnection().getClientId()
                 || message == null || message.getAction() != Action.DEFAULT_MOVEMENTS) {
-            schoolPane.setDisable(true);
-            glowEntrance(false);
+                schoolPane.setDisable(true);
+
         } else {
             schoolPane.setDisable(false);
             glowEntrance(true);
@@ -264,9 +284,9 @@ public class MainSceneController implements GuiController {
             sup_islands = 5;
             inf_islands = 5;
         }
-        if(gui.isExpertMode()){
-            ShopController controller=(ShopController)gui.getControllerByFxmlName("shop.fxml");
-            controller.setCharacterCards(((BoardExpert)message.getBoard()).getCharacterCards());
+        if (gui.isExpertMode()) {
+            ShopController controller = (ShopController) gui.getControllerByFxmlName("shop.fxml");
+            controller.setCharacterCards(((BoardExpert) message.getBoard()).getCharacterCards());
             //TODO settare monete ma non so il client id
         }
         //Riempimento nuvole
@@ -396,10 +416,10 @@ public class MainSceneController implements GuiController {
             shape.getChildren().get(6).setId(i + "_island");
             shape.getChildren().get(7).setVisible(message.getBoard().getIslands().get(i).hasMotherNature());
 
+            shape.getChildren().get(8).setVisible(message.getBoard().getIslands().get(i).hasNoEntryTile());
+            shape.getChildren().get(9).setVisible(message.getBoard().getIslands().get(i).hasNoEntryTile());
             if (message.getBoard().getIslands().get(i).hasNoEntryTile()) {
-                ((Label) shape.getChildren().get(9)).setText("x1"); //TODO fare il caso con più NoEntryTile
-                shape.getChildren().get(8).setVisible(true);
-                shape.getChildren().get(9).setVisible(true);
+                ((Label) shape.getChildren().get(9)).setText("x1"); //TODO fare il caso con più NoEntryTile dopo il merge
             }
             if (!message.getBoard().getIslands().get(i).getTowers().isEmpty()) {
                 ((ImageView) shape.getChildren().get(10))
@@ -438,12 +458,17 @@ public class MainSceneController implements GuiController {
         int index = Integer.parseInt(((ImageView) event.getSource()).getId().split("_")[0]);
         if (message.getAction() == Action.DEFAULT_MOVEMENTS)
             glowDiningroom(studentColor, false);
-        else {
+        else if (message.getAction() == Action.MOVE_MOTHER_NATURE) {
             if (index < motherNatureIndex) {
                 index += islandsPane.getChildren().size();
             }
             index -= motherNatureIndex;
-        }
+        } /*else if(message.getAction()==Action.USE_CHARACTER_CARD){
+            switch (message.getCharacterCardName()){
+                case "DIPLOMAT":
+                case "HERBOLARIA":
+            }
+        }*/
         disableAllIslandsBroke();
         message.setData(index);
         gui.getConnection().send(message);
@@ -529,7 +554,7 @@ public class MainSceneController implements GuiController {
         ((Button) event.getSource()).getStyleClass().add("button");
     }
 
-    public void openShop(ActionEvent event) {
+    public void openShop() {
         Platform.runLater(() -> {
             Stage shop = new Stage();
             shop.setTitle("CharacterCard Shop");
@@ -542,6 +567,7 @@ public class MainSceneController implements GuiController {
             ShopController controller = (ShopController) gui.getControllerByFxmlName("shop.fxml");
             controller.setStage(shop);
             controller.setMessage(this.message);
+            controller.clear();
             controller.createCharacterCard();
             //TODO devo mandarmi le monete che ho controller.setCoinsLabel();
             shop.show();
@@ -549,10 +575,12 @@ public class MainSceneController implements GuiController {
                 noBtn.setDisable(true);
                 noBtn.setVisible(false);
             }
+            controller.getBuyBtn().setDisable(!(message.getAction() == Action.CHOOSE_CHARACTER_CARD));
         });
     }
 
     public void noCharacterCard(ActionEvent event) {
+
         message.setCharacterCardName(null);
         noBtn.setDisable(true);
         noBtn.setVisible(false);

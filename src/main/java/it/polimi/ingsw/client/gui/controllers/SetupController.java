@@ -57,7 +57,7 @@ public class SetupController implements GuiController {
         right.setDisable(true);
         nickname_pane.setVisible(false);
         nickname_rectangle.setOpacity(0.5);
-        color_rectangle.setFill(Color.ORANGE);
+        color_rectangle.setFill(Color.rgb(188,95,58));
         tower_pane.setVisible(true);
         if (colors.size() > 1) {
             for (Node node : tower_pane.getChildren()) {
@@ -87,7 +87,7 @@ public class SetupController implements GuiController {
         tower_pane.setVisible(false);
         color_rectangle.setOpacity(0.5);
         wizard_pane.setVisible(true);
-        wizard_rectangle.setFill(Color.ORANGE);
+        wizard_rectangle.setFill(Color.rgb(188,95,58));
         if (wizards.size() > 1) {
             for (Node node : wizard_pane.getChildren()) {
                 AnchorPane wizard = (AnchorPane) node;

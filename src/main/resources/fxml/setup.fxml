@@ -21,25 +21,25 @@
       </ImageView>
       <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ffdd0024" height="300.0" layoutX="50.0" layoutY="50.0" strokeType="INSIDE" strokeWidth="5.0" width="500.0">
          <stroke>
-            <LinearGradient endX="1.0" endY="1.0">
+            <LinearGradient endX="0.7424241990754098" endY="0.6553030226266745">
                <stops>
                   <Stop>
                      <color>
-                        <Color red="1.0" green="0.9176470637321472" blue="0.7137255072593689" />
+                        <Color red="0.8500000238418579" green="0.4601333439350128" blue="0.11900000274181366" opacity="0.5167173743247986" />
                      </color>
                   </Stop>
                   <Stop offset="1.0">
                      <color>
-                        <Color red="1.0" green="0.8745098114013672" />
+                        <Color red="0.6666666865348816" green="0.19607843458652496" />
                      </color>
                   </Stop>
                </stops>
             </LinearGradient>
          </stroke>
       </Rectangle>
-      <Rectangle fx:id="nickname_rectangle" fill="#ffa500" height="30.0" layoutX="55.0" layoutY="120.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="163.333" />
-      <Rectangle fx:id="color_rectangle" fill="#ffa10080" height="30.0" layoutX="218.333" layoutY="120.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="163.333" />
-      <Rectangle fx:id="wizard_rectangle" fill="#ffa50080" height="30.0" layoutX="381.66" layoutY="120.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="163.333" />
+      <Rectangle fx:id="nickname_rectangle" fill="#bc5f3a" height="30.0" layoutX="55.0" layoutY="120.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="163.333" />
+      <Rectangle fx:id="color_rectangle" fill="#bc5f3a80" height="30.0" layoutX="218.333" layoutY="120.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="163.333" />
+      <Rectangle fx:id="wizard_rectangle" fill="#bc5f3a80" height="30.0" layoutX="381.66" layoutY="120.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="163.333" />
       <Label fx:id="title" layoutX="177.0" layoutY="67.0" styleClass="title" text="BUILD your Player" />
       <Label layoutX="95.0" layoutY="123.0" styleClass="white_label" text="Nickname" />
       <Label layoutX="275.0" layoutY="123.0" styleClass="white_label" text="Color" />

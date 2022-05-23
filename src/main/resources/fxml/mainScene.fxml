@@ -1568,7 +1568,7 @@
                   <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="175.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="green_student" visible="false" />
                   <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="200.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="green_student" visible="false" />
                   <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="225.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="green_student" visible="false" />
-                  <Circle fx:id="greenCircle" fill="WHITE" layoutX="12.0" layoutY="14.0" onMouseClicked="#sendMessage" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
+                  <Circle fx:id="green_Circle" fill="WHITE" layoutX="12.0" layoutY="14.0" onMouseClicked="#sendMessage" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
                      <stroke>
                         <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
                            <stops>
@@ -1600,7 +1600,7 @@
                   <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="175.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="red_student" visible="false" />
                   <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="200.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="red_student" visible="false" />
                   <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="225.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="red_student" visible="false" />
-                  <Circle fx:id="redCircle" fill="WHITE" layoutX="12.0" layoutY="15.0" onMouseClicked="#sendMessage" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
+                  <Circle fx:id="red_Circle" fill="WHITE" layoutX="12.0" layoutY="15.0" onMouseClicked="#sendMessage" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
                      <stroke>
                         <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
                            <stops>
@@ -1632,7 +1632,7 @@
                   <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="175.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="yellow_student" visible="false" />
                   <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="200.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="yellow_student" visible="false" />
                   <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="225.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="yellow_student" visible="false" />
-                  <Circle fx:id="yellowCircle" fill="WHITE" layoutX="12.0" layoutY="14.0" onMouseClicked="#sendMessage" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
+                  <Circle fx:id="yellow_Circle" fill="WHITE" layoutX="12.0" layoutY="14.0" onMouseClicked="#sendMessage" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
                      <stroke>
                         <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
                            <stops>
@@ -1664,7 +1664,7 @@
                   <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="175.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="pink_student" visible="false" />
                   <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="200.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="pink_student" visible="false" />
                   <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="225.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="pink_student" visible="false" />
-                  <Circle fx:id="pinkCircle" fill="WHITE" layoutX="12.0" layoutY="14.0" onMouseClicked="#sendMessage" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
+                  <Circle fx:id="pink_Circle" fill="WHITE" layoutX="12.0" layoutY="14.0" onMouseClicked="#sendMessage" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
                      <stroke>
                         <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
                            <stops>
@@ -1696,7 +1696,7 @@
                   <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="175.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="blue_student" visible="false" />
                   <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="200.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="blue_student" visible="false" />
                   <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="225.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="blue_student" visible="false" />
-                  <Circle fx:id="blueCircle" fill="WHITE" layoutX="12.0" layoutY="14.0" onMouseClicked="#sendMessage" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
+                  <Circle fx:id="blue_Circle" fill="WHITE" layoutX="12.0" layoutY="14.0" onMouseClicked="#sendMessage" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0" visible="false">
                      <stroke>
                         <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
                            <stops>

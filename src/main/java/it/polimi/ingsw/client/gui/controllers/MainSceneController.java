@@ -12,27 +12,24 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
+import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.Objects;
 
 public class MainSceneController implements GuiController {
-
     private Gui gui;
     public boolean firstTime = true;
     private int motherNatureIndex;
@@ -47,16 +44,21 @@ public class MainSceneController implements GuiController {
     @FXML
     ImageView assistantCard;
     @FXML
-    Circle greenCircle, redCircle, yellowCircle, pinkCircle, blueCircle;
+    Circle green_Circle, red_Circle, yellow_Circle, pink_Circle, blue_Circle;
     @FXML
     Button shopBtn, noBtn;
 
     private School[] school;
-
     private int coin;
     private int displayedSchool = 0;
     private String studentColor = null;
     private ActionMessage message;
+
+    private boolean performer=false;
+
+    public void setPerformer(boolean performer) {
+        this.performer = performer;
+    }
 
     public void setAction(Action action) {
         this.message = new ActionMessage();
@@ -99,12 +101,18 @@ public class MainSceneController implements GuiController {
     public void sendMessage(MouseEvent event) {
         if (event.getSource() instanceof Circle)
             ((Circle) event.getSource()).setVisible(false);
+        //TODO NON RICONOSCE MESSAGE.GETCHARACTERCHCARD.EQUAL("PERFORMER")
+        if(performer)
+        {
+            message.setParameter(((Circle)event.getSource()).getId().split("_")[0].toUpperCase());
+            glowDiningroom(false);
+        }
         disableAllIslandsBroke();
         gui.getConnection().send(message);
     }
 
     public void glowEntrance(boolean value) {
-        if(value)
+        if (value)
             schoolPane.setDisable(false);
         entrance.setDisable(!value);
         for (int i = 0; i < 9; i++) {
@@ -121,35 +129,48 @@ public class MainSceneController implements GuiController {
             case "GREEN":
                 greenStudents.setDisable(false);
                 size = school[displayedSchool].getDiningRoom().get(CharacterColor.GREEN).size();
-                greenCircle.setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
-                greenCircle.setVisible(visible);
+                green_Circle.setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
+                green_Circle.setVisible(visible);
                 break;
             case "RED":
                 redStudents.setDisable(false);
                 size = school[displayedSchool].getDiningRoom().get(CharacterColor.RED).size();
-                redCircle.setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
-                redCircle.setVisible(visible);
+                red_Circle.setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
+                red_Circle.setVisible(visible);
                 break;
             case "YELLOW":
                 yellowStudents.setDisable(false);
                 size = school[displayedSchool].getDiningRoom().get(CharacterColor.YELLOW).size();
-                yellowCircle.setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
-                yellowCircle.setVisible(visible);
+                yellow_Circle.setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
+                yellow_Circle.setVisible(visible);
                 break;
             case "PINK":
                 pinkStudents.setDisable(false);
                 size = school[displayedSchool].getDiningRoom().get(CharacterColor.PINK).size();
-                pinkCircle.setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
-                pinkCircle.setVisible(visible);
+                pink_Circle.setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
+                pink_Circle.setVisible(visible);
                 break;
             case "BLUE":
                 blueStudents.setDisable(false);
                 size = school[displayedSchool].getDiningRoom().get(CharacterColor.BLUE).size();
-                blueCircle.setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
-                blueCircle.setVisible(visible);
+                blue_Circle.setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
+                blue_Circle.setVisible(visible);
                 break;
         }
 
+    }
+
+    public void glowDiningroom(boolean visible) {
+        int size;
+        for(int i=2;i<7;i++){
+            size = school[displayedSchool].getDiningRoom().get(CharacterColor.values()[i-2]).size() - 1;
+            if(size>-1) {
+                AnchorPane pane = (AnchorPane) schoolPane.getChildren().get(i);
+                pane.setDisable(false);
+                pane.getChildren().get(10).setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
+                pane.getChildren().get(10).setVisible(visible);
+            }
+        }
     }
 
     public void select(MouseEvent event) {
@@ -186,6 +207,10 @@ public class MainSceneController implements GuiController {
             message.getParameters().clear();
             glowDiningroom(studentColor, true);
             enableAllIslandsBroke();
+        } else if (performer) { //TODO SISTEMARE PERFORMER
+            message.getParameters().clear();
+            glowDiningroom(true);
+            infoText.setText("Choose the Dining Room Student");
         } else if (message.getAction() == Action.USE_CHARACTER_CARD) {
             glowEntrance(false);
         }
@@ -245,7 +270,7 @@ public class MainSceneController implements GuiController {
         glowEntrance(false);
         if (school.getOwnerId() != gui.getConnection().getClientId()
                 || message == null || message.getAction() != Action.DEFAULT_MOVEMENTS) {
-                schoolPane.setDisable(true);
+            schoolPane.setDisable(true);
 
         } else {
             schoolPane.setDisable(false);
@@ -322,12 +347,12 @@ public class MainSceneController implements GuiController {
             distance = (685 - sup_islands * 137) / (double) (sup_islands + 1);
             for (int count = 1; count <= sup_islands; count++) {
                 AnchorPane island = (AnchorPane) islandsPane.getChildren().get(count);
-                oldXPosition=island.getLayoutX();
+                oldXPosition = island.getLayoutX();
                 timeline = new Timeline(new KeyFrame(
                         Duration.seconds(0.025), // ogni quanto va chiamata la funzione
                         x -> island.setLayoutX(island.getLayoutX() - 1))
                 );
-                timeline.setCycleCount((int)oldXPosition-(int)(137 * count + distance * count));
+                timeline.setCycleCount((int) oldXPosition - (int) (137 * count + distance * count));
                 timeline.play();
                 //shape.setLayoutX(137 * count + distance * count);
                 island.setLayoutY(0);
@@ -341,13 +366,13 @@ public class MainSceneController implements GuiController {
             distance = (685 - inf_islands * 137) / (double) (inf_islands + 1);
             for (int count = islandsPane.getChildren().size() - 1; count >= sup_islands + 2; count--) {
                 AnchorPane island = (AnchorPane) islandsPane.getChildren().get(count);
-                oldXPosition=island.getLayoutX();
+                oldXPosition = island.getLayoutX();
                 timeline = new Timeline(new KeyFrame(
                         Duration.seconds(0.025), // ogni quanto va chiamata la funzione
                         x -> island.setLayoutX(island.getLayoutX() - 1))
                 );
-                timeline.setCycleCount((int)oldXPosition
-                        -(int)(137 * (islandsPane.getChildren().size() - count)
+                timeline.setCycleCount((int) oldXPosition
+                        - (int) (137 * (islandsPane.getChildren().size() - count)
                         + distance * (islandsPane.getChildren().size() - count)));
                 timeline.play();
                 //shape.setLayoutX(137 * (islandsPane.getChildren().size() - count) + distance * (islandsPane.getChildren().size() - count));
@@ -489,7 +514,7 @@ public class MainSceneController implements GuiController {
                 j++;
             }
         }
-        coin=((BoardExpert)message.getBoard()).getPlayerCoins(gui.getConnection().getClientId());
+        coin = ((BoardExpert) message.getBoard()).getPlayerCoins(gui.getConnection().getClientId());
     }
 
     public void chooseCloud(MouseEvent event) {
@@ -498,6 +523,7 @@ public class MainSceneController implements GuiController {
         disableClouds();
         //emptyCloud(Objects.requireNonNull(getCloudById(index)));
         gui.getConnection().send(message);
+        enableShop(true);
     }
 
     public void setIsland(MouseEvent event) {
@@ -584,7 +610,7 @@ public class MainSceneController implements GuiController {
                 island.getChildren().get(i).setVisible(false);
             }
             for (int i = 8; i <= 11; i++) { //torri e noEntryTiles
-                island.getChildren().get(10).setVisible(false);//torre
+                island.getChildren().get(i).setVisible(false);//torre
             }
 
         }
@@ -599,9 +625,10 @@ public class MainSceneController implements GuiController {
         ((Button) event.getSource()).getStyleClass().add("button");
     }
 
-    public void enableShop(boolean value){
+    public void enableShop(boolean value) {
         shopBtn.setDisable(!value);
     }
+
     public void openShop() {
         Platform.runLater(() -> {
             Stage shop = new Stage();
@@ -618,10 +645,11 @@ public class MainSceneController implements GuiController {
             controller.clear();
             controller.createCharacterCard();
             controller.setCoinsLabel(coin);
-            controller.setEnableBuyBtn(message.getAction()==Action.CHOOSE_CHARACTER_CARD);
+            controller.setEnableBuyBtn(message.getAction() == Action.CHOOSE_CHARACTER_CARD);
+            controller.createCharacterCard();
             //TODO devo mandarmi le monete che ho controller.setCoinsLabel();
             shop.show();
-            if (!(message.getAction()==Action.CHOOSE_ASSISTANT_CARD)) {
+            if (!(message.getAction() == Action.CHOOSE_CHARACTER_CARD)) {
                 noBtn.setDisable(true);
                 noBtn.setVisible(false);
             }

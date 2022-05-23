@@ -155,13 +155,13 @@ public class Gui extends Application implements View {
                 break;
             case CHOOSE_CHARACTER_CARD:
                 Platform.runLater(() -> {
+                    mainSceneController.setAction(Action.CHOOSE_CHARACTER_CARD);
                     mainSceneController.getNoBtn().setDisable(false);
                     mainSceneController.getNoBtn().setVisible(true);
                     mainSceneController.enableShop(true);
                     ShopController shopController = (ShopController) getControllerByFxmlName("shop.fxml");
                     shopController.setCharacterCards(message.getCharacterCards());
                     mainSceneController.setInfoText("Do you want to use a Character Card?");
-                    mainSceneController.setAction(Action.CHOOSE_CHARACTER_CARD);
                     ((CharacterCardController) (getControllerByFxmlName("characterCard.fxml")))
                             .setAlreadyAskedMovements(false);
                 });
@@ -175,7 +175,9 @@ public class Gui extends Application implements View {
                     if (message.getChosenCharacterCard().getName().toString().equalsIgnoreCase("PERFORMER")
                             && ((CharacterCardController) getControllerByFxmlName("characterCard.fxml"))
                             .isAlreadyAskedMovements()) {
-                            //TODO performer. fare movimento tra diningroom ed entrance
+                             mainSceneController.setPerformer(true);//TODO SISTEMARE PERFORMER
+                             mainSceneController.setInfoText("Choose the Entrance Student:");
+                             mainSceneController.glowEntrance(true);
                     } else {
                         switch (message.getChosenCharacterCard().getName()) {
                             case DIPLOMAT:
@@ -225,7 +227,6 @@ public class Gui extends Application implements View {
                     mainSceneController.setInfoText("Choose a cloud:  ");
                     mainSceneController.enableClouds(message);
                 });
-                mainSceneController.enableShop(true);
                 break;
         }
 

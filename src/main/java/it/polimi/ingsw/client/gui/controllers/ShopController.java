@@ -77,9 +77,11 @@ public class ShopController implements GuiController {
 
     public void buy() {
         message.setCharacterCardName(characterCardName.getText().toUpperCase());
+        gui.getConnection().send(message);
         enableBuyBtn=false;
         buyBtn.setDisable(true);
-        gui.getConnection().send(message);
+        ((MainSceneController)gui.getControllerByFxmlName("mainScene.fxml")).enableShop(false);
+        ((MainSceneController)gui.getControllerByFxmlName("mainScene.fxml")).getNoBtn().setVisible(false);
         stage.close();
     }
 
@@ -101,6 +103,7 @@ public class ShopController implements GuiController {
             message.setCharacterCardName(null);
             gui.getConnection().send(message);
             ((MainSceneController)gui.getControllerByFxmlName("mainScene.fxml")).enableShop(false);
+            ((MainSceneController)gui.getControllerByFxmlName("mainScene.fxml")).getNoBtn().setVisible(false);
         }
         stage.close();
     }

@@ -317,7 +317,8 @@ public class Cli implements View {
                 }
                 //printer.println(">This is your School: ");
                 //printer.println(message.getSchool().toString());
-                printer.println(">Choose the student that you want to move from your Dining Room to your Entrance: ");
+                //TODO HO INVERTITO :PRIMA CHIEDO LA ENTRANCE E POI LA DININGROOM PER ADATTARE MEGLIO LA GUI
+                printer.println(">Choose the student that you want to move from your Entrance to your Dining Room: ");
                 parameter = reader.nextLine().toUpperCase();
                 while (message.getSchool().getDiningRoom().get(CharacterColor.valueOf(parameter)).size() < 1) {
                     printer.println(">Invalid input. Please try again");
@@ -327,7 +328,7 @@ public class Cli implements View {
                 }
                 answer.setParameter(parameter);
                 answer.setParameter(chooseStudentColor(message.getSchool().getEntrance(), false,
-                        ">Choose the student that you want to move from your Entrance to your Dining Room: "));
+                        ">Choose the student that you want to move from your Dining Room to your Entrance: "));
                 break;
             case QUEEN: //colori carta
                 answer.setParameter(chooseStudentColor(((CharacterCardwithStudents) characterCard).getStudents(),

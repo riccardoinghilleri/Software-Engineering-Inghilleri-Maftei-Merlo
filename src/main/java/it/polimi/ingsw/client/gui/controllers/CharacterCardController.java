@@ -31,7 +31,7 @@ public class CharacterCardController implements GuiController {
     private Stage stage;
     private ActionMessage message;
     private MainSceneController mainSceneController;
-    private boolean alreadyAskedMovements;
+    private boolean alreadyAskedMovements=false;
 
     @FXML
     private Label infoText, cardName;

@@ -16,14 +16,14 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="mainPane" stylesheets="@../css/setupGame.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SettingsController">
+<AnchorPane prefHeight="373.0" prefWidth="600.0" styleClass="mainPane" stylesheets="@../css/setupGame.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SettingsController">
    <children>
-      <ImageView fitHeight="400.0" fitWidth="600.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="376.0" fitWidth="600.0" opacity="0.5" pickOnBounds="true">
          <image>
             <Image url="@../graphics/backgrounds/Eriantys_slider_885x590.jpg" />
          </image>
       </ImageView>
-      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ffdd0024" height="300.0" layoutX="50.0" layoutY="65.0" strokeType="INSIDE" strokeWidth="5.0" width="500.0">
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ffdd0024" height="300.0" layoutX="50.0" layoutY="41.0" strokeType="INSIDE" strokeWidth="5.0" width="500.0">
          <stroke>
             <LinearGradient endX="0.33712121212121204" endY="1.0">
                <stops>
@@ -41,13 +41,13 @@
             </LinearGradient>
          </stroke>
       </Rectangle>
-      <ImageView fitHeight="314.0" fitWidth="268.0" layoutX="50.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="314.0" fitWidth="268.0" layoutX="50.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../graphics/backgrounds/wooden_board_3.png" />
          </image>
       </ImageView>
-      <Label layoutX="151.0" layoutY="135.0" styleClass="white_label" text="Setup" />
-      <Label alignment="TOP_CENTER" layoutX="107.0" layoutY="176.0" prefHeight="63.0" prefWidth="137.0" styleClass=".text" text="Welcome to our game!!" textAlignment="CENTER" wrapText="true">
+      <Label layoutX="151.0" layoutY="111.0" styleClass="white_label" text="Setup" />
+      <Label alignment="TOP_CENTER" layoutX="107.0" layoutY="152.0" prefHeight="63.0" prefWidth="137.0" styleClass=".text" text="Welcome to Eriantys!" textAlignment="CENTER" wrapText="true">
          <font>
             <Font name="Forte" size="20.0" />
          </font>
@@ -68,22 +68,22 @@
             </RadialGradient>
          </textFill>
       </Label>
-      <Label layoutX="117.0" layoutY="240.0" text="Riccardo Inghilleri">
+      <Label layoutX="117.0" layoutY="216.0" text="Riccardo Inghilleri">
          <font>
             <Font name="Forte" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="127.0" layoutY="272.0" text="Daniela Maftei">
+      <Label layoutX="127.0" layoutY="248.0" text="Daniela Maftei">
          <font>
             <Font name="Forte" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="123.0" layoutY="302.0" text="Manuela Merlo">
+      <Label layoutX="123.0" layoutY="278.0" text="Manuela Merlo">
          <font>
             <Font name="Forte" size="14.0" />
          </font>
       </Label>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="295.0" layoutX="298.5" layoutY="67.5" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="5.0">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="295.0" layoutX="299.0" layoutY="44.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="5.0">
          <fill>
             <LinearGradient endX="1.0" endY="0.37878790678399976" startX="0.7310606065121564">
                <stops>
@@ -101,7 +101,7 @@
             </LinearGradient>
          </fill>
       </Rectangle>
-      <AnchorPane fx:id="settings_pane" layoutX="300.0" layoutY="68.0" prefHeight="300.0" prefWidth="200.0" visible="false">
+      <AnchorPane fx:id="settings_pane" layoutX="300.0" layoutY="44.0" prefHeight="300.0" prefWidth="200.0" visible="false">
          <children>
             <Label alignment="CENTER" layoutY="60.0" prefHeight="25.0" prefWidth="250.0" styleClass="white_label" text="Insert number of players" />
             <Label alignment="CENTER" layoutY="145.0" prefHeight="25.0" prefWidth="250.0" styleClass="white_label" text="Insert Game Mode" textAlignment="CENTER" />
@@ -121,7 +121,7 @@
             </RadioButton>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="connection_pane" layoutX="300.0" layoutY="65.0" prefHeight="300.0" prefWidth="250.0">
+      <AnchorPane fx:id="connection_pane" layoutX="300.0" layoutY="41.0" prefHeight="300.0" prefWidth="250.0">
          <children>
             <Label alignment="CENTER" layoutX="30.0" layoutY="149.0" prefHeight="26.0" prefWidth="194.0" styleClass="white_label" text="Insert the Server Port" />
             <Label fx:id="warningPort" alignment="CENTER" layoutX="52.0" layoutY="212.0" prefHeight="18.0" prefWidth="150.0" styleClass="error" text="Invalid server port" textFill="RED" visible="false" />
@@ -131,14 +131,9 @@
             <TextField fx:id="port" layoutX="50.0" layoutY="186.0" maxHeight="25.0" maxWidth="150.0" prefHeight="25.0" prefWidth="150.0" />
          </children>
       </AnchorPane>
-      <Label fx:id="warningConnection" layoutX="272.0" layoutY="369.0" styleClass="error" text="Error while opening the socket. Please, try again." visible="false" />
-      <Label layoutX="212.0" layoutY="9.0" text="Eriantys" textFill="WHITE">
-         <font>
-            <Font name="Britannic Bold" size="48.0" />
-         </font>
-      </Label>
-      <Button layoutX="362.0" layoutY="310.0" mnemonicParsing="false" onAction="#confirm" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="46.0" prefWidth="130.0" text="CONFIRM" />
-      <Label fx:id="subtitle" alignment="TOP_CENTER" layoutX="300.0" layoutY="90.0" prefWidth="250.0" text="CONNECTION">
+      <Label fx:id="warningConnection" layoutX="272.0" layoutY="345.0" styleClass="error" text="Error while opening the socket. Please, try again." visible="false" />
+      <Button layoutX="362.0" layoutY="286.0" mnemonicParsing="false" onAction="#confirm" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="46.0" prefWidth="130.0" text="CONFIRM" />
+      <Label fx:id="subtitle" alignment="TOP_CENTER" layoutX="300.0" layoutY="66.0" prefWidth="250.0" text="CONNECTION">
          <textFill>
             <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                <stops>

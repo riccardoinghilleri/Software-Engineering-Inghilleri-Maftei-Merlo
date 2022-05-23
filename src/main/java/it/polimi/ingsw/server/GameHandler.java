@@ -99,7 +99,7 @@ public class GameHandler implements PropertyChangeListener {
                                 .getCurrentPlayer().getNickname() + " chosen an invalid Assistant Card..."));
                     } else {
                         sendAll(new UpdateBoard(gameModel.getBoard()));
-                        gameModel.getBoard().getLastRemovedIslands().clear();
+                        //gameModel.getBoard().getLastRemovedIslands().clear();
                     }
                     if (controller.getPhase() == Action.CHOOSE_ASSISTANT_CARD)
                         pianificationTurn();
@@ -114,7 +114,7 @@ public class GameHandler implements PropertyChangeListener {
                         clients.get(currentClientConnection).sendMessage(new InfoMessage(error));
                     } else {
                         sendAll(new UpdateBoard(gameModel.getBoard()));
-                        gameModel.getBoard().getLastRemovedIslands().clear();
+                        //gameModel.getBoard().getLastRemovedIslands().clear();
                     }
                     if (controller.getPhase() == Action.SETUP_CLOUD && turnNumber < 10) {
                         turnNumber++;
@@ -162,7 +162,7 @@ public class GameHandler implements PropertyChangeListener {
         if (controller.getPhase() == Action.SETUP_CLOUD) {
             controller.setClouds();
             sendAll(new UpdateBoard(gameModel.getBoard()));
-            gameModel.getBoard().getLastRemovedIslands().clear();
+            //gameModel.getBoard().getLastRemovedIslands().clear();
         }
         currentClientConnection = gameModel.getCurrentPlayer().getClientID();
         clients.get(currentClientConnection)

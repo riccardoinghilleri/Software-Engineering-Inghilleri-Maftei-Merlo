@@ -310,6 +310,49 @@ public class MainSceneController implements GuiController {
             i++;
         }
         //Aggiornamento disposizione isole
+        int islandsToRemove;
+        double distance, oldXPosition;
+        Timeline timeline;
+        if ((int) Math.ceil(((float) message.getBoard().getIslands().size() - 2.0) / 2.0) < sup_islands) {
+            islandsToRemove = (int) (sup_islands - Math.ceil(((float) message.getBoard().getIslands().size() - 2.0) / 2.0));
+            islandsPane.getChildren().subList(1, islandsToRemove + 1).clear();
+            sup_islands = (int) Math.ceil(((float) message.getBoard().getIslands().size() - 2.0) / 2.0);
+            distance = (685 - sup_islands * 137) / (double) (sup_islands + 1);
+            for (int count = 1; count <= sup_islands; count++) {
+                AnchorPane island = (AnchorPane) islandsPane.getChildren().get(count);
+                oldXPosition=island.getLayoutX();
+                timeline = new Timeline(new KeyFrame(
+                        Duration.seconds(0.025), // ogni quanto va chiamata la funzione
+                        x -> island.setLayoutX(island.getLayoutX() - 1))
+                );
+                timeline.setCycleCount((int)oldXPosition-(int)(137 * count + distance * count));
+                timeline.play();
+                //shape.setLayoutX(137 * count + distance * count);
+                island.setLayoutY(0);
+            }
+        }
+        if (message.getBoard().getIslands().size() - 2 - sup_islands < inf_islands) {
+            islandsToRemove = inf_islands - (message.getBoard().getIslands().size() - 2 - sup_islands);
+            int oldSize = islandsPane.getChildren().size();
+            islandsPane.getChildren().subList(oldSize - islandsToRemove, oldSize).clear();
+            inf_islands = message.getBoard().getIslands().size() - 2 - sup_islands;
+            distance = (685 - inf_islands * 137) / (double) (inf_islands + 1);
+            for (int count = islandsPane.getChildren().size() - 1; count >= sup_islands + 2; count--) {
+                AnchorPane island = (AnchorPane) islandsPane.getChildren().get(count);
+                oldXPosition=island.getLayoutX();
+                timeline = new Timeline(new KeyFrame(
+                        Duration.seconds(0.025), // ogni quanto va chiamata la funzione
+                        x -> island.setLayoutX(island.getLayoutX() - 1))
+                );
+                timeline.setCycleCount((int)oldXPosition
+                        -(int)(137 * (islandsPane.getChildren().size() - count)
+                        + distance * (islandsPane.getChildren().size() - count)));
+                timeline.play();
+                //shape.setLayoutX(137 * (islandsPane.getChildren().size() - count) + distance * (islandsPane.getChildren().size() - count));
+                island.setLayoutY(274);
+            }
+        }
+        /*
         if (message.getBoard().getLastRemovedIslands().size() > 0) {
             double sup_distance, inf_distance;
             Timeline timeline;
@@ -351,7 +394,7 @@ public class MainSceneController implements GuiController {
             }
             message.getBoard().getLastRemovedIslands().clear();
         }
-
+        */
         /*
         if ((int) Math.ceil(((float) message.getBoard().getIslands().size() - 2.0) / 2.0) < sup_islands) {
             //islandsToRemove = (int) (sup_islands - Math.ceil(((float) message.getBoard().getIslands().size() - 2.0) / 2.0));

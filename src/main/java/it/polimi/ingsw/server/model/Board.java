@@ -15,7 +15,7 @@ public class Board implements Serializable {
     private final List<Student> students;
     private final Professor[] professors; //è un salvataggio
     private final GameModel gameModel;
-    private List<Integer> lastRemovedIslands;
+    //private List<Integer> lastRemovedIslands;
 
     //TODO metodo int getInfluencePlayer(String Player, int islandPosition) RITORNA L'INFLUENZA DI UN PLAYER SULL'ISOLA E NON CHI HA PIU INFLUENZA
 
@@ -28,7 +28,7 @@ public class Board implements Serializable {
         this.clouds = new Cloud[playersNumber];
         this.islands = new ArrayList<>();
         this.schools = new School[playersNumber];
-        this.lastRemovedIslands = new ArrayList<>();
+        //this.lastRemovedIslands = new ArrayList<>();
 
         //--CREAZIONE STUDENTI--
         for (int j = 0; j < 26; j++) {
@@ -67,13 +67,12 @@ public class Board implements Serializable {
         setInitialEntrance();
     }
 
-    public List<Integer> getLastRemovedIslands() {
+    /*public List<Integer> getLastRemovedIslands() {
         return lastRemovedIslands;
     }
-
     public void setLastRemovedIslands(List<Integer> lastRemovedIslands) {
         this.lastRemovedIslands = lastRemovedIslands;
-    }
+    }*/
 
     public int getStudentsSize() {
         return students.size();
@@ -235,7 +234,7 @@ public class Board implements Serializable {
     //Controlla se le isole adiacenti a quella indicata hanno una torre delle stesso colore.
     //In questo caso, sposta tutti gli elementi delle isole adiacenti in quella indicata
     public void checkNearIsland(int islandPosition) {
-        lastRemovedIslands.clear();
+        //lastRemovedIslands.clear();
         if (islands.get(islandPosition).getTowers().isEmpty())
             return;
         //controllo che l'isola adiacente successiva abbia delle torri
@@ -245,9 +244,10 @@ public class Board implements Serializable {
                 islands.get(islandPosition).addStudents(islands.get((islandPosition + 1) % islands.size()).getStudents().get(c));
             }
             islands.get(islandPosition).addTowers(islands.get((islandPosition + 1) % islands.size()).getTowers());
+            /*
             if (((islandPosition + 1) % islands.size()) == 0 || ((islandPosition + 1) % islands.size()) == Math.ceil((double) islands.size() / 2.0))
                 lastRemovedIslands.add(islandPosition);
-            else lastRemovedIslands.add((islandPosition + 1) % islands.size());
+            else lastRemovedIslands.add((islandPosition + 1) % islands.size());*/
             islands.remove((islandPosition + 1) % islands.size());
         }
         int position = islandPosition - 1;
@@ -259,9 +259,10 @@ public class Board implements Serializable {
                 islands.get(islandPosition).addStudents(islands.get(position).getStudents().get(c));
             }
             islands.get(islandPosition).addTowers(islands.get(position).getTowers());
+            /*
             if (position == 0 || position == Math.ceil((double) islands.size() / 2.0))
                 lastRemovedIslands.add(islandPosition);
-            else lastRemovedIslands.add(position);
+            else lastRemovedIslands.add(position);*/
             islands.remove(position);
             /*if(islands.size()>motherNaturePosition)
                 islands.get(motherNaturePosition).setMotherNature(false);*/

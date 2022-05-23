@@ -7,7 +7,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Circle?>
@@ -48,24 +47,7 @@
       </Label>
       <AnchorPane fx:id="studentsPane" layoutX="20.0" layoutY="410.0" prefHeight="30.0" prefWidth="181.0" visible="false">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" height="35.0" layoutX="-6.5" layoutY="-4.0" stroke="BLACK" strokeType="INSIDE" width="200.0">
-               <fill>
-                  <LinearGradient endX="1.0" endY="1.0">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="0.5882353186607361" green="0.27450981736183167" opacity="0.550000011920929" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="0.5600000023841858" green="0.2613333463668823" opacity="0.9190273880958557" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </fill>
-            </Rectangle>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffffeb" height="35.0" layoutX="-6.5" layoutY="-4.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="200.0" />
             <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="3.4" layoutY="2.4" pickOnBounds="true" preserveRatio="true" styleClass="green_student" />
             <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="35.4" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="green_student" />
             <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="66.4" layoutY="3.0" pickOnBounds="true" preserveRatio="true" styleClass="green_student" />

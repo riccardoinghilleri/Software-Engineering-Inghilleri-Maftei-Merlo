@@ -49,7 +49,7 @@
             </RadialGradient>
          </stroke>
       </Rectangle>
-      <Button fx:id="buyBtn" layoutX="186.33" layoutY="424.0" mnemonicParsing="false" onAction="#buy" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="50.0" prefWidth="175.0" text="BUY">
+      <Button fx:id="buyBtn" disable="true" layoutX="186.33" layoutY="424.0" mnemonicParsing="false" onAction="#buy" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="50.0" prefWidth="175.0" text="BUY">
          <textFill>
             <LinearGradient endX="0.6477273016264944" endY="0.5984848340352376">
                <stops>
@@ -159,9 +159,9 @@
             <Image url="@../graphics/Moneta_base.png" />
          </image>
       </ImageView>
-      <Label fx:id="coinsLabel" layoutX="722.0" layoutY="435.0" prefHeight="18.0" prefWidth="29.0" text="x1" textFill="WHITE">
+      <Label layoutX="724.0" layoutY="436.0" prefHeight="27.0" prefWidth="11.0" rotate="-13.0" text="x" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="18.0" />
+            <Font name="Forte" size="18.0" />
          </font>
       </Label>
       <AnchorPane fx:id="studentsPane" layoutX="448.0" layoutY="334.0" prefHeight="27.0" prefWidth="160.0" visible="false">
@@ -282,5 +282,20 @@
             </Circle>
          </children>
       </AnchorPane>
+      <ImageView fitHeight="69.0" fitWidth="70.0" layoutX="187.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/Moneta_base.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="cost" layoutX="184.0" layoutY="159.0" text="3" textOverrun="CLIP">
+         <font>
+            <Font name="Forte" size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="playerCoins" layoutX="735.0" layoutY="436.0" rotate="-15.0" text="1" textFill="WHITE">
+         <font>
+            <Font name="Forte" size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

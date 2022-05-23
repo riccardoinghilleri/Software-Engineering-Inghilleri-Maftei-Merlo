@@ -52,6 +52,8 @@ public class MainSceneController implements GuiController {
     Button shopBtn, noBtn;
 
     private School[] school;
+
+    private int coin;
     private int displayedSchool = 0;
     private String studentColor = null;
     private ActionMessage message;
@@ -487,6 +489,7 @@ public class MainSceneController implements GuiController {
                 j++;
             }
         }
+        coin=((BoardExpert)message.getBoard()).getPlayerCoins(gui.getConnection().getClientId());
     }
 
     public void chooseCloud(MouseEvent event) {
@@ -589,7 +592,6 @@ public class MainSceneController implements GuiController {
 
     public void pressButton(MouseEvent event) {
         ((Button) event.getSource()).getStyleClass().add("buttonPressed");
-
     }
 
     public void releaseButton(MouseEvent event) {
@@ -597,6 +599,9 @@ public class MainSceneController implements GuiController {
         ((Button) event.getSource()).getStyleClass().add("button");
     }
 
+    public void enableShop(boolean value){
+        shopBtn.setDisable(!value);
+    }
     public void openShop() {
         Platform.runLater(() -> {
             Stage shop = new Stage();
@@ -612,21 +617,22 @@ public class MainSceneController implements GuiController {
             controller.setMessage(this.message);
             controller.clear();
             controller.createCharacterCard();
+            controller.setCoinsLabel(coin);
+            controller.setEnableBuyBtn(message.getAction()==Action.CHOOSE_CHARACTER_CARD);
             //TODO devo mandarmi le monete che ho controller.setCoinsLabel();
             shop.show();
-            if (!noBtn.isDisable()) {
+            if (!(message.getAction()==Action.CHOOSE_ASSISTANT_CARD)) {
                 noBtn.setDisable(true);
                 noBtn.setVisible(false);
             }
-            controller.getBuyBtn().setDisable(!(message.getAction() == Action.CHOOSE_CHARACTER_CARD));
         });
     }
 
     public void noCharacterCard(ActionEvent event) {
-
         message.setCharacterCardName(null);
         noBtn.setDisable(true);
         noBtn.setVisible(false);
+        enableShop(false);
         gui.getConnection().send(message);
     }
 

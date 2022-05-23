@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.gui.controllers.*;
 
 import it.polimi.ingsw.enums.Action;
 import it.polimi.ingsw.server.ConnectionMessage.*;
+import it.polimi.ingsw.server.model.BoardExpert;
 import it.polimi.ingsw.server.model.CharacterCard;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -16,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.*;
 
+import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.io.IOException;
 import java.util.*;
 
@@ -96,7 +98,7 @@ public class Gui extends Application implements View {
     }
 
     private void setup() {
-        List<String> fxmlList = new ArrayList<>(Arrays.asList("settings.fxml",
+        List<String> fxmlList = new ArrayList<>(Arrays.asList("welcome.fxml","settings.fxml",
                 "waiting.fxml", "setup.fxml", "assistantCards.fxml", "mainScene.fxml", "shop.fxml", "characterCard.fxml"));
         try {
             for (String s : fxmlList) {
@@ -109,10 +111,13 @@ public class Gui extends Application implements View {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        currentScene = scenes.get("settings.fxml");
+        currentScene = scenes.get("welcome.fxml");
     }
 
 
+    public void close(){
+        stage.close();
+    }
     @Override
     public void start(Stage primaryStage) {
         setup();
@@ -152,6 +157,7 @@ public class Gui extends Application implements View {
                 Platform.runLater(() -> {
                     mainSceneController.getNoBtn().setDisable(false);
                     mainSceneController.getNoBtn().setVisible(true);
+                    mainSceneController.enableShop(true);
                     ShopController shopController = (ShopController) getControllerByFxmlName("shop.fxml");
                     shopController.setCharacterCards(message.getCharacterCards());
                     mainSceneController.setInfoText("Do you want to use a Character Card?");
@@ -198,6 +204,7 @@ public class Gui extends Application implements View {
                 });
                 break;
             case DEFAULT_MOVEMENTS:
+                mainSceneController.enableShop(false);
                 alreadyAskedAssistantCard = false;
                 Platform.runLater(() -> {
                     mainSceneController.setInfoText("Move the entrance student: ");
@@ -218,8 +225,10 @@ public class Gui extends Application implements View {
                     mainSceneController.setInfoText("Choose a cloud:  ");
                     mainSceneController.enableClouds(message);
                 });
+                mainSceneController.enableShop(true);
                 break;
         }
+
     }
 
     @Override

@@ -126,6 +126,7 @@ public class CharacterCardController implements GuiController {
                 mainSceneController.setMessage(message);
                 mainSceneController.setInfoText("Choose a Student from your entrance");
                 mainSceneController.glowEntrance(true);
+                break;
             case "LUMBERJACK":
             case "QUEEN":
             case "THIEF":

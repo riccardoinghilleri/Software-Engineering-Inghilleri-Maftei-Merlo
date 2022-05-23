@@ -54,11 +54,11 @@ public class MainSceneController implements GuiController {
     private String studentColor = null;
     private ActionMessage message;
 
-    private boolean performer=false;
+    /*private boolean performer=false;
 
     public void setPerformer(boolean performer) {
         this.performer = performer;
-    }
+    }*/
 
     public void setAction(Action action) {
         this.message = new ActionMessage();
@@ -101,10 +101,12 @@ public class MainSceneController implements GuiController {
     public void sendMessage(MouseEvent event) {
         if (event.getSource() instanceof Circle)
             ((Circle) event.getSource()).setVisible(false);
-        //TODO NON RICONOSCE MESSAGE.GETCHARACTERCHCARD.EQUAL("PERFORMER")
-        if(performer)
+
+        if(message.getAction() == Action.USE_CHARACTER_CARD
+                && message.getCharacterCardName().equalsIgnoreCase("PERFORMER"))
         {
             message.setParameter(((Circle)event.getSource()).getId().split("_")[0].toUpperCase());
+            ((Circle)event.getSource()).setFill(Color.WHITE);
             glowDiningroom(false);
         }
         disableAllIslandsBroke();
@@ -167,6 +169,7 @@ public class MainSceneController implements GuiController {
             if(size>-1) {
                 AnchorPane pane = (AnchorPane) schoolPane.getChildren().get(i);
                 pane.setDisable(false);
+                ((Circle)pane.getChildren().get(10)).setFill(Color.TRANSPARENT);
                 pane.getChildren().get(10).setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
                 pane.getChildren().get(10).setVisible(visible);
             }
@@ -207,14 +210,19 @@ public class MainSceneController implements GuiController {
             message.getParameters().clear();
             glowDiningroom(studentColor, true);
             enableAllIslandsBroke();
-        } else if (performer) { //TODO SISTEMARE PERFORMER
+        } else if (message.getAction() == Action.USE_CHARACTER_CARD
+                && message.getCharacterCardName().equalsIgnoreCase("PERFORMER")) {
             message.getParameters().clear();
             glowDiningroom(true);
             infoText.setText("Choose the Dining Room Student");
-        } else if (message.getAction() == Action.USE_CHARACTER_CARD) {
+        } else if (message.getAction() == Action.USE_CHARACTER_CARD) { //TODO in teoria serve solo per il clown
             glowEntrance(false);
         }
         message.setParameter(studentColor.toUpperCase());
+        if(message.getAction() == Action.USE_CHARACTER_CARD
+                && message.getCharacterCardName().equalsIgnoreCase("CLOWN")){
+            gui.getConnection().send(message);
+        }
     }
 
     public void changeSchool(ActionEvent event) {

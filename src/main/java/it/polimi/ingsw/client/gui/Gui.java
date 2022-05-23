@@ -171,11 +171,11 @@ public class Gui extends Application implements View {
                     mainSceneController.setInfoText("You are using the Character Card");
                     mainSceneController.setAction(Action.USE_CHARACTER_CARD);
                     mainSceneController.getMessage()
-                            .setCharacterCardName(message.getChosenCharacterCard().toString().toUpperCase());
+                            .setCharacterCardName(message.getChosenCharacterCard().getName().toString().toUpperCase());
                     if (message.getChosenCharacterCard().getName().toString().equalsIgnoreCase("PERFORMER")
                             && ((CharacterCardController) getControllerByFxmlName("characterCard.fxml"))
                             .isAlreadyAskedMovements()) {
-                             mainSceneController.setPerformer(true);//TODO SISTEMARE PERFORMER
+                             //mainSceneController.setPerformer(true);//TODO SISTEMARE PERFORMER
                              mainSceneController.setInfoText("Choose the Entrance Student:");
                              mainSceneController.glowEntrance(true);
                     } else {

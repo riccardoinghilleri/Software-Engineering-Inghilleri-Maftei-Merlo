@@ -13,6 +13,11 @@
 
 <AnchorPane prefHeight="640.0" prefWidth="960.0" stylesheets="@../css/mainScene.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainSceneController">
    <children>
+      <ImageView fitHeight="640.0" fitWidth="960.0" pickOnBounds="true">
+         <image>
+            <Image url="@../graphics/backgrounds/sky_background1.png" />
+         </image>
+      </ImageView>
       <AnchorPane fx:id="islandsPane" prefHeight="411.0" prefWidth="960.0">
          <children>
             <AnchorPane layoutY="137.0" prefHeight="137.0" prefWidth="137.0">
@@ -1774,8 +1779,8 @@
             <Image url="@../graphics/gold_frame.png" />
          </image>
       </ImageView>
-      <Button fx:id="right" layoutX="741.0" layoutY="500.0" mnemonicParsing="false" onAction="#changeSchool" prefHeight="50.0" prefWidth="38.0" styleClass="button_right" />
-      <Button fx:id="left" layoutX="8.0" layoutY="500.0" mnemonicParsing="false" onAction="#changeSchool" prefHeight="50.0" prefWidth="38.0" styleClass="button_left" />
+      <Button fx:id="right" layoutX="741.0" layoutY="500.0" mnemonicParsing="false" onAction="#changeSchool" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="50.0" prefWidth="38.0" styleClass="button_right" />
+      <Button fx:id="left" layoutX="8.0" layoutY="500.0" mnemonicParsing="false" onAction="#changeSchool" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="50.0" prefWidth="38.0" styleClass="button_left" />
       <AnchorPane layoutX="770.0" layoutY="412.0" prefHeight="227.0" prefWidth="190.0" styleClass="infoBoard">
          <children>
             <Label layoutX="63.0" layoutY="14.0" text="INFO" textFill="WHITE">

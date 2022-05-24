@@ -75,9 +75,9 @@ public class BoardExpert extends Board{
             if(!chosenNames.contains(name))
                 chosenNames.add(name);
         }*/
-        chosenNames.add(CharacterCardName.CLOWN);
-        chosenNames.add(CharacterCardName.DIPLOMAT);
-        chosenNames.add(CharacterCardName.PERFORMER);
+        chosenNames.add(CharacterCardName.POSTMAN);
+        chosenNames.add(CharacterCardName.HERBOLARIA);
+        chosenNames.add(CharacterCardName.CENTAUR);
         for(int i=0;i<3;i++)
         {
             switch (chosenNames.get(i)){

@@ -23,7 +23,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
-import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -179,7 +178,10 @@ public class MainSceneController implements GuiController {
     public void select(MouseEvent event) {
         if (event.getSource() instanceof Circle) {
             ((Circle) event.getSource()).setStroke(Color.BLACK);
-        } else if (((ImageView) event.getSource()).getId().split("_")[1].equalsIgnoreCase("island")
+        } else if(event.getSource() instanceof Button){
+            ((Button) event.getSource()).setEffect(new Glow(0.8));
+        }
+        else if (((ImageView) event.getSource()).getId().split("_")[1].equalsIgnoreCase("island")
                 || ((ImageView) event.getSource()).getId().split("_")[1].equalsIgnoreCase("cloud")) {
             ((ImageView) event.getSource()).setEffect(new Glow(1.0));
         } else {
@@ -191,6 +193,8 @@ public class MainSceneController implements GuiController {
     public void unselect(MouseEvent event) {
         if (event.getSource() instanceof Circle) {
             ((Circle) event.getSource()).setStroke(Color.rgb(255, 223, 0));
+        }else if(event.getSource() instanceof Button){
+            ((Button) event.getSource()).setEffect(null);
         } else if (((ImageView) event.getSource()).getId().split("_")[1].equalsIgnoreCase("island")
                 || ((ImageView) event.getSource()).getId().split("_")[1].equalsIgnoreCase("cloud")) {
             ((ImageView) event.getSource()).setEffect(null);

@@ -18,6 +18,7 @@ public class ActionController {
         this.gameModel = gameModel;
         //this.specialCardName = null;
         this.playerId = gameModel.getCurrentPlayer().getClientID();
+        this.strategy=null;
     }
 
     public GameModel getGameModel() {
@@ -41,6 +42,7 @@ public class ActionController {
         BoardExpert boardExpert = (BoardExpert) gameModel.getBoard();
         boardExpert.moveCoin(playerId, boardExpert.getCharacterCardbyName(actionMessage.getCharacterCardName()));
     }
+
     public void useCharacterCardEffect(ActionMessage actionMessage){
         this.strategy.useEffect(actionMessage);
         if (actionMessage.getCharacterCardName().equalsIgnoreCase("PERFORMER")

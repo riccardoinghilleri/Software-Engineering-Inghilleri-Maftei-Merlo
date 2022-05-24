@@ -74,6 +74,9 @@ public class AssistantCardsController implements GuiController {
             message.setAction(Action.CHOOSE_CHARACTER_CARD);
             message.setData(priority);
             gui.getConnection().send(message);
+            ImageView image = (ImageView) mainPane.getChildren().get(priority+9);//serve a disattivare glow e a risettare exited nella carta che non è una scelta valida
+            image.setEffect(null);
+            image.setOnMouseExited(this::unselect);
             disableAllCards();
             stage.close();
         } else {

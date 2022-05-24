@@ -31,7 +31,7 @@ public class CharacterCardController implements GuiController {
     private Stage stage;
     private ActionMessage message;
     private MainSceneController mainSceneController;
-    private boolean alreadyAskedMovements=false;
+    private boolean alreadyAskedMovements = false;
 
     @FXML
     private Label infoText, cardName;
@@ -93,7 +93,7 @@ public class CharacterCardController implements GuiController {
                     alreadyAskedMovements = true;
                     movements_textField.setVisible(true);
                     right.setVisible(true);
-                } else{
+                } else {
                     infoText.setText("CHOOSE THE COLOR OF A STUDENT");
                     enableStudentsPane(card);
                 }
@@ -144,18 +144,18 @@ public class CharacterCardController implements GuiController {
         try {
             movements = Integer.parseInt(movements_textField.getText());
         } catch (NumberFormatException e) {
-            movements_textField.setPromptText("Invalid Input");
+            movements_textField.setPromptText("Invalid Input");//TODO sistemare perchè non si vede
         }
         if (((movements < 1 || movements > 3) && cardName.getText().equalsIgnoreCase("CLOWN"))
                 || ((movements < 1 || movements > 2) && cardName.getText().equalsIgnoreCase("PERFORMER")))
-            movements_textField.setPromptText("Invalid Input");
+            movements_textField.setPromptText("Invalid Input"); //TODO sistemare perchè non si vede
         else {
             movements_textField.setDisable(true);
             right.setDisable(true);
             message.setData(Integer.parseInt(movements_textField.getText()));
+            gui.getConnection().send(message);
+            stage.close();
         }
-        gui.getConnection().send(message);
-        stage.close();
     }
 
     public void select(MouseEvent event) {
@@ -168,7 +168,7 @@ public class CharacterCardController implements GuiController {
         ((Node) object).setEffect(null);
     }
 
-    private void enableStudentsPane(CharacterCard card){
+    private void enableStudentsPane(CharacterCard card) {
         studentsPane.setVisible(true);
         for (int i = 1; i <= 6; i++) {
             if (i <= ((CharacterCardwithStudents) card).getStudents().size()) {
@@ -187,15 +187,15 @@ public class CharacterCardController implements GuiController {
         }
     }
 
-    private void allColorsStudentsPane(){
+    private void allColorsStudentsPane() {
         studentsPane.setVisible(true);
         for (int i = 1; i <= 5; i++) {
             ((ImageView) studentsPane.getChildren().get(i)).setImage(new Image(Objects.requireNonNull(getClass()
                     .getResourceAsStream("/graphics/pieces/student_"
-                            + CharacterColor.values()[i-1].toString().toLowerCase() + ".png"))));
+                            + CharacterColor.values()[i - 1].toString().toLowerCase() + ".png"))));
             studentsPane.getChildren().get(i).setVisible(true);
             studentsPane.getChildren().get(i + 6).setVisible(true);
-            studentsPane.getChildren().get(i + 6).setId(CharacterColor.values()[i-1].toString().toLowerCase());
+            studentsPane.getChildren().get(i + 6).setId(CharacterColor.values()[i - 1].toString().toLowerCase());
         }
         studentsPane.getChildren().get(6).setVisible(false);
         studentsPane.getChildren().get(12).setVisible(false);

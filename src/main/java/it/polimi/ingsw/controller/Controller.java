@@ -225,6 +225,7 @@ public class Controller {
 
     private void endPlayerTurn() {
         playerTurnNumber++;
+        characterCardName = null;
         if (playerTurnNumber == gameModel.getPlayersNumber()) {
             playerTurnNumber = 0;
             phase = Action.SETUP_CLOUD;

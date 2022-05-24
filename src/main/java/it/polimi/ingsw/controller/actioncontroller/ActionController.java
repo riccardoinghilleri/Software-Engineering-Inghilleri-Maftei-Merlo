@@ -16,6 +16,7 @@ public class ActionController {
 
     public ActionController(GameModel gameModel) {
         this.gameModel = gameModel;
+        this.strategy=null;
         //this.specialCardName = null;
         this.playerId = gameModel.getCurrentPlayer().getClientID();
         this.strategy=null;

@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.controller.actioncontroller.*;
 
 import it.polimi.ingsw.enums.Action;
+import it.polimi.ingsw.enums.CharacterColor;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
 import it.polimi.ingsw.server.GameHandler;
@@ -79,6 +80,7 @@ public class Controller {
     private void startPlayerTurn() {
         characterCardMovements = -1;
         defaultMovements = 0;
+        characterCardName=null;
         alreadyUsedCharacterCard = false;
         availableActions = Action.getDefaultActions();
         if (gameModel.isExpertGame()) {

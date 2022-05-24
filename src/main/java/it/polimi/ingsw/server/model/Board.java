@@ -186,8 +186,11 @@ public class Board implements Serializable {
     //Calcolo influenza dei player data dalle torri presenti sull'isola
 
     public int[] getTowersInfluence(int islandPosition, int[] influence) {
-        int owner = islands.get(islandPosition).getTowers().get(0).getOwner();
-        influence[owner] += islands.get(islandPosition).getTowers().size();
+        int owner;
+        if (!islands.get(islandPosition).getTowers().isEmpty()) {
+            owner = islands.get(islandPosition).getTowers().get(0).getOwner();
+            influence[owner] += islands.get(islandPosition).getTowers().size();
+        }
         return influence;
     }
 
@@ -266,8 +269,8 @@ public class Board implements Serializable {
             islands.remove(position);
             /*if(islands.size()>motherNaturePosition)
                 islands.get(motherNaturePosition).setMotherNature(false);*/
-            if(position==islands.size())
-                position --;
+            if (position == islands.size())
+                position--;
             islands.get(position).setMotherNature(true);
             motherNaturePosition = position;
         } else {

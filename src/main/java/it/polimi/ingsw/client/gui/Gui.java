@@ -175,7 +175,7 @@ public class Gui extends Application implements View {
                     if (message.getChosenCharacterCard().getName().toString().equalsIgnoreCase("PERFORMER")
                             && ((CharacterCardController) getControllerByFxmlName("characterCard.fxml"))
                             .isAlreadyAskedMovements()) {
-                             //mainSceneController.setPerformer(true);//TODO SISTEMARE PERFORMER
+                             //mainSceneController.setPerformer(true);
                              mainSceneController.setInfoText("Choose the Entrance Student:");
                              mainSceneController.glowEntrance(true);
                     } else {

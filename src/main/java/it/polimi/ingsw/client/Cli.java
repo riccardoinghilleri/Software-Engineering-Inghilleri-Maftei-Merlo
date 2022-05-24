@@ -15,6 +15,10 @@ import it.polimi.ingsw.server.model.Island;
 import it.polimi.ingsw.server.model.Student;
 import it.polimi.ingsw.enums.CharacterColor;
 
+/**
+ * Main CLI client class manages the game if the player decides to play with Command Line Interface.
+ * @author Riccardo Inghilleri, Manuela Merlo
+ */
 public class Cli implements View {
     private final PrintStream printer;
     private final Scanner reader;
@@ -27,6 +31,9 @@ public class Cli implements View {
     private boolean alreadyAskedCard;
     private boolean alreadyAskedMovements;
 
+    /**
+     * The constructor of the class. It creates a new Cli instance.
+     */
     public Cli() {
         reader = new Scanner(System.in);
         InputController.setScanner(reader);
@@ -36,14 +43,23 @@ public class Cli implements View {
         alreadyAskedMovements = false;
     }
 
+    /**
+     * Getter which returns the port chosen by the client for the connection
+     */
     public static int getPort() {
         return port;
     }
-
+    /**
+     * Getter which returns the address chosen by the client for the connection
+     */
     public static String getAddress() {
         return address;
     }
 
+    /**
+     * The main class of CLI client. It instantiates a new CLI class, running it.
+     * @param args of type String[] - the standard java main parameters.
+     */
     public static void main(String[] args) {
         Constants.clearScreen();
         //Constants.clearScreen();
@@ -55,6 +71,11 @@ public class Cli implements View {
         cli.setupConnection();
     }
 
+    /**
+     *  This method is called when a client instance has started. It asks player's nickname, Ip address and port.
+     *  It tries to establish a connection to the server through a socket.
+     *  If the connection fails, it displays a message on the CLI.
+     */
     public void setupConnection() {
         printer.println(">Insert the server IP address");
         address = reader.nextLine();
@@ -94,6 +115,10 @@ public class Cli implements View {
 
     }
 
+    /**
+     * This method manages the choice of the players number and expert game, parsing the player's input
+     * and forwarding the message throw the established clientConnection
+     */
     private void setupGameSetting() {
         printer.println(">Choose number of players [2/3]: ");
         int playersNumber = InputController.checkParseInt();
@@ -107,7 +132,11 @@ public class Cli implements View {
         this.expertMode = response.equalsIgnoreCase("y");
         connection.send(new SettingsMessage(playersNumber, this.expertMode));
     }
-
+    /**
+     * This method manages the choice of the player's nickname, parsing the player's input
+     * and forwarding the message throw the established clientConnection.
+     * If the nickname has been already chosen , it displays a message on the CLI.
+     */
     public void setupNickname(NicknameMessage message) {
         Constants.clearScreen();
         //Constants.clearScreen();
@@ -124,7 +153,10 @@ public class Cli implements View {
         connection.send(new SetupMessage(nickname));
     }
 
-    //metodo utilizzando per la scelta dei colori e del wizard
+    /**
+     * This method is used to display the available colors and wizards from which the player can choose.
+     * @param message parameter used to send the list of colors and wizards.
+     */
     public void setupMultipleChoice(MultipleChoiceMessage message) {
         //String choice;
         printer.println(">These are the available choices:");
@@ -141,16 +173,30 @@ public class Cli implements View {
         connection.send(new SetupMessage(InputController.checkString(message.getAvailableChoices())));
     }
 
+    /**
+     * Method used to print a message as a string on the CLI
+     * @param message type of message to display.
+     */
     public void displayInfo(InfoMessage message) {
         printer.println(message.getString());
     }
-
+    /**
+     * Method used to display the board after being updated.
+     * @param message : parameter of updateBoard type, used to return the board and to draw it.
+     */
     public void displayBoard(UpdateBoard message) {
         Constants.clearScreen();
         //Constants.clearScreen();
         printer.println(message.getBoard().draw(1, 1));
     }
 
+    /**
+     * This method manages the actions that a player can do.
+     * It uses a switch-case constructor according to the action contained in the
+     * @param  message -> type of message-> AskActionMessage.
+     *
+     * After the player has chosen an element the boolean 'alreadyAsked' is set to false for the specified player.
+     */
     public void askAction(AskActionMessage message) {
         String response;
         String temp;
@@ -262,6 +308,11 @@ public class Cli implements View {
         }
     }
 
+    /**
+     * This method manages all the parameters that need to be set according to the character Card(
+     * e.g. island, student color.)
+     * It saves the answer in an Action message and forwards it.
+     */
 
     //Gestisce i parametri da settare in base alla character card
     private void manageCharacterCardChoice(AskActionMessage message) {
@@ -333,6 +384,11 @@ public class Cli implements View {
         connection.send(answer);
     }
 
+    /**
+     * This method returns the id of the chosen island, checking that the input is in the established range
+     * @param islands list of island from which to choose the desired one
+     * @return the island id
+     */
     private int chooseIsland(List<Island> islands) {
         //for (int i = 1; i <= islands.size(); i++) {
         //    printer.println("#" + i + "\n" + islands.get(i - 1).draw());

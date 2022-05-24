@@ -7,18 +7,32 @@ import java.io.PrintStream;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * InputController class manages all the data received in input from the client.
+ */
 public class InputController {
     private static Scanner reader;
     private static PrintStream printer;
 
+    /**
+     * This method set the scanner, class that simply can parse
+     * @param scanner instance of Scanner class
+     */
     public static void setScanner(Scanner scanner) {
         reader = scanner;
     }
-
+    /**
+     * This method set the printer, that simply format the data to the output stream
+     * @param printStream instance of PrintStream class
+     */
     public static void setPrinter(PrintStream printStream) {
         printer = printStream;
     }
 
+    /**
+     * This method check , parsing the input, that the insert input is a number.
+     * If no, it asks the player to try again and insert a number.
+     */
     public static int checkParseInt() {
         int result = -1;
         boolean error;
@@ -34,6 +48,10 @@ public class InputController {
         return result;
     }
 
+    /**
+     *
+     * @return
+     */
     public static String checkYNInput() {
         String response = reader.nextLine();
         while (!response.equalsIgnoreCase("y") && !response.equalsIgnoreCase("n")) {
@@ -46,6 +64,11 @@ public class InputController {
         return response;
     }
 
+    /**
+     *
+     * @param values
+     * @return
+     */
     public static int checkInt(List<Integer> values) {
         int data = InputController.checkParseInt();
         while (!values.contains(data)) {
@@ -68,7 +91,11 @@ public class InputController {
         return parameter;
     }
 
-
+    /**
+     * This method checks if the number chosen by the player is in the range.
+     * @param min minimum value allowed
+     * @param max maximum value allowed
+     */
     public static int checkRange(int min,int max) {
         int data = InputController.checkParseInt();
         while (data < min || data > max) {

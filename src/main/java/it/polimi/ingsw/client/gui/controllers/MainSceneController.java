@@ -326,6 +326,7 @@ public class MainSceneController implements GuiController {
         if (gui.isExpertMode()) {
             ShopController controller = (ShopController) gui.getControllerByFxmlName("shop.fxml");
             controller.setCharacterCards(((BoardExpert) message.getBoard()).getCharacterCards());
+            coin = ((BoardExpert) message.getBoard()).getPlayerCoins(gui.getConnection().getClientId());
             //TODO settare monete ma non so il client id
         }
         //Riempimento nuvole
@@ -526,7 +527,7 @@ public class MainSceneController implements GuiController {
                 j++;
             }
         }
-        coin = ((BoardExpert) message.getBoard()).getPlayerCoins(gui.getConnection().getClientId());
+
     }
 
     public void chooseCloud(MouseEvent event) {

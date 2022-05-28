@@ -68,16 +68,13 @@ public class BoardExpert extends Board{
         CharacterCard[] cards= new CharacterCard[3];
         CharacterCardName[] values= CharacterCardName.values();
         List<CharacterCardName> chosenNames= new ArrayList<>();
-        /*Random r=new Random();
+        Random r=new Random();
         while(chosenNames.size()<3)
         {
             CharacterCardName name=values[r.nextInt(values.length)];
             if(!chosenNames.contains(name))
                 chosenNames.add(name);
-        }*/
-        chosenNames.add(CharacterCardName.PERFORMER);
-        chosenNames.add(CharacterCardName.POSTMAN);
-        chosenNames.add(CharacterCardName.CENTAUR);
+        }
         for(int i=0;i<3;i++)
         {
             switch (chosenNames.get(i)){

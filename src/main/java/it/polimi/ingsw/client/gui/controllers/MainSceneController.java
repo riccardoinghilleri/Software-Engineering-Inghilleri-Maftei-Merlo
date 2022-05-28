@@ -101,11 +101,10 @@ public class MainSceneController implements GuiController {
         if (event.getSource() instanceof Circle)
             ((Circle) event.getSource()).setVisible(false);
 
-        if(message.getAction() == Action.USE_CHARACTER_CARD
-                && message.getCharacterCardName().equalsIgnoreCase("PERFORMER"))
-        {
-            message.setParameter(((Circle)event.getSource()).getId().split("_")[0].toUpperCase());
-            ((Circle)event.getSource()).setFill(Color.WHITE);
+        if (message.getAction() == Action.USE_CHARACTER_CARD
+                && message.getCharacterCardName().equalsIgnoreCase("PERFORMER")) {
+            message.setParameter(((Circle) event.getSource()).getId().split("_")[0].toUpperCase());
+            ((Circle) event.getSource()).setFill(Color.WHITE);
             glowDiningroom(false);
         }
         disableAllIslandsBroke();
@@ -124,14 +123,17 @@ public class MainSceneController implements GuiController {
     }
 
 
-    public void glowDiningroom(String color, boolean visible) {
+    /*public void glowDiningroom(String color, boolean visible) {
         int size;
         switch (color) {
             case "GREEN":
-                greenStudents.setDisable(false);
                 size = school[displayedSchool].getDiningRoom().get(CharacterColor.GREEN).size();
+                if(size<10){
+                greenStudents.setDisable(false);
                 green_Circle.setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
                 green_Circle.setVisible(visible);
+                } else
+                    infoText.setText("You cannot move this student in the Dining Room");
                 break;
             case "RED":
                 redStudents.setDisable(false);
@@ -159,16 +161,31 @@ public class MainSceneController implements GuiController {
                 break;
         }
 
+    }*/
+
+    public void glowDiningroom(String color, boolean visible) {
+        int size;
+        CharacterColor c = CharacterColor.valueOf(color);
+        size = school[displayedSchool].getDiningRoom().get(c).size();
+        if (size < 10) {
+            AnchorPane diningPane = (AnchorPane) schoolPane.getChildren().get(c.ordinal() + 2);
+            diningPane.setDisable(false);
+            diningPane.getChildren().get(10).setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
+            diningPane.getChildren().get(10).setVisible(visible);
+        } else
+            infoText.setText("You cannot move this student in the Dining Room");
+
     }
+
 
     public void glowDiningroom(boolean visible) {
         int size;
-        for(int i=2;i<7;i++){
-            size = school[displayedSchool].getDiningRoom().get(CharacterColor.values()[i-2]).size() - 1;
-            if(size>-1) {
+        for (int i = 2; i < 7; i++) {
+            size = school[displayedSchool].getDiningRoom().get(CharacterColor.values()[i - 2]).size() - 1;
+            if (size > -1) {
                 AnchorPane pane = (AnchorPane) schoolPane.getChildren().get(i);
                 pane.setDisable(false);
-                ((Circle)pane.getChildren().get(10)).setFill(Color.TRANSPARENT);
+                ((Circle) pane.getChildren().get(10)).setFill(Color.TRANSPARENT);
                 pane.getChildren().get(10).setLayoutX(size == 0 ? 12 : 12 + 24 * (size));
                 pane.getChildren().get(10).setVisible(visible);
             }
@@ -178,10 +195,9 @@ public class MainSceneController implements GuiController {
     public void select(MouseEvent event) {
         if (event.getSource() instanceof Circle) {
             ((Circle) event.getSource()).setStroke(Color.BLACK);
-        } else if(event.getSource() instanceof Button){
+        } else if (event.getSource() instanceof Button) {
             ((Button) event.getSource()).setEffect(new Glow(0.8));
-        }
-        else if (((ImageView) event.getSource()).getId().split("_")[1].equalsIgnoreCase("island")
+        } else if (((ImageView) event.getSource()).getId().split("_")[1].equalsIgnoreCase("island")
                 || ((ImageView) event.getSource()).getId().split("_")[1].equalsIgnoreCase("cloud")) {
             ((ImageView) event.getSource()).setEffect(new Glow(1.0));
         } else {
@@ -193,7 +209,7 @@ public class MainSceneController implements GuiController {
     public void unselect(MouseEvent event) {
         if (event.getSource() instanceof Circle) {
             ((Circle) event.getSource()).setStroke(Color.rgb(255, 223, 0));
-        }else if(event.getSource() instanceof Button){
+        } else if (event.getSource() instanceof Button) {
             ((Button) event.getSource()).setEffect(null);
         } else if (((ImageView) event.getSource()).getId().split("_")[1].equalsIgnoreCase("island")
                 || ((ImageView) event.getSource()).getId().split("_")[1].equalsIgnoreCase("cloud")) {
@@ -223,8 +239,8 @@ public class MainSceneController implements GuiController {
             glowEntrance(false);
         }
         message.setParameter(studentColor.toUpperCase());
-        if(message.getAction() == Action.USE_CHARACTER_CARD
-                && message.getCharacterCardName().equalsIgnoreCase("CLOWN")){
+        if (message.getAction() == Action.USE_CHARACTER_CARD
+                && message.getCharacterCardName().equalsIgnoreCase("CLOWN")) {
             gui.getConnection().send(message);
         }
     }
@@ -261,6 +277,12 @@ public class MainSceneController implements GuiController {
                 image.setVisible(true);
             } else image.setVisible(false);
         }
+        for (CharacterColor c : CharacterColor.values()) {
+            for (int i = 0; i < 10; i++) {
+                AnchorPane diningPane = (AnchorPane) schoolPane.getChildren().get(c.ordinal() + 2);
+                diningPane.getChildren().get(i).setVisible(i < school.getDiningRoom().get(c).size());
+            }
+        }/*
         for (int i = 0; i < 10; i++)
             greenStudents.getChildren().get(i).setVisible(i < school.getDiningRoom().get(CharacterColor.GREEN).size());
         for (int i = 0; i < 10; i++)
@@ -278,15 +300,19 @@ public class MainSceneController implements GuiController {
             tower.setImage(new Image(Objects.requireNonNull(getClass()
                     .getResourceAsStream("/graphics/pieces/" + school.getTowerColor().toString() + "_tower.png"))));
             tower.setVisible(i < school.getTowersNumber());
-        }
+        }*/
         glowEntrance(false);
         if (school.getOwnerId() != gui.getConnection().getClientId()
                 || message == null || message.getAction() != Action.DEFAULT_MOVEMENTS) {
             schoolPane.setDisable(true);
+            if (studentColor != null)
+                glowDiningroom(studentColor,false);
 
         } else {
             schoolPane.setDisable(false);
             glowEntrance(true);
+            if (studentColor != null)
+                glowDiningroom(studentColor, true);
         }
 
     }

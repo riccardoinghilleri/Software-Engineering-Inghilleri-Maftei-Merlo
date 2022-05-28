@@ -147,7 +147,7 @@ public class Board implements Serializable {
                 newOwner = s.getOwnerId();
             }
         }
-        if (newOwner != -1) {
+        if (newOwner != -1 && newOwner!=oldOwner) {
             professors[color.ordinal()].setOwner(newOwner);
             //Per la grafica:
             if (oldOwner != -1)

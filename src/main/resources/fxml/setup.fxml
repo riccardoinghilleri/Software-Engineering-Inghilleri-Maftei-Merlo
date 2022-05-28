@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/setupGame.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SetupController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/globalCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SetupController">
    <children>
       <ImageView fitHeight="400.0" fitWidth="600.0" opacity="0.6" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -88,7 +88,7 @@
                         <Image url="@../graphics/gold_frame.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="fairy" contentDisplay="CENTER" ellipsisString="" layoutX="2.0" layoutY="125.0" mnemonicParsing="false" onAction="#setChoice" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="30.0" prefWidth="90.0" style="-fx-border-radius: 0;" text="FAIRY" textOverrun="WORD_ELLIPSIS" />
+                  <Button fx:id="fairy" contentDisplay="CENTER" ellipsisString="" layoutX="2.0" layoutY="125.0" mnemonicParsing="false" onAction="#setChoice" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="30.0" prefWidth="90.0" style="-fx-border-radius: 0;" styleClass="wizard_name" text="FAIRY" textOverrun="WORD_ELLIPSIS" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="gandalf_pane" disable="true" layoutX="145.0" layoutY="23.0" prefHeight="145.0" prefWidth="94.0">
@@ -103,7 +103,7 @@
                         <Image url="@../graphics/gold_frame.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="gandalf" layoutX="2.0" layoutY="125.0" mnemonicParsing="false" onAction="#setChoice" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="30.0" prefWidth="90.0" text="GANDALF" />
+                  <Button fx:id="gandalf" layoutX="2.0" layoutY="125.0" mnemonicParsing="false" onAction="#setChoice" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="35.0" prefWidth="90.0" text="GANDALF" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="king_pane" disable="true" layoutX="263.0" layoutY="23.0" prefHeight="146.0" prefWidth="94.0">
@@ -118,7 +118,7 @@
                         <Image url="@../graphics/gold_frame.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="king" layoutX="2.0" layoutY="125.0" mnemonicParsing="false" onAction="#setChoice" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="30.0" prefWidth="90.0" text="KING" />
+                  <Button fx:id="king" layoutX="2.0" layoutY="125.0" mnemonicParsing="false" onAction="#setChoice" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="30.0" prefWidth="90.0" styleClass="wizard_name" text="KING" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="wise_pane" disable="true" layoutX="381.0" layoutY="23.0" onDragEntered="#select" onDragExited="#unselect" prefHeight="146.0" prefWidth="94.0">
@@ -133,7 +133,7 @@
                         <Image url="@../graphics/gold_frame.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="wise" layoutX="2.0" layoutY="125.0" mnemonicParsing="false" onAction="#setChoice" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="30.0" prefWidth="90.0" text="WISE" />
+                  <Button fx:id="wise" layoutX="2.0" layoutY="125.0" mnemonicParsing="false" onAction="#setChoice" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="30.0" prefWidth="90.0" styleClass="wizard_name" text="WISE" />
                </children>
             </AnchorPane>
          </children>

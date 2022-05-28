@@ -236,9 +236,9 @@ public class Gui extends Application implements View {
     public void displayInfo(InfoMessage message) {
         Platform.runLater(() -> {
             if (getControllerByScene(currentScene) instanceof WaitingController)
-                ((WaitingController) getControllerByScene(currentScene)).setInfoText(message.getString());
+                ((WaitingController) getControllerByScene(currentScene)).setInfoText(message.getString().replace(">",""));
             else if (getControllerByScene(currentScene) instanceof MainSceneController)
-                ((MainSceneController) getControllerByScene(currentScene)).setInfoText(message.getString());
+                ((MainSceneController) getControllerByScene(currentScene)).setInfoText(message.getString().replace(">",""));
         });
     }
 

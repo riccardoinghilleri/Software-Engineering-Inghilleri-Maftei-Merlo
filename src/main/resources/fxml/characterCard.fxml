@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="494.0" prefWidth="391.0" stylesheets="@../css/setupGame.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.CharacterCardController">
+<AnchorPane prefHeight="494.0" prefWidth="391.0" stylesheets="@../css/globalCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.CharacterCardController">
    <children>
       <ImageView fitHeight="494.0" fitWidth="391.0" opacity="0.65" pickOnBounds="true">
          <image>
@@ -40,7 +40,7 @@
             <Image url="@../graphics/backgrounds/notice.png" />
          </image>
       </ImageView>
-      <Label fx:id="cardName" alignment="CENTER" layoutX="100.0" layoutY="15.0" text="CardName" textFill="WHITE">
+      <Label fx:id="cardName" alignment="CENTER" layoutX="108.0" layoutY="18.0" styleClass="white_label" text="CardName" textFill="WHITE">
          <font>
             <Font name="Forte" size="20.0" />
          </font>

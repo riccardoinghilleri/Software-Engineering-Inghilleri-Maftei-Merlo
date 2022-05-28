@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="640.0" maxWidth="960.0" prefHeight="640.0" prefWidth="960.0" stylesheets="@../css/mainScene.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainSceneController">
+<AnchorPane maxHeight="640.0" maxWidth="960.0" prefHeight="640.0" prefWidth="960.0" stylesheets="@../css/globalCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainSceneController">
    <children>
       <ImageView fitHeight="640.0" fitWidth="960.0" pickOnBounds="true">
          <image>
@@ -1814,7 +1814,7 @@
       <Button fx:id="left" layoutX="15.0" layoutY="500.0" mnemonicParsing="false" onAction="#changeSchool" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="50.0" prefWidth="38.0" styleClass="button_left" />
       <AnchorPane layoutX="770.0" layoutY="412.0" prefHeight="227.0" prefWidth="190.0" styleClass="infoBoard">
          <children>
-            <ImageView fitHeight="235.0" fitWidth="231.0" layoutX="5.0" layoutY="-8.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="235.0" fitWidth="231.0" layoutX="5.0" layoutY="-9.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../graphics/backgrounds/wooden_board.png" />
                </image>
@@ -1850,7 +1850,7 @@
                   <Font name="Britannic Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="noBtn" disable="true" layoutX="84.0" layoutY="135.0" mnemonicParsing="false" onAction="#noCharacterCard" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="24.0" prefWidth="66.0" text="NO" textFill="WHITE" visible="false">
+            <Button fx:id="noBtn" disable="true" layoutX="87.0" layoutY="125.0" mnemonicParsing="false" onAction="#noCharacterCard" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="24.0" prefWidth="66.0" text="NO" textFill="WHITE">
                <font>
                   <Font name="Britannic Bold" size="14.0" />
                </font>

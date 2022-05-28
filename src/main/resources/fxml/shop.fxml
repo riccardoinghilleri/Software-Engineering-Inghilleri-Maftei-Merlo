@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="800.0" styleClass="mainPane" stylesheets="@../css/shop.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.ShopController">
+<AnchorPane prefHeight="500.0" prefWidth="800.0" styleClass="mainPane" stylesheets="@../css/globalCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.ShopController">
    <children>
       <Rectangle arcHeight="50.0" arcWidth="50.0" height="400.0" layoutX="100.0" layoutY="50.0" strokeType="INSIDE" strokeWidth="10.0" width="600.0">
          <fill>
@@ -88,7 +88,7 @@
             </LinearGradient>
          </textFill>
          <font>
-            <Font name="Showcard Gothic" size="18.0" />
+            <Font name="Forte" size="18.0" />
          </font>
       </Button>
       <ImageView fitHeight="80.0" fitWidth="250.0" layoutX="275.0" layoutY="10.0" pickOnBounds="true">
@@ -113,7 +113,7 @@
       </ImageView>
       <Button fx:id="left" layoutX="139.0" layoutY="240.0" mnemonicParsing="false" onAction="#changeCard" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="45.0" prefWidth="40.0" />
       <Button fx:id="right" layoutX="364.0" layoutY="240.0" mnemonicParsing="false" onAction="#changeCard" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="45.0" prefWidth="40.0" />
-      <Label fx:id="characterCardName" alignment="TOP_CENTER" layoutX="206.0" layoutY="107.0" prefHeight="18.0" prefWidth="139.0" styleClass="title" text="NAME" textFill="WHITE">
+      <Label fx:id="characterCardName" alignment="TOP_CENTER" layoutX="206.0" layoutY="107.0" prefHeight="18.0" prefWidth="139.0" styleClass="white_label" text="NAME" textFill="WHITE">
          <font>
             <Font name="Forte" size="20.0" />
          </font>
@@ -144,7 +144,7 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <Label alignment="TOP_CENTER" layoutX="438.0" layoutY="96.0" prefHeight="24.0" prefWidth="186.0" styleClass="title" text="DESCRIPTION" textFill="WHITE">
+      <Label alignment="TOP_CENTER" layoutX="438.0" layoutY="97.0" prefHeight="24.0" prefWidth="186.0" styleClass="white_label" text="DESCRIPTION" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>

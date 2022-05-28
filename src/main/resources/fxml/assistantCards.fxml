@@ -5,8 +5,9 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" maxHeight="588.0" maxWidth="900.0" prefHeight="588.0" prefWidth="900.0" style="-fx-background-repeat: no-repeat;" styleClass="mainPane" stylesheets="@../css/assistantsCard.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.AssistantCardsController">
+<AnchorPane fx:id="mainPane" maxHeight="588.0" maxWidth="900.0" prefHeight="588.0" prefWidth="900.0" style="-fx-background-repeat: no-repeat;" styleClass="mainPane" stylesheets="@../css/globalCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.AssistantCardsController">
    <children>
       <ImageView id="1" fitHeight="225.0" fitWidth="160.0" layoutX="16.0" layoutY="17.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -68,7 +69,10 @@
       <ImageView fx:id="image8" disable="true" fitHeight="258.0" fitWidth="180.0" layoutX="360.0" layoutY="255.0" onMouseClicked="#setPriority" onMouseEntered="#select" onMouseExited="#unselect" opacity="0.4" pickOnBounds="true" preserveRatio="true" styleClass="image" />
       <ImageView fx:id="image9" disable="true" fitHeight="258.0" fitWidth="180.0" layoutX="537.0" layoutY="255.0" onMouseClicked="#setPriority" onMouseEntered="#select" onMouseExited="#unselect" opacity="0.4" pickOnBounds="true" preserveRatio="true" styleClass="image" />
       <ImageView fx:id="image10" disable="true" fitHeight="258.0" fitWidth="180.0" layoutX="713.0" layoutY="252.0" onMouseClicked="#setPriority" onMouseEntered="#select" onMouseExited="#unselect" opacity="0.4" pickOnBounds="true" preserveRatio="true" styleClass="image" />
-      <Button fx:id="chooseBtn" layoutX="368.0" layoutY="516.0" mnemonicParsing="false" onAction="#choose" onDragEntered="#pressButton" onDragExited="#releaseButton" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="42.0" prefWidth="160.0" text="CHOOSE" />
-      <Label fx:id="warning" alignment="CENTER" layoutX="279.0" layoutY="558.0" prefHeight="18.0" prefWidth="339.0" text="Warning" textAlignment="CENTER" textFill="RED" visible="false" />
+      <Button fx:id="chooseBtn" layoutX="369.0" layoutY="510.0" mnemonicParsing="false" onAction="#choose" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="50.0" prefWidth="160.0" text="CHOOSE">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <Label fx:id="warning" alignment="CENTER" layoutX="279.0" layoutY="560.0" prefHeight="18.0" prefWidth="339.0" styleClass="error" text="Warning" textAlignment="CENTER" textFill="RED" visible="false" />
    </children>
 </AnchorPane>

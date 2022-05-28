@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="mainFrame" stylesheets="@../css/setupGame.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.WaitingController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="mainFrame" stylesheets="@../css/globalCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.WaitingController">
    <children>
       <ImageView accessibleRole="PROGRESS_INDICATOR" fitHeight="400.0" fitWidth="600.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
          <image>

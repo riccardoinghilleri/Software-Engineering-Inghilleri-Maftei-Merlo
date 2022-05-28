@@ -179,12 +179,16 @@ public class GameHandler implements PropertyChangeListener {
             case CHOOSE_CHARACTER_CARD:
                 askActionMessage = new AskActionMessage(controller.getPhase(),
                         ((BoardExpert) gameModel.getBoard()).getCharacterCards());
+                sendAllExcept(currentClientConnection, new InfoMessage(">"
+                        + gameModel.getCurrentPlayer().getNickname() + " is deciding whether to use a card..."));
                 break;
             case USE_CHARACTER_CARD:
                 askActionMessage = new AskActionMessage(controller.getPhase(),
                         ((BoardExpert) gameModel.getBoard()).getCharacterCardbyName(controller.getCharacterCardName()),
                         gameModel.getBoard().getIslands(), gameModel.getBoard()
                         .getSchoolByOwnerId(gameModel.getCurrentPlayer().getClientID()));
+                sendAllExcept(currentClientConnection, new InfoMessage(">"
+                        + gameModel.getCurrentPlayer().getNickname() + " is using the card :"+ controller.getCharacterCardName()));
                 break;
             case DEFAULT_MOVEMENTS:
                 askActionMessage = new AskActionMessage(controller.getPhase(), gameModel.getBoard()

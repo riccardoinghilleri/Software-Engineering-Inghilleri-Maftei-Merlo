@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/setupGame.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.WelcomeController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/globalCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.WelcomeController">
    <children>
       <ImageView fitHeight="400.0" fitWidth="697.0" opacity="0.55" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -31,7 +31,7 @@
       </ImageView>
       <Button layoutX="200.0" layoutY="234.0" mnemonicParsing="false" onAction="#close" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="65.0" prefWidth="200.0" text="QUIT">
          <font>
-            <Font size="20.0" />
+            <Font size="18.0" />
          </font>
       </Button>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="140.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
@@ -41,7 +41,7 @@
       </ImageView>
       <Button layoutX="200.0" layoutY="149.0" mnemonicParsing="false" onAction="#nextPage" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="65.0" prefWidth="200.0" text="PLAY">
          <font>
-            <Font size="20.0" />
+            <Font size="18.0" />
          </font>
       </Button>
       <ImageView fitHeight="72.0" fitWidth="107.0" layoutX="49.0" layoutY="274.0" pickOnBounds="true" preserveRatio="true">

@@ -12,11 +12,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.net.URL;
+import java.security.Key;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,6 +30,8 @@ public class SettingsController implements Initializable, GuiController {
     private boolean expertMode;
     @FXML
     AnchorPane connection_pane,settings_pane;
+    @FXML
+    Button confirm;
     @FXML
     private TextField address;
     @FXML

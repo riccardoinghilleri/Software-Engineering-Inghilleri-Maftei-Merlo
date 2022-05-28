@@ -1850,7 +1850,7 @@
                   <Font name="Britannic Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="noBtn" disable="true" layoutX="87.0" layoutY="125.0" mnemonicParsing="false" onAction="#noCharacterCard" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="24.0" prefWidth="66.0" text="NO" textFill="WHITE">
+            <Button fx:id="noBtn" disable="true" layoutX="87.0" layoutY="125.0" mnemonicParsing="false" onAction="#noCharacterCard" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="24.0" prefWidth="66.0" text="NO" textFill="WHITE" visible="false">
                <font>
                   <Font name="Britannic Bold" size="14.0" />
                </font>

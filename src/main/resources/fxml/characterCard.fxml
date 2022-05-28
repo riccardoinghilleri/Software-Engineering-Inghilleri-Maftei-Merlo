@@ -72,7 +72,7 @@
                   </RadialGradient>
                </stroke>
             </Circle>
-            <Circle fill="#ffffff00" layoutX="45.7" layoutY="13.9" onMouseClicked="#setColor" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0">
+            <Circle fill="#ffffff00" layoutX="46.7" layoutY="13.9" onMouseClicked="#setColor" onMouseEntered="#select" onMouseExited="#unselect" radius="13.9" strokeType="INSIDE" strokeWidth="3.0">
                <stroke>
                   <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
                      <stops>
@@ -186,6 +186,6 @@
          </textFill>
       </Label>
       <TextField fx:id="movements_textField" layoutX="14.0" layoutY="355.0" prefHeight="35.0" prefWidth="200.0" visible="false" />
-      <Button fx:id="right" layoutX="188.0" layoutY="360.0" mnemonicParsing="false" onAction="#setMovements" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="25.0" prefWidth="20.0" visible="false" />
+      <Button fx:id="right" layoutX="188.0" layoutY="356.0" mnemonicParsing="false" onAction="#setMovements" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="25.0" prefWidth="20.0" visible="false" />
    </children>
 </AnchorPane>

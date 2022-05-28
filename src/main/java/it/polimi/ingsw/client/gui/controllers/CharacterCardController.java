@@ -47,7 +47,6 @@ public class CharacterCardController implements GuiController {
     public void setAlreadyAskedMovements(boolean alreadyAskedMovements) {
         this.alreadyAskedMovements = alreadyAskedMovements;
     }
-
     public boolean isAlreadyAskedMovements() {
         return alreadyAskedMovements;
     }
@@ -144,11 +143,15 @@ public class CharacterCardController implements GuiController {
         try {
             movements = Integer.parseInt(movements_textField.getText());
         } catch (NumberFormatException e) {
+            movements_textField.clear();
             movements_textField.setPromptText("Invalid Input");//TODO sistemare perchè non si vede
         }
         if (((movements < 1 || movements > 3) && cardName.getText().equalsIgnoreCase("CLOWN"))
-                || ((movements < 1 || movements > 2) && cardName.getText().equalsIgnoreCase("PERFORMER")))
+                || ((movements < 1 || movements > Math.min(2,mainSceneController.getDiningroomStudents()))
+                && cardName.getText().equalsIgnoreCase("PERFORMER"))) {
+            movements_textField.clear();
             movements_textField.setPromptText("Invalid Input"); //TODO sistemare perchè non si vede
+        }
         else {
             movements_textField.setDisable(true);
             right.setDisable(true);
@@ -172,13 +175,13 @@ public class CharacterCardController implements GuiController {
         studentsPane.setVisible(true);
         for (int i = 1; i <= 6; i++) {
             if (i <= ((CharacterCardwithStudents) card).getStudents().size()) {
-                ((ImageView) studentsPane.getChildren().get(i)).setImage(new Image(Objects.requireNonNull(getClass()
+                ((ImageView) studentsPane.getChildren().get(i+6)).setImage(new Image(Objects.requireNonNull(getClass()
                         .getResourceAsStream("/graphics/pieces/student_"
                                 + ((CharacterCardwithStudents) card).getStudents().get(i - 1)
                                 .getColor().toString().toLowerCase() + ".png"))));
+                studentsPane.getChildren().get(i+6).setVisible(true);
                 studentsPane.getChildren().get(i).setVisible(true);
-                studentsPane.getChildren().get(i + 6).setVisible(true);
-                studentsPane.getChildren().get(i + 6).setId(((CharacterCardwithStudents) card).getStudents().get(i - 1)
+                studentsPane.getChildren().get(i).setId(((CharacterCardwithStudents) card).getStudents().get(i - 1)
                         .getColor().toString().toLowerCase());
             } else {
                 studentsPane.getChildren().get(i).setVisible(false);

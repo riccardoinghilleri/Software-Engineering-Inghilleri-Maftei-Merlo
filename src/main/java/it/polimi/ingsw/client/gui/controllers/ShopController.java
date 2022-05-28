@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.gui.Gui;
+import it.polimi.ingsw.enums.CharacterCardName;
 import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
 import it.polimi.ingsw.server.model.CharacterCard;
 import it.polimi.ingsw.server.model.CharacterCardwithStudents;
@@ -12,8 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -25,11 +24,11 @@ public class ShopController implements GuiController {
     private Stage stage;
     private Gui gui;
     private CharacterCard[] characterCards;
-    private int displayedCard = 0;
+    private int displayedCard = 0,diningRoomStudents;
 
     private ActionMessage message;
     @FXML
-    private Label characterCardName, characterCardDescription, playerCoins,cost;
+    private Label characterCardName, characterCardDescription, playerCoins, cost;
     @FXML
     private Button buyBtn;
     @FXML
@@ -51,8 +50,8 @@ public class ShopController implements GuiController {
         playerCoins.setText(String.valueOf(coins));
     }
 
-    public void setEnableBuyBtn(boolean value){
-        enableBuyBtn=value;
+    public void setEnableBuyBtn(boolean value) {
+        enableBuyBtn = value;
     }
 
     @Override
@@ -80,10 +79,10 @@ public class ShopController implements GuiController {
     public void buy() {
         message.setCharacterCardName(characterCardName.getText().toUpperCase());
         gui.getConnection().send(message);
-        enableBuyBtn=false;
+        enableBuyBtn = false;
         buyBtn.setDisable(true);
-        ((MainSceneController)gui.getControllerByFxmlName("mainScene.fxml")).enableShop(false);
-        ((MainSceneController)gui.getControllerByFxmlName("mainScene.fxml")).getNoBtn().setVisible(false);
+        ((MainSceneController) gui.getControllerByFxmlName("mainScene.fxml")).enableShop(false);
+        ((MainSceneController) gui.getControllerByFxmlName("mainScene.fxml")).getNoBtn().setVisible(false);
         stage.close();
     }
 
@@ -100,12 +99,12 @@ public class ShopController implements GuiController {
 
     public void close() {
         if (enableBuyBtn) {
-            enableBuyBtn=false;
+            enableBuyBtn = false;
             buyBtn.setDisable(true);
             message.setCharacterCardName(null);
             gui.getConnection().send(message);
-            ((MainSceneController)gui.getControllerByFxmlName("mainScene.fxml")).enableShop(false);
-            ((MainSceneController)gui.getControllerByFxmlName("mainScene.fxml")).getNoBtn().setVisible(false);
+            ((MainSceneController) gui.getControllerByFxmlName("mainScene.fxml")).enableShop(false);
+            ((MainSceneController) gui.getControllerByFxmlName("mainScene.fxml")).getNoBtn().setVisible(false);
         }
         stage.close();
     }
@@ -136,8 +135,13 @@ public class ShopController implements GuiController {
         } else {
             studentsPane.setVisible(false);
         }
-        if(enableBuyBtn){
-            buyBtn.setDisable(!(characterCards[displayedCard].getCost()<=Integer.parseInt(playerCoins.getText())));
+        if (enableBuyBtn) {
+            if(characterCards[displayedCard].getName()== CharacterCardName.PERFORMER) {
+                buyBtn.setDisable(((MainSceneController)gui.getControllerByFxmlName("mainScene.fxml")).getDiningroomStudents()<1);
+            }
+            else if (!(characterCards[displayedCard].getCost() <= Integer.parseInt(playerCoins.getText())))
+                buyBtn.setDisable(true);
+            else buyBtn.setDisable(false);
         }
     }
 

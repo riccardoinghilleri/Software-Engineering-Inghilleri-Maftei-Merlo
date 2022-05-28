@@ -17,8 +17,6 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
@@ -33,8 +31,7 @@ import java.util.Objects;
 public class MainSceneController implements GuiController {
     private Gui gui;
     public boolean firstTime = true;
-    private int motherNatureIndex;
-    private int sup_islands, inf_islands;
+    private int motherNatureIndex,sup_islands,inf_islands;
 
     @FXML
     private AnchorPane schoolPane, cloudsPane, islandsPane;
@@ -50,17 +47,10 @@ public class MainSceneController implements GuiController {
     Button shopBtn, noBtn;
 
     private School[] school;
-
     private int[] coins;
     private int displayedSchool = 0;
     private String studentColor = null;
     private ActionMessage message;
-
-    /*private boolean performer=false;
-
-    public void setPerformer(boolean performer) {
-        this.performer = performer;
-    }*/
 
     public void setAction(Action action) {
         this.message = new ActionMessage();
@@ -103,6 +93,7 @@ public class MainSceneController implements GuiController {
     public void sendMessage(MouseEvent event) {
         if (event.getSource() instanceof Circle) {
             ((Circle) event.getSource()).setVisible(false);
+            glowDiningroom(studentColor,false);
             studentColor=null;
         }
 
@@ -287,22 +278,13 @@ public class MainSceneController implements GuiController {
                 image.setVisible(true);
             } else image.setVisible(false);
         }
+        //costruisco le diningroom
         for (CharacterColor c : CharacterColor.values()) {
             for (int i = 0; i < 10; i++) {
                 AnchorPane diningPane = (AnchorPane) schoolPane.getChildren().get(c.ordinal() + 2);
                 diningPane.getChildren().get(i).setVisible(i < school.getDiningRoom().get(c).size());
             }
-        }/*
-        for (int i = 0; i < 10; i++)
-            greenStudents.getChildren().get(i).setVisible(i < school.getDiningRoom().get(CharacterColor.GREEN).size());
-        for (int i = 0; i < 10; i++)
-            redStudents.getChildren().get(i).setVisible(i < school.getDiningRoom().get(CharacterColor.RED).size());
-        for (int i = 0; i < 10; i++)
-            yellowStudents.getChildren().get(i).setVisible(i < school.getDiningRoom().get(CharacterColor.YELLOW).size());
-        for (int i = 0; i < 10; i++)
-            pinkStudents.getChildren().get(i).setVisible(i < school.getDiningRoom().get(CharacterColor.PINK).size());
-        for (int i = 0; i < 10; i++)
-            blueStudents.getChildren().get(i).setVisible(i < school.getDiningRoom().get(CharacterColor.BLUE).size());
+        }
         for (int i = 0; i < 5; i++)
             professors.getChildren().get(i).setVisible(school.getProfessorByColor(CharacterColor.values()[i]) != null);
         for (int i = 0; i < 8; i++) {
@@ -310,7 +292,7 @@ public class MainSceneController implements GuiController {
             tower.setImage(new Image(Objects.requireNonNull(getClass()
                     .getResourceAsStream("/graphics/pieces/" + school.getTowerColor().toString() + "_tower.png"))));
             tower.setVisible(i < school.getTowersNumber());
-        }*/
+        }
         glowEntrance(false);
         if (school.getOwnerId() != gui.getConnection().getClientId()
                 || message == null || message.getAction() != Action.DEFAULT_MOVEMENTS) {
@@ -754,9 +736,11 @@ public class MainSceneController implements GuiController {
     }*/
 
 
+    public int getDiningroomStudents(){
+        return school[gui.getConnection().getClientId()].getNumDiningroomStudents();
+    }
     @Override
     public void setGui(Gui gui) {
         this.gui = gui;
     }
-
 }

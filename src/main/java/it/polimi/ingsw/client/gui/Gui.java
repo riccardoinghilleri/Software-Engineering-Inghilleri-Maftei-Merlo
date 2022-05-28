@@ -7,8 +7,6 @@ import it.polimi.ingsw.client.gui.controllers.*;
 
 import it.polimi.ingsw.enums.Action;
 import it.polimi.ingsw.server.ConnectionMessage.*;
-import it.polimi.ingsw.server.model.BoardExpert;
-import it.polimi.ingsw.server.model.CharacterCard;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -16,8 +14,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.*;
-
-import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.io.IOException;
 import java.util.*;
 
@@ -175,7 +171,6 @@ public class Gui extends Application implements View {
                     if (message.getChosenCharacterCard().getName().toString().equalsIgnoreCase("PERFORMER")
                             && ((CharacterCardController) getControllerByFxmlName("characterCard.fxml"))
                             .isAlreadyAskedMovements()) {
-                             //mainSceneController.setPerformer(true);
                              mainSceneController.setInfoText("Choose the Entrance Student:");
                              mainSceneController.glowEntrance(true);
                     } else {

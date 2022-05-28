@@ -93,7 +93,7 @@ public class SettingsController implements Initializable, GuiController {
         gui.setPlayersNumber(playersNumber.getValue());
     }
 
-    public void getGameMode(ActionEvent event) {
+    public void getGameMode() {
         if (normal.isSelected()) {
             expertMode = false;
             gui.setExpertMode(false);

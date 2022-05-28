@@ -37,18 +37,19 @@ public class MainSceneController implements GuiController {
     @FXML
     private AnchorPane schoolPane, cloudsPane, islandsPane;
     @FXML
-    Label nickname, infoText;
+    Label nickname, coin_label, infoText;
     @FXML
     AnchorPane entrance, greenStudents, redStudents, yellowStudents, pinkStudents, blueStudents, professors, towers;
     @FXML
-    ImageView assistantCard;
+    ImageView assistantCard, sachet;
     @FXML
     Circle green_Circle, red_Circle, yellow_Circle, pink_Circle, blue_Circle;
     @FXML
     Button shopBtn, noBtn;
 
     private School[] school;
-    private int coin;
+
+    private int[] coins;
     private int displayedSchool = 0;
     private String studentColor = null;
     private ActionMessage message;
@@ -98,8 +99,10 @@ public class MainSceneController implements GuiController {
     }
 
     public void sendMessage(MouseEvent event) {
-        if (event.getSource() instanceof Circle)
+        if (event.getSource() instanceof Circle) {
             ((Circle) event.getSource()).setVisible(false);
+            studentColor=null;
+        }
 
         if (message.getAction() == Action.USE_CHARACTER_CARD
                 && message.getCharacterCardName().equalsIgnoreCase("PERFORMER")) {
@@ -258,6 +261,11 @@ public class MainSceneController implements GuiController {
 
     public void createPlayer(School school) {
         nickname.setText(school.getOwner().getNickname());
+        if (gui.isExpertMode()) {
+            coin_label.setVisible(true);
+            coin_label.setText("x" + coins[displayedSchool]);
+            sachet.setVisible(true);
+        }
         int priority = (school.getOwner().getChosenAssistantCard() == null ? -1
                 : school.getOwner().getChosenAssistantCard().getPriority());
         String wizard = school.getOwner().getDeck().getWizard().toString();
@@ -306,7 +314,7 @@ public class MainSceneController implements GuiController {
                 || message == null || message.getAction() != Action.DEFAULT_MOVEMENTS) {
             schoolPane.setDisable(true);
             if (studentColor != null)
-                glowDiningroom(studentColor,false);
+                glowDiningroom(studentColor, false);
 
         } else {
             schoolPane.setDisable(false);
@@ -352,7 +360,7 @@ public class MainSceneController implements GuiController {
         if (gui.isExpertMode()) {
             ShopController controller = (ShopController) gui.getControllerByFxmlName("shop.fxml");
             controller.setCharacterCards(((BoardExpert) message.getBoard()).getCharacterCards());
-            coin = ((BoardExpert) message.getBoard()).getPlayerCoins(gui.getConnection().getClientId());
+            coins = ((BoardExpert) message.getBoard()).getCoins();
             //TODO settare monete ma non so il client id
         }
         //Riempimento nuvole
@@ -683,7 +691,7 @@ public class MainSceneController implements GuiController {
             controller.setMessage(this.message);
             controller.clear();
             controller.createCharacterCard();
-            controller.setCoinsLabel(coin);
+            controller.setCoinsLabel(coins[gui.getConnection().getClientId()]);
             controller.setEnableBuyBtn(message.getAction() == Action.CHOOSE_CHARACTER_CARD);
             controller.createCharacterCard();
             //TODO devo mandarmi le monete che ho controller.setCoinsLabel();

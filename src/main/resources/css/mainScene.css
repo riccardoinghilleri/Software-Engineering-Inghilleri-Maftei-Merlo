@@ -24,13 +24,6 @@
     -fx-background-image: url("../graphics/btn/left_gold_arrow.png");
     -fx-background-size: stretch;
 }
-.infoBoard{
-    -fx-background-color:transparent;
-    -fx-background-position:center;
-    -fx-background-image: url("../graphics/backgrounds/panel.png");
-    -fx-background-size: stretch;
-}
-
 .infoTextArea .content{
     -fx-background-color:transparent;;
     -fx-background-image:url("../graphics/backgrounds/panel.png");

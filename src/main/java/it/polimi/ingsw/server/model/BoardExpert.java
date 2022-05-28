@@ -25,6 +25,10 @@ public class BoardExpert extends Board{
         }
     }
 
+    public int[] getCoins(){
+        return playerCoins;
+    }
+
     public Integer getPlayerCoins(int clientId) {
         return playerCoins[clientId];
     }

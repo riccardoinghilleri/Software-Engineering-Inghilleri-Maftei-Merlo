@@ -6,18 +6,54 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="640.0" prefWidth="960.0" stylesheets="@../css/mainScene.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainSceneController">
+<AnchorPane maxHeight="640.0" maxWidth="960.0" prefHeight="640.0" prefWidth="960.0" stylesheets="@../css/mainScene.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.MainSceneController">
    <children>
       <ImageView fitHeight="640.0" fitWidth="960.0" pickOnBounds="true">
          <image>
             <Image url="@../graphics/backgrounds/sky_background1.png" />
          </image>
       </ImageView>
+      <Rectangle height="235.0" layoutX="37.0" layoutY="406.0" strokeType="INSIDE" strokeWidth="5.0" width="708.0">
+         <stroke>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" green="0.9175000190734863" blue="0.44999998807907104" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.5882353186607361" green="0.27450981736183167" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </stroke>
+         <fill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" green="0.8999999761581421" opacity="0.2635258436203003" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="0.8745098114013672" opacity="0.30000001192092896" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
       <AnchorPane fx:id="islandsPane" prefHeight="411.0" prefWidth="960.0">
          <children>
             <AnchorPane layoutY="137.0" prefHeight="137.0" prefWidth="137.0">
@@ -1379,7 +1415,7 @@
          </children>
       </AnchorPane>
 
-      <AnchorPane fx:id="schoolPane" layoutX="218.0" layoutY="411.0" prefHeight="229.0" prefWidth="523.0">
+      <AnchorPane fx:id="schoolPane" layoutX="218.0" layoutY="410.0" prefHeight="229.0" prefWidth="523.0">
          <children>
             <ImageView fx:id="background" fitHeight="229.0" fitWidth="523.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -1764,36 +1800,52 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <Label fx:id="nickname" alignment="CENTER" layoutX="37.0" layoutY="411.0" prefHeight="27.0" prefWidth="180.0" style="-fx-background-color: gold;" text="Current Player Name" textAlignment="CENTER">
-         <font>
-            <Font name="System Bold Italic" size="18.0" />
-         </font>
-      </Label>
-      <ImageView fx:id="assistantCard" fitHeight="174.0" fitWidth="137.0" layoutX="69.0" layoutY="449.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="assistantCard" fitHeight="174.0" fitWidth="137.0" layoutX="69.0" layoutY="453.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../graphics/assistantCards/Assistente1.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="186.0" fitWidth="137.0" layoutX="59.0" layoutY="443.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="186.0" fitWidth="137.0" layoutX="59.0" layoutY="448.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../graphics/gold_frame.png" />
          </image>
       </ImageView>
-      <Button fx:id="right" layoutX="741.0" layoutY="500.0" mnemonicParsing="false" onAction="#changeSchool" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="50.0" prefWidth="38.0" styleClass="button_right" />
-      <Button fx:id="left" layoutX="8.0" layoutY="500.0" mnemonicParsing="false" onAction="#changeSchool" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="50.0" prefWidth="38.0" styleClass="button_left" />
+      <Button fx:id="right" layoutX="727.0" layoutY="500.0" mnemonicParsing="false" onAction="#changeSchool" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="50.0" prefWidth="38.0" styleClass="button_right" />
+      <Button fx:id="left" layoutX="15.0" layoutY="500.0" mnemonicParsing="false" onAction="#changeSchool" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="50.0" prefWidth="38.0" styleClass="button_left" />
       <AnchorPane layoutX="770.0" layoutY="412.0" prefHeight="227.0" prefWidth="190.0" styleClass="infoBoard">
          <children>
-            <Label layoutX="63.0" layoutY="14.0" text="INFO" textFill="WHITE">
+            <ImageView fitHeight="235.0" fitWidth="231.0" layoutX="5.0" layoutY="-8.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../graphics/backgrounds/wooden_board.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="62.0" layoutY="-2.0" text="INFO" textFill="WHITE">
                <font>
                   <Font name="Forte" size="24.0" />
                </font>
             </Label>
-            <Label fx:id="infoText" alignment="TOP_CENTER" layoutX="23.0" layoutY="67.0" prefHeight="118.0" prefWidth="144.0" textFill="WHITE" wrapText="true">
+            <Label fx:id="infoText" alignment="TOP_CENTER" layoutX="19.0" layoutY="35.0" prefHeight="118.0" prefWidth="144.0" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="Britannic Bold" size="14.0" />
                </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.5882353186607361" green="0.27450981736183167" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.8736842274665833" green="0.5820246934890747" blue="0.3268226087093353" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
             </Label>
-            <Button fx:id="shopBtn" disable="true" layoutX="34.0" layoutY="167.0" mnemonicParsing="false" onAction="#openShop" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="35.0" prefWidth="119.0" text="SHOP" textFill="WHITE" visible="false">
+            <Button fx:id="shopBtn" disable="true" layoutX="34.0" layoutY="162.0" mnemonicParsing="false" onAction="#openShop" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="35.0" prefWidth="119.0" text="SHOP" textFill="WHITE" visible="false">
                <font>
                   <Font name="Britannic Bold" size="14.0" />
                </font>
@@ -1899,5 +1951,43 @@
             </AnchorPane>
          </children>
       </AnchorPane>
+      <Rectangle height="227.0" layoutX="215.0" layoutY="410.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="5.0">
+         <fill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" green="0.8999999761581421" opacity="0.5471124053001404" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.5600000023841858" green="0.2613333463668823" opacity="0.7750760316848755" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
+      <ImageView fitHeight="44.0" fitWidth="144.0" layoutX="56.0" layoutY="399.0" pickOnBounds="true">
+         <image>
+            <Image url="@../graphics/backgrounds/signboard2.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="nickname" alignment="CENTER" layoutX="56.0" layoutY="405.0" prefHeight="27.0" prefWidth="144.0" text=" Name" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Forte" size="18.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="sachet" fitHeight="77.0" fitWidth="66.0" layoutX="159.0" layoutY="571.0" pickOnBounds="true" preserveRatio="true" rotate="14.0" visible="false">
+         <image>
+            <Image url="@../graphics/backgrounds/money.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="coin_label" layoutX="160.0" layoutY="574.0" text="x1" textFill="WHITE" visible="false">
+         <font>
+            <Font name="Forte" size="36.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

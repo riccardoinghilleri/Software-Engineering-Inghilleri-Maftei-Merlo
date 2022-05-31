@@ -136,11 +136,11 @@ public class ShopController implements GuiController {
             studentsPane.setVisible(false);
         }
         if (enableBuyBtn) {
-            if(characterCards[displayedCard].getName()== CharacterCardName.PERFORMER) {
+            if (!(characterCards[displayedCard].getCost() <= Integer.parseInt(playerCoins.getText())))
+                buyBtn.setDisable(true);
+            else if(characterCards[displayedCard].getName()== CharacterCardName.PERFORMER) {
                 buyBtn.setDisable(((MainSceneController)gui.getControllerByFxmlName("mainScene.fxml")).getDiningroomStudents()<1);
             }
-            else if (!(characterCards[displayedCard].getCost() <= Integer.parseInt(playerCoins.getText())))
-                buyBtn.setDisable(true);
             else buyBtn.setDisable(false);
         }
     }

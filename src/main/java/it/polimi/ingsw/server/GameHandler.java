@@ -245,6 +245,7 @@ public class GameHandler implements PropertyChangeListener {
     }
 
     public void endGame() {
+        sendAll(new UpdateBoard(gameModel.getBoard()));
         sendAll(new InfoMessage(">The winner is " + gameModel.getWinner().getNickname()
                 + "!" + "\nThanks for playing!"));
         for (VirtualView client : clients) {

@@ -79,11 +79,11 @@ public class CharacterCardController implements GuiController {
         cardName.setText(card.getName().toString().toUpperCase());
         cardImg.setImage(new Image(Objects.requireNonNull(getClass()
                 .getResourceAsStream("/graphics/characterCards/" + card.getName().toString().toLowerCase() + ".jpg"))));
+        studentsPane.setVisible(card instanceof CharacterCardwithStudents);
         switch (card.getName()) {
             case QUEEN:
             case PRIEST: //isole e colore dello studente
                 infoText.setText("CHOOSE THE COLOR OF A STUDENT");
-                studentsPane.setVisible(true);
                 enableStudentsPane(card);
                 break;
             case CLOWN: //colori studenti della carta e studenti colori ingresso scuola
@@ -172,16 +172,16 @@ public class CharacterCardController implements GuiController {
     }
 
     private void enableStudentsPane(CharacterCard card) {
-        studentsPane.setVisible(true);
+        //studentsPane.setVisible(true);
         for (int i = 1; i <= 6; i++) {
             if (i <= ((CharacterCardwithStudents) card).getStudents().size()) {
-                ((ImageView) studentsPane.getChildren().get(i+6)).setImage(new Image(Objects.requireNonNull(getClass()
+                ((ImageView) studentsPane.getChildren().get(i)).setImage(new Image(Objects.requireNonNull(getClass()
                         .getResourceAsStream("/graphics/pieces/student_"
                                 + ((CharacterCardwithStudents) card).getStudents().get(i - 1)
                                 .getColor().toString().toLowerCase() + ".png"))));
                 studentsPane.getChildren().get(i+6).setVisible(true);
                 studentsPane.getChildren().get(i).setVisible(true);
-                studentsPane.getChildren().get(i).setId(((CharacterCardwithStudents) card).getStudents().get(i - 1)
+                studentsPane.getChildren().get(i+6).setId(((CharacterCardwithStudents) card).getStudents().get(i - 1)
                         .getColor().toString().toLowerCase());
             } else {
                 studentsPane.getChildren().get(i).setVisible(false);

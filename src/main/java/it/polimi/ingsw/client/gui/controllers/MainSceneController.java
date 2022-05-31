@@ -96,7 +96,6 @@ public class MainSceneController implements GuiController {
             glowDiningroom(studentColor,false);
             studentColor=null;
         }
-
         if (message.getAction() == Action.USE_CHARACTER_CARD
                 && message.getCharacterCardName().equalsIgnoreCase("PERFORMER")) {
             message.setParameter(((Circle) event.getSource()).getId().split("_")[0].toUpperCase());

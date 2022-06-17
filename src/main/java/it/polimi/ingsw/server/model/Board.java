@@ -244,8 +244,8 @@ public class Board implements Serializable {
                 islands.get(islandPosition).addStudents(islands.get((islandPosition + 1) % islands.size()).getStudents().get(c));
             }
             islands.get(islandPosition).addTowers(islands.get((islandPosition + 1) % islands.size()).getTowers());
-            if(islands.get((islandPosition + 1) % islands.size()).hasNoEntryTile())
-                for(int i=0;i<islands.get((islandPosition + 1) % islands.size()).getNoEntryTile();i++)
+            if (islands.get((islandPosition + 1) % islands.size()).hasNoEntryTile())
+                for (int i = 0; i < islands.get((islandPosition + 1) % islands.size()).getNoEntryTile(); i++)
                     islands.get(islandPosition).setNoEntryTile(true);
             islands.remove((islandPosition + 1) % islands.size());
         }
@@ -257,8 +257,8 @@ public class Board implements Serializable {
             for (CharacterColor c : CharacterColor.values()) {
                 islands.get(islandPosition).addStudents(islands.get(position).getStudents().get(c));
             }
-            if(islands.get((position)).hasNoEntryTile())
-                for(int i=0;i<islands.get(position).getNoEntryTile();i++)
+            if (islands.get((position)).hasNoEntryTile())
+                for (int i = 0; i < islands.get(position).getNoEntryTile(); i++)
                     islands.get(islandPosition).setNoEntryTile(true);
             islands.get(islandPosition).addTowers(islands.get(position).getTowers());
             islands.remove(position);
@@ -342,10 +342,12 @@ public class Board implements Serializable {
                 board.append(Constants.cursorDown(1));
             }
         }
-        if (gameModel.isExpertGame && playersNumber<4)
+        if (gameModel.isExpertGame && playersNumber < 4)
             board.append(Constants.cursorUp(playersNumber * 11 - 2));
-        else if(gameModel.isExpertGame && playersNumber==4) board.append(Constants.cursorUp(2 * 11));
-        else if(!gameModel.isExpertGame && playersNumber==4) board.append(Constants.cursorUp(2 * 9));
+        else if (gameModel.isExpertGame && playersNumber == 4)
+            board.append(Constants.cursorUp(2 * 11));
+        else if (!gameModel.isExpertGame && playersNumber == 4)
+            board.append(Constants.cursorUp(2 * 9));
         else board.append(Constants.cursorUp(playersNumber * 9));
         //board.append(Constants.cursorRight(34));
         //111
@@ -365,7 +367,7 @@ public class Board implements Serializable {
             board.append(Constants.cursorUp(3));
         }
         board.append(Constants.cursorUp(1));
-        board.append(islands.get((int) Math.ceil(((float) islands.size() - 2.0) / 2.0)+1).draw(143 + x, 0, (int) Math.ceil(((float) islands.size() - 2.0) / 2.0)+ 2));
+        board.append(islands.get((int) Math.ceil(((float) islands.size() - 2.0) / 2.0) + 1).draw(143 + x, 0, (int) Math.ceil(((float) islands.size() - 2.0) / 2.0) + 2));
         board.append(Constants.cursorDown(1));
         distance = (111 - (int) Math.floor(((float) islands.size() - 2.0) / 2.0) * 21)
                 / (1 + (int) Math.floor(((float) islands.size() - 2.0) / 2.0));
@@ -375,16 +377,17 @@ public class Board implements Serializable {
             board.append(Constants.cursorUp(5));
             count++;
         }
-        if (gameModel.isExpertGame && playersNumber<4) {
+        if (gameModel.isExpertGame && playersNumber < 4) {
             board.append(Constants.cursorDown(8));
-        } else if(gameModel.isExpertGame && playersNumber==4) board.append(Constants.cursorDown(6));
+        } else if (gameModel.isExpertGame && playersNumber == 4)
+            board.append(Constants.cursorDown(6));
         else board.append(Constants.cursorDown(6));
         if (playersNumber == 2) {
             distance = 15;
             board.append(schools[0].draw(53 + x, 0));
             board.append(Constants.cursorUp(8));
             board.append(schools[1].draw(x + 53 + distance + 31, 0));
-        } else if(playersNumber==3){
+        } else if (playersNumber == 3) {
             distance = 3;
             board.append(schools[0].draw(42 + x, 0));
             board.append(Constants.cursorUp(8));
@@ -392,7 +395,7 @@ public class Board implements Serializable {
             board.append(Constants.cursorUp(8));
             board.append(schools[2].draw(42 + x + distance * 2 + 31 * 2, 0));
         } else {
-            distance=2;
+            distance = 2;
             board.append(schools[0].draw(25 + x, 0));
             board.append(Constants.cursorUp(8));
             board.append(schools[1].draw(25 + x + distance + 31, 0));

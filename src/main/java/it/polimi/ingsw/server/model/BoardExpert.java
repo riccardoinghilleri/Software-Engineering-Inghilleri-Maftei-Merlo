@@ -6,9 +6,9 @@ import it.polimi.ingsw.enums.CharacterCardName;
 import java.util.*;
 
 public class BoardExpert extends Board{
-    int boardCoins;
-    int [] playerCoins;
-    CharacterCard[] characterCards;
+    private int boardCoins;
+    private int [] playerCoins;
+    private CharacterCard[] characterCards;
 
     public BoardExpert(List<Player> players, GameModel gameModel) {
         super(players, gameModel);
@@ -142,20 +142,27 @@ public class BoardExpert extends Board{
 
     public StringBuilder draw(int x, int y) {
         StringBuilder boardExpert = new StringBuilder(super.draw(x,y));
-        if(getPlayersNumber()!=4)
+        int distance;
+        if(getPlayersNumber()!=4) {
             boardExpert.append(Constants.cursorUp(32));
+            distance=165+x;
+            for(CharacterCard characterCard: characterCards){
+                boardExpert.append(characterCard.draw(distance, 0));
+                boardExpert.append(Constants.cursorDown(1));
+            }
+            boardExpert.append(Constants.cursorDown(12));
+        }
         else{
+            //165+x
             boardExpert.append(Constants.cursorUp(1));
+            distance=1;
+            for(CharacterCard characterCard: characterCards){
+                boardExpert.append(characterCard.draw(49+x+3*distance+14*distance, 0));
+                boardExpert.append(Constants.cursorUp(6));
+                distance++;
+            }
+            boardExpert.append(Constants.cursorDown(7));
         }
-        //165+x
-        int distance=1;
-        for(CharacterCard characterCard: characterCards){
-            boardExpert.append(characterCard.draw(49+x+3*distance+14*distance, 0));
-            boardExpert.append(Constants.cursorUp(6));
-            distance++;
-        }
-        boardExpert.append(Constants.cursorDown(7));
-
         return boardExpert;
     }
 }

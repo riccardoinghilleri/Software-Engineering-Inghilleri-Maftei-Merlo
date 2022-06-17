@@ -18,7 +18,7 @@ import it.polimi.ingsw.enums.CharacterColor;
 
 public class Cli implements View {
     private final PrintStream printer;
-    private Scanner reader;
+    private final Scanner reader;
     private static int port;
     private static String address;
     private ClientConnection connection;
@@ -72,8 +72,8 @@ public class Cli implements View {
                 while (port < 1024 || port > 65535) {
                     System.out.println(">Invalid input: you have to choose a number between 1024 and 65535. Please try again");
                     port = Integer.parseInt(reader.nextLine());
-                    if (port < 1024 || port > 65535)
-                        Constants.clearRowBelow(2);
+                    /*if (port < 1024 || port > 65535)
+                        Constants.clearRowBelow(2);*/
                 }
             } catch (NumberFormatException e) {
                 printer.println(">Invalid input: you have to insert a number. Please try again.");
@@ -291,8 +291,8 @@ public class Cli implements View {
                 while (message.getSchool().getDiningRoom().get(CharacterColor.valueOf(parameter)).size() < 1) {
                     printer.println(">Invalid input. Please try again");
                     parameter = reader.nextLine().toUpperCase();
-                    if (message.getSchool().getDiningRoom().get(CharacterColor.valueOf(parameter)).size() < 1)
-                        Constants.clearRowBelow(2);
+                    /*if (message.getSchool().getDiningRoom().get(CharacterColor.valueOf(parameter)).size() < 1)
+                        Constants.clearRowBelow(2);*/
                 }
                 answer.setParameter(parameter);
                 answer.setParameter(chooseStudentColor(message.getSchool().getEntrance(), false,

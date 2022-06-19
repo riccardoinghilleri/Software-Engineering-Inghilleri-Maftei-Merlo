@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.controller.actioncontroller.*;
 
 import it.polimi.ingsw.enums.Action;
+import it.polimi.ingsw.enums.CharacterColor;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
 import it.polimi.ingsw.server.GameHandler;
@@ -25,13 +26,13 @@ public class Controller {
 
     private int maxCharacterCardsMovements;
 
-    private PropertyChangeSupport listeners;
+    private final PropertyChangeSupport listeners;
 
     public Controller(GameModel gameModel, GameHandler gameHandler) {
         this.gameModel = gameModel;
         this.phase = Action.SETUP_CLOUD;
         playerTurnNumber = 0;
-        characterCardMovements = 0;
+        characterCardMovements = -1;
         defaultMovements = 0;
         alreadyUsedCharacterCard = false;
         this.maxCharacterCardsMovements = -1;
@@ -88,8 +89,9 @@ public class Controller {
     private void startPlayerTurn() {
         gameModel.setCurrentPlayer(playerTurnNumber);
         listeners.firePropertyChange("change_turn",null,null);
-        characterCardMovements = 0;
+        characterCardMovements = -1;
         defaultMovements = 0;
+        characterCardName=null;
         alreadyUsedCharacterCard = false;
         availableActions = Action.getDefaultActions();
         if (gameModel.isExpertGame()) {
@@ -113,8 +115,7 @@ public class Controller {
                     characterCardName = actionMessage.getCharacterCardName();
                     alreadyUsedCharacterCard = true;
                     //se non ho settato una strategia e il nome non è lumberjack oppure il nome è postaman
-                    if ((!setCharacterCardEffect(actionMessage) && !characterCardName.equalsIgnoreCase("LUMBERJACK"))
-                            || characterCardName.equalsIgnoreCase("POSTMAN")) {
+                    if ((!setCharacterCardEffect(actionMessage) && !characterCardName.equalsIgnoreCase("LUMBERJACK")) || characterCardName.equalsIgnoreCase("POSTMAN")) {
                         phase = availableActions.remove(0);
                     } else phase = Action.USE_CHARACTER_CARD;
                 }
@@ -143,23 +144,25 @@ public class Controller {
                     ((Lumberjack) actionController).setColor(actionMessage.getParameters().get(0));
                     phase = availableActions.remove(0);
                 } else {
-                    if ((characterCardName.equalsIgnoreCase("PERFORMER") || characterCardName.equalsIgnoreCase("CLOWN")) && characterCardMovements == 0) {
+                    if ((characterCardName.equalsIgnoreCase("PERFORMER") || characterCardName.equalsIgnoreCase("CLOWN")) && characterCardMovements == -1) {
                         maxCharacterCardsMovements = actionMessage.getData();
-                    }
-                    actionController.useCharacterCardEffect(actionMessage);
-                    characterCardMovements++;
-                    if (characterCardName.equalsIgnoreCase("DIPLOMAT")) {
-                        for (School s : gameModel.getBoard().getSchools()) {
-                            if (s.getTowersNumber() == 0) {
-                                gameModel.setWinner(gameModel.getPlayerById(s.getOwnerId()));
-                                listeners.firePropertyChange("end_game", null, null);
+                        characterCardMovements++;
+                    } else {
+                        actionController.useCharacterCardEffect(actionMessage);
+                        characterCardMovements++;
+                        if (characterCardName.equalsIgnoreCase("DIPLOMAT")) {
+                            for (School s : gameModel.getBoard().getSchools()) {
+                                if (s.getTowersNumber() == 0) {
+                                    gameModel.setWinner(gameModel.getPlayerById(s.getOwnerId()));
+                                    listeners.firePropertyChange("end_game", null, null);
+                                }
                             }
                         }
-                    }
-                    try {//TODO usare direttamente if dentro metodo check
-                        checkAlreadyUsedCharacterCard(characterCardName);
-                    } catch (AlreadyUsedCharacterCardException e) {
-                        phase = availableActions.remove(0);
+                        try {//TODO usare direttamente if dentro metodo check
+                            checkAlreadyUsedCharacterCard(characterCardName);
+                        } catch (AlreadyUsedCharacterCardException e) {
+                            phase = availableActions.remove(0);
+                        }
                     }
                 }
                 break;
@@ -234,6 +237,7 @@ public class Controller {
 
     private void endPlayerTurn() {
         playerTurnNumber++;
+        characterCardName = null;
         if (playerTurnNumber == gameModel.getPlayersNumber()) {
             playerTurnNumber = 0;
             phase = Action.SETUP_CLOUD;

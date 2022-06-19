@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/globalCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.WinnerController">
+   <children>
+      <ImageView fitHeight="400.0" fitWidth="600.0" opacity="0.8" pickOnBounds="true">
+         <image>
+            <Image url="@../graphics/backgrounds/yellow_background.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="147.0" fitWidth="242.0" layoutX="180.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/backgrounds/island_background.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="169.0" fitWidth="249.0" layoutX="176.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/winner.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="121.0" fitWidth="163.0" layoutX="25.0" layoutY="145.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/backgrounds/island2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="25.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/backgrounds/frog.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="81.0" fitWidth="121.0" layoutX="425.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/backgrounds/island2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="63.0" fitWidth="77.0" layoutX="447.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/backgrounds/dragon.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="nickname_label" layoutX="219.0" layoutY="37.0" prefHeight="72.0" prefWidth="163.0" text="MANU" textFill="WHITE">
+         <font>
+            <Font name="Forte" size="48.0" />
+         </font>
+      </Label>
+      <AnchorPane fx:id="infoPanel" layoutX="453.0" layoutY="231.0" prefHeight="130.0" prefWidth="102.0" styleClass="infoBoard" visible="false">
+         <children>
+            <ImageView fitHeight="166.0" fitWidth="121.0" layoutX="5.0" layoutY="-9.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../graphics/backgrounds/wooden_board.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="41.0" layoutY="-7.0" prefHeight="22.0" prefWidth="61.0" text="INFO" textFill="WHITE">
+               <font>
+                  <Font name="Forte" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="infoText" alignment="TOP_CENTER" layoutX="22.0" layoutY="27.0" prefHeight="89.0" prefWidth="86.0" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="Britannic Bold" size="14.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.5882353186607361" green="0.27450981736183167" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.8736842274665833" green="0.5820246934890747" blue="0.3268226087093353" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="500.0" prefWidth="800.0" styleClass="mainPane" stylesheets="@../css/globalCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.ShopController">
+   <children>
+      <Rectangle arcHeight="50.0" arcWidth="50.0" height="400.0" layoutX="100.0" layoutY="50.0" strokeType="INSIDE" strokeWidth="10.0" width="600.0">
+         <fill>
+            <RadialGradient centerX="0.5088105642848078" centerY="0.5" radius="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="0.8666666746139526" opacity="0.5927051901817322" />
+                     </color>
+                  </Stop>
+               </stops>
+            </RadialGradient>
+         </fill>
+         <stroke>
+            <RadialGradient centerX="0.5088105642848078" centerY="0.5" radius="0.6559633290002106">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" green="0.5911111235618591" blue="0.23333333432674408" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="0.8745098114013672" />
+                     </color>
+                  </Stop>
+               </stops>
+            </RadialGradient>
+         </stroke>
+      </Rectangle>
+      <Button fx:id="buyBtn" disable="true" layoutX="186.33" layoutY="424.0" mnemonicParsing="false" onAction="#buy" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="50.0" prefWidth="175.0" text="BUY">
+         <textFill>
+            <LinearGradient endX="0.6477273016264944" endY="0.5984848340352376">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.7490196228027344" green="0.5098039507865906" blue="0.30588236451148987" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.5882353186607361" green="0.29411765933036804" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+         <font>
+            <Font name="Forte" size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="closeBtn" layoutX="444.66" layoutY="424.0" mnemonicParsing="false" onAction="#close" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="50.0" prefWidth="175.0" text="CLOSE">
+         <textFill>
+            <LinearGradient endX="0.4280303170283636" endY="0.5681818326314291">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" green="0.5911111235618591" blue="0.23333333432674408" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.5882353186607361" green="0.29411765933036804" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+         <font>
+            <Font name="Forte" size="18.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="80.0" fitWidth="250.0" layoutX="275.0" layoutY="10.0" pickOnBounds="true">
+         <image>
+            <Image url="@../graphics/backgrounds/signboard.png" />
+         </image>
+      </ImageView>
+      <Label alignment="TOP_CENTER" ellipsisString="" layoutX="365.0" layoutY="52.0" prefHeight="28.0" prefWidth="69.0" styleClass="title" text="SHOP" textFill="WHITE">
+         <font>
+            <Font name="Forte" size="23.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="310.0" fitWidth="270.0" layoutX="159.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/backgrounds/wooden_board.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="characterCardImg" fitHeight="223.0" fitWidth="160.0" layoutX="196.0" layoutY="148.0" pickOnBounds="true">
+         <image>
+            <Image url="@../graphics/characterCards/centaur.jpg" />
+         </image>
+      </ImageView>
+      <Button fx:id="left" layoutX="139.0" layoutY="240.0" mnemonicParsing="false" onAction="#changeCard" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="45.0" prefWidth="40.0" />
+      <Button fx:id="right" layoutX="364.0" layoutY="240.0" mnemonicParsing="false" onAction="#changeCard" onMouseEntered="#select" onMouseExited="#unselect" prefHeight="45.0" prefWidth="40.0" />
+      <Label fx:id="characterCardName" alignment="TOP_CENTER" layoutX="206.0" layoutY="107.0" prefHeight="18.0" prefWidth="139.0" styleClass="white_label" text="NAME" textFill="WHITE">
+         <font>
+            <Font name="Forte" size="20.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="310.0" fitWidth="270.0" layoutX="422.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/backgrounds/wooden_board_2.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="characterCardDescription" alignment="TOP_CENTER" layoutX="452.0" layoutY="138.0" prefHeight="223.0" prefWidth="160.0" text=" LOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMLOREM IPSUMVLOREM IPSUM" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="Forte" size="15.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="0.3674242857730749" endY="0.7159090909090908">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.7490196228027344" green="0.5098039507865906" blue="0.30588236451148987" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.5882353186607361" green="0.29411765933036804" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label alignment="TOP_CENTER" layoutX="438.0" layoutY="97.0" prefHeight="24.0" prefWidth="186.0" styleClass="white_label" text="DESCRIPTION" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="134.0" fitWidth="128.0" layoutX="658.0" layoutY="348.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/money_container.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="69.0" fitWidth="70.0" layoutX="681.0" layoutY="376.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/Moneta_base.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="724.0" layoutY="436.0" prefHeight="27.0" prefWidth="11.0" rotate="-13.0" text="x" textFill="WHITE">
+         <font>
+            <Font name="Forte" size="18.0" />
+         </font>
+      </Label>
+      <AnchorPane fx:id="studentsPane" layoutX="448.0" layoutY="334.0" prefHeight="27.0" prefWidth="160.0" visible="false">
+         <children>
+            <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="3.4" layoutY="2.4" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="31.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="58.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="86.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="114.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="22.5" fitWidth="22.5" layoutX="141.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" />
+            <Circle fill="#ffffff00" layoutX="13.9" layoutY="13.9" radius="13.9" strokeType="INSIDE" strokeWidth="3.0">
+               <stroke>
+                  <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="1.0" green="0.6913705468177795" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="0.8666666746139526" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </RadialGradient>
+               </stroke>
+            </Circle>
+            <Circle fill="#ffffff00" layoutX="41.7" layoutY="13.9" radius="13.9" strokeType="INSIDE" strokeWidth="3.0">
+               <stroke>
+                  <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="1.0" green="0.6913705468177795" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="0.8666666746139526" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </RadialGradient>
+               </stroke>
+            </Circle>
+            <Circle fill="#ffffff00" layoutX="69.5" layoutY="13.9" radius="13.9" strokeType="INSIDE" strokeWidth="3.0">
+               <stroke>
+                  <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="1.0" green="0.6913705468177795" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="0.8666666746139526" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </RadialGradient>
+               </stroke>
+            </Circle>
+            <Circle fill="#ffffff00" layoutX="97.3" layoutY="13.9" radius="13.9" strokeType="INSIDE" strokeWidth="3.0">
+               <stroke>
+                  <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="1.0" green="0.6913705468177795" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="0.8666666746139526" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </RadialGradient>
+               </stroke>
+            </Circle>
+            <Circle fill="#ffffff00" layoutX="125.1" layoutY="13.9" radius="13.9" strokeType="INSIDE" strokeWidth="3.0">
+               <stroke>
+                  <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="1.0" green="0.6913705468177795" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="0.8666666746139526" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </RadialGradient>
+               </stroke>
+            </Circle>
+            <Circle fill="#ffffff00" layoutX="152.9" layoutY="13.9" radius="13.9" strokeType="INSIDE" strokeWidth="3.0">
+               <stroke>
+                  <RadialGradient centerX="0.48678413256674613" centerY="0.46969696247216425" radius="0.6651376321775104">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="1.0" green="0.6913705468177795" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="0.8666666746139526" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </RadialGradient>
+               </stroke>
+            </Circle>
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="69.0" fitWidth="70.0" layoutX="187.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/Moneta_base.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="cost" layoutX="184.0" layoutY="159.0" text="3" textOverrun="CLIP">
+         <font>
+            <Font name="Forte" size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="playerCoins" layoutX="735.0" layoutY="436.0" rotate="-15.0" text="1" textFill="WHITE">
+         <font>
+            <Font name="Forte" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

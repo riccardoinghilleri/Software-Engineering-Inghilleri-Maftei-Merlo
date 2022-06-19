@@ -33,7 +33,6 @@ public class GameHandler implements PropertyChangeListener {
     private final Server server;//TODO forse meglio listener
     private final Controller controller;
 
-
     public GameHandler(int gameId, boolean expertMode, List<VirtualView> clients, Server server) {
         this.gameId = gameId;
         this.playersNumber = clients.size();
@@ -79,7 +78,11 @@ public class GameHandler implements PropertyChangeListener {
                     turnNumber = 1;
                     phase = GameHandlerPhase.PIANIFICATION;
                     gameModel.createBoard();
+                    for(VirtualView view:clients){
+                        view.sendMessage(new ConnectionIdMessage(clients.indexOf(view)));
+                    }
                     pianificationTurn(false);
+                    //TODO forse si deve fare il display della board
                 } else {
                     phase = GameHandlerPhase.SETUP_NICKNAME;
                     setupGame();
@@ -98,6 +101,8 @@ public class GameHandler implements PropertyChangeListener {
                     String error = controller.nextAction((ActionMessage) message);
                     if (error != null) {
                         clients.get(currentClientConnection).sendMessage(new InfoMessage(error));
+                    } else {
+                        sendAll(new UpdateBoard(gameModel.getBoard()));
                     }
                     if (controller.getPhase() == Action.SETUP_CLOUD && turnNumber < 10) {
                         turnNumber++;
@@ -110,7 +115,6 @@ public class GameHandler implements PropertyChangeListener {
                 }
             }
         }
-
     }
 
     public void setupGame() {
@@ -125,10 +129,11 @@ public class GameHandler implements PropertyChangeListener {
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
                         + gameModel.getPlayerById(currentClientConnection).getNickname() + " is choosing his color..."));
             } else {
-                clients.get(currentClientConnection)
+                clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(availableColors,true));
+                /*clients.get(currentClientConnection)
                         .sendMessage(new InfoMessage(">The Game has chosen the color for you.\n" +
                                 ">Your color is " + availableColors.get(0)));
-                sendAllExcept(currentClientConnection, new InfoMessage(">The game assigned to "
+                */sendAllExcept(currentClientConnection, new InfoMessage(">The game assigned to "
                         + gameModel.getPlayerById(currentClientConnection).getNickname() + " the last color:  "
                         + availableColors.get(0).toString()));
                 gameModel.getPlayerById(currentClientConnection).setColor(availableColors.get(0).toString());
@@ -196,7 +201,7 @@ public class GameHandler implements PropertyChangeListener {
                 askActionMessage = new AskActionMessage(controller.getPhase(),
                         ((BoardExpert) gameModel.getBoard()).getCharacterCards());
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
-                        + gameModel.getCurrentPlayer().getNickname() + " is choosing whether to use a CharacterCard..."));
+                        + gameModel.getCurrentPlayer().getNickname() + " is deciding whether to use a card..."));
                 break;
             case USE_CHARACTER_CARD:
                 askActionMessage = new AskActionMessage(controller.getPhase(),
@@ -204,7 +209,7 @@ public class GameHandler implements PropertyChangeListener {
                         gameModel.getBoard().getIslands(), gameModel.getBoard()
                         .getSchoolByOwnerId(gameModel.getCurrentPlayer().getClientID()));
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
-                        + gameModel.getCurrentPlayer().getNickname() + " is choosing a CharacterCard..."));
+                        + gameModel.getCurrentPlayer().getNickname() + " is using the card :"+ controller.getCharacterCardName()));
                 break;
             case DEFAULT_MOVEMENTS:
                 askActionMessage = new AskActionMessage(controller.getPhase(), gameModel.getBoard()

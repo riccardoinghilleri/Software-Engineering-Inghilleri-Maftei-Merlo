@@ -16,6 +16,7 @@ public class ActionController {
 
     public ActionController(GameModel gameModel) {
         this.gameModel = gameModel;
+        this.strategy=null;
         //this.specialCardName = null;
         this.playerId = gameModel.getCurrentPlayer().getClientID();
     }
@@ -29,7 +30,7 @@ public class ActionController {
     }
 
 
-    //se strategy è true, setto la strategy e la uso una volta
+    //se strategy è true, setto la strategy
     //aggiorno le monete dei player, della carta e della board
     //se la carta è Diner, aggiorno tutti i professori
     public void useCharacterCard(ActionMessage actionMessage, boolean strategy) {
@@ -41,14 +42,25 @@ public class ActionController {
         BoardExpert boardExpert = (BoardExpert) gameModel.getBoard();
         boardExpert.moveCoin(playerId, boardExpert.getCharacterCardbyName(actionMessage.getCharacterCardName()));
     }
+
     public void useCharacterCardEffect(ActionMessage actionMessage){
         this.strategy.useEffect(actionMessage);
+        if (actionMessage.getCharacterCardName().equalsIgnoreCase("PERFORMER")
+                || actionMessage.getCharacterCardName().equalsIgnoreCase("QUEEN")
+                || actionMessage.getCharacterCardName().equalsIgnoreCase("THIEF")){
+            updateAllProfessors();
+        }
     }
 
-    //metodo che ritorna il player con più influenza sull'isola specificata
+
     public int getInfluence(int index) {
         return gameModel.getBoard().getTotalInfluence(index);
     }
+
+    //metodo che ritorna il player con più influenza sull'isola specificata
+    /*public int getInfluence(ActionMessage actionMessage) {
+        return gameModel.getBoard().getTotalInfluence(actionMessage.getData());
+    }*/
 
     //metodo che muove gli studenti dalla sala all'ingresso
     //dopo il movimento viene aggiornato il professore di quel colore

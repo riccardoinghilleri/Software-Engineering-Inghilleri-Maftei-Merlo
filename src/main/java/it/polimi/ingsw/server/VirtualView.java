@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class VirtualView implements Runnable {
@@ -17,8 +14,8 @@ public class VirtualView implements Runnable {
 
     private boolean alreadySettings;
 
-    private final AtomicBoolean active, closed, ping_response;
-
+    private final AtomicBoolean active, closed;
+    //private final AtomicBoolean ping_response;
 
     private final Socket socket;
     private final Server server;
@@ -26,7 +23,7 @@ public class VirtualView implements Runnable {
     private ObjectInputStream is;
     private ObjectOutputStream os;
 
-    private Thread pinger;
+    //private Thread pinger;
     private Thread timer;
 
     public VirtualView(Socket socket, Server server) {
@@ -37,7 +34,7 @@ public class VirtualView implements Runnable {
         this.alreadySettings = false;
         active = new AtomicBoolean(false);
         closed = new AtomicBoolean(false);
-        ping_response = new AtomicBoolean(false);
+        //ping_response = new AtomicBoolean(false);
     }
 
     public void setGameHandler(GameHandler gameHandler) {
@@ -70,17 +67,15 @@ public class VirtualView implements Runnable {
                 Object clientMessage = is.readObject();
                 stopTimer();
                 if (!(clientMessage instanceof InfoMessage && ((InfoMessage) clientMessage).getString().equalsIgnoreCase("PING"))) {
-                    if (clientMessage instanceof InfoMessage && ((InfoMessage) clientMessage).getString().equalsIgnoreCase("QUIT"))
-                        closeConnection(false, true);
-                    else if (inGame)
+                    if (inGame)
                         gameHandler.manageMessage(this, (Message) clientMessage);
                     else if (!alreadySettings) {/*checkSettings((SettingsMessage) clientMessage);*/
                         server.addClientConnectionToQueue(this, ((SettingsMessage) clientMessage).getPlayersNumber(), ((SettingsMessage) clientMessage).isExpertMode());
                         this.alreadySettings = true;
                     }
-                } else {
+                } /*else {
                     ping_response.set(true);
-                }
+                }*/
             }
         } catch (IOException | ClassNotFoundException e) {
             closeConnection(false, true);
@@ -109,7 +104,6 @@ public class VirtualView implements Runnable {
             active.set(false);
 
             if (timerEnded) {
-
                 sendMessage(new InfoMessage("TIMER_ENDED"));
                 gameHandler.endGame(clientId);
             } else stopTimer();
@@ -175,21 +169,5 @@ public class VirtualView implements Runnable {
             timer = null;
         }
     }
+
 }
-/*
-final class ScheduledExecutorServiceDemo {
-    private static final ScheduledExecutorService exec =
-            Executors.newScheduledThreadPool(2);
-
-    public static void main(String[] args) {
-        // Schedule first task
-        exec.scheduleAtFixedRate(() -> {
-            // do stuff
-        }, 0, 5000, TimeUnit.MILLISECONDS);
-
-        // Schedule second task
-        exec.scheduleAtFixedRate(() -> {
-            // do stuff
-        }, 0, 1, TimeUnit.MINUTES);
-    }
-}*/

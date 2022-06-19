@@ -24,6 +24,10 @@ public class BoardExpert extends Board{
         }
     }
 
+    public int[] getCoins(){
+        return playerCoins;
+    }
+
     public Integer getPlayerCoins(int clientId) {
         return playerCoins[clientId];
     }
@@ -74,6 +78,9 @@ public class BoardExpert extends Board{
             if(!chosenNames.contains(name))
                 chosenNames.add(name);
         }
+        //chosenNames.add(CharacterCardName.PERFORMER);
+        //chosenNames.add(CharacterCardName.PRIEST);
+        //chosenNames.add(CharacterCardName.HERBOLARIA);
         for(int i=0;i<3;i++)
         {
             switch (chosenNames.get(i)){

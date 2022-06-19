@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mainPane" maxHeight="588.0" maxWidth="900.0" prefHeight="588.0" prefWidth="900.0" style="-fx-background-repeat: no-repeat;" styleClass="mainPane" stylesheets="@../css/globalCss.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.AssistantCardsController">
+   <children>
+      <ImageView id="1" fitHeight="225.0" fitWidth="160.0" layoutX="16.0" layoutY="17.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/assistantCards/Assistente1.png" />
+         </image>
+      </ImageView>
+      <ImageView id="2" fitHeight="225.0" fitWidth="160.0" layoutX="192.0" layoutY="17.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/assistantCards/Assistente2.png" />
+         </image>
+      </ImageView>
+      <ImageView id="3" fitHeight="225.0" fitWidth="160.0" layoutX="372.0" layoutY="17.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/assistantCards/Assistente3.png" />
+         </image>
+      </ImageView>
+      <ImageView id="4" fitHeight="225.0" fitWidth="160.0" layoutX="550.0" layoutY="17.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/assistantCards/Assistente4.png" />
+         </image>
+      </ImageView>
+      <ImageView id="5" fitHeight="225.0" fitWidth="160.0" layoutX="726.0" layoutY="17.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/assistantCards/Assistente5.png" />
+         </image>
+      </ImageView>
+      <ImageView id="6" fitHeight="225.0" fitWidth="160.0" layoutX="16.0" layoutY="261.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/assistantCards/Assistente6.png" />
+         </image>
+      </ImageView>
+      <ImageView id="7" fitHeight="225.0" fitWidth="160.0" layoutX="196.0" layoutY="262.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/assistantCards/Assistente7.png" />
+         </image>
+      </ImageView>
+      <ImageView id="8" fitHeight="225.0" fitWidth="160.0" layoutX="373.0" layoutY="264.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/assistantCards/Assistente8.png" />
+         </image>
+      </ImageView>
+      <ImageView id="9" fitHeight="225.0" fitWidth="160.0" layoutX="550.0" layoutY="264.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/assistantCards/Assistente9.png" />
+         </image>
+      </ImageView>
+      <ImageView id="10" fitHeight="225.0" fitWidth="160.0" layoutX="726.0" layoutY="262.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../graphics/assistantCards/Assistente10.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="image1" disable="true" fitHeight="250.0" fitWidth="180.0" layoutX="2.0" layoutY="11.0" onMouseClicked="#setPriority" onMouseEntered="#select" onMouseExited="#unselect" opacity="0.4" pickOnBounds="true" preserveRatio="true" styleClass="image" />
+      <ImageView fx:id="image2" disable="true" fitHeight="250.0" fitWidth="181.0" layoutX="178.0" layoutY="10.0" onMouseClicked="#setPriority" onMouseEntered="#select" onMouseExited="#unselect" opacity="0.4" pickOnBounds="true" preserveRatio="true" styleClass="image" />
+      <ImageView fx:id="image3" disable="true" fitHeight="258.0" fitWidth="180.0" layoutX="358.0" layoutY="11.0" onMouseClicked="#setPriority" onMouseEntered="#select" onMouseExited="#unselect" opacity="0.4" pickOnBounds="true" preserveRatio="true" styleClass="image" />
+      <ImageView fx:id="image4" disable="true" fitHeight="258.0" fitWidth="180.0" layoutX="534.0" layoutY="11.0" onMouseClicked="#setPriority" onMouseEntered="#select" onMouseExited="#unselect" opacity="0.4" pickOnBounds="true" preserveRatio="true" styleClass="image" />
+      <ImageView fx:id="image5" disable="true" fitHeight="258.0" fitWidth="180.0" layoutX="713.0" layoutY="11.0" onMouseClicked="#setPriority" onMouseEntered="#select" onMouseExited="#unselect" opacity="0.4" pickOnBounds="true" preserveRatio="true" styleClass="image" />
+      <ImageView fx:id="image6" disable="true" fitHeight="258.0" fitWidth="180.0" layoutX="3.0" layoutY="253.0" onMouseClicked="#setPriority" onMouseEntered="#select" onMouseExited="#unselect" opacity="0.4" pickOnBounds="true" preserveRatio="true" styleClass="image" />
+      <ImageView fx:id="image7" disable="true" fitHeight="258.0" fitWidth="180.0" layoutX="183.0" layoutY="253.0" onMouseClicked="#setPriority" onMouseEntered="#select" onMouseExited="#unselect" opacity="0.4" pickOnBounds="true" preserveRatio="true" styleClass="image" />
+      <ImageView fx:id="image8" disable="true" fitHeight="258.0" fitWidth="180.0" layoutX="360.0" layoutY="255.0" onMouseClicked="#setPriority" onMouseEntered="#select" onMouseExited="#unselect" opacity="0.4" pickOnBounds="true" preserveRatio="true" styleClass="image" />
+      <ImageView fx:id="image9" disable="true" fitHeight="258.0" fitWidth="180.0" layoutX="537.0" layoutY="255.0" onMouseClicked="#setPriority" onMouseEntered="#select" onMouseExited="#unselect" opacity="0.4" pickOnBounds="true" preserveRatio="true" styleClass="image" />
+      <ImageView fx:id="image10" disable="true" fitHeight="258.0" fitWidth="180.0" layoutX="713.0" layoutY="252.0" onMouseClicked="#setPriority" onMouseEntered="#select" onMouseExited="#unselect" opacity="0.4" pickOnBounds="true" preserveRatio="true" styleClass="image" />
+      <Button fx:id="chooseBtn" layoutX="369.0" layoutY="510.0" mnemonicParsing="false" onAction="#choose" onMouseEntered="#pressButton" onMouseExited="#releaseButton" prefHeight="50.0" prefWidth="160.0" text="CHOOSE">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <Label fx:id="warning" alignment="CENTER" layoutX="279.0" layoutY="560.0" prefHeight="18.0" prefWidth="339.0" styleClass="error" text="Warning" textAlignment="CENTER" textFill="RED" visible="false" />
+   </children>
+</AnchorPane>

@@ -109,7 +109,7 @@ public class Board implements Serializable {
 
     private void setInitialEntrance() {
         for (School school : schools) {
-            if (playersNumber % 2 == 0)
+            if (playersNumber == 2 || playersNumber == 4)
                 school.addEntranceStudents(removeRandomStudents(7));
             else school.addEntranceStudents(removeRandomStudents(9));
         }
@@ -142,7 +142,7 @@ public class Board implements Serializable {
                 newOwner = s.getOwnerId();
             }
         }
-        if (newOwner != -1) {
+        if (newOwner != -1 && newOwner!=oldOwner) {
             professors[color.ordinal()].setOwner(newOwner);
             //Per la grafica:
             if (oldOwner != -1)
@@ -187,8 +187,11 @@ public class Board implements Serializable {
     //Calcolo influenza dei player data dalle torri presenti sull'isola
 
     public int[] getTowersInfluence(int islandPosition, int[] influence) {
-        int owner = islands.get(islandPosition).getTowers().get(0).getOwner();
-        influence[owner] += islands.get(islandPosition).getTowers().size();
+        int owner;
+        if (!islands.get(islandPosition).getTowers().isEmpty()) {
+            owner = islands.get(islandPosition).getTowers().get(0).getOwner();
+            influence[owner] += islands.get(islandPosition).getTowers().size();
+        }
         return influence;
     }
 
@@ -235,7 +238,7 @@ public class Board implements Serializable {
     //Controlla se le isole adiacenti a quella indicata hanno una torre delle stesso colore.
     //In questo caso, sposta tutti gli elementi delle isole adiacenti in quella indicata
     public void checkNearIsland(int islandPosition) {
-        if (islands.get(islandPosition).getTowers().isEmpty())
+        if(islands.get(islandPosition).getTowers().isEmpty())
             return;
         //controllo che l'isola adiacente successiva abbia delle torri
         if (!islands.get((islandPosition + 1) % islands.size()).getTowers().isEmpty() &&
@@ -262,7 +265,10 @@ public class Board implements Serializable {
                     islands.get(islandPosition).setNoEntryTile(true);
             islands.get(islandPosition).addTowers(islands.get(position).getTowers());
             islands.remove(position);
-            islands.get(motherNaturePosition).setMotherNature(false);
+            /*if(islands.size()>motherNaturePosition)
+                islands.get(motherNaturePosition).setMotherNature(false);*/
+            if (position == islands.size())
+                position--;
             islands.get(position).setMotherNature(true);
             motherNaturePosition = position;
         } else {
@@ -351,7 +357,7 @@ public class Board implements Serializable {
         else board.append(Constants.cursorUp(playersNumber * 9));
         //board.append(Constants.cursorRight(34));
         //111
-        distance = (111 - (int) Math.ceil(((float) islands.size() - 2.0) / 2.0) * 21) / (1 + (int) Math.ceil(((float) islands.size() - 2.0) / 2.0)); //TODO potrebbe non essere divisibile e avere un resto
+        distance = (111 - (int) Math.ceil(((float)islands.size() - 2.0) / 2.0) * 21) / (1 + (int) Math.ceil(((float)islands.size() - 2.0) / 2.0)); //TODO potrebbe non essere divisibile e avere un resto
         //stampa prima fila di isole
         for (int i = 0; i < Math.ceil(((float) islands.size() - 2.0) / 2.0); i++) {
             board.append(islands.get(i + 1).draw(x + 36 + distance * (i + 1) + i * 21, 0, i + 2));
@@ -407,6 +413,7 @@ public class Board implements Serializable {
         board.append(Constants.cursorDown(3));
         return board;
     }
+
 
 
     @Override

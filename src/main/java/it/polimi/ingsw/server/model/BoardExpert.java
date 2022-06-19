@@ -161,7 +161,7 @@ public class BoardExpert extends Board{
                 boardExpert.append(Constants.cursorUp(6));
                 distance++;
             }
-            boardExpert.append(Constants.cursorDown(7));
+            boardExpert.append(Constants.cursorDown(8));
         }
         return boardExpert;
     }

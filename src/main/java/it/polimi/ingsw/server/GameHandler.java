@@ -12,11 +12,8 @@ import it.polimi.ingsw.enums.Wizard;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
+import java.util.*;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class GameHandler implements PropertyChangeListener {
@@ -35,6 +32,7 @@ public class GameHandler implements PropertyChangeListener {
     private final List<VirtualView> clients;
     private final Server server;//TODO forse meglio listener
     private final Controller controller;
+
 
     public GameHandler(int gameId, boolean expertMode, List<VirtualView> clients, Server server) {
         this.gameId = gameId;
@@ -112,6 +110,7 @@ public class GameHandler implements PropertyChangeListener {
                 }
             }
         }
+
     }
 
     public void setupGame() {
@@ -121,8 +120,8 @@ public class GameHandler implements PropertyChangeListener {
                     + (currentClientConnection + 1) + " is choosing his nickname..."));
         } else if (phase == GameHandlerPhase.SETUP_COLOR) {
             if (availableColors.stream().distinct().collect(Collectors.toList()).size() > 1) {
-                clients.get(currentClientConnection).sendMessage(new InfoMessage("Please choose your color :"));
-                clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(availableColors));
+                //clients.get(currentClientConnection).sendMessage(new InfoMessage("Please choose your color:"));
+                clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(availableColors, true));
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
                         + gameModel.getPlayerById(currentClientConnection).getNickname() + " is choosing his color..."));
             } else {
@@ -139,8 +138,8 @@ public class GameHandler implements PropertyChangeListener {
             }
         } else if (phase == GameHandlerPhase.SETUP_WIZARD) {
             if (availableWizards.size() > 1) {
-                clients.get(currentClientConnection).sendMessage(new InfoMessage("Please choose your wizard:"));
-                clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(availableWizards));
+                //clients.get(currentClientConnection).sendMessage(new InfoMessage("Please choose your wizard:"));
+                clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(availableWizards, false));
                 sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel
                         .getPlayerById(currentClientConnection).getNickname() + " is choosing his wizard..."));
             } else {
@@ -252,8 +251,8 @@ public class GameHandler implements PropertyChangeListener {
     }
 
     public void endGame(int disconnected) {
-
-        sendAllExcept(disconnected, new InfoMessage(">Player: " + gameModel.getPlayerById(disconnected).getNickname()
+        String player = gameModel.getPlayerById(disconnected) != null ? gameModel.getPlayerById(disconnected).getNickname() : "The client #" + (disconnected + 1);
+        sendAllExcept(disconnected, new InfoMessage(">" + player
                 + " has disconnected, the match will now end" + "\nThanks for playing!"));
         clients.remove(clients.get(disconnected));
         for (VirtualView client : clients) {
@@ -264,8 +263,10 @@ public class GameHandler implements PropertyChangeListener {
     }
 
     public void endGame() {
-        sendAll(new InfoMessage(">The winner is " + gameModel.getWinner().getNickname()
-                + "!" + "\nThanks for playing!"));
+        sendAll(new UpdateBoard(gameModel.getBoard()));
+        String result = gameModel.getWinner() != null ? (">The winner is " + gameModel.getWinner().getNickname()
+                + "!" + "\nThanks for playing!") : "There are no winners. The match ended in a draw!";
+        sendAll(new InfoMessage(result));
         for (VirtualView client : clients) {
             client.closeConnection(false, false);
         }
@@ -312,13 +313,12 @@ public class GameHandler implements PropertyChangeListener {
         }
     }
 
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
             case "end_game":
-                if (gameModel.getWinner() == null) {
-                    //TODO NON CI SONO VINCITORI.Pareggio
-                } else endGame();
+                endGame();
                 break;
             case "set_assistantCard":
                 sendAllExcept(gameModel.getCurrentPlayer().getClientID(), new InfoMessage(">" + gameModel.getCurrentPlayer().getNickname() + " has chosen che AssistantCard with priority #" + ((ActionMessage) evt.getNewValue()).getData()));

@@ -304,9 +304,9 @@ public class Board implements Serializable {
     public StringBuilder draw(int x, int y) {
         StringBuilder board = new StringBuilder();
         int high;
-        if (!gameModel.isExpertGame) high = 27;
-        else if (playersNumber < 4) high = 33;
-        else high = 34;
+        if (!gameModel.isExpertGame) high = 28;
+        else if (playersNumber < 4) high = 34;
+        else high = 35;
         int distance;
         int movement_players = 0; //serve per stampare il terzo e il quarto player
         int coin;
@@ -404,7 +404,7 @@ public class Board implements Serializable {
             board.append(Constants.cursorUp(8));
             board.append(schools[3].draw(25 + x + distance * 3 + 31 * 3, 0));
         }
-        board.append(Constants.cursorDown(2));
+        board.append(Constants.cursorDown(3));
         return board;
     }
 

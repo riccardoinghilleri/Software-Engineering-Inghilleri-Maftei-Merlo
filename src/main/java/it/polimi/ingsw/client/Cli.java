@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client;
 
 import java.io.*;
-import java.nio.CharBuffer;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -130,11 +129,12 @@ public class Cli implements View {
 
     //metodo utilizzando per la scelta dei colori e del wizard
     public void setupMultipleChoice(MultipleChoiceMessage message) {
-        printer.println(">These are the available choices:");
-        String result = "";
+        String question=message.isColor() ? "Please choose a color [" : "Please choose a wizard [";
         for (String s : message.getAvailableChoices().stream().distinct().collect(Collectors.toList()))
-            result = result.concat(s + " ");
-        printer.println(result);
+            question = question.concat(s + "/");
+        question=question.substring(0,question.length()-1);
+        question=question.concat("]:");
+        printer.println(question);
         connection.send(new SetupMessage(InputController.checkString(message.getAvailableChoices())));
     }
 
@@ -162,7 +162,7 @@ public class Cli implements View {
                         availablePriority.add(message.getAvailableAssistantCards().get(i).getPriority());
                     }
                     if (!alreadyAskedCard) {
-                        printer.println(">Please choose your assistant card priority.\n");
+                        printer.println(">Please choose your assistant card priority\n");
                         for (int i = 0; i < message.getAvailableAssistantCards().size(); i++) {
                             if (i == 0)
                                 printer.println(message.getAvailableAssistantCards().get(i).draw(-1, 0)); //TODO strano -1
@@ -178,13 +178,13 @@ public class Cli implements View {
                     break;
                 case CHOOSE_CHARACTER_CARD:
                     alreadyAskedMovements = false;
-                    printer.println(">Do you want to use a Character Card? [y/n/getDESC]");
+                    printer.println(">Do you want to use a Character Card? [y/n/getDESC]:");
                     response = InputController.checkString(List.of("Y", "N", "GETDESC"));
                     answer.setAction(Action.CHOOSE_CHARACTER_CARD);
                     if (response.equalsIgnoreCase("getDESC")) {
                         for (CharacterCard card : message.getCharacterCards())
                             printer.println("> " + card.getName() + ": " + card.getDescription());
-                        printer.println(">Do you want to use a Character Card? [y/n]");
+                        printer.println(">Do you want to use a Character Card? [y/n]:");
                         response = InputController.checkYNInput();
                     }
                     if (response.equalsIgnoreCase("n")) {
@@ -208,10 +208,10 @@ public class Cli implements View {
                     answer.setAction(Action.DEFAULT_MOVEMENTS);
                     do {
                         parameter = chooseStudentColor(message.getSchool().getEntrance(), true,
-                                ">Please choose the color of the student that you want to move from your Entrance:");
+                                ">Please choose the color of the student that you want to move from your Entrance [green/red/yellow/pink/blue]:");
                         answer.setParameter(parameter);
                         printer.println(">Do you want to move your student to your DiningRoom" +
-                                " or on an Island?");
+                                " or on an Island? [diningroom/island]:");
                         temp = InputController.checkString(List.of("DININGROOM", "ISLAND"));
                         if (temp.equalsIgnoreCase("DININGROOM")) {
                             if (message.getSchool().getDiningRoom().get(CharacterColor.valueOf(parameter)).size() == 10) {
@@ -238,7 +238,7 @@ public class Cli implements View {
                             availableIndexClouds.add(i + 1);
                         }
                     }
-                    printer.println(">Please choose your cloud.");
+                    printer.println(">Please choose your cloud");
                     answer.setData(InputController.checkInt(availableIndexClouds) - 1);
                     answer.setAction(Action.CHOOSE_CLOUD);
                     connection.send(answer);
@@ -258,7 +258,7 @@ public class Cli implements View {
         switch (characterCard.getName()) {
             case PRIEST: //isole e colore dello studente
                 answer.setParameter(chooseStudentColor(((CharacterCardwithStudents) characterCard).getStudents(),
-                        false, ">Please choose the color of the student that you want to move from the Card:"));
+                        false, ">Please choose the color of the student that you want to move from the Card [green/red/yellow/pink/blue]:"));
                 answer.setData(chooseIsland(message.getIslands()) - 1);
                 break;
             case DIPLOMAT: //Isole
@@ -272,21 +272,21 @@ public class Cli implements View {
                     answer.setData(InputController.checkRange(1, 3));
                 }
                 answer.setParameter(chooseStudentColor(((CharacterCardwithStudents) characterCard).getStudents(),
-                        true, ">Please choose the color of the student that you want to move from the Card:"));
+                        true, ">Please choose the color of the student that you want to move from the Card [green/red/yellow/pink/blue]:"));
                 answer.setParameter(chooseStudentColor(message.getSchool().getEntrance(), true,
-                        ">Please choose the color of the student that you want to move from your Entrance:"));
+                        ">Please choose the color of the student that you want to move from your Entrance [green/red/yellow/pink/blue]:"));
                 break;
             case LUMBERJACK://colore a caso disponibile in character color
             case THIEF://colore casuale
-                printer.println("Choose a color: ");
+                printer.println("Choose a color [green/red/yellow/pink/blue]:");
                 answer.setParameter(InputController.checkString(List.of("RED,PINK,GREEN,YELLOW,BLUE")));
                 break;
-            case PERFORMER://colori della carta e nell?ingresso
+            case PERFORMER://colori della carta e nell'ingresso
                 if (!alreadyAskedMovements) {
                     printer.println("How many students do you want to change?");
                     answer.setData(InputController.checkRange(1, 2));
                 }
-                printer.println(">Choose the student that you want to move from your Dining Room to your Entrance: ");
+                printer.println(">Choose the student that you want to move from your Dining Room to your Entrance [green/red/yellow/pink/blue]:");
                 parameter = reader.nextLine().toUpperCase();
                 while (message.getSchool().getDiningRoom().get(CharacterColor.valueOf(parameter)).size() < 1) {
                     printer.println(">Invalid input. Please try again");
@@ -296,11 +296,11 @@ public class Cli implements View {
                 }
                 answer.setParameter(parameter);
                 answer.setParameter(chooseStudentColor(message.getSchool().getEntrance(), false,
-                        ">Choose the student that you want to move from your Entrance to your Dining Room: "));
+                        ">Choose the student that you want to move from your Entrance to your Dining Room [green/red/yellow/pink/blue]:"));
                 break;
             case QUEEN://colori carta
                 answer.setParameter(chooseStudentColor(((CharacterCardwithStudents) characterCard).getStudents(),
-                        false, ">Please choose the color of the student that you want to move from the Card:"));
+                        false, ">Please choose the color of the student that you want to move from the Card [green/red/yellow/pink/blue]:"));
                 break;
         }
         connection.send(answer);

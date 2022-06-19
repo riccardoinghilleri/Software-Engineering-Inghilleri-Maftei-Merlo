@@ -73,7 +73,7 @@ public class Constants {
         return "\033[" + y + ";" + x + "H";
     }
 
-    //quando si sale utilizzare 1 posizione in meno
+    //quando si sale utilizzare una posizione in meno
     public static String cursorUp(int y) {
         return "\033[" + y + "A";
     }
@@ -144,11 +144,12 @@ public class Constants {
                 frame.append("\n");
             }
         }
+        frame.append(Constants.ANSI_GREEN+" PRESS CTRL+C AT ANY TIME TO END THE GAME.\n"+Constants.ANSI_RESET);
         return frame;
     }
 
     public static void clearRowBelow(int y) {
         System.out.println(cursorUp(y));
-        System.out.print("\033[H\033[2J");
+        System.out.print("\033[H\033[0J");
     }
 }

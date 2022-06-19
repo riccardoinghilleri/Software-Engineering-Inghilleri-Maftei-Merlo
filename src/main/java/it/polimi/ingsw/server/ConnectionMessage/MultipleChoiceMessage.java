@@ -7,14 +7,19 @@ import java.util.List;
 
 public class MultipleChoiceMessage implements Message,ServerMessage{
     private final List<String> availableChoices;
+    private final boolean color;
 
-    public MultipleChoiceMessage( List<?> availableChoices) {
+    public MultipleChoiceMessage(List<?> availableChoices, boolean color) {
+        this.color=color;
         this.availableChoices = new ArrayList<>();
         for(Object o : availableChoices) {
             this.availableChoices.add(o.toString());
         }
     }
 
+    public boolean isColor() {
+        return color;
+    }
 
     public List<String> getAvailableChoices() {
         return this.availableChoices;

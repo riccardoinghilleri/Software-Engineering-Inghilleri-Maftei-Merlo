@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class VirtualView implements Runnable {
@@ -14,8 +17,8 @@ public class VirtualView implements Runnable {
 
     private boolean alreadySettings;
 
-    private final AtomicBoolean active;
-    private final AtomicBoolean closed;
+    private final AtomicBoolean active, closed, ping_response;
+
 
     private final Socket socket;
     private final Server server;
@@ -34,6 +37,7 @@ public class VirtualView implements Runnable {
         this.alreadySettings = false;
         active = new AtomicBoolean(false);
         closed = new AtomicBoolean(false);
+        ping_response = new AtomicBoolean(false);
     }
 
     public void setGameHandler(GameHandler gameHandler) {
@@ -74,10 +78,12 @@ public class VirtualView implements Runnable {
                         server.addClientConnectionToQueue(this, ((SettingsMessage) clientMessage).getPlayersNumber(), ((SettingsMessage) clientMessage).isExpertMode());
                         this.alreadySettings = true;
                     }
+                } else {
+                    ping_response.set(true);
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
-            closeConnection(false, false);
+            closeConnection(false, true);
         }
     }
 
@@ -86,7 +92,7 @@ public class VirtualView implements Runnable {
         //TODO inserire period e boolean timer
         //(timer)
         if (message instanceof AskActionMessage)
-            startTimer(120000);
+            startTimer();
         try {
             os.writeObject(message);
             os.flush();
@@ -98,11 +104,12 @@ public class VirtualView implements Runnable {
 
     public synchronized void closeConnection(boolean timerEnded, boolean quit) {
         if (!closed.get()) {
-
+            inGame = false;
             closed.set(true);
             active.set(false);
 
             if (timerEnded) {
+
                 sendMessage(new InfoMessage("TIMER_ENDED"));
                 gameHandler.endGame(clientId);
             } else stopTimer();
@@ -124,30 +131,36 @@ public class VirtualView implements Runnable {
                 os.close();
                 socket.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
 
     }
 
-    private void startPinger() {
-        pinger = new Thread(() -> {
-            while (active.get()) {
-                try {
-                    Thread.sleep(2500);
-                    sendMessage(new InfoMessage("PING"));
-                } catch (InterruptedException e) {
-                    break;
+    /*
+        private void startPinger() {
+            pinger = new Thread(() -> {
+                while (active.get()) {
+                    try {
+                        sendMessage(new InfoMessage("PING"));
+                        Thread.sleep(5000);
+                        if (ping_response.get()) {
+                            System.out.println("PING_OK" + clientId);
+                            ping_response.set(false);
+                        } else closeConnection(false, true);
+                    } catch (InterruptedException e) {
+                        break;
+                    }
                 }
-            }
-        });
-        pinger.start();
-    }
-
-    private void startTimer(int period) {
+            });
+            pinger.start();
+        }
+    */
+    private void startTimer() {
         timer = new Thread(() -> {
             try {
-                Thread.sleep(period);
+                Thread.sleep(10 * 1000);
+                //System.out.println("stop timer" + clientId);
                 closeConnection(true, false);
             } catch (InterruptedException e) {
                 //e.printStackTrace();
@@ -163,3 +176,20 @@ public class VirtualView implements Runnable {
         }
     }
 }
+/*
+final class ScheduledExecutorServiceDemo {
+    private static final ScheduledExecutorService exec =
+            Executors.newScheduledThreadPool(2);
+
+    public static void main(String[] args) {
+        // Schedule first task
+        exec.scheduleAtFixedRate(() -> {
+            // do stuff
+        }, 0, 5000, TimeUnit.MILLISECONDS);
+
+        // Schedule second task
+        exec.scheduleAtFixedRate(() -> {
+            // do stuff
+        }, 0, 1, TimeUnit.MINUTES);
+    }
+}*/

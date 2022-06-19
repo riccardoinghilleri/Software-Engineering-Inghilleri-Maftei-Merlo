@@ -69,16 +69,19 @@ public class ClientConnection implements Runnable {
         try {
             is.close();
         } catch (IOException e) {
+            System.out.println("THE CONNECTION HAS BEEN CLOSED");
             e.printStackTrace();
         }
         try {
             os.close();
         } catch (IOException e) {
+            System.out.println("THE CONNECTION HAS BEEN CLOSED");
             e.printStackTrace();
         }
         try {
             socket.close();
         } catch (IOException e) {
+            System.out.println("THE CONNECTION HAS BEEN CLOSED");
             e.printStackTrace();
         }
     }

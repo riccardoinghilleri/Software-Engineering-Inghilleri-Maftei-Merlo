@@ -6,23 +6,17 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.SocketException;
 
-/**
- * ConnectionSocket class handles the connection between the client and the server.
- *
- * @author
- */
 public class ClientConnection implements Runnable {
     private final String serverAddress;
     private final int serverPort;
 
     private int clientId;
 
-    private Socket socket;
+    private final Socket socket;
     private boolean active;
-    private ObjectOutputStream os;
-    private ObjectInputStream is;
+    private final ObjectOutputStream os;
+    private final ObjectInputStream is;
     private final View view;
 
     public ClientConnection(View view) throws IOException {
@@ -52,7 +46,10 @@ public class ClientConnection implements Runnable {
         try {
             while (active) {
                 Object message = is.readObject();
-                startMessageManager((Message) message);
+                if (message instanceof ConnectionIdMessage)
+                    this.clientId = ((ConnectionIdMessage) message).getId();
+                else
+                    startMessageManager((Message) message);
             }
         } catch (IOException | ClassNotFoundException e) {
             closeConnection();
@@ -94,7 +91,7 @@ public class ClientConnection implements Runnable {
             if (message instanceof InfoMessage && ((InfoMessage) message).getString().equalsIgnoreCase("PING"))
                 send(new InfoMessage("PING"));
             else {
-                manageMessage((Message)message);
+                manageMessage(message);
                 if (message instanceof InfoMessage && ((InfoMessage) message).getString().equalsIgnoreCase("CONNECTION_CLOSED")) {
                     closeConnection();
                     System.exit(0);

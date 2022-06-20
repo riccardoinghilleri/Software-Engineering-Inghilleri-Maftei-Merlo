@@ -153,7 +153,7 @@ public class VirtualView implements Runnable {
     private void startTimer() {
         timer = new Thread(() -> {
             try {
-                Thread.sleep(10 * 1000);
+                Thread.sleep(45 * 1000);
                 //System.out.println("stop timer" + clientId);
                 closeConnection(true, false);
             } catch (InterruptedException e) {

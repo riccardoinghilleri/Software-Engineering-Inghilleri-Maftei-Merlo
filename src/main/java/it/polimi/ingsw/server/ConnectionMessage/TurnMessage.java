@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.ConnectionMessage;
 
+import it.polimi.ingsw.client.Cli;
 import it.polimi.ingsw.client.View;
 
 public class TurnMessage implements Message,ServerMessage{
@@ -16,6 +17,7 @@ public class TurnMessage implements Message,ServerMessage{
 
     @Override
     public void forward(View view) {
-        view.enable(this);
+        if(view instanceof Cli)
+            ((Cli)view).enable(this);
     }
 }

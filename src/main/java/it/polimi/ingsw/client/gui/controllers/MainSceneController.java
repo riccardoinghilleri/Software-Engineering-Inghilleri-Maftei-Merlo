@@ -31,7 +31,7 @@ import java.util.Objects;
 public class MainSceneController implements GuiController {
     private Gui gui;
     public boolean firstTime = true;
-    private int motherNatureIndex,sup_islands,inf_islands;
+    private int motherNatureIndex, sup_islands, inf_islands;
 
     @FXML
     private AnchorPane schoolPane, cloudsPane, islandsPane;
@@ -93,8 +93,8 @@ public class MainSceneController implements GuiController {
     public void sendMessage(MouseEvent event) {
         if (event.getSource() instanceof Circle) {
             ((Circle) event.getSource()).setVisible(false);
-            glowDiningroom(studentColor,false);
-            studentColor=null;
+            glowDiningroom(studentColor, false);
+            studentColor = null;
         }
         if (message.getAction() == Action.USE_CHARACTER_CARD
                 && message.getCharacterCardName().equalsIgnoreCase("PERFORMER")) {
@@ -558,8 +558,10 @@ public class MainSceneController implements GuiController {
 
     public void setIsland(MouseEvent event) {
         int index = Integer.parseInt(((ImageView) event.getSource()).getId().split("_")[0]);
-        if (message.getAction() == Action.DEFAULT_MOVEMENTS)
+        if (message.getAction() == Action.DEFAULT_MOVEMENTS){
             glowDiningroom(studentColor, false);
+            studentColor = null;
+        }
         else if (message.getAction() == Action.MOVE_MOTHER_NATURE) {
             if (index < motherNatureIndex) {
                 index += islandsPane.getChildren().size();
@@ -735,9 +737,10 @@ public class MainSceneController implements GuiController {
     }*/
 
 
-    public int getDiningroomStudents(){
+    public int getDiningroomStudents() {
         return school[gui.getConnection().getClientId()].getNumDiningroomStudents();
     }
+
     @Override
     public void setGui(Gui gui) {
         this.gui = gui;

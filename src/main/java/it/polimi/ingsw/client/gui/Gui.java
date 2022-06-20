@@ -272,7 +272,7 @@ public class Gui extends Application implements View {
                 }
             }
             controller = (MainSceneController) getControllerByScene(currentScene);
-            controller.setAction(null);
+            //controller.setAction(null);
             controller.update(message);
             controller.setSchool(message.getBoard().getSchools());
         });

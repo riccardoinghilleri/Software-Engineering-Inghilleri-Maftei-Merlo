@@ -4,6 +4,6 @@ public enum GameHandlerPhase {
     SETUP_NICKNAME,
     SETUP_COLOR,
     SETUP_WIZARD,
-    PIANIFICATION,
+    PLANNING,
     ACTION
 }

@@ -126,14 +126,21 @@ public class Cli implements View {
     }
 
     //metodo utilizzando per la scelta dei colori e del wizard
-    public void setupMultipleChoice(MultipleChoiceMessage message) {
-        String question=message.isColor() ? "Please choose a color [" : "Please choose a wizard [";
-        for (String s : message.getAvailableChoices().stream().distinct().collect(Collectors.toList()))
-            question = question.concat(s + "/");
-        question=question.substring(0,question.length()-1);
-        question=question.concat("]:");
-        printer.println(question);
-        connection.send(new SetupMessage(InputController.checkString(message.getAvailableChoices())));
+    public synchronized void setupMultipleChoice(MultipleChoiceMessage message) {
+        String question;
+        if (message.getAvailableChoices().size() == 1) {
+            question = message.isColor() ? "the color" : "the wizard";
+            printer.println(">The Game has chosen " + question + " for you: " + message.getAvailableChoices().get(0));
+        } else {
+            question = message.isColor() ? "Please choose a color [" : "Please choose a wizard [";
+            for (String s : message.getAvailableChoices().stream().distinct().collect(Collectors.toList()))
+                question = question.concat(s + "/");
+            question = question.substring(0, question.length() - 1);
+            question = question.concat("]:");
+            printer.println(question);
+            connection.send(new SetupMessage(InputController.checkString(message.getAvailableChoices())));
+        }
+
     }
 
     public synchronized void displayInfo(InfoMessage message) {
@@ -202,7 +209,7 @@ public class Cli implements View {
                     break;
                 case DEFAULT_MOVEMENTS:
                     alreadyAskedCard = false;
-                    String parameter = null;
+                    String parameter;
                     answer.setAction(Action.DEFAULT_MOVEMENTS);
                     do {
                         parameter = chooseStudentColor(message.getSchool().getEntrance(), true,
@@ -269,12 +276,13 @@ public class Cli implements View {
                     answer.setData(InputController.checkRange(1, 3));
                 }
                 //printer.println(">Students on the Character Card: ");
-                else{
-                answer.setParameter(chooseStudentColor(((CharacterCardwithStudents) characterCard).getStudents(),
-                        true, ">Please choose the color of the student that you want to move from the Card [green/red/yellow/pink/blue]:"));
-                answer.setParameter(chooseStudentColor(message.getSchool().getEntrance(), true,
+                else {
+                    answer.setParameter(chooseStudentColor(((CharacterCardwithStudents) characterCard).getStudents(),
+                            true, ">Please choose the color of the student that you want to move from the Card [green/red/yellow/pink/blue]:"));
+                    answer.setParameter(chooseStudentColor(message.getSchool().getEntrance(), true,
 
-                        ">Please choose the color of the student that you want to move from your Entrance [green/red/yellow/pink/blue]:"));}
+                            ">Please choose the color of the student that you want to move from your Entrance [green/red/yellow/pink/blue]:"));
+                }
                 break;
             case LUMBERJACK://colore a caso disponibile in character color
             case THIEF://colore casuale
@@ -284,20 +292,21 @@ public class Cli implements View {
             case PERFORMER://colori della carta e nell'ingresso
                 if (!alreadyAskedMovements) {
                     printer.println("How many students do you want to change?");
-                    answer.setData(InputController.checkRange(1, 2));
-                }
-                //TODO HO INVERTITO :PRIMA CHIEDO LA ENTRANCE E POI LA DININGROOM PER ADATTARE MEGLIO LA GUI
-                printer.println(">Choose the student that you want to move from your Entrance to your Dining Room [green/red/yellow/pink/blue]:");
-                parameter = reader.nextLine().toUpperCase();
-                while (message.getSchool().getDiningRoom().get(CharacterColor.valueOf(parameter)).size() < 1) {
-                    printer.println(">Invalid input. Please try again");
+                    answer.setData(InputController.checkRange(1, Math.min(message.getSchool().getNumDiningroomStudents(), 2)));
+                    alreadyAskedMovements = true;
+                } else {
+                    answer.setParameter(chooseStudentColor(message.getSchool().getEntrance(), false,
+                            ">Choose the student that you want to move from your Entrance to your Dining Room [green/red/yellow/pink/blue]:"));
+                    printer.println(">Choose the student that you want to move from your Dining Room to your Entrance [green/red/yellow/pink/blue]:");
                     parameter = reader.nextLine().toUpperCase();
+                    while (message.getSchool().getDiningRoom().get(CharacterColor.valueOf(parameter)).size() < 1) {
+                        printer.println(">Invalid input. Please try again");
+                        parameter = reader.nextLine().toUpperCase();
                     /*if (message.getSchool().getDiningRoom().get(CharacterColor.valueOf(parameter)).size() < 1)
                         Constants.clearRowBelow(2);*/
+                    }
+                    answer.setParameter(parameter);
                 }
-                answer.setParameter(parameter);
-                answer.setParameter(chooseStudentColor(message.getSchool().getEntrance(), false,
-                        ">Choose the student that you want to move from your Dining Room to your Entrance [green/red/yellow/pink/blue]:"));
                 break;
             case QUEEN: //colori carta
                 answer.setParameter(chooseStudentColor(((CharacterCardwithStudents) characterCard).getStudents(),

@@ -11,4 +11,5 @@ public class ConnectionIdMessage implements Message {
     public int getId() {
         return id;
     }
+
 }

@@ -76,25 +76,26 @@ public class GameHandler implements PropertyChangeListener {
                 currentClientConnection = (currentClientConnection + 1) % playersNumber;
                 if (currentClientConnection == 0) {
                     turnNumber = 1;
-                    phase = GameHandlerPhase.PIANIFICATION;
+                    phase = GameHandlerPhase.PLANNING;
                     gameModel.createBoard();
                     for(VirtualView view:clients){
                         view.sendMessage(new ConnectionIdMessage(clients.indexOf(view)));
                     }
-                    pianificationTurn(false);
+                    planningTurn(false);
                     //TODO forse si deve fare il display della board
                 } else {
                     phase = GameHandlerPhase.SETUP_NICKNAME;
                     setupGame();
                 }
             } else {
-                if (phase == GameHandlerPhase.PIANIFICATION) {
+                if (phase == GameHandlerPhase.PLANNING) {
                     boolean done = !controller.setAssistantCard((ActionMessage) message);
                     if (controller.getPhase() == Action.CHOOSE_ASSISTANT_CARD)
-                        pianificationTurn(done);
+                        planningTurn(done);
                     else if (controller.getPhase() == Action.DEFAULT_MOVEMENTS
                             || controller.getPhase() == Action.CHOOSE_CHARACTER_CARD) {
                         phase = GameHandlerPhase.ACTION;
+                        sendAll(new UpdateBoard(gameModel.getBoard()));
                         actionTurn();
                     }
                 } else if (phase == GameHandlerPhase.ACTION) {
@@ -106,8 +107,8 @@ public class GameHandler implements PropertyChangeListener {
                     }
                     if (controller.getPhase() == Action.SETUP_CLOUD && turnNumber < 10) {
                         turnNumber++;
-                        phase = GameHandlerPhase.PIANIFICATION;
-                        pianificationTurn(false);
+                        phase = GameHandlerPhase.PLANNING;
+                        planningTurn(false);
                     } else if (controller.getPhase() == Action.SETUP_CLOUD && turnNumber == 10) { //finiscono i 10 turni
                         gameModel.getBoard().findWinner();
                         endGame();
@@ -123,18 +124,17 @@ public class GameHandler implements PropertyChangeListener {
             sendAllExcept(currentClientConnection, new InfoMessage(">The player #"
                     + (currentClientConnection + 1) + " is choosing his nickname..."));
         } else if (phase == GameHandlerPhase.SETUP_COLOR) {
+            clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(availableColors,true));
             if (availableColors.stream().distinct().collect(Collectors.toList()).size() > 1) {
                 //clients.get(currentClientConnection).sendMessage(new InfoMessage("Please choose your color:"));
-                clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(availableColors, true));
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
                         + gameModel.getPlayerById(currentClientConnection).getNickname() + " is choosing his color..."));
             } else {
-                clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(availableColors,true));
                 /*clients.get(currentClientConnection)
                         .sendMessage(new InfoMessage(">The Game has chosen the color for you.\n" +
                                 ">Your color is " + availableColors.get(0)));
                 */sendAllExcept(currentClientConnection, new InfoMessage(">The game assigned to "
-                        + gameModel.getPlayerById(currentClientConnection).getNickname() + " the last color:  "
+                        + gameModel.getPlayerById(currentClientConnection).getNickname() + " the last color: "
                         + availableColors.get(0).toString()));
                 gameModel.getPlayerById(currentClientConnection).setColor(availableColors.get(0).toString());
                 availableColors.remove(0);
@@ -142,34 +142,31 @@ public class GameHandler implements PropertyChangeListener {
                 setupGame();
             }
         } else if (phase == GameHandlerPhase.SETUP_WIZARD) {
+            clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(availableWizards, false));
             if (availableWizards.size() > 1) {
                 //clients.get(currentClientConnection).sendMessage(new InfoMessage("Please choose your wizard:"));
-                clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(availableWizards, false));
                 sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel
                         .getPlayerById(currentClientConnection).getNickname() + " is choosing his wizard..."));
             } else {
-                clients.get(currentClientConnection)
-                        .sendMessage(new InfoMessage(">The Game has chosen wizard for you.\n" +
-                                ">Your wizard is " + availableWizards.get(0)));
                 sendAllExcept(currentClientConnection, new InfoMessage(">The game assigned to "
-                        + gameModel.getPlayerById(currentClientConnection).getNickname() + " the last wizard:  "
+                        + gameModel.getPlayerById(currentClientConnection).getNickname() + " the last wizard: "
                         + availableWizards.get(0).toString()));
                 gameModel.getPlayerById(currentClientConnection).getDeck().setWizard(availableWizards.get(0).toString());
                 setClientIdOrder();
                 Collections.sort(clients, new IdComparator());
                 turnNumber = 1;
-                phase = GameHandlerPhase.PIANIFICATION;
+                phase = GameHandlerPhase.PLANNING;
                 gameModel.createBoard();
-                pianificationTurn(false);
+                planningTurn(false);
             }
         }
     }
 
-    private void pianificationTurn(boolean askagain) {
+    private void planningTurn(boolean askAgain) {
         if (controller.getPhase() == Action.SETUP_CLOUD) {
             controller.setClouds();
         }
-        if (!askagain) {
+        if (!askAgain) {
             currentClientConnection = gameModel.getCurrentPlayer().getClientID();
             sendAll(new UpdateBoard(gameModel.getBoard()));
             clients.get(currentClientConnection)
@@ -193,7 +190,7 @@ public class GameHandler implements PropertyChangeListener {
     }
 
     private void actionTurn() {
-        sendAll(new UpdateBoard(gameModel.getBoard()));
+        //sendAll(new UpdateBoard(gameModel.getBoard()));
         currentClientConnection = gameModel.getCurrentPlayer().getClientID();
         AskActionMessage askActionMessage = null;
         switch (controller.getPhase()) {
@@ -209,7 +206,7 @@ public class GameHandler implements PropertyChangeListener {
                         gameModel.getBoard().getIslands(), gameModel.getBoard()
                         .getSchoolByOwnerId(gameModel.getCurrentPlayer().getClientID()));
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
-                        + gameModel.getCurrentPlayer().getNickname() + " is using the card :"+ controller.getCharacterCardName()));
+                        + gameModel.getCurrentPlayer().getNickname() + " is using the card: "+ controller.getCharacterCardName()));
                 break;
             case DEFAULT_MOVEMENTS:
                 askActionMessage = new AskActionMessage(controller.getPhase(), gameModel.getBoard()
@@ -284,9 +281,9 @@ public class GameHandler implements PropertyChangeListener {
         this.gameModel = new GameModel(expertMode);
         this.controller = new Controller(this.gameModel,this);
         this.turnNumber = 1;
-        this.phase = GameHandlerPhase.PIANIFICATION;
+        this.phase = GameHandlerPhase.PLANNING;
         this.gameModel.createBoard();
-        pianificationTurn();
+        planningTurn();
     }*/
 
     public void sendAll(Message message) {

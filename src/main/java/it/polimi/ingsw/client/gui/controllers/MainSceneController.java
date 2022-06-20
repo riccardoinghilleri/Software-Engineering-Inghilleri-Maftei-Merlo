@@ -260,7 +260,7 @@ public class MainSceneController implements GuiController {
         }
         int priority = (school.getOwner().getChosenAssistantCard() == null ? -1
                 : school.getOwner().getChosenAssistantCard().getPriority());
-        String wizard = school.getOwner().getDeck().getWizard().toString();
+        String wizard = school.getOwner().getDeck().getWizard().toString().toLowerCase();
         if (priority != -1)
             assistantCard.setImage(new Image(Objects.requireNonNull(getClass()
                     .getResourceAsStream("/graphics/assistantCards/Assistente" + priority + ".png"))));
@@ -272,7 +272,7 @@ public class MainSceneController implements GuiController {
             if (i < 9 + school.getEntrance().size()) {
                 image.setImage(new Image(Objects.requireNonNull(getClass()
                         .getResourceAsStream("/graphics/pieces/student_"
-                                + school.getEntrance().get(i - 9).getColor().toString() + ".png"))));
+                                + school.getEntrance().get(i - 9).getColor().toString().toLowerCase() + ".png"))));
                 image.setId(i + "_" + school.getEntrance().get(i - 9).getColor().toString());
                 image.setVisible(true);
             } else image.setVisible(false);
@@ -289,7 +289,7 @@ public class MainSceneController implements GuiController {
         for (int i = 0; i < 8; i++) {
             ImageView tower = (ImageView) towers.getChildren().get(i);
             tower.setImage(new Image(Objects.requireNonNull(getClass()
-                    .getResourceAsStream("/graphics/pieces/" + school.getTowerColor().toString() + "_tower.png"))));
+                    .getResourceAsStream("/graphics/pieces/" + school.getTowerColor().toString().toLowerCase() + "_tower.png"))));
             tower.setVisible(i < school.getTowersNumber());
         }
         glowEntrance(false);
@@ -360,7 +360,7 @@ public class MainSceneController implements GuiController {
                 ((ImageView) shape.getChildren().get(j))
                         .setImage(new Image(Objects.requireNonNull(getClass()
                                 .getResourceAsStream("/graphics/pieces/student_"
-                                        + s.getColor()
+                                        + s.getColor().toString().toLowerCase()
                                         + ".png"))));
                 j++;
             }

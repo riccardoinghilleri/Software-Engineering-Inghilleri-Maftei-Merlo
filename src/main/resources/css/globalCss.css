@@ -15,7 +15,7 @@
     -fx-font-family: "Forte";
     -fx-font-size: 18;
     -fx-background-color:transparent;
-    -fx-background-image: url("../graphics/btn/button_Pressed.png");
+    -fx-background-image: url("../graphics/btn/button_pressed.png");
     -fx-background-size: stretch;
 }
 

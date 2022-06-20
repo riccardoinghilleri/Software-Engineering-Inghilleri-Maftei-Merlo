@@ -33,7 +33,6 @@
             <artifactId>javafx-fxml</artifactId>
             <version>18.0.1</version>
         </dependency>
-
     </dependencies>
 
     <build>

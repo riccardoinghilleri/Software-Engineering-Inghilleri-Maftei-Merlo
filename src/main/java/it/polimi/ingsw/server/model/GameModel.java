@@ -7,12 +7,12 @@ import java.util.Comparator;
 import java.util.List;
 
 public class GameModel implements Serializable {
-    int playersNumber;
-    boolean isExpertGame;
-    Board board = null;
-    List<Player> players;
-    Player winner;
-    Player currentPlayer;
+    private int playersNumber;
+    private boolean isExpertGame;
+    private Board board = null;
+    private List<Player> players;
+    private Player winner;
+    private Player currentPlayer;
 
     public GameModel(boolean isExpertGame) {
         playersNumber = 0;

@@ -35,7 +35,7 @@ public class CharacterCardwithStudents extends CharacterCard {
         }
         return student;
     }
-
+/*
     @Override
     public StringBuilder draw(int x, int y) {
         StringBuilder card = new StringBuilder();
@@ -77,7 +77,7 @@ public class CharacterCardwithStudents extends CharacterCard {
         Constants.moveObject(card,x,bottom_wall);
         return card;
     }
-
+*/
     @Override
     public String toString() {
         String result = super.getName() + ": " + super.getDescription() + "\nCost: " + super.getCost() + "\nStudents: ";

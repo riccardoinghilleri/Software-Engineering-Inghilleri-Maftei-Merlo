@@ -112,7 +112,7 @@ public class Controller {
                         return "You have not got enough coins";
                     }
                     characterCardName = actionMessage.getCharacterCardName();
-                    if(characterCardName.equalsIgnoreCase("PERFORMER") && gameModel.getBoard().getSchoolByOwnerId(gameModel.getCurrentPlayer().getClientID()).getNumDiningroomStudents()==0)
+                    if(characterCardName.equalsIgnoreCase("PERFORMER") && gameModel.getBoard().getSchoolByOwnerId(gameModel.getCurrentPlayer().getClientID()).getNumDiningRoomStudents()==0)
                         return "You can not choose this character card. You don't have enough students in your dining room!";
                     alreadyUsedCharacterCard = true;
                     //se non ho settato una strategia e il nome non è lumberjack oppure il nome è postaman

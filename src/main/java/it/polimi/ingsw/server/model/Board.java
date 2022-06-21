@@ -65,6 +65,12 @@ public class Board implements Serializable {
         setInitialEntrance();
     }
 
+    public GameModel getGameModel() {
+        return gameModel;
+    }
+
+
+
     public int getStudentsSize() {
         return students.size();
     }
@@ -77,7 +83,7 @@ public class Board implements Serializable {
         return clouds;
     }
 
-    protected int getPlayersNumber() {
+    public int getPlayersNumber() {
         return playersNumber;
     }
 
@@ -306,11 +312,11 @@ public class Board implements Serializable {
         }
         gameModel.setWinner(winner);
     }
-
+/*
     public StringBuilder draw(int x, int y) {
         StringBuilder board = new StringBuilder();
         int high;
-        if (!gameModel.isExpertGame) high = 28;
+        if (!gameModel.isExpertGame()) high = 28;
         else if (playersNumber < 4) high = 34;
         else high = 35;
         int distance;
@@ -318,7 +324,7 @@ public class Board implements Serializable {
         int coin;
         int count = 0; //Si potrebbe togliere, ma l'ultimo for diventa illeggibile
         //Stampo cornice
-        board.append(Constants.boardFrame(x, y, gameModel.isExpertGame, playersNumber));
+        board.append(Constants.boardFrame(x, y, gameModel.isExpertGame(), playersNumber));
         board.append(Constants.cursorUp(high));
         //Stampo players
         if (playersNumber != 4) {
@@ -333,7 +339,7 @@ public class Board implements Serializable {
         } else {
             for (int i = 0; i < 4; i++) {
                 if (i == 2) {
-                    if (gameModel.isExpertGame)
+                    if (gameModel.isExpertGame())
                         board.append(Constants.cursorUp(2 * 11));
                     else board.append(Constants.cursorUp(2 * 9));
                     movement_players = 163;
@@ -348,11 +354,11 @@ public class Board implements Serializable {
                 board.append(Constants.cursorDown(1));
             }
         }
-        if (gameModel.isExpertGame && playersNumber < 4)
+        if (gameModel.isExpertGame() && playersNumber < 4)
             board.append(Constants.cursorUp(playersNumber * 11 - 2));
-        else if (gameModel.isExpertGame && playersNumber == 4)
+        else if (gameModel.isExpertGame() && playersNumber == 4)
             board.append(Constants.cursorUp(2 * 11));
-        else if (!gameModel.isExpertGame && playersNumber == 4)
+        else if (!gameModel.isExpertGame() && playersNumber == 4)
             board.append(Constants.cursorUp(2 * 9));
         else board.append(Constants.cursorUp(playersNumber * 9));
         //board.append(Constants.cursorRight(34));
@@ -383,9 +389,9 @@ public class Board implements Serializable {
             board.append(Constants.cursorUp(5));
             count++;
         }
-        if (gameModel.isExpertGame && playersNumber < 4) {
+        if (gameModel.isExpertGame() && playersNumber < 4) {
             board.append(Constants.cursorDown(8));
-        } else if (gameModel.isExpertGame && playersNumber == 4)
+        } else if (gameModel.isExpertGame() && playersNumber == 4)
             board.append(Constants.cursorDown(6));
         else board.append(Constants.cursorDown(6));
         if (playersNumber == 2) {
@@ -412,7 +418,7 @@ public class Board implements Serializable {
         }
         board.append(Constants.cursorDown(3));
         return board;
-    }
+    }*/
 
 
 

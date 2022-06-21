@@ -18,7 +18,7 @@ public class School implements Serializable {
     public final List<Professor> professors;
     private final PlayerColor playerColor;
 
-    private int numDiningroomStudents;
+    private int numDiningRoomStudents;
 
     public School(Player owner, PlayerColor playerColor, int playersNumber) {
         this.owner = owner;
@@ -27,7 +27,7 @@ public class School implements Serializable {
         this.diningRoom = new HashMap<>();
         this.towers = new ArrayList<>();
         this.professors = new ArrayList<>();
-        this.numDiningroomStudents=0;
+        this.numDiningRoomStudents=0;
         if (playersNumber == 2 || (playersNumber==4 && (owner.getClientID()==0 || owner.getClientID()==1)))
             for (int i = 0; i < 8; i++)
                 towers.add(new Tower(getOwnerId(), playerColor));
@@ -46,7 +46,7 @@ public class School implements Serializable {
         this.diningRoom = new HashMap<>(school.getDiningRoom());
         this.towers = new ArrayList<>(school.getTowers());
         this.professors = new ArrayList<>(school.getProfessors());
-        this.numDiningroomStudents= school.getNumDiningroomStudents();
+        this.numDiningRoomStudents= school.getNumDiningRoomStudents();
     }
 
     //---GETTER---//
@@ -68,8 +68,8 @@ public class School implements Serializable {
         return owner.getClientID();
     }
 
-    public int getNumDiningroomStudents(){
-        return numDiningroomStudents;
+    public int getNumDiningRoomStudents(){
+        return numDiningRoomStudents;
     }
 
     public List<Student> getEntrance() {
@@ -102,7 +102,7 @@ public class School implements Serializable {
 
     public void addDiningRoomStudent(Student student) {
         diningRoom.get(student.getColor()).add(student);
-        numDiningroomStudents++;
+        numDiningRoomStudents++;
     }
 
     public void addEntranceStudent(Student student) {
@@ -130,7 +130,7 @@ public class School implements Serializable {
         if (diningRoom.containsKey(studentColor)) {
             student = diningRoom.get(studentColor).remove(0);
         }
-        numDiningroomStudents--;
+        numDiningRoomStudents--;
         return student;
     }
 
@@ -171,7 +171,7 @@ public class School implements Serializable {
         }
         return null;
     }
-
+/*
     public StringBuilder draw(int x, int y) {
         StringBuilder box = new StringBuilder();
         box.append(Constants.cursorUp(y));
@@ -218,5 +218,5 @@ public class School implements Serializable {
         }
         Constants.moveObject(box,x,bottom_wall);
         return box;
-    }
+    }*/
 }

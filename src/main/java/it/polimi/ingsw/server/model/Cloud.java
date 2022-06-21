@@ -29,7 +29,7 @@ public class Cloud implements Serializable {
         students.clear();
         return tempStudents;
     }
-
+/*
     public StringBuilder draw(int x, int y, int pos) {
         StringBuilder cloud = new StringBuilder();
         cloud.append(Constants.cursorUp(y));
@@ -61,5 +61,5 @@ public class Cloud implements Serializable {
         }
         Constants.moveObject(cloud, x, bottom);
         return cloud;
-    }
+    }*/
 }

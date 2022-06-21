@@ -100,7 +100,7 @@ public class Island implements Serializable {
         return tempTowers;
 
     }
-
+/*
     public StringBuilder draw(int x, int y, int pos) {
         StringBuilder island = new StringBuilder();
         island.append(Constants.cursorUp(y));
@@ -173,7 +173,7 @@ public class Island implements Serializable {
             island.append("\n");
         }
         return island;
-    }
+    }*/
 
 
     @Override

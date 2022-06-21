@@ -21,8 +21,8 @@ class GameModelTest {
     @Test
     public void testGameModel() {
         assertEquals(0,gameModelExpert.getPlayersNumber());
-        assertTrue(gameModelExpert.isExpertGame);
-        assertFalse(gameModelNormal.isExpertGame);
+        assertTrue(gameModelExpert.isExpertGame());
+        assertFalse(gameModelNormal.isExpertGame());
         assertTrue(gameModelExpert.getPlayers().isEmpty());
         assertNotNull(gameModelExpert.getPlayers());
         assertNull(gameModelExpert.getWinner());

@@ -22,7 +22,7 @@ public class CharacterCardwithProhibitions extends CharacterCard {
     public void restockProhibitionsNumber() {
         if(prohibitionsNumber<4) prohibitionsNumber++;
     }
-
+/*
     @Override
     public StringBuilder draw(int x, int y) {
         StringBuilder card = new StringBuilder();
@@ -63,7 +63,7 @@ public class CharacterCardwithProhibitions extends CharacterCard {
         card.append("\n");
         Constants.moveObject(card,x,bottom_wall);
         return card;
-    }
+    }*/
 
     @Override
     public String toString() {

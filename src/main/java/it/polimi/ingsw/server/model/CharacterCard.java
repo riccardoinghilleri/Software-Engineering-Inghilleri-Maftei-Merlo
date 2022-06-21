@@ -31,7 +31,7 @@ public class CharacterCard implements Serializable {
     public void updateCost() {
         this.cost++;
     }
-
+/*
     public StringBuilder draw(int x, int y) {
         StringBuilder card = new StringBuilder();
         card.append(Constants.cursorUp(y));
@@ -62,7 +62,7 @@ public class CharacterCard implements Serializable {
         Constants.moveObject(card,x,bottom_wall);
         return card;
     }
-
+*/
     @Override
     public String toString() {
         return this.name + ": " + this.description + "\nCost: " + this.cost;

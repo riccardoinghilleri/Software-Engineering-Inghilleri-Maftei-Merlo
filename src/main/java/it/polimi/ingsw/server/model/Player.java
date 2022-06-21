@@ -49,7 +49,7 @@ public class Player implements Serializable {
     public void setAssistantCard(int priority) {
         chosenAssistantCard = deck.removeAssistantCard(priority);
     }
-
+/*
     public StringBuilder draw(int x, int y, int coins, boolean currentPlayer) {
         StringBuilder box = new StringBuilder();
         box.append(Constants.cursorUp(y));
@@ -96,6 +96,6 @@ public class Player implements Serializable {
             }
         Constants.moveObject(box, x, bottom_wall);
         return box;
-    }
+    }*/
 
 }

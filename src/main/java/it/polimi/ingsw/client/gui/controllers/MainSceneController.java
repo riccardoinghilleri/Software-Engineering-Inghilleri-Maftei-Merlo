@@ -738,7 +738,7 @@ public class MainSceneController implements GuiController {
 
 
     public int getDiningroomStudents() {
-        return school[gui.getConnection().getClientId()].getNumDiningroomStudents();
+        return school[gui.getConnection().getClientId()].getNumDiningRoomStudents();
     }
 
     @Override

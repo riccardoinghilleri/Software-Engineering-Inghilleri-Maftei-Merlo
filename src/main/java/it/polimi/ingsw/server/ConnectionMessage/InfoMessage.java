@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.ConnectionMessage;
 
-import it.polimi.ingsw.client.Cli;
+import it.polimi.ingsw.client.cli.Cli;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.gui.Gui;
 

@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.client.Cli;
+import it.polimi.ingsw.client.cli.Cli;
 import it.polimi.ingsw.client.gui.Gui;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.server.Server;

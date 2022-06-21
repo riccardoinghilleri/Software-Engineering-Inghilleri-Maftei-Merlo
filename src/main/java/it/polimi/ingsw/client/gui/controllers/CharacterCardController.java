@@ -1,14 +1,10 @@
 package it.polimi.ingsw.client.gui.controllers;
 
-import it.polimi.ingsw.client.InputController;
 import it.polimi.ingsw.client.gui.Gui;
-import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.enums.CharacterColor;
 import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
 import it.polimi.ingsw.server.model.CharacterCard;
 import it.polimi.ingsw.server.model.CharacterCardwithStudents;
-import it.polimi.ingsw.server.model.Student;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -22,7 +18,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
-import java.util.List;
 import java.util.Objects;
 
 public class CharacterCardController implements GuiController {

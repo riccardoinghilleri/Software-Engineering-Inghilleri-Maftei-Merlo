@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.cli;
 
 import java.io.*;
 import java.util.*;
@@ -6,6 +6,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import it.polimi.ingsw.client.ClientConnection;
+import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.enums.Action;
 import it.polimi.ingsw.server.ConnectionMessage.*;
@@ -127,7 +129,7 @@ public class Cli implements View {
     }
 
     //metodo utilizzando per la scelta dei colori e del wizard
-    public void setupMultipleChoice(MultipleChoiceMessage message) {
+    public synchronized void setupMultipleChoice(MultipleChoiceMessage message) {
         String question;
         if (message.getAvailableChoices().size() == 1) {
             question = message.isColor() ? "the color" : "the wizard";

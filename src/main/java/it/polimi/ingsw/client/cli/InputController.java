@@ -1,6 +1,4 @@
-package it.polimi.ingsw.client;
-
-import it.polimi.ingsw.constants.Constants;
+package it.polimi.ingsw.client.cli;
 
 import java.io.PrintStream;
 import java.util.List;

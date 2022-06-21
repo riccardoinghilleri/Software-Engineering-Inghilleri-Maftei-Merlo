@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.cli.Cli;
 import it.polimi.ingsw.server.ConnectionMessage.*;
 
 import java.io.IOException;

@@ -12,6 +12,7 @@ public class ClientConnection implements Runnable {
     private final int serverPort;
 
     private int clientId;
+    private boolean lastPlayer;
 
     private final Socket socket;
     private boolean active;
@@ -22,7 +23,8 @@ public class ClientConnection implements Runnable {
     public ClientConnection(View view) throws IOException {
         this.serverAddress = view.getAddress();
         this.serverPort = view.getPort();
-        active = true;
+        this.active = true;
+        this.lastPlayer = false;
         this.view = view;
         socket = new Socket(serverAddress, serverPort);
         is = new ObjectInputStream(socket.getInputStream());
@@ -46,9 +48,11 @@ public class ClientConnection implements Runnable {
         try {
             while (active) {
                 Object message = is.readObject();
-                if (message instanceof ConnectionIdMessage)
+                if (message instanceof ConnectionIdMessage) {
                     this.clientId = ((ConnectionIdMessage) message).getId();
-                else
+                    if(((ConnectionIdMessage) message).isLastPlayer()!=null)
+                        this.lastPlayer =((ConnectionIdMessage) message).isLastPlayer();
+                } else
                     startMessageManager((Message) message);
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -59,6 +63,11 @@ public class ClientConnection implements Runnable {
     public int getClientId() {
         return clientId;
     }
+
+    public boolean isLastPlayer(){
+        return this.lastPlayer;
+    }
+
 
     private void manageMessage(Message message) {
         ((ServerMessage) message).forward(view);

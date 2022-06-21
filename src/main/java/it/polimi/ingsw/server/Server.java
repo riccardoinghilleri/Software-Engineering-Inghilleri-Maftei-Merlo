@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.server.ConnectionMessage.ConnectionIdMessage;
 import it.polimi.ingsw.server.ConnectionMessage.InfoMessage;
 
 import java.io.IOException;
@@ -125,13 +126,16 @@ public class Server implements Runnable {
                 if (!expertMode) {
                     fourPlayersNormal.add(client);
                     client.sendMessage(new InfoMessage(Constants.WAITING));
-                    if (fourPlayersNormal.size() == 4)
+                    if (fourPlayersNormal.size() == 4){
+                        client.sendMessage(new ConnectionIdMessage(3,true));
                         createGameHandler(5);
+                    }
                 } else {
                     fourPlayersExpert.add(client);
                     client.sendMessage(new InfoMessage(Constants.WAITING));
-                    if (fourPlayersExpert.size() == 4)
-                        createGameHandler(6);
+                    if (fourPlayersExpert.size() == 4){
+                        client.sendMessage(new ConnectionIdMessage(3,true));
+                        createGameHandler(6);}
                 }
             }
         } finally {

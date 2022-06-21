@@ -157,6 +157,9 @@ public class GameHandler implements PropertyChangeListener {
                 turnNumber = 1;
                 phase = GameHandlerPhase.PLANNING;
                 gameModel.createBoard();
+                for(VirtualView view:clients){
+                    view.sendMessage(new ConnectionIdMessage(clients.indexOf(view)));
+                }
                 planningTurn(false);
             }
         }

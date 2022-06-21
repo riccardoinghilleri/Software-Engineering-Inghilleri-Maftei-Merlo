@@ -12,8 +12,10 @@ import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.stage.*;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -94,7 +96,7 @@ public class Gui extends Application implements View {
     }
 
     private void setup() {
-        List<String> fxmlList = new ArrayList<>(Arrays.asList("welcome.fxml","settings.fxml",
+        List<String> fxmlList = new ArrayList<>(Arrays.asList("welcome.fxml", "settings.fxml",
                 "waiting.fxml", "setup.fxml", "assistantCards.fxml", "mainScene.fxml", "shop.fxml", "characterCard.fxml"));
         try {
             for (String s : fxmlList) {
@@ -111,9 +113,10 @@ public class Gui extends Application implements View {
     }
 
 
-    public void close(){
+    public void close() {
         stage.close();
     }
+
     @Override
     public void start(Stage primaryStage) {
         setup();
@@ -171,8 +174,8 @@ public class Gui extends Application implements View {
                     if (message.getChosenCharacterCard().getName().toString().equalsIgnoreCase("PERFORMER")
                             && ((CharacterCardController) getControllerByFxmlName("characterCard.fxml"))
                             .isAlreadyAskedMovements()) {
-                             mainSceneController.setInfoText("Choose the Entrance Student:");
-                             mainSceneController.glowEntrance(true);
+                        mainSceneController.setInfoText("Choose the Entrance Student:");
+                        mainSceneController.glowEntrance(true);
                     } else {
                         switch (message.getChosenCharacterCard().getName()) {
                             case DIPLOMAT:
@@ -231,9 +234,9 @@ public class Gui extends Application implements View {
     public void displayInfo(InfoMessage message) {
         Platform.runLater(() -> {
             if (getControllerByScene(currentScene) instanceof WaitingController)
-                ((WaitingController) getControllerByScene(currentScene)).setInfoText(message.getString().replace(">",""));
+                ((WaitingController) getControllerByScene(currentScene)).setInfoText(message.getString().replace(">", ""));
             else if (getControllerByScene(currentScene) instanceof MainSceneController)
-                ((MainSceneController) getControllerByScene(currentScene)).setInfoText(message.getString().replace(">",""));
+                ((MainSceneController) getControllerByScene(currentScene)).setInfoText(message.getString().replace(">", ""));
         });
     }
 
@@ -241,12 +244,15 @@ public class Gui extends Application implements View {
     public void setupMultipleChoice(MultipleChoiceMessage message) {
         Platform.runLater(() -> {
             SetupController controller = (SetupController) getControllerByFxmlName("setup.fxml");
+
             if (controller.getNickname().isVisible()) {
                 controller.enablePlayerColors(message.getAvailableChoices());
             } else {
                 controller.enableWizards(message.getAvailableChoices());
             }
+
         });
+
     }
 
     @Override
@@ -263,7 +269,7 @@ public class Gui extends Application implements View {
     public void displayBoard(UpdateBoard message) {
         Platform.runLater(() -> {
             MainSceneController controller;
-            if (getControllerByScene(currentScene) instanceof WaitingController) {
+            if (getControllerByScene(currentScene) instanceof WaitingController || connection.isLastPlayer()) {
                 changeScene("mainScene.fxml");
                 controller = (MainSceneController) getControllerByScene(currentScene);
                 if (expertMode) {

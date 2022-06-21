@@ -20,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SetupController implements GuiController {
     private Gui gui;
@@ -43,8 +44,9 @@ public class SetupController implements GuiController {
 
     //bottone checkNickname
     public void sendChoice() {
-        if (nickname_pane.isVisible())
+        if (nickname_pane.isVisible()) {
             gui.getConnection().send(new SetupMessage(nickname_textField.getText()));
+        }
         else gui.getConnection().send(new SetupMessage(choice));
         if (wizard_pane.isVisible())
             gui.changeScene("waiting.fxml");
@@ -61,7 +63,7 @@ public class SetupController implements GuiController {
         nickname_rectangle.setOpacity(0.5);
         color_rectangle.setFill(Color.rgb(188,95,58));
         tower_pane.setVisible(true);
-        if (colors.size() > 1) {
+        if (colors.stream().distinct().count() > 1) {
             for (Node node : tower_pane.getChildren()) {
                 ImageView tower = (ImageView) node;
                 if (colors.contains(tower.getId().toUpperCase())) {

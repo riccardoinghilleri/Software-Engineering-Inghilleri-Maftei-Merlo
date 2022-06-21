@@ -67,7 +67,9 @@ public class VirtualView implements Runnable {
                 Object clientMessage = is.readObject();
                 stopTimer();
                 if (!(clientMessage instanceof InfoMessage && ((InfoMessage) clientMessage).getString().equalsIgnoreCase("PING"))) {
-                    if (inGame)
+                    if(clientMessage instanceof  InfoMessage && ((InfoMessage) clientMessage).getString().equalsIgnoreCase("QUIT"))
+                        closeConnection(false,true);
+                    else if (inGame)
                         gameHandler.manageMessage(this, (Message) clientMessage);
                     else if (!alreadySettings) {/*checkSettings((SettingsMessage) clientMessage);*/
                         server.addClientConnectionToQueue(this, ((SettingsMessage) clientMessage).getPlayersNumber(), ((SettingsMessage) clientMessage).isExpertMode());
@@ -108,7 +110,7 @@ public class VirtualView implements Runnable {
                 gameHandler.endGame(clientId);
             } else stopTimer();
 
-            if (quit)
+            if (quit && gameHandler!=null)
                 gameHandler.endGame(clientId);
 
             sendMessage(new InfoMessage("CONNECTION_CLOSED"));

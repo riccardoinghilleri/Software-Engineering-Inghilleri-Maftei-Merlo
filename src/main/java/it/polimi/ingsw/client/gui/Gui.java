@@ -1,6 +1,4 @@
 package it.polimi.ingsw.client.gui;
-
-
 import it.polimi.ingsw.client.ClientConnection;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.gui.controllers.*;
@@ -13,9 +11,9 @@ import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.*;
-
 import java.io.IOException;
 import java.util.*;
 
@@ -97,7 +95,7 @@ public class Gui extends Application implements View {
 
     private void setup() {
         List<String> fxmlList = new ArrayList<>(Arrays.asList("welcome.fxml", "settings.fxml",
-                "waiting.fxml", "setup.fxml", "assistantCards.fxml", "mainScene.fxml", "shop.fxml", "characterCard.fxml"));
+                "waiting.fxml", "setup.fxml", "assistantCards.fxml", "mainScene.fxml", "shop.fxml", "characterCard.fxml", "winner.fxml"));
         try {
             for (String s : fxmlList) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + s));
@@ -112,7 +110,6 @@ public class Gui extends Application implements View {
         currentScene = scenes.get("welcome.fxml");
     }
 
-
     public void close() {
         stage.close();
     }
@@ -121,11 +118,26 @@ public class Gui extends Application implements View {
     public void start(Stage primaryStage) {
         setup();
         this.stage = primaryStage;
+        stage.setOnCloseRequest(this::closeRequestHandler);
         stage.setTitle("Eriantys");
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/graphics/icon.png"))));
         stage.setScene(currentScene);
         stage.setResizable(false);
         stage.show();
+    }
+
+    private void closeRequestHandler(WindowEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Close");
+        alert.setHeaderText("Are you sure you want to quit?");
+        ButtonType yes = new ButtonType("YES");
+        ButtonType no = new ButtonType("NO");
+
+        alert.getButtonTypes().setAll(yes, no);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == yes && connection!=null) {
+            connection.send(new InfoMessage("QUIT"));
+        }
     }
 
     @Override
@@ -174,8 +186,8 @@ public class Gui extends Application implements View {
                     if (message.getChosenCharacterCard().getName().toString().equalsIgnoreCase("PERFORMER")
                             && ((CharacterCardController) getControllerByFxmlName("characterCard.fxml"))
                             .isAlreadyAskedMovements()) {
-                        mainSceneController.setInfoText("Choose the Entrance Student:");
-                        mainSceneController.glowEntrance(true);
+                             mainSceneController.setInfoText("Choose the Entrance Student:");
+                             mainSceneController.glowEntrance(true);
                     } else {
                         switch (message.getChosenCharacterCard().getName()) {
                             case DIPLOMAT:
@@ -244,15 +256,12 @@ public class Gui extends Application implements View {
     public void setupMultipleChoice(MultipleChoiceMessage message) {
         Platform.runLater(() -> {
             SetupController controller = (SetupController) getControllerByFxmlName("setup.fxml");
-
             if (controller.getNickname().isVisible()) {
                 controller.enablePlayerColors(message.getAvailableChoices());
             } else {
                 controller.enableWizards(message.getAvailableChoices());
             }
-
         });
-
     }
 
     @Override
@@ -281,6 +290,46 @@ public class Gui extends Application implements View {
             //controller.setAction(null);
             controller.update(message);
             controller.setSchool(message.getBoard().getSchools());
+        });
+    }
+
+    public void displayWinner(InfoMessage message) {
+        Platform.runLater(() -> {
+            Stage winnerStage = new Stage();
+            winnerStage.setTitle("Eriantys Winner");
+            winnerStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/graphics/icon.png"))));
+            winnerStage.setResizable(false);
+            winnerStage.setAlwaysOnTop(true);
+            winnerStage.setScene(scenes.get("winner.fxml"));
+            winnerStage.initModality(Modality.APPLICATION_MODAL);
+            winnerStage.setOnCloseRequest(Event::consume);
+            WinnerController controller =
+                    (WinnerController) getControllerByFxmlName("winner.fxml");
+            controller.setStage(winnerStage);
+            controller.setNickname(!message.getWinner().equalsIgnoreCase("draw") ? message.getWinner() : "There are no winners.");
+            if (message.getWinner().equalsIgnoreCase("draw"))
+                controller.setDrawImage();
+            winnerStage.setOnCloseRequest(this::closeStage);
+            winnerStage.show();
+        });
+    }
+
+    public void closeStage(WindowEvent event){
+        stage.close();
+    }
+
+    public void displayDisconnectionAlert(InfoMessage message) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Disconnection");
+            alert.setHeaderText(message.getString());
+            ButtonType ok = new ButtonType("OK");
+
+            alert.getButtonTypes().setAll(ok);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ok) {
+                stage.close();
+            }
         });
     }
 

@@ -4,7 +4,7 @@ import it.polimi.ingsw.client.gui.Gui;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
-public class WelcomeController  implements GuiController{
+public class WelcomeController implements GuiController {
 
     private Gui gui;
 
@@ -18,16 +18,16 @@ public class WelcomeController  implements GuiController{
         ((Button) event.getSource()).getStyleClass().add("button");
     }
 
-    public void nextPage(){
+    public void nextPage() {
         gui.changeScene("settings.fxml");
     }
 
-    public void close(){
+    public void close() {
         gui.close();
     }
 
     @Override
     public void setGui(Gui gui) {
-        this.gui=gui;
+        this.gui = gui;
     }
 }

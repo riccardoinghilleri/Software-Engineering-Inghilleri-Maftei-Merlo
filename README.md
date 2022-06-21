@@ -4,6 +4,7 @@
 ![latest release](https://img.shields.io/github/v/release/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino?color=green)-->
 
 <img src="https://img.dungeondice.it/49229-large_default/eriantys.jpg" width=190px height=190px align="right" />
+
 Eriantys Board Game is the final test of **"Software Engineering"**, course of [Computer Science Engineering](https://ccs-informatica.elet.polimi.it/) held at Politecnico di Milano (2021/2022).
 
 **Teacher** Pierluigi San Pietro

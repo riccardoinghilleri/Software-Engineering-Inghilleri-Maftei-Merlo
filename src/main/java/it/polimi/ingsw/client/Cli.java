@@ -127,7 +127,7 @@ public class Cli implements View {
     }
 
     //metodo utilizzando per la scelta dei colori e del wizard
-    public synchronized void setupMultipleChoice(MultipleChoiceMessage message) {
+    public void setupMultipleChoice(MultipleChoiceMessage message) {
         String question;
         if (message.getAvailableChoices().size() == 1) {
             question = message.isColor() ? "the color" : "the wizard";
@@ -145,21 +145,18 @@ public class Cli implements View {
     }
 
     public synchronized void displayInfo(InfoMessage message) {
-        System.out.println(message.getString());
+            System.out.println(message.getString());
     }
 
-    public void displayBoard(UpdateBoard message) {
-        synchronized (System.out) {
+    public synchronized void displayBoard(UpdateBoard message) {
             Constants.clearScreen();
             System.out.println(message.getBoard().draw(1, 1));
-        }
     }
 
-    public void askAction(AskActionMessage message) {
+    public synchronized void askAction(AskActionMessage message) {
         String response;
         String temp;
         ActionMessage answer = new ActionMessage();
-        synchronized (System.out) {
             switch (message.getAction()) {
                 case CHOOSE_ASSISTANT_CARD:
                     alreadyAskedMovements = false;
@@ -250,7 +247,6 @@ public class Cli implements View {
                     connection.send(answer);
                     break;
             }
-        }
     }
 
     //Gestisce i parametri da settare in base alla character card

@@ -17,6 +17,7 @@ public class UpdateBoard implements Message,ServerMessage{
 
     @Override
     public void forward(View view) {
-       view.displayBoard(this);
+
+        view.displayBoard(this);
     }
 }

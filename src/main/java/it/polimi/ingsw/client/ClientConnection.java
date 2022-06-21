@@ -103,7 +103,8 @@ public class ClientConnection implements Runnable {
                 manageMessage(message);
                 if (message instanceof InfoMessage && ((InfoMessage) message).getString().equalsIgnoreCase("CONNECTION_CLOSED")) {
                     closeConnection();
-                    System.exit(0);
+                    if (view instanceof Cli)
+                        System.exit(0);
                 }
             }
         });

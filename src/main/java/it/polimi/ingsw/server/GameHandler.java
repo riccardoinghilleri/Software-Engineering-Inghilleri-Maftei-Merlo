@@ -258,7 +258,7 @@ public class GameHandler implements PropertyChangeListener {
     public void endGame(int disconnected) {
         String player = gameModel.getPlayerById(disconnected) != null ? gameModel.getPlayerById(disconnected).getNickname() : "The client #" + (disconnected + 1);
         sendAllExcept(disconnected, new InfoMessage(">" + player
-                + " has disconnected, the match will now end" + "\nThanks for playing!"));
+                + " has disconnected, the match will now end" + "\nThanks for playing!",true));
         clients.remove(clients.get(disconnected));
         for (VirtualView client : clients) {
             client.closeConnection(false, false);
@@ -269,9 +269,11 @@ public class GameHandler implements PropertyChangeListener {
 
     public void endGame() {
         sendAll(new UpdateBoard(gameModel.getBoard()));
-        String result = gameModel.getWinner() != null ? (">The winner is " + gameModel.getWinner().getNickname()
+        String winner = gameModel.getWinner() != null ? gameModel.getWinner().getNickname() : "draw";
+        String result = !winner.equalsIgnoreCase("draw")? (">The winner is " + winner
                 + "!" + "\nThanks for playing!") : "There are no winners. The match ended in a draw!";
-        sendAll(new InfoMessage(result));
+        InfoMessage message = new InfoMessage(result,winner);
+        sendAll(message);
         for (VirtualView client : clients) {
             client.closeConnection(false, false);
         }

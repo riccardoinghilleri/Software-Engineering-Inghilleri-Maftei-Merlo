@@ -89,7 +89,7 @@ public class Cli implements View {
         }
     }
 
-    public void enable(TurnMessage message) {
+    public synchronized void enable(TurnMessage message) {
         if (message.isEnable())
             stopClearBuffer();
         else startClearBuffer();
@@ -358,7 +358,7 @@ public class Cli implements View {
         }
     }
 
-    private void stopClearBuffer() {
+    private synchronized void stopClearBuffer() {
         if (clearBuffer != null && clearBuffer.isAlive()) {
             clearBuffer.interrupt();
             clearBuffer = null;

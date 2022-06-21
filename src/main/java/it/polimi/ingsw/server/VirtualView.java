@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class VirtualView implements Runnable {
     private int clientId;
@@ -84,10 +85,7 @@ public class VirtualView implements Runnable {
         }
     }
 
-    public void sendMessage(Message message) {
-        //TODO potrebbe servire un lock per l'output stream
-        //TODO inserire period e boolean timer
-        //(timer)
+    public synchronized void sendMessage(Message message) {
         if (message instanceof AskActionMessage)
             startTimer();
         try {

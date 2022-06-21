@@ -7,14 +7,13 @@ import it.polimi.ingsw.client.gui.Gui;
 public class InfoMessage implements Message,ServerMessage{
     private final String string;
     private String winner;
-
     private boolean disconnection;
+
     public InfoMessage(String string) {
         this.string = string;
         this.winner=null;
         this.disconnection=false;
     }
-
     public InfoMessage(String string, String winner){
         this.string = string;
         this.winner=winner;
@@ -33,6 +32,7 @@ public class InfoMessage implements Message,ServerMessage{
     public String getWinner(){
         return winner;
     }
+
     @Override
     public void forward(View view) {
         if(view instanceof Cli || (this.winner == null && !this.disconnection ))
@@ -41,4 +41,5 @@ public class InfoMessage implements Message,ServerMessage{
             ((Gui)view).displayWinner(this);
         else ((Gui)view).displayDisconnectionAlert(this);
     }
+
 }

@@ -6,9 +6,13 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.locks.ReentrantLock;
-
+/**
+ * This class  communicates with the ClientConnection through the socket created by the server.
+ * It forwards messages based on the value of an inGame attribute either to the server or gameHandler.
+ * if inGame == false, the messages are forwarded to the server, else to the gameHandler.
+ */
 public class VirtualView implements Runnable {
     private int clientId;
     private boolean inGame;
@@ -26,7 +30,10 @@ public class VirtualView implements Runnable {
 
     //private Thread pinger;
     private Thread timer;
-
+    /**
+     * The constructor of the class.
+     * It needs a socket and the server.
+     */
     public VirtualView(Socket socket, Server server) {
         this.socket = socket;
         this.clientId = -1;
@@ -53,7 +60,9 @@ public class VirtualView implements Runnable {
     public void setInGame(boolean inGame) {
         this.inGame = inGame;
     }
-
+    /**
+     * This method opens an output and input stream. and forwards the messages.
+     */
     @Override
     public void run() {
         try {
@@ -84,7 +93,9 @@ public class VirtualView implements Runnable {
             closeConnection(false, true);
         }
     }
-
+    /**
+     * Method to send a message throw the output stream
+     */
     public synchronized void sendMessage(Message message) {
         if (message instanceof AskActionMessage)
             startTimer();
@@ -97,6 +108,11 @@ public class VirtualView implements Runnable {
         }
     }
 
+    /**
+     * This method closes a connection after waiting for several seconds and not receiving an answer.
+     * This method is called by the gameHandler to disconnects a client
+     * @param timerEnded boolean that tells if the time is up.
+     */
     public synchronized void closeConnection(boolean timerEnded, boolean quit) {
         if (!closed.get()) {
             inGame = false;
@@ -150,10 +166,13 @@ public class VirtualView implements Runnable {
             pinger.start();
         }
     */
+    /**
+     * This method creates and starts the Timer thread.
+     */
     private void startTimer() {
         timer = new Thread(() -> {
             try {
-                Thread.sleep(45 * 1000);
+                Thread.sleep((long)45 * 1000);
                 //System.out.println("stop timer" + clientId);
                 closeConnection(true, false);
             } catch (InterruptedException e) {
@@ -163,6 +182,10 @@ public class VirtualView implements Runnable {
         timer.start();
     }
 
+    /**
+     * This method  interrupts the timer thread , after checking that the latter is alive.
+     * It is used when a client disconnects
+     */
     private void stopTimer() {
         if (timer != null && timer.isAlive()) {
             timer.interrupt();

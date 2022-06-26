@@ -4,6 +4,9 @@ import it.polimi.ingsw.client.cli.Cli;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.gui.Gui;
 
+/**
+ * This class represents the message sent by the server to be displayed by the view.
+ */
 public class InfoMessage implements Message,ServerMessage{
     private final String string;
     private String winner;

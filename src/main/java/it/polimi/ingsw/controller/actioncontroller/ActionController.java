@@ -9,11 +9,20 @@ import it.polimi.ingsw.enums.CharacterColor;
 
 import static it.polimi.ingsw.controller.StrategyFactory.strategyFactory;
 
+/**
+ * This class manages the actual turn of each player.
+ * A new instance of action controller is created by the controller
+ * when a player turn starts.
+ */
 public class ActionController {
     private final GameModel gameModel;
     private final int playerId;
     private CharacterCardStrategy strategy;
 
+    /**
+     * The constructor of the class.
+     * @param gameModel of type GameHandler - GameHandler reference
+     */
     public ActionController(GameModel gameModel) {
         this.gameModel = gameModel;
         this.strategy=null;
@@ -21,16 +30,27 @@ public class ActionController {
         this.playerId = gameModel.getCurrentPlayer().getClientID();
     }
 
+    /**
+     * This method returns the gameModel
+     */
     public GameModel getGameModel() {
         return gameModel;
     }
 
+    /**
+     * This method returns the CharacterCard strategy
+     */
     public CharacterCardStrategy getCharacterCardStrategy() {
         return strategy;
     }
 
-
-    //se strategy è true, setto la strategy
+    /**
+     * If strategy is true , the strategy is used once, and it updates players , board's and chard's coins.
+     * If the character card is Diner, it calls the updatesProfessors() method.
+     * @param actionMessage parameter which gives all the information about the player's move
+     * @param strategy boolean which tells if the chard is one of those that implement character card strategy
+     */
+    //se strategy è true, setto la strategy e la uso una volta
     //aggiorno le monete dei player, della carta e della board
     //se la carta è Diner, aggiorno tutti i professori
     public void useCharacterCard(ActionMessage actionMessage, boolean strategy) {
@@ -42,7 +62,6 @@ public class ActionController {
         BoardExpert boardExpert = (BoardExpert) gameModel.getBoard();
         boardExpert.moveCoin(playerId, boardExpert.getCharacterCardbyName(actionMessage.getCharacterCardName()));
     }
-
     public void useCharacterCardEffect(ActionMessage actionMessage){
         this.strategy.useEffect(actionMessage);
         if (actionMessage.getCharacterCardName().equalsIgnoreCase("PERFORMER")
@@ -52,18 +71,21 @@ public class ActionController {
         }
     }
 
-
+    /**
+     * This method upon an action message request returns the player with the highest influence
+     * on the specified island
+     * @param index
+     * @return
+     */
     public int getInfluence(int index) {
         return gameModel.getBoard().getTotalInfluence(index);
     }
 
-    //metodo che ritorna il player con più influenza sull'isola specificata
-    /*public int getInfluence(ActionMessage actionMessage) {
-        return gameModel.getBoard().getTotalInfluence(actionMessage.getData());
-    }*/
-
-    //metodo che muove gli studenti dalla sala all'ingresso
-    //dopo il movimento viene aggiornato il professore di quel colore
+    /**
+     * This method moves the students from the dining room to the entrance.
+     * After each movement the professor's owner of that color is updated
+     * @param studentColor the color of the student to move
+     */
     public void moveStudent(String studentColor) {
         gameModel.getBoard().getSchoolByOwnerId(playerId).fromEntrancetoDiningRoom(CharacterColor.valueOf(studentColor));
         if (gameModel.isExpertGame() && gameModel.getBoard().getSchoolByOwnerId(playerId).getDiningRoom().get(CharacterColor.valueOf(studentColor)).size() % 3 == 0) {
@@ -72,6 +94,11 @@ public class ActionController {
         }
         updateProfessor(studentColor);
     }
+    /**
+     * This method moves the students from the dining room to the specified island.
+     * @param islandPosition  the id of the island in which to move the student
+     * @param studentColor the color of the student to move
+     */
 
     //metodo che muove gli studenti dalla sala di una scuola ad una isola
     public void moveStudent(int islandPosition, String studentColor) {
@@ -80,13 +107,21 @@ public class ActionController {
 
     }
 
+    /**
+     * This method adds the students of the chosen cloud to the player's entrance
+     * @param cloudPosition the chosen cloud
+     */
     //TODO aggiungere ai metodi
     public void moveStudent(int cloudPosition) {
         gameModel.getBoard().moveStudent(cloudPosition, playerId);
     }
 
-    //metodo che muove madre natura
-    //sposta le tower automaticamente
+    /**
+     * This method moves mother nature.
+     * It moves automatically the towers
+     * @param actionMessage
+     * @return the new owner
+     */
     //TODO il movimento delle tower è atomico con lo spostamento di madre natura o deve essere il client a farlo cosi possiamo usare una specialCard dopo il movimento di madre natura  e prima d i muovere le torri
     //TODO tutte le getInfluence() devono ritornare NONE in caso di pareggio
     public int moveMotherNature(ActionMessage actionMessage) {
@@ -135,12 +170,19 @@ public class ActionController {
         return newOwner;
     }
 
-    // metodo standard che aggiorna l'owner di un professore utilizzando come comparatore >
+    /**
+     * This method updates the owner's professor using as a paragon '>', calling the updateProfessor method of the board
+     */
+
     public void updateProfessor(String color) {
         gameModel.getBoard().updateProfessor(CharacterColor.valueOf(color));
     }
 
-    //metodo che aggiorna tutti i professori quando viene utilizzata la carta Diner
+    /**
+     * Since the Diner character Card has directly an effect on professors, this method updates all
+     * the professor after Diner Card being used.
+     */
+
     private void updateAllProfessors() {
         for (CharacterColor c : CharacterColor.values())
             updateProfessor(c.toString());

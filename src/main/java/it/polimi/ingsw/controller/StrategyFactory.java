@@ -4,8 +4,17 @@ import it.polimi.ingsw.controller.actioncontroller.CharacterCardStrategy;
 import it.polimi.ingsw.controller.actioncontroller.*;
 import it.polimi.ingsw.server.model.GameModel;
 
+/**
+ * This class creates strategically  all the character card with different 'powers' except
+ * diner, lumberjack, centaur and knight, which extends directly the action controller.
+ */
 public class StrategyFactory {
-
+    /**
+     * This constructor, according to the name given, creates the card.
+     * @param characterCardName the name of the card to be created
+     * @param gameModel an instance of game model
+     * @return a character card strategy
+     */
     public static CharacterCardStrategy strategyFactory(String characterCardName, GameModel gameModel) {
         CharacterCardStrategy strategy = null; //TODO non so se è giusto inizializzarla a null
         switch (characterCardName){

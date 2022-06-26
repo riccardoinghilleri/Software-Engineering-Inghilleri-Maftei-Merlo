@@ -5,6 +5,16 @@ import it.polimi.ingsw.enums.CharacterColor;
 
 import java.io.Serializable;
 import java.util.*;
+/**
+ * This class is the actual game board that the user sees on the screen while playing in the normal mode.
+ * It has several tasks:
+ * - It manages the creation of the students, professor, islands, schools and cloud in its constructor method, calling the constructors
+ * of each class.
+ * - It  can manage the movements of the students(e.g. from the entrance to an island), towers, MotherNature and professors(e.g. when
+ * the professor's owner changes).
+ * - it calculates the influence
+ * - it returns the winner if there is one.
+ */
 
 public class Board implements Serializable {
     private final int playersNumber;
@@ -17,7 +27,11 @@ public class Board implements Serializable {
     private final GameModel gameModel;
 
     //TODO metodo int getInfluencePlayer(String Player, int islandPosition) RITORNA L'INFLUENZA DI UN PLAYER SULL'ISOLA E NON CHI HA PIU INFLUENZA
-
+    /**
+     * This is the constructor of the Board Class.
+     * @param gameModel it is a necessary for declaring the winner
+     * @param players it is a list of the players involved in the game.
+     */
     public Board(List<Player> players, GameModel gameModel) {
         this.gameModel = gameModel;
         this.playersNumber = players.size();
@@ -29,6 +43,9 @@ public class Board implements Serializable {
         this.schools = new School[playersNumber];
 
         //--CREAZIONE STUDENTI--
+        /**
+         * Here are created 130 students, 26 of each different color and then are shuffled, ready to be chosen.
+         */
         for (int j = 0; j < 26; j++) {
             this.students.add(new Student(CharacterColor.RED));
             this.students.add(new Student(CharacterColor.BLUE));
@@ -39,16 +56,28 @@ public class Board implements Serializable {
         Collections.shuffle(students);
 
         //--CREAZIONE PROFESSORI--
+        /**
+         * Here are created 5 professors, one of each color.
+         */
         for (CharacterColor c : CharacterColor.values()) {
             professors[c.ordinal()] = new Professor(c);
         }
 
         //--CREAZIONE NUVOLE--
+        /**
+         * Here are created the clouds according to the players number
+         * (2 players -> 2 clouds, 3 players->3 clouds and finally 4 players-> 4 clouds)
+         */
+
         for (int i = 0; i < playersNumber; i++) {
             clouds[i] = new Cloud();
         }
 
         //--CREAZIONE ISOLE--
+        /**
+         * Here are created the 12 Islands, paying attention to the first one and the sixth,
+         * which respectively has and does not have MotherNature. The remaining needs only a student.
+         */
         for (int i = 0; i < 12; i++) {
             if (i == 0)
                 islands.add(new Island(true));
@@ -59,6 +88,9 @@ public class Board implements Serializable {
         }
 
         //--CREAZIONE SCUOLE--
+        /**
+         * # schools are created according to the playersNumber.
+         */
         for (Player p : players) {
             schools[p.getClientID()] = new School(p, p.getColor(), playersNumber);
         }
@@ -74,11 +106,15 @@ public class Board implements Serializable {
     public int getStudentsSize() {
         return students.size();
     }
-
+    /**
+     * @return the IdIsland on which MotherNature is when calling this method
+     */
     public int getMotherNaturePosition() {
         return motherNaturePosition;
     }
-
+    /**
+     * @return a list of all the clouds available in the game
+     */
     public Cloud[] getClouds() {
         return clouds;
     }
@@ -87,24 +123,39 @@ public class Board implements Serializable {
         return playersNumber;
     }
 
+    /**
+     * @return a list of all the islands available in the game
+     */
     public List<Island> getIslands() {
         return islands;
     }
-
+    /**
+     * @return a list of all the schools available in the game
+     */
     public School[] getSchools() {
         return schools;
     }
 
     //TODO ECCEZIONE SE NICKNAME E' SBAGLIATO
+    /**
+     * @param clientId it is the Id associated with a client
+     * @return the school of the player with the passed clientId
+     */
     public School getSchoolByOwnerId(int clientId) {
         return schools[clientId];
     }
 
     //TODO ECCEZIONE SE NICKNAME E' SBAGLIATO - NON SO SE SERVE
+    /**
+     * @param color is one of the available colors for professors and students
+     * @return the professor with the color required
+     */
     public Professor getProfessorByColor(CharacterColor color) {
         return professors[color.ordinal()];
     }
-
+    /**
+     * It files the clouds with the needed students number
+     */
     public void setStudentsonClouds() {
         for (Cloud cloud : clouds) {
             if (playersNumber == 2 || playersNumber == 4)
@@ -112,7 +163,9 @@ public class Board implements Serializable {
             else cloud.addStudents(removeRandomStudents(4));
         }
     }
-
+    /**
+     * It files the Entrance of each school with the needed students number
+     */
     private void setInitialEntrance() {
         for (School school : schools) {
             if (playersNumber == 2 || playersNumber == 4)
@@ -120,21 +173,38 @@ public class Board implements Serializable {
             else school.addEntranceStudents(removeRandomStudents(9));
         }
     }
-
+    /**
+     * It moves a student of a specified color to an island, removing it from the entrance of the school.
+     * @param clientId It represents the player who made the choice
+     * @param toIsland It is the IdIsland to which send the student
+     * @param color The color of the student to move
+     */
     public void moveStudent(int clientId, int toIsland, String color) {
         islands.get(toIsland).addStudent(getSchoolByOwnerId(clientId).removeEntranceStudent(CharacterColor.valueOf(color)));
     }
-
+    /**
+     * This method is called when at the begging of the turn a player chooses the cloud, therefore 'moves' all the students
+     * from the cloud to his school's entrance
+     * @param fromCloud the idCloud to consider
+     * @param clientId It represents the player who made the choice
+     */
     public void moveStudent(int fromCloud, int clientId) {
         getSchoolByOwnerId(clientId).addEntranceStudents(clouds[fromCloud].removeStudents());
     }
 
+    /**
+     * This method allows moving motherNature of a number of steps passed in 'chosenSteps'
+     */
     public void moveMotherNature(int chosenSteps) {
         islands.get(motherNaturePosition).setMotherNature(false);
         motherNaturePosition = (motherNaturePosition + chosenSteps) % islands.size();
         islands.get(motherNaturePosition).setMotherNature(true);
     }
-
+    /**
+     * When a player gains the influence over a color, he gains the professor, therefore the latter needs to be moved and
+     * to be changed the owner.
+     * @param color parameter passed to know what professor to be moved
+     */
     public void updateProfessor(CharacterColor color) {
         int oldOwner = professors[color.ordinal()].getOwner();
         int newOwner = -1;
@@ -157,7 +227,11 @@ public class Board implements Serializable {
                 getSchoolByOwnerId(newOwner).addProfessor(professors[color.ordinal()]);
         }
     }
-
+    /**
+     * It calculates the influence according to the total number of professors and towers
+     * @param islandPosition the id of the island the player want to know the influence
+     * @return the player with the highest influence on the chosen island
+     */
     //Calcolo dell'influenza tenendo conto di tutti i professori e le tower
     //Ritorna il player che ha piu influenza sull'isola scelta
     public int getTotalInfluence(int islandPosition) {
@@ -172,7 +246,10 @@ public class Board implements Serializable {
         }
         return getMaxInfluence(influence);
     }
-
+    /**
+     * It calculates the influence according to only the number of students on a specific island
+     * @param islandPosition the Island considered in order to calculate the influence
+     */
     //Calcolo influenza dei player data dagli studenti presenti sull'isola
     public int[] getStudentInfluence(int islandPosition, int[] influence, List<CharacterColor> characterColors) {
         Map<CharacterColor, List<Student>> students = islands.get(islandPosition).getStudents();
@@ -191,6 +268,11 @@ public class Board implements Serializable {
         return influence;
     }
     //Calcolo influenza dei player data dalle torri presenti sull'isola
+    /**
+     * It calculates the influence according to only the number of towers on a specific island
+     * @param islandPosition the Island considered in order to calculate the influence
+     * @return an array of influences correspondingly to each player
+     */
 
     public int[] getTowersInfluence(int islandPosition, int[] influence) {
         int owner;
@@ -202,6 +284,11 @@ public class Board implements Serializable {
     }
 
     //restituisce il player con piu influenza
+    /**
+     * This method which receives in input an array of influences, return the highest value of influence,
+     * so the player with the highest influence.
+     */
+    //Data una Mappa<String,Integer> restituisce il player con piu influenza
     public int getMaxInfluence(int[] influence) {
         int max = 0;
         int result = -1;
@@ -214,6 +301,9 @@ public class Board implements Serializable {
         }
         return result;
     }
+    /**
+     * It moves a tower from the school to a specified Island
+     */
 
     //Muove una torre dalla scuola all'isola indicata
     public void moveTower(int clientId, int island, String destination) {
@@ -223,9 +313,11 @@ public class Board implements Serializable {
             getSchoolByOwnerId(clientId).restockTower(islands.get(island).removeTowers());
     }
 
-    //Muove una torre da una isola alla scuola
-
-    //Restituisce una lista di num studenti casuali
+    /**
+     * It removes a random number of student and put them into an array
+     * @param studentsNumber the number of students which are removed from the total number available
+     * @return the students chosen into an array
+     */
     public List<Student> removeRandomStudents(int studentsNumber) {
         List<Student> result = new ArrayList<>();
         for (int i = 0; i < studentsNumber; i++) {
@@ -233,16 +325,23 @@ public class Board implements Serializable {
         }
         return result;
     }
-    //Restituisce uno studente casuale
+
+    /**
+     * Method which removes randomly a student from all the students still available and not chosen yet
+     * @return a student
+     */
 
     public Student removeRandomStudent() {
         return students.remove(students.size() - 1);
         //TODO se gli studenti non sono abbastanza le nuvole devono rimanere vuote
     }
-
-    //Chiamo questo metodo ogni volta che viene aggiunta una torre su un'isola, la cui posizione viene passata come parametro
-    //Controlla se le isole adiacenti a quella indicata hanno una torre delle stesso colore.
-    //In questo caso, sposta tutti gli elementi delle isole adiacenti in quella indicata
+    /**
+     * This method is called whenever a tower is added to an Island, whose position is passed as a parameter.
+     * It checks is the 2 near islands to the one considered have a tower with same color, also checking if the
+     * near island has a tower.
+     * If so, it moves all the students of the near islands on the one considered throw islandPosition
+     * @param islandPosition the island whose neighboring islands need to be chcked
+     */
     public void checkNearIsland(int islandPosition) {
         if(islands.get(islandPosition).getTowers().isEmpty())
             return;
@@ -283,7 +382,11 @@ public class Board implements Serializable {
             motherNaturePosition = islandPosition;
         }
     }
-
+    /**
+     * It checks if there is a winner according to the number of towers left in each school and
+     * who has the highest number of professors.
+     * Finally it is passed to the gameModel
+     */
     public void findWinner() {
         Player winner = gameModel.getPlayerById(0);
         int min_tower = getSchools()[0].getTowersNumber();
@@ -312,6 +415,9 @@ public class Board implements Serializable {
         }
         gameModel.setWinner(winner);
     }
+/**
+ * This mwthod is used to display all the board on the screen
+ */
 /*
     public StringBuilder draw(int x, int y) {
         StringBuilder board = new StringBuilder();

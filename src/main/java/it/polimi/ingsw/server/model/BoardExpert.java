@@ -3,13 +3,23 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.enums.CharacterCardName;
 
+import java.io.Serializable;
 import java.util.*;
 
+/**
+ * This class is the second version of the Board when the Game mode is 'expert',
+ * adding the management of the CharacterCards and therefore coins.
+ */
 public class BoardExpert extends Board {
     private int boardCoins;
     private int[] playerCoins;
     private CharacterCard[] characterCards;
 
+    /**
+     * The constructor of the boardExpert: it creates the coins, chooses randomly 3 characterCard and gives to each player a coin.
+     * @param players a list of the total players involved in the game
+     * @param gameModel it needs the gameModel such as the basic Board
+     */
     public BoardExpert(List<Player> players, GameModel gameModel) {
         super(players, gameModel);
         //--CREO LE MONETE--
@@ -27,19 +37,34 @@ public class BoardExpert extends Board {
     public int[] getCoins() {
         return playerCoins;
     }
-
+    /**
+     * Getter of the coins of each player
+     * @param clientId the id of the player considered
+     * @return the number of coins of the specified player
+     */
     public Integer getPlayerCoins(int clientId) {
         return playerCoins[clientId];
     }
 
+    /**
+     * @return the total number of coins left on the board
+     */
     public int getBoardCoins() {
         return boardCoins;
     }
 
+    /**
+     * @return a list of the all the CharacterCard randomly chosen
+     */
     public CharacterCard[] getCharacterCards() {
         return characterCards;
     }
 
+    /**
+     * This method is able to return the CharacterCard whose name is passed as parameter of the method
+     * @param name of the CharacterCard requested
+     * @return a CharacterCard
+     */
     public CharacterCard getCharacterCardbyName(String name) {
         //TODO forse bisogna lanciare eccezione se non si trova la carta
         CharacterCard characterCard = null;
@@ -50,6 +75,12 @@ public class BoardExpert extends Board {
         return characterCard;
     }
 
+    /**
+     * After a player uses a CharacterCard this method removes the coins from the player and put the cost at -1
+     * It adds a coin to the CharacterCard
+     * @param clientId the player who uses the Card
+     * @param card: the card chosen
+     */
     //Rimuove le monete dal player e ne mette il costo - 1 nella board, aggiunge una moneta alla carta personaggio
     public void moveCoin(int clientId, CharacterCard card) {
         playerCoins[clientId] -= card.getCost();
@@ -57,6 +88,10 @@ public class BoardExpert extends Board {
         card.updateCost();
     }
 
+    /**
+     * It adds a coin to a specified player removing them from the Board
+     * @param clientId the client to who coins are added.
+     */
     //Aggiunge una moneta al player
     public void addCointoPlayer(int clientId) {
         playerCoins[clientId] += 1;
@@ -67,19 +102,24 @@ public class BoardExpert extends Board {
         getIslands().get(islandPosition).setNoEntryTile(false);
     }
 
+    /**
+     * This method creates randomly 3 CharacterCards,
+     * calling the constructors of the 3 different types of cards, specifying the name, the coins and what the card can do.
+     * @return a list of 3 Cards
+     */
     protected CharacterCard[] createThreeRandomCharacterCards() {
         CharacterCard[] cards = new CharacterCard[3];
         CharacterCardName[] values = CharacterCardName.values();
         List<CharacterCardName> chosenNames = new ArrayList<>();
-        /*Random r = new Random();
+        Random r = new Random();
         while (chosenNames.size() < 3) {
             CharacterCardName name = values[r.nextInt(values.length)];
             if (!chosenNames.contains(name))
                 chosenNames.add(name);
-        }*/
-        chosenNames.add(CharacterCardName.CLOWN);
-        chosenNames.add(CharacterCardName.PRIEST);
-        chosenNames.add(CharacterCardName.HERBOLARIA);
+        }
+        //chosenNames.add(CharacterCardName.CLOWN);
+        //chosenNames.add(CharacterCardName.PRIEST);
+        //chosenNames.add(CharacterCardName.HERBOLARIA);
         for (int i = 0; i < 3; i++) {
             switch (chosenNames.get(i)) {
                 case PRIEST:

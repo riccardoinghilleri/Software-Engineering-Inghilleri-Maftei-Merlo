@@ -1,5 +1,8 @@
 package it.polimi.ingsw.exceptions;
 
+/**
+ * Exception thrown when a player chooses an assistant card already chosen by another player
+ */
 public class SameAssistantCardException extends Exception{
 
     public String getMessage() {

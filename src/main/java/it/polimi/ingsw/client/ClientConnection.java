@@ -8,6 +8,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+/**
+ * ClientConnection class handles the connection between the client and the server.
+ *
+ * @author
+ */
 public class ClientConnection implements Runnable {
     private final String serverAddress;
     private final int serverPort;
@@ -21,6 +26,11 @@ public class ClientConnection implements Runnable {
     private final ObjectInputStream is;
     private final View view;
 
+    /**
+     * The constructor of the class. It creates a new ClientConnection instance.
+     * @param view of type View - View reference.
+     * @throws IOException exception thrown if an error occurs
+     */
     public ClientConnection(View view) throws IOException {
         this.serverAddress = view.getAddress();
         this.serverPort = view.getPort();
@@ -32,6 +42,9 @@ public class ClientConnection implements Runnable {
         os = new ObjectOutputStream(socket.getOutputStream());
     }
 
+    /**
+     * Method used to send a message throw the OutStream.
+     */
     public void send(Message message) {
         if (active) {
             try {
@@ -44,6 +57,9 @@ public class ClientConnection implements Runnable {
         }
     }
 
+    /**
+     * The method run waits for a message until active is true, paying attention if the message is a ping message.
+     */
     @Override
     public void run() {
         try {
@@ -70,6 +86,9 @@ public class ClientConnection implements Runnable {
     }
 
 
+    /**
+     * This method forwards the received message to the view.
+     */
     private void manageMessage(Message message) {
         ((ServerMessage) message).forward(view);
     }

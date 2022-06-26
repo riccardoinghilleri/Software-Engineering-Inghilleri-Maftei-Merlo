@@ -1,8 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.server.ConnectionMessage.InfoMessage;
-import it.polimi.ingsw.server.ConnectionMessage.Message;
-import it.polimi.ingsw.server.ConnectionMessage.SettingsMessage;
+import it.polimi.ingsw.server.ConnectionMessage.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -21,8 +19,8 @@ public class VirtualView implements Runnable {
 
     private boolean alreadySettings;
 
-    private AtomicBoolean active;
-    private AtomicBoolean closed;
+    private final AtomicBoolean active, closed;
+    //private final AtomicBoolean ping_response;
 
     private final Socket socket;
     private final Server server;
@@ -30,7 +28,7 @@ public class VirtualView implements Runnable {
     private ObjectInputStream is;
     private ObjectOutputStream os;
 
-    private Thread pinger;
+    //private Thread pinger;
     private Thread timer;
     /**
      * The constructor of the class.
@@ -44,6 +42,7 @@ public class VirtualView implements Runnable {
         this.alreadySettings = false;
         active = new AtomicBoolean(false);
         closed = new AtomicBoolean(false);
+        //ping_response = new AtomicBoolean(false);
     }
 
     public void setGameHandler(GameHandler gameHandler) {
@@ -76,78 +75,62 @@ public class VirtualView implements Runnable {
 
             while (active.get()) {
                 Object clientMessage = is.readObject();
+                stopTimer();
                 if (!(clientMessage instanceof InfoMessage && ((InfoMessage) clientMessage).getString().equalsIgnoreCase("PING"))) {
-                    if (inGame)
+                    if(clientMessage instanceof  InfoMessage && ((InfoMessage) clientMessage).getString().equalsIgnoreCase("QUIT"))
+                        closeConnection(false,true);
+                    else if (inGame)
                         gameHandler.manageMessage(this, (Message) clientMessage);
                     else if (!alreadySettings) {/*checkSettings((SettingsMessage) clientMessage);*/
                         server.addClientConnectionToQueue(this, ((SettingsMessage) clientMessage).getPlayersNumber(), ((SettingsMessage) clientMessage).isExpertMode());
                         this.alreadySettings = true;
                     }
-                }
+                } /*else {
+                    ping_response.set(true);
+                }*/
             }
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            forcedClose();
+            closeConnection(false, true);
         }
     }
     /**
      * Method to send a message throw the output stream
      */
-    public void sendMessage(Message message) {
-        //TODO potrebbe servire un lock per l'output stream
-        //TODO inserire period e boolean timer
-        /*if (timer)
-            startTimer(period);*/
+    public synchronized void sendMessage(Message message) {
+        if (message instanceof AskActionMessage)
+            startTimer();
         try {
             os.writeObject(message);
             os.flush();
             os.reset();
         } catch (IOException e) {
-            e.printStackTrace();
+            closeConnection(false, false);
         }
     }
-    /**
-     * This method closes forcefully the input stream, the output and the socket.
-     * It also interrupts the timer thread     */
 
-    private void forcedClose(){
-        active.set(false);
-        stopTimer();
-        try {
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            os.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
     /**
      * This method closes a connection after waiting for several seconds and not receiving an answer.
      * This method is called by the gameHandler to disconnects a client
      * @param timerEnded boolean that tells if the time is up.
      */
-    public synchronized void closeConnection(boolean timerEnded) {
-        if (closed.compareAndSet(false, true)) {
-
+    public synchronized void closeConnection(boolean timerEnded, boolean quit) {
+        if (!closed.get()) {
+            inGame = false;
+            closed.set(true);
             active.set(false);
-            stopTimer();
 
             if (timerEnded) {
                 sendMessage(new InfoMessage("TIMER_ENDED"));
                 gameHandler.endGame(clientId);
-            }
+            } else stopTimer();
+
+            if (quit && gameHandler!=null)
+                gameHandler.endGame(clientId);
 
             sendMessage(new InfoMessage("CONNECTION_CLOSED"));
 
-            //TODO serve aspettare 10 secondi prima di chiudere tutto?
+            //per non avere SocketException lato client se cerca di inviare un messaggio dopo che
+            //è stata chiusa la connessione
             try {
                 Thread.sleep(10000);
             } catch (InterruptedException ignored) {
@@ -155,69 +138,48 @@ public class VirtualView implements Runnable {
 
             try {
                 is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
                 os.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
                 socket.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
 
     }
 
-    /*private void checkSettings(SettingsMessage message) {
-        stopTimer();
-        boolean error = false;
-        if (message.getPlayersNumber() != 2 && message.getPlayersNumber() != 1 && !(message.getGameMode() != 2 || message.getGameMode() != 2)) {
-            sendMessage(new ServerMessage("Incorret Number of player, please try again"), true, 10000);
-            error = true;
-        } else if (message.getGameMode() != 1 || message.getGameMode() != 2 && (message.getPlayersNumber() != 2 && message.getPlayersNumber() != 3)) {
-            sendMessage(new ServerMessage("Incorret Game Mode, please try again"), true, 10000);
-            error = true;
-        } else {
-            sendMessage(new ServerMessage("Incorret settings, please try again"), true, 10000);
-            error = true;
-        }
-        if (!error) {
-            int palyerNumber = message.getPlayersNumber() == 1 ? 2 : 3;
-            boolean gameMode = message.getGameMode() == 1 ? true : false;
-            server.addClientConnectionToQueue(this, message.getPlayersNumber(), gameMode);
-        }
-    }*/
-    /**
-     * This message tests the connection with the ping message
-     */
-    private void startPinger() {
-        pinger = new Thread(() -> {
-            while (active.get()) {
-                try {
-                    Thread.sleep(2500);
-                    sendMessage(new InfoMessage("PING"));
-                } catch (InterruptedException e) {
-                    break;
+    /*
+        private void startPinger() {
+            pinger = new Thread(() -> {
+                while (active.get()) {
+                    try {
+                        sendMessage(new InfoMessage("PING"));
+                        Thread.sleep(5000);
+                        if (ping_response.get()) {
+                            System.out.println("PING_OK" + clientId);
+                            ping_response.set(false);
+                        } else closeConnection(false, true);
+                    } catch (InterruptedException e) {
+                        break;
+                    }
                 }
-            }
-        });
-    }
+            });
+            pinger.start();
+        }
+    */
     /**
      * This method creates and starts the Timer thread.
      */
-    private void startTimer(int period) {
+    private void startTimer() {
         timer = new Thread(() -> {
             try {
-                Thread.sleep(period);
-                closeConnection(true);
+                Thread.sleep((long)45 * 1000);
+                //System.out.println("stop timer" + clientId);
+                closeConnection(true, false);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         });
+        timer.start();
     }
 
     /**

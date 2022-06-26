@@ -48,34 +48,58 @@ class SchoolTest {
     }
 
     @Test
-    void testDraw(){
-        school.addEntranceStudent(new Student(CharacterColor.RED));
-        school.addEntranceStudent(new Student(CharacterColor.PINK));
-        school.addEntranceStudent(new Student(CharacterColor.GREEN));
-        school.addDiningRoomStudent(new Student(CharacterColor.RED));
-        school.addDiningRoomStudent(new Student(CharacterColor.YELLOW));
-        school.addDiningRoomStudent(new Student(CharacterColor.BLUE));
-        //TODO da fare
+    public void testGetProfessorByColor(){
+        Professor prof =new Professor(CharacterColor.RED);
+        school.addProfessor(prof);
+        assertEquals(prof,school.getProfessorByColor(CharacterColor.RED));
+        assertNull(school.getProfessorByColor(CharacterColor.PINK));
     }
 
-    /*@Test
-    void testToString() {
-        school.addEntranceStudent(new Student(CharacterColor.RED));
-        school.addEntranceStudent(new Student(CharacterColor.PINK));
-        school.addEntranceStudent(new Student(CharacterColor.GREEN));
-        school.addDiningRoomStudent(new Student(CharacterColor.RED));
-        school.addDiningRoomStudent(new Student(CharacterColor.YELLOW));
-        school.addDiningRoomStudent(new Student(CharacterColor.BLUE));
-        String result = "Owner: Ricky" +
-                        "\nTowers: 8 WHITE" +
-                        "\nEntrance: RED PINK GREEN " +
-                        "\nDiningRoom:" +
-                        "\nRED: 1" +
-                        "\nBLUE: 1" +
-                        "\nYElLOW: 1"+
-                        "\nPINK: 0" +
-                        "\nGREEN: 0";
-        assertEquals(result,school.toString());
-    }*/
+    @Test
+    public void testRemoveProfessor(){
+        assertNull(school.removeProfessor(CharacterColor.RED));
+    }
 
+    @Test
+    public void testGetNumDiningRoomStudents(){
+        assertEquals(0,school.getNumDiningRoomStudents());
+        Student student =new Student(CharacterColor.PINK);
+        school.addDiningRoomStudent(student);
+        assertEquals(1,school.getNumDiningRoomStudents());
+        school.addDiningRoomStudent(student);
+        assertEquals(2,school.getNumDiningRoomStudents());
+    }
+
+    @Test
+    public void testGetOwner(){
+        assertEquals(ricky,school.getOwner());
+    }
+
+    @Test
+    public void testGetTowers(){
+        assertEquals(8,school.getTowers().size());
+        assertEquals(PlayerColor.WHITE,school.getTowers().get(0).getColor());
+    }
+
+    @Test
+    public void testGetProfessors(){
+        assertTrue(school.getProfessors().isEmpty());
+        Professor prof =new Professor(CharacterColor.RED);
+        school.addProfessor(prof);
+        assertEquals(1,school.getProfessors().size());
+        assertEquals(prof,school.getProfessors().get(0));
+    }
+
+    @Test
+    public void testSchool(){
+        Player manu=new Player("manu",0);
+        School school1= new School(manu,PlayerColor.BLACK,2);
+        School school2= new School(school1);
+        assertEquals(manu,school2.getOwner());
+        assertEquals(school1.getTowers(),school2.getTowers());
+        assertEquals(school1.getProfessors(),school2.getProfessors());
+        assertEquals(school1.getNumDiningRoomStudents(),school2.getNumDiningRoomStudents());
+        assertEquals(school1.getEntrance(),school2.getEntrance());
+        assertEquals(school1.getDiningRoom(),school2.getDiningRoom());
+    }
 }

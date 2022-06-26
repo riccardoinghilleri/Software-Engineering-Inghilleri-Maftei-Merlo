@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CharacterCardwithProhibitionsTest {
+class CharacterCardWithProhibitionsTest {
 
     @Test
     void testConstructorCharacterCardWithProhibitions(){
@@ -31,6 +31,5 @@ class CharacterCardwithProhibitionsTest {
           card.restockProhibitionsNumber();
           assertNotEquals(5,card.getProhibitionsNumber());
     }
-
 
 }

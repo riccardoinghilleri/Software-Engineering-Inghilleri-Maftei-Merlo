@@ -7,6 +7,9 @@ import it.polimi.ingsw.server.model.*;
 
 public class ReducedModel {
 
+    /**
+     * This method is used to display all the board on the screen
+     */
     public static StringBuilder draw(Board board, int x, int y) {
         StringBuilder card = new StringBuilder();
         int high;

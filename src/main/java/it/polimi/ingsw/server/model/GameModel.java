@@ -14,9 +14,9 @@ import java.util.List;
 
 public class GameModel implements Serializable {
     private int playersNumber;
-    private boolean isExpertGame;
+    private final boolean isExpertGame;
     private Board board = null;
-    private List<Player> players;
+    private final List<Player> players;
     private Player winner;
     private Player currentPlayer;
 
@@ -38,8 +38,8 @@ public class GameModel implements Serializable {
     //---CREAZIONE OGGETTI---//
     public void createBoard() {
         if (!isExpertGame)
-            board = new Board(players, this);
-        else board = new BoardExpert(players, this);
+            board = new Board(this);
+        else board = new BoardExpert(this);
         //currentPlayer=players.get(0); //mi serve nel gamehandler il primissimo turno quando non ho settato ancora le assistant cards
     }
 

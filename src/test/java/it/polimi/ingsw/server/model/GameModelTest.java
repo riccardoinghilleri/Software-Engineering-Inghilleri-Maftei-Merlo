@@ -6,9 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class GameModelTest {
-
-    //TODO ho creato 2 game model. Quello normal ha solo 1 player, serve a testare le funzionalità anche nella modalità normale. ha senso o bisogna toglierlo??
-
     GameModel gameModelExpert;
     GameModel gameModelNormal;
 

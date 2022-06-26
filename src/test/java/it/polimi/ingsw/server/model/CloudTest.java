@@ -24,10 +24,6 @@ class CloudTest {
    }
 
    @Test
-   public void TestingCorrectColour() {
-      //TODO
-   }
-   @Test
    public void testAddStudents(){
       assertTrue(cloud.getStudents().isEmpty());
       cloud.addStudents(studentsToAdd);
@@ -40,7 +36,7 @@ class CloudTest {
    }
    @Test
    public void testRemoveStudents(){
-      List<Student> removedStudents=new ArrayList<>();
+      List<Student> removedStudents;
       cloud.addStudents(studentsToAdd);
       removedStudents = cloud.removeStudents();
       assertTrue(cloud.getStudents().isEmpty());
@@ -49,9 +45,4 @@ class CloudTest {
       }
    }
 
-   @Test
-   public void testToString() {
-      cloud.addStudents(studentsToAdd);
-      String result = "PINK RED GREEN ";
-   }
 }

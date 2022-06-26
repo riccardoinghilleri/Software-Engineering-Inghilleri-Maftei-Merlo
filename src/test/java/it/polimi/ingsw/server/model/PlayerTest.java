@@ -12,4 +12,11 @@ class PlayerTest {
         player.setColor("WHITE");
         assertEquals("WHITE",player.getColor().toString());
     }
+
+    @Test
+    public void setClientId() {
+        Player player = new Player("Ricky",1);
+        player.setClientID(2);
+        assertEquals(2,player.getClientID());
+    }
 }

@@ -11,5 +11,4 @@ class AssistantCardTest {
         AssistantCard assistantCard = new AssistantCard(5,3);
         assertEquals(3,assistantCard.getMotherNatureSteps());
     }
-
 }

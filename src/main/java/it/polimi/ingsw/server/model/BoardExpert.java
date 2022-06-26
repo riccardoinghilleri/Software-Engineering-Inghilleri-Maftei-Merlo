@@ -1,9 +1,6 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.enums.CharacterCardName;
-
-import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -12,23 +9,22 @@ import java.util.*;
  */
 public class BoardExpert extends Board {
     private int boardCoins;
-    private int[] playerCoins;
-    private CharacterCard[] characterCards;
+    private final int[] playerCoins;
+    private final CharacterCard[] characterCards;
 
     /**
      * The constructor of the boardExpert: it creates the coins, chooses randomly 3 characterCard and gives to each player a coin.
-     * @param players a list of the total players involved in the game
      * @param gameModel it needs the gameModel such as the basic Board
      */
-    public BoardExpert(List<Player> players, GameModel gameModel) {
-        super(players, gameModel);
+    public BoardExpert(GameModel gameModel) {
+        super(gameModel);
         //--CREO LE MONETE--
         boardCoins = 20;
         //--ESTRAGGO 3 CARTE PERSONAGGIO CASUALI--
         characterCards = createThreeRandomCharacterCards();
         //--ASSEGNO AD OGNI PLAYER UNA MONETA--
-        playerCoins = new int[players.size()];
-        for (Player p : players) {
+        playerCoins = new int[gameModel.getPlayersNumber()];
+        for (Player p : gameModel.getPlayers()) {
             playerCoins[p.getClientID()] = 1;
             boardCoins--;
         }
@@ -182,29 +178,4 @@ public class BoardExpert extends Board {
         }
         return cards;
     }
-/*
-    public StringBuilder draw(int x, int y) {
-        StringBuilder boardExpert = new StringBuilder(super.draw(x, y));
-        int distance;
-        if (getPlayersNumber() != 4) {
-            boardExpert.append(Constants.cursorUp(32));
-            distance = 165 + x;
-            for (CharacterCard characterCard : characterCards) {
-                boardExpert.append(characterCard.draw(distance, 0));
-                boardExpert.append(Constants.cursorDown(1));
-            }
-            boardExpert.append(Constants.cursorDown(12));
-        } else {
-            //165+x
-            boardExpert.append(Constants.cursorUp(1));
-            distance = 1;
-            for (CharacterCard characterCard : characterCards) {
-                boardExpert.append(characterCard.draw(49 + x + 3 * distance + 14 * distance, 0));
-                boardExpert.append(Constants.cursorUp(6));
-                distance++;
-            }
-            boardExpert.append(Constants.cursorDown(8));
-        }
-        return boardExpert;
-    }*/
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.enums.CharacterCardName;
+import it.polimi.ingsw.enums.CharacterColor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,15 +12,16 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardExpertTest {
-    List<Player> players = new ArrayList<Player>();
     Board boardExpert;
 
     @BeforeEach
     void setUp() {
-        players=new ArrayList<>();
-        players.add(new Player("Ricky",0));
-        players.add(new Player("Manu",1));
-        boardExpert= new BoardExpert(players,new GameModel(true));
+        GameModel gameModel = new GameModel(true);
+        gameModel.createPlayer("Ricky",0);
+        gameModel.createPlayer("Manu",1);
+        gameModel.getPlayerById(0).setColor("WHITE");
+        gameModel.getPlayerById(1).setColor("BLACK");
+        boardExpert= new BoardExpert(gameModel);
     }
 
     @Test
@@ -31,7 +33,18 @@ class BoardExpertTest {
     }
 
     @Test
-    public void testGetCharacterCardbyName() {
+    public void testGetCoins() {
+        int[] playerCoins={1,1};
+        assertEquals(playerCoins[0],((BoardExpert)boardExpert).getCoins()[0]);
+        assertEquals(playerCoins[1],((BoardExpert)boardExpert).getCoins()[1]);
+        ((BoardExpert)boardExpert).addCointoPlayer(0);
+        playerCoins[0]++;
+        assertEquals(playerCoins[0],((BoardExpert)boardExpert).getCoins()[0]);
+    }
+
+
+    @Test
+    public void testGetCharacterCardByName() {
         CharacterCard[] characterCards = ((BoardExpert) boardExpert).getCharacterCards();
         assertEquals(characterCards[0].getName(),((BoardExpert)boardExpert).getCharacterCardbyName(characterCards[0].getName().toString()).getName());
         assertEquals(characterCards[0].getCost(),((BoardExpert)boardExpert).getCharacterCardbyName(characterCards[0].getName().toString()).getCost());
@@ -71,16 +84,53 @@ class BoardExpertTest {
 
     @Test
     public void testCreateThreeRandomCharacterCards() {
-        CharacterCard [] card= new CharacterCard[3];
+        CharacterCard [] card;
         for(int i=0;i<4;i++) {
             card = ((BoardExpert) boardExpert).getCharacterCards();
             CharacterCardName name1 = card[0].getName();
             CharacterCardName name2 = card[1].getName();
             CharacterCardName name3 = card[2].getName();
-            assertFalse(name1 == name2);
-            assertFalse(name1 == name3);
-            assertFalse(name3 == name2);
+            assertNotSame(name1, name2);
+            assertNotSame(name1, name3);
+            assertNotSame(name3, name2);
         }
+    }
+    @Test
+    public void testCheckNearIsland(){
+        BoardExpert board= (BoardExpert) boardExpert;
+        int num_students=0;
+        assertEquals(12,board.getIslands().size());
+
+        // [ISLAND 0 - 1 DIVIENTO - 2 TW] [ISLAND 1 - 1 TW] [ISLAND 2 - 2 DIVIENTI - 1 TW]
+        board.moveTower(0,0,"island");
+        board.moveTower(0,1,"island");
+        board.moveTower(0,2,"island");
+        board.getIslands().get(2).setNoEntryTile(true);
+        board.getIslands().get(2).setNoEntryTile(true);
+        board.getIslands().get(0).setNoEntryTile(true);
+        assertEquals(5,board.getSchoolByOwnerId(0).getTowersNumber());
+        assertEquals(1,board.getIslands().get(0).getTowers().size());
+        assertEquals(1,board.getIslands().get(1).getTowers().size());
+        assertEquals(1,board.getIslands().get(2).getTowers().size());
+        board.checkNearIsland(1);
+        assertEquals(10,board.getIslands().size());
+        assertEquals(3,board.getIslands().get(0).getTowers().size());
+        assertEquals(3,board.getIslands().get(0).getNoEntryTile());
+        for(CharacterColor c: CharacterColor.values()){
+            num_students+=board.getIslands().get(0).getStudents().get(c).size();
+        }
+        assertEquals(2,num_students);
+
+        num_students=0;
+        board.moveTower(0,1,"island");
+        board.checkNearIsland(0);
+        assertEquals(9,board.getIslands().size());
+        assertEquals(4,board.getIslands().get(0).getTowers().size());
+        for(CharacterColor c: CharacterColor.values()){
+            num_students+=board.getIslands().get(0).getStudents().get(c).size();
+        }
+        assertEquals(3,num_students);
+
     }
 
 

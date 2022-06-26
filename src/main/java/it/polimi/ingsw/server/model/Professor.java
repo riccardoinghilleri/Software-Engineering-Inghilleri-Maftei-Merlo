@@ -42,6 +42,7 @@ public class Professor implements Serializable {
      * will be displayed on the screen as a colorful triangle.
      * @return a string, which is actually a colored triangle
      */
+
     @Override
     public String toString() {
         return Constants.getAnsi(color)+"▲"+Constants.ANSI_RESET;

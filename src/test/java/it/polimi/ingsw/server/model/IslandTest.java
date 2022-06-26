@@ -98,31 +98,6 @@ class IslandTest {
         assertEquals(2,island.getStudents().get(CharacterColor.RED).size());
     }
 
-    /*@Test
-    public void testToString() {
-    Island island = new Island(true);
-        island.addStudent(new Student(CharacterColor.RED));
-        island.addStudent(new Student(CharacterColor.RED));
-        island.addStudent(new Student(CharacterColor.GREEN));
-        island.addStudent(new Student(CharacterColor.BLUE));
-        String result = "Towers: NONE" +
-                        "\nRedStudents: 2"+
-                        "\nBlueStudents: 1"+
-                        "\nYellowStudents: 0"+
-                        "\nPinkStudents: 0"+
-                        "\nGreenStudents: 1"+
-                        "\nMotherNature: true";
-        assertEquals(result,island.toString());
-        island.addTower(new Tower(1,PlayerColor.WHITE));
-        result = "Towers: 1 WHITE" +
-                "\nRedStudents: 2"+
-                "\nBlueStudents: 1"+
-                "\nYellowStudents: 0"+
-                "\nPinkStudents: 0"+
-                "\nGreenStudents: 1"+
-                "\nMotherNature: true";
-        assertEquals(result,island.toString());
-    }*/
 }
 
 

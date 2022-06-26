@@ -107,6 +107,7 @@ public class Island implements Serializable {
     public void addTower(Tower tower) {
         towers.add(tower);
     }
+
     /** This method adds a tower to the previous list of towers, which already exists*/
     public void addTowers(List<Tower> towers) {
         this.towers.addAll(towers);
@@ -116,6 +117,7 @@ public class Island implements Serializable {
     public void addStudent(Student student) {
         this.students.get(student.getColor()).add(student);
     }
+
     /** This method adds a list student to the previous list of students, which already exists*/
     public void addStudents(List<Student> students) {
         for (Student s : students) {
@@ -132,98 +134,5 @@ public class Island implements Serializable {
         towers.clear();
         return tempTowers;
 
-    }
-/*
-    public StringBuilder draw(int x, int y, int pos) {
-        StringBuilder island = new StringBuilder();
-        island.append(Constants.cursorUp(y));
-        int towers_index = 0;
-        String horizontal_wall = "═══════════════";
-        String to_right_wall = "/";
-        String to_left_wall = "\\";
-        for (int i = 0; i < 6; i++) {
-            island.append(Constants.cursorRight(x));
-            for (int j = 0; j < 21; j++) {
-                if (i == 0 || i == 5) {
-                    if (j == 3) {
-                        island.append(horizontal_wall);
-                        j = 17;
-                    } else island.append(" ");
-                } else if ((i == 1 && j == 1) || (i == 2 && j == 0) || (i == 3 && j == 20) || (i == 4 && j == 19)) {
-                    island.append(to_right_wall);
-                } else if ((i == 1 && j == 19) || (i == 2 && j == 20) || (i == 3 && j == 0) || (i == 4 && j == 1)) {
-                    island.append(to_left_wall);
-                } else if (i == 1 && j == 3) {
-                    island.append("#");
-                    if (pos < 10) {
-                        island.append(pos);
-                        island.append(" ");
-                    } else {
-                        island.append(pos / 10);
-                        island.append(pos % 10);
-                    }
-                    j = 5;
-                } else if (i == 1) {
-                    if (j == 8) {
-                        island.append(Constants.getAnsi(CharacterColor.BLUE));
-                        island.append(students.get(CharacterColor.BLUE).size());
-                        island.append(Constants.ANSI_RESET);
-                    } else if (j == 12) {
-                        island.append(Constants.getAnsi(CharacterColor.PINK));
-                        island.append(students.get(CharacterColor.PINK).size());
-                        island.append(Constants.ANSI_RESET);
-                    } else island.append(" ");
-                } else if (i == 2) {
-                    if (j == 6) {
-                        island.append(Constants.getAnsi(CharacterColor.GREEN));
-                        island.append(students.get(CharacterColor.GREEN).size());
-                        island.append(Constants.ANSI_RESET);
-                    } else if (j == 10) {
-                        island.append(Constants.getAnsi(CharacterColor.YELLOW));
-                        island.append(students.get(CharacterColor.YELLOW).size());
-                        island.append(Constants.ANSI_RESET);
-                    } else if (j == 14) {
-                        island.append(Constants.getAnsi(CharacterColor.RED));
-                        island.append(students.get(CharacterColor.RED).size());
-                        island.append(Constants.ANSI_RESET);
-                    } else island.append(" ");
-                } else if (i == 3) {
-                    if (j > 4 && ((j % 2 != 0 && ((21 - towers.size() * 2 - 1) / 2) % 2 == 0)
-                            || (j % 2 == 0 && ((21 - towers.size() * 2 - 1) / 2) % 2 != 0))
-                            && j > (21 - towers.size() * 2 - 1) / 2 && towers_index < towers.size()) {
-                        island.append(towers.get(towers_index));
-                        towers_index++;
-                    } else island.append(" ");
-                } else if (i == 4) {
-                    if (j == 8 && hasMotherNature) island.append("M");
-                    else if (j == 11 && hasNoEntryTile()) {
-                        island.append(noEntryTile+"X");
-                        j=13;
-                    }
-                    else island.append(" ");
-                }
-            }
-            island.append("\n");
-        }
-        return island;
-    }*/
-
-
-    @Override
-    public String toString() {
-        String result;
-        if (towers.isEmpty()) {
-            result = "Towers: NONE\nStudents: ";
-        } else {
-            result = "Towers: " + towers.size() + " " + towers.get(0).getColor() + "\nStudents: ";
-        }
-        for (CharacterColor key : students.keySet()) {
-            for (Student student : students.get(key)) {
-                result = result.concat(student.toString() + "\t");
-            }
-        }
-        if (hasNoEntryTile()) result = result.concat("\nNo Entry Tile!");
-        return result +
-                "\nMotherNature: " + hasMotherNature();
     }
 }

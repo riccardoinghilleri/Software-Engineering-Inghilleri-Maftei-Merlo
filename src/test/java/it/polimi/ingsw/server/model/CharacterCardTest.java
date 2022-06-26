@@ -18,9 +18,9 @@ class CharacterCardTest {
     }
     @Test
     void testUpdateCost(){
-
         CharacterCard card= new CharacterCard( CharacterCardName.LUMBERJACK ,2," un'altra descrizione di prova di una stringa");
         card.updateCost();
         assertEquals(3,card.getCost());
     }
+
 }

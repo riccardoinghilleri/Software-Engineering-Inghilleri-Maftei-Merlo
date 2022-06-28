@@ -123,38 +123,38 @@ public class Server implements Runnable {
             if (playersNumber == 2) {
                 if (!expertMode) {
                     twoPlayersNormal.add(client);
-                    client.sendMessage(new InfoMessage(Constants.WAITING));
+                    client.sendMessage(new InfoMessage(Constants.WAITING,false));
                     if (twoPlayersNormal.size() == 2)
                         createGameHandler(1);
                 } else {
                     twoPlayersExpert.add(client);
-                    client.sendMessage(new InfoMessage(Constants.WAITING));
+                    client.sendMessage(new InfoMessage(Constants.WAITING,false));
                     if (twoPlayersExpert.size() == 2)
                         createGameHandler(2);
                 }
             } else if (playersNumber == 3) {
                 if (!expertMode) {
                     threePlayersNormal.add(client);
-                    client.sendMessage(new InfoMessage(Constants.WAITING));
+                    client.sendMessage(new InfoMessage(Constants.WAITING,false));
                     if (threePlayersNormal.size() == 3)
                         createGameHandler(3);
                 } else {
                     threePlayersExpert.add(client);
-                    client.sendMessage(new InfoMessage(Constants.WAITING));
+                    client.sendMessage(new InfoMessage(Constants.WAITING,false));
                     if (threePlayersExpert.size() == 3)
                         createGameHandler(4);
                 }
             } else {
                 if (!expertMode) {
                     fourPlayersNormal.add(client);
-                    client.sendMessage(new InfoMessage(Constants.WAITING));
+                    client.sendMessage(new InfoMessage(Constants.WAITING,false));
                     if (fourPlayersNormal.size() == 4){
                         client.sendMessage(new ConnectionIdMessage(3,true));
                         createGameHandler(5);
                     }
                 } else {
                     fourPlayersExpert.add(client);
-                    client.sendMessage(new InfoMessage(Constants.WAITING));
+                    client.sendMessage(new InfoMessage(Constants.WAITING,false));
                     if (fourPlayersExpert.size() == 4){
                         client.sendMessage(new ConnectionIdMessage(3,true));
                         createGameHandler(6);}

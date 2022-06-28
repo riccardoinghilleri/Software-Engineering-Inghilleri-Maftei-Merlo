@@ -74,7 +74,7 @@ public class CharacterCardController implements GuiController {
         cardName.setText(card.getName().toString().toUpperCase());
         cardImg.setImage(new Image(Objects.requireNonNull(getClass()
                 .getResourceAsStream("/graphics/characterCards/" + card.getName().toString().toLowerCase() + ".jpg"))));
-        studentsPane.setVisible(card instanceof CharacterCardwithStudents);
+        studentsPane.setVisible(false); //cambiamento
         switch (card.getName()) {
             case QUEEN:
             case PRIEST: //isole e colore dello studente
@@ -85,6 +85,9 @@ public class CharacterCardController implements GuiController {
                 if (!alreadyAskedMovements) {
                     infoText.setText("HOW MANY STUDENTS DO YOU WANT TO CHANGE?");
                     alreadyAskedMovements = true;
+                    movements_textField.clear();
+                    movements_textField.setDisable(false);
+                    right.setDisable(false);
                     movements_textField.setVisible(true);
                     right.setVisible(true);
                 } else {
@@ -101,6 +104,9 @@ public class CharacterCardController implements GuiController {
                 if (!alreadyAskedMovements) {
                     infoText.setText("HOW MANY STUDENTS DO YOU WANT TO CHANGE?");
                     alreadyAskedMovements = true;
+                    movements_textField.clear();
+                    movements_textField.setDisable(false);
+                    right.setDisable(false);
                     movements_textField.setVisible(true);
                     right.setVisible(true);
                 }
@@ -120,6 +126,7 @@ public class CharacterCardController implements GuiController {
                 mainSceneController.setMessage(message);
                 mainSceneController.setInfoText("Choose a Student from your entrance");
                 mainSceneController.glowEntrance(true);
+                mainSceneController.disableSchoolButtons(true);
                 break;
             case "LUMBERJACK":
             case "QUEEN":
@@ -152,6 +159,7 @@ public class CharacterCardController implements GuiController {
             right.setDisable(true);
             message.setData(Integer.parseInt(movements_textField.getText()));
             gui.getConnection().send(message);
+            movements_textField.clear();
             stage.close();
         }
     }
@@ -167,7 +175,7 @@ public class CharacterCardController implements GuiController {
     }
 
     private void enableStudentsPane(CharacterCard card) {
-        //studentsPane.setVisible(true);
+        studentsPane.setVisible(true); //cambiamento
         for (int i = 1; i <= 6; i++) {
             if (i <= ((CharacterCardwithStudents) card).getStudents().size()) {
                 ((ImageView) studentsPane.getChildren().get(i)).setImage(new Image(Objects.requireNonNull(getClass()

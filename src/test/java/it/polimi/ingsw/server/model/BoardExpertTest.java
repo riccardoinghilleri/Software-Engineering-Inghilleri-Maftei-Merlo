@@ -112,7 +112,7 @@ class BoardExpertTest {
         assertEquals(1,board.getIslands().get(0).getTowers().size());
         assertEquals(1,board.getIslands().get(1).getTowers().size());
         assertEquals(1,board.getIslands().get(2).getTowers().size());
-        board.checkNearIsland(1);
+        board.checkNearIsland(1,false);
         assertEquals(10,board.getIslands().size());
         assertEquals(3,board.getIslands().get(0).getTowers().size());
         assertEquals(3,board.getIslands().get(0).getNoEntryTile());
@@ -123,7 +123,7 @@ class BoardExpertTest {
 
         num_students=0;
         board.moveTower(0,1,"island");
-        board.checkNearIsland(0);
+        board.checkNearIsland(0,false);
         assertEquals(9,board.getIslands().size());
         assertEquals(4,board.getIslands().get(0).getTowers().size());
         for(CharacterColor c: CharacterColor.values()){

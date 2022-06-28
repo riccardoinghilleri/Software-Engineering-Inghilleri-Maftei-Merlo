@@ -279,7 +279,7 @@ class BoardTest {
         board.moveTower(0, 1, "island");
         board.moveTower(0, 2, "island");
         assertEquals(5, board.getSchoolByOwnerId(0).getTowersNumber());
-        board.checkNearIsland(1);
+        board.checkNearIsland(1,false);
         assertEquals(10, board.getIslands().size());
         assertEquals(3, board.getIslands().get(0).getTowers().size());
         for (CharacterColor c : CharacterColor.values()) {
@@ -288,7 +288,7 @@ class BoardTest {
         assertEquals(2, num_students);
         num_students = 0;
         board.moveTower(0, 1, "island");
-        board.checkNearIsland(0);
+        board.checkNearIsland(0,false);
         assertEquals(9, board.getIslands().size());
         assertEquals(4, board.getIslands().get(0).getTowers().size());
         for (CharacterColor c : CharacterColor.values()) {
@@ -302,12 +302,12 @@ class BoardTest {
         assertEquals(1,board.getIslands().get(7).getTowers().size());
         assertEquals(1,board.getIslands().get(8).getTowers().size());
 
-        board.checkNearIsland(8);
+        board.checkNearIsland(8,false);
         assertEquals(7, board.getIslands().size());
         assertEquals(6, board.getIslands().get(6).getTowers().size());
 
         board.moveTower(0, 0, "island");
-        board.checkNearIsland(0);
+        board.checkNearIsland(0,false);
         assertEquals(6, board.getIslands().size());
         assertEquals(7, board.getIslands().get(0).getTowers().size());
         assertTrue(board.getIslands().get(0).hasMotherNature());

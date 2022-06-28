@@ -16,6 +16,7 @@ import it.polimi.ingsw.enums.CharacterColor;
 
 /**
  * Main CLI client class manages the game if the player decides to play with Command Line Interface.
+ *
  * @author Riccardo Inghilleri, Manuela Merlo
  */
 public class Cli implements View {
@@ -27,11 +28,14 @@ public class Cli implements View {
     private boolean expertMode;
     private boolean alreadyAskedCard;
     private boolean alreadyAskedMovements;
+    private boolean print, displayedBoard;
 
     /**
      * The constructor of the class. It creates a new Cli instance.
      */
     public Cli() {
+        print = false;
+        displayedBoard = false;
         reader = new Scanner(System.in);
         //printer = new PrintStream(System.out);
         alreadyAskedCard = false;
@@ -56,6 +60,7 @@ public class Cli implements View {
 
     /**
      * The main class of CLI client. It instantiates a new CLI class, running it.
+     *
      * @param args of type String[] - the standard java main parameters.
      */
     public static void main(String[] args) {
@@ -68,9 +73,9 @@ public class Cli implements View {
     }
 
     /**
-     *  This method is called when a client instance has started. It asks player's nickname, Ip address and port.
-     *  It tries to establish a connection to the server through a socket.
-     *  If the connection fails, it displays a message on the CLI.
+     * This method is called when a client instance has started. It asks player's nickname, Ip address and port.
+     * It tries to establish a connection to the server through a socket.
+     * If the connection fails, it displays a message on the CLI.
      */
     public void setupConnection() {
         System.out.println(">Insert the server IP address");
@@ -110,7 +115,7 @@ public class Cli implements View {
         }
     }
 
-    public synchronized void enable(TurnMessage message) {
+    public void enable(TurnMessage message) {
         if (message.isEnable())
             stopClearBuffer();
         else startClearBuffer();
@@ -158,12 +163,13 @@ public class Cli implements View {
 
     /**
      * This method is used to display the available colors and wizards from which the player can choose.
+     *
      * @param message parameter used to send the list of colors and wizards.
      */
     //metodo utilizzando per la scelta dei colori e del wizard
     public synchronized void setupMultipleChoice(MultipleChoiceMessage message) {
         String question;
-        if (message.getAvailableChoices().size() == 1) {
+        if (message.getAvailableChoices().stream().distinct().count() == 1) {
             question = message.isColor() ? "the color" : "the wizard";
             System.out.println(">The Game has chosen " + question + " for you: " + message.getAvailableChoices().get(0));
         } else {
@@ -175,39 +181,55 @@ public class Cli implements View {
             System.out.println(question);
             connection.send(new SetupMessage(InputController.checkString(message.getAvailableChoices())));
         }
-
+        if (!message.isColor()) {
+            startClearBuffer();
+        }
     }
 
     /**
      * Method used to print a message as a string on the CLI
+     *
      * @param message type of message to display.
      */
     public synchronized void displayInfo(InfoMessage message) {
+        if (!displayedBoard && message.waitBoard()) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         System.out.println(message.getString());
+        displayedBoard = false;
     }
 
     /**
      * Method used to display the board after being updated.
+     *
      * @param message : parameter of updateBoard type, used to return the board and to draw it.
      */
     public synchronized void displayBoard(UpdateBoard message) {
         Constants.clearScreen();
         //System.out.println(message.getBoard().draw(1, 1));
-        if(message.getBoard().getGameModel().isExpertGame()){
-            System.out.println(ReducedModel.drawExpert((BoardExpert) message.getBoard(),1,1));
-        } else{
-            System.out.println(ReducedModel.draw(message.getBoard(),1,1));
+        if (message.getBoard().getGameModel().isExpertGame()) {
+            System.out.println(ReducedModel.drawExpert((BoardExpert) message.getBoard(), 1, 1));
+        } else {
+            System.out.println(ReducedModel.draw(message.getBoard(), 1, 1));
         }
+        displayedBoard = true;
+        notify();
     }
 
     /**
      * This method manages the actions that a player can do.
      * It uses a switch-case constructor according to the action contained in the
-     * @param  message -> type of message-> AskActionMessage.
      *
-     * After the player has chosen an element the boolean 'alreadyAsked' is set to false for the specified player.
+     * @param message -> type of message-> AskActionMessage.
+     *                <p>
+     *                After the player has chosen an element the boolean 'alreadyAsked' is set to false for the specified player.
      */
     public synchronized void askAction(AskActionMessage message) {
+        stopClearBuffer();
         String response;
         String temp;
         ActionMessage answer = new ActionMessage();
@@ -219,12 +241,18 @@ public class Cli implements View {
                     availablePriority.add(message.getAvailableAssistantCards().get(i).getPriority());
                 }
                 if (!alreadyAskedCard) {
+                    if (!displayedBoard) {
+                        try {
+                            wait();
+                        } catch (InterruptedException e) {}
+                    }
+                    displayedBoard=false;
                     System.out.println(">Please choose your assistant card priority\n");
                     for (int i = 0; i < message.getAvailableAssistantCards().size(); i++) {
                         if (i == 0)
-                            System.out.println(ReducedModel.draw(message.getAvailableAssistantCards().get(i),-1, 0)); //TODO strano -1
+                            System.out.println(ReducedModel.draw(message.getAvailableAssistantCards().get(i), -1, 0)); //TODO strano -1
                         else
-                            System.out.println(ReducedModel.draw(message.getAvailableAssistantCards().get(i),i * 10 + i, 7));
+                            System.out.println(ReducedModel.draw(message.getAvailableAssistantCards().get(i), i * 10 + i, 7));
                         availablePriority.add(message.getAvailableAssistantCards().get(i).getPriority());
                     }
                     alreadyAskedCard = true;
@@ -232,6 +260,7 @@ public class Cli implements View {
                 answer.setData(InputController.checkInt(availablePriority));
                 answer.setAction(Action.CHOOSE_ASSISTANT_CARD);
                 connection.send(answer);
+                startClearBuffer();
                 break;
             case CHOOSE_CHARACTER_CARD:
                 alreadyAskedMovements = false;
@@ -299,6 +328,7 @@ public class Cli implements View {
                 answer.setData(InputController.checkInt(availableIndexClouds) - 1);
                 answer.setAction(Action.CHOOSE_CLOUD);
                 connection.send(answer);
+                startClearBuffer();
                 break;
         }
     }
@@ -374,6 +404,7 @@ public class Cli implements View {
 
     /**
      * This method returns the id of the chosen island, checking that the input is in the established range
+     *
      * @param islands list of island from which to choose the desired one
      * @return the island id
      */
@@ -392,20 +423,21 @@ public class Cli implements View {
     }
 
     private Thread clearBuffer;
+    private final InputStreamReader inputStreamReader = new InputStreamReader(System.in);
 
-    private synchronized void startClearBuffer() {
+    private void startClearBuffer() {
         synchronized (this) {
+            print = true;
             clearBuffer = new Thread(() -> {
                 String result;
-                InputStreamReader inputStreamReader = new InputStreamReader(System.in);
                 Scanner scanner = new Scanner(System.in);
                 while (true) {
                     try {
                         if (inputStreamReader.ready()) {
                             result = scanner.nextLine();
                             if (result != null && result.equalsIgnoreCase("quit"))
-                                connection.send(new InfoMessage("QUIT"));
-                            else if (result != null)
+                                connection.send(new InfoMessage("QUIT",false));
+                            else if (result != null && print)
                                 System.out.println("It is not your turn.Please wait.");
                         }
                     } catch (IOException e) {
@@ -421,6 +453,7 @@ public class Cli implements View {
         if (clearBuffer != null && clearBuffer.isAlive()) {
             clearBuffer.interrupt();
             clearBuffer = null;
+            print = false;
         }
     }
 }

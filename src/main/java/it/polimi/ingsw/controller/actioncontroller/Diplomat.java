@@ -43,7 +43,7 @@ public class Diplomat implements CharacterCardStrategy {
                 gameModel.getBoard().moveTower(oldOwner, actionMessage.getData(), "school");
                 gameModel.getBoard().moveTower(newOwner, actionMessage.getData(), "island");
             }
-            gameModel.getBoard().checkNearIsland(actionMessage.getData());
+            gameModel.getBoard().checkNearIsland(actionMessage.getData(),true);
             if (gameModel.getBoard().getIslands().size() == 3) {
                 //TODO controllare se c'è un vincitore
             }

@@ -12,20 +12,25 @@ public class InfoMessage implements Message,ServerMessage{
     private String winner;
     private boolean disconnection;
 
-    public InfoMessage(String string) {
+    private boolean waitBoard;
+
+    public InfoMessage(String string, boolean waitBoard) {
         this.string = string;
         this.winner=null;
         this.disconnection=false;
+        this.waitBoard=waitBoard;
     }
-    public InfoMessage(String string, String winner){
+    public InfoMessage(String string,boolean waitBoard, String winner){
         this.string = string;
         this.winner=winner;
         this.disconnection=false;
+        this.waitBoard=waitBoard;
     }
 
-    public InfoMessage(String string, boolean disconnection){
+    public InfoMessage(String string,boolean waitBoard, boolean disconnection){
         this.string = string;
         this.winner=null;
+        this.waitBoard=waitBoard;
         this.disconnection=disconnection;
     }
     public String getString() {
@@ -36,13 +41,17 @@ public class InfoMessage implements Message,ServerMessage{
         return winner;
     }
 
+    public boolean waitBoard(){
+        return waitBoard;
+    }
+
     @Override
     public void forward(View view) {
         if(view instanceof Cli || (this.winner == null && !this.disconnection ))
             view.displayInfo(this);
         else if ( this.winner != null)
             ((Gui)view).displayWinner(this);
-        else ((Gui)view).displayDisconnectionAlert(this);
+        else if (this.disconnection) ((Gui)view).displayDisconnectionAlert(this);
     }
 
 }

@@ -164,7 +164,7 @@ public class ActionController {
                     for (int i = 0; i < towers_number && i < available_towers; i++)
                         gameModel.getBoard().moveTower(newOwner, index,"island");
                 }
-                gameModel.getBoard().checkNearIsland(index);
+                gameModel.getBoard().checkNearIsland(index,false);
             }
         }
         return newOwner;

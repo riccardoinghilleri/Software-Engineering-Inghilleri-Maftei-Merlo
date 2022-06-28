@@ -10,12 +10,8 @@ import java.net.Socket;
 
 /**
  * ClientConnection class handles the connection between the client and the server.
- *
- * @author
  */
 public class ClientConnection implements Runnable {
-    private final String serverAddress;
-    private final int serverPort;
 
     private int clientId;
     private boolean lastPlayer;
@@ -32,8 +28,8 @@ public class ClientConnection implements Runnable {
      * @throws IOException exception thrown if an error occurs
      */
     public ClientConnection(View view) throws IOException {
-        this.serverAddress = view.getAddress();
-        this.serverPort = view.getPort();
+        String serverAddress = view.getAddress();
+        int serverPort = view.getPort();
         this.active = true;
         this.lastPlayer = false;
         this.view = view;
@@ -45,7 +41,7 @@ public class ClientConnection implements Runnable {
     /**
      * Method used to send a message throw the OutStream.
      */
-    public void send(Message message) {
+    public synchronized void send(Message message) {
         if (active) {
             try {
                 os.reset();
@@ -118,13 +114,14 @@ public class ClientConnection implements Runnable {
     private void startMessageManager(Message message) {
         Thread t = new Thread(() -> {
             if (message instanceof InfoMessage && ((InfoMessage) message).getString().equalsIgnoreCase("PING"))
-                send(new InfoMessage("PING"));
+                send(new InfoMessage("PING",false));
             else {
                 manageMessage(message);
                 if (message instanceof InfoMessage && ((InfoMessage) message).getString().equalsIgnoreCase("CONNECTION_CLOSED")) {
                     closeConnection();
-                    if (view instanceof Cli)
+                    if (view instanceof Cli){
                         System.exit(0);
+                    }
                 }
             }
         });

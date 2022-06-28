@@ -136,7 +136,7 @@ public class Gui extends Application implements View {
         alert.getButtonTypes().setAll(yes, no);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == yes && connection!=null) {
-            connection.send(new InfoMessage("QUIT"));
+            connection.send(new InfoMessage("QUIT",false));
         }
     }
 
@@ -175,6 +175,7 @@ public class Gui extends Application implements View {
                     mainSceneController.setInfoText("Do you want to use a Character Card?");
                     ((CharacterCardController) (getControllerByFxmlName("characterCard.fxml")))
                             .setAlreadyAskedMovements(false);
+                    mainSceneController.glowEntrance(false);
                 });
                 break;
             case USE_CHARACTER_CARD:
@@ -188,6 +189,7 @@ public class Gui extends Application implements View {
                             .isAlreadyAskedMovements()) {
                              mainSceneController.setInfoText("Choose the Entrance Student:");
                              mainSceneController.glowEntrance(true);
+                             mainSceneController.disableSchoolButtons(true);
                     } else {
                         switch (message.getChosenCharacterCard().getName()) {
                             case DIPLOMAT:

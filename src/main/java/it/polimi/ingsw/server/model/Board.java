@@ -367,7 +367,7 @@ public class Board implements Serializable {
      *
      * @param islandPosition the island whose neighboring islands need to be checked
      */
-    public void checkNearIsland(int islandPosition) {
+    public void checkNearIsland(int islandPosition,boolean diplomat) {
         if (islands.get(islandPosition).getTowers().isEmpty())
             return;
         //controllo che l'isola adiacente successiva abbia delle torri
@@ -381,8 +381,13 @@ public class Board implements Serializable {
                 for (int i = 0; i < islands.get((islandPosition + 1) % islands.size()).getNoEntryTile(); i++)
                     islands.get(islandPosition).setNoEntryTile(true);
             islands.remove((islandPosition + 1) % islands.size());
+            if (islandPosition == islands.size()) islandPosition--;
+            if(!diplomat || Math.abs(islandPosition-motherNaturePosition)==1){
+                islands.get(islandPosition).setMotherNature(true);
+                motherNaturePosition = islandPosition;
+            }
         }
-        if (islandPosition == islands.size()) islandPosition--;
+        //if (islandPosition == islands.size()) islandPosition--;
         int position = islandPosition - 1;
         if (position == -1)
             position = islands.size() - 1;
@@ -401,14 +406,16 @@ public class Board implements Serializable {
             if (position == islands.size())
                 position--;
             //posizione madre natura : 0 se islandPosition è 0 altrimenti position
+            if(!diplomat || Math.abs(islandPosition-motherNaturePosition)==1){
             islands.get(islandPosition==0?islandPosition:position).setMotherNature(true);
             motherNaturePosition = position;
-        } else {
+            }
+        } /*else {
             //nel caso in cui tolgo l'isola 0, index out of bound
             //islands.get(motherNaturePosition).setMotherNature(false);
             islands.get(islandPosition).setMotherNature(true);
             motherNaturePosition = islandPosition;
-        }
+        }*/
     }
 
     /**

@@ -44,7 +44,7 @@ public class MainSceneController implements GuiController {
     @FXML
     Circle green_Circle, red_Circle, yellow_Circle, pink_Circle, blue_Circle;
     @FXML
-    Button shopBtn, noBtn;
+    Button shopBtn, noBtn, right ,left;
 
     private School[] school;
     private int[] coins;
@@ -52,6 +52,7 @@ public class MainSceneController implements GuiController {
     private String studentColor = null;
     private ActionMessage message;
 
+    //TODO CONTROLLA L'USO DEL DISABLESCHOOLBUTTONS
     public void setAction(Action action) {
         this.message = new ActionMessage();
         this.message.setAction(action);
@@ -90,6 +91,11 @@ public class MainSceneController implements GuiController {
         return shopBtn;
     }
 
+    public void disableSchoolButtons(boolean disable){
+        right.setDisable(disable);
+        left.setDisable(disable);
+    }
+
     public void sendMessage(MouseEvent event) {
         if (event.getSource() instanceof Circle) {
             ((Circle) event.getSource()).setVisible(false);
@@ -101,6 +107,8 @@ public class MainSceneController implements GuiController {
             message.setParameter(((Circle) event.getSource()).getId().split("_")[0].toUpperCase());
             ((Circle) event.getSource()).setFill(Color.WHITE);
             glowDiningroom(false);
+            disableSchoolButtons(false);
+            studentColor=null;
         }
         disableAllIslandsBroke();
         gui.getConnection().send(message);
@@ -237,6 +245,8 @@ public class MainSceneController implements GuiController {
         if (message.getAction() == Action.USE_CHARACTER_CARD
                 && message.getCharacterCardName().equalsIgnoreCase("CLOWN")) {
             gui.getConnection().send(message);
+            disableSchoolButtons(false);
+            studentColor=null;
         }
     }
 
@@ -301,7 +311,7 @@ public class MainSceneController implements GuiController {
 
         } else {
             schoolPane.setDisable(false);
-            glowEntrance(true);
+            glowEntrance(message.getAction()==Action.DEFAULT_MOVEMENTS);
             if (studentColor != null)
                 glowDiningroom(studentColor, true);
         }
@@ -519,7 +529,7 @@ public class MainSceneController implements GuiController {
             shape.getChildren().get(8).setVisible(message.getBoard().getIslands().get(i).hasNoEntryTile());
             shape.getChildren().get(9).setVisible(message.getBoard().getIslands().get(i).hasNoEntryTile());
             if (message.getBoard().getIslands().get(i).hasNoEntryTile()) {
-                ((Label) shape.getChildren().get(9)).setText("x1"); //TODO fare il caso con più NoEntryTile dopo il merge
+                ((Label) shape.getChildren().get(9)).setText("x"+message.getBoard().getIslands().get(i).getNoEntryTile()); //TODO fare il caso con più NoEntryTile dopo il merge
             }
             if (!message.getBoard().getIslands().get(i).getTowers().isEmpty()) {
                 ((ImageView) shape.getChildren().get(10))

@@ -29,6 +29,8 @@ class GameModelTest {
     public void testCreateBoard() {
         assertNull(gameModelExpert.getBoard());
         assertNull(gameModelNormal.getBoard());
+        gameModelNormal.createPlayer("Dani",0);
+        gameModelExpert.createPlayer("Ricky",0);
         gameModelExpert.createBoard();
         gameModelNormal.createBoard();
         assertNotNull(gameModelExpert.getBoard());

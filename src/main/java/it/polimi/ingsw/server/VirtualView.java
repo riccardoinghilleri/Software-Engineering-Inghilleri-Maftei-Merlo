@@ -25,8 +25,8 @@ public class VirtualView implements Runnable {
     private final Socket socket;
     private final Server server;
     private GameHandler gameHandler;
-    private ObjectInputStream is;
-    private ObjectOutputStream os;
+    private final ObjectInputStream is;
+    private final ObjectOutputStream os;
 
     //private Thread pinger;
     private Thread timer;
@@ -34,7 +34,7 @@ public class VirtualView implements Runnable {
      * The constructor of the class.
      * It needs a socket and the server.
      */
-    public VirtualView(Socket socket, Server server) {
+    public VirtualView(Socket socket, Server server) throws IOException {
         this.socket = socket;
         this.clientId = -1;
         this.inGame = false;
@@ -42,6 +42,8 @@ public class VirtualView implements Runnable {
         this.alreadySettings = false;
         active = new AtomicBoolean(false);
         closed = new AtomicBoolean(false);
+        os = new ObjectOutputStream(socket.getOutputStream());
+        is = new ObjectInputStream(socket.getInputStream());
         //ping_response = new AtomicBoolean(false);
     }
 
@@ -66,9 +68,6 @@ public class VirtualView implements Runnable {
     @Override
     public void run() {
         try {
-            os = new ObjectOutputStream(socket.getOutputStream());
-            is = new ObjectInputStream(socket.getInputStream());
-
             active.set(true);
 
             //startPinger();
@@ -97,15 +96,15 @@ public class VirtualView implements Runnable {
      * Method to send a message throw the output stream
      */
     public synchronized void sendMessage(Message message) {
-        if (message instanceof AskActionMessage)
-            startTimer();
-        try {
-            os.writeObject(message);
-            os.flush();
-            os.reset();
-        } catch (IOException e) {
-            closeConnection(false, false);
-        }
+            if (message instanceof AskActionMessage)
+                startTimer();
+            try {
+                os.writeObject(message);
+                os.flush();
+                os.reset();
+            } catch (IOException e) {
+                closeConnection(false, false);
+            }
     }
 
     /**
@@ -120,14 +119,14 @@ public class VirtualView implements Runnable {
             active.set(false);
 
             if (timerEnded) {
-                sendMessage(new InfoMessage("TIMER_ENDED"));
+                sendMessage(new InfoMessage("TIMER_ENDED",false));
                 gameHandler.endGame(clientId);
             } else stopTimer();
 
             if (quit && gameHandler!=null)
                 gameHandler.endGame(clientId);
 
-            sendMessage(new InfoMessage("CONNECTION_CLOSED"));
+            sendMessage(new InfoMessage("CONNECTION_CLOSED",false));
 
             //per non avere SocketException lato client se cerca di inviare un messaggio dopo che
             //è stata chiusa la connessione

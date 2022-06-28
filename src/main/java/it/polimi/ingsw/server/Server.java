@@ -23,7 +23,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class Server implements Runnable {
     private static int port;
-    private int currentGameId;
+    //private int currentGameId;
 
     private ServerSocket serverSocket;
 
@@ -38,7 +38,7 @@ public class Server implements Runnable {
     //pool di thread che gestisce le connessioni dei client
     private final ExecutorService executor;
 
-    //TODO per accedere alle code e alla lista dei Game potrebbe essere necessario lockare
+    //TODO per accedere alle code e alla lista dei Game potrebbe essere necessario lock
     //un client potrebbe chiamare il metodo addClientConnection che accede ad una coda e il server potrebbe chiamare createGame
     ReentrantLock lockQueue = new ReentrantLock(true);
     ReentrantLock lockGames = new ReentrantLock(true);
@@ -48,7 +48,7 @@ public class Server implements Runnable {
      */
     public Server() {
         this.executor = Executors.newCachedThreadPool(); //creo pool di thread concorrenti
-        this.currentGameId = 1;
+        //this.currentGameId = 1;
         this.activeGames = new ArrayList<>();
         this.twoPlayersNormal = new ArrayList<>();
         this.twoPlayersExpert = new ArrayList<>();
@@ -177,31 +177,31 @@ public class Server implements Runnable {
         try {
             switch (queue) {
                 case 1:
-                    activeGames.add(new GameHandler(currentGameId, false, twoPlayersNormal, this));
+                    activeGames.add(new GameHandler(/*currentGameId, */false, twoPlayersNormal, this));
                     twoPlayersNormal.clear();
                     break;
                 case 2:
-                    activeGames.add(new GameHandler(currentGameId, true, twoPlayersExpert, this));
+                    activeGames.add(new GameHandler(/*currentGameId,*/ true, twoPlayersExpert, this));
                     twoPlayersExpert.clear();
                     break;
                 case 3:
-                    activeGames.add(new GameHandler(currentGameId, false, threePlayersNormal, this));
+                    activeGames.add(new GameHandler(/*currentGameId,*/ false, threePlayersNormal, this));
                     threePlayersNormal.clear();
                     break;
                 case 4:
-                    activeGames.add(new GameHandler(currentGameId, true, threePlayersExpert, this));
+                    activeGames.add(new GameHandler(/*currentGameId,*/ true, threePlayersExpert, this));
                     threePlayersExpert.clear();
                     break;
                 case 5:
-                    activeGames.add(new GameHandler(currentGameId, false, fourPlayersNormal, this));
+                    activeGames.add(new GameHandler(/*currentGameId,*/ false, fourPlayersNormal, this));
                     fourPlayersNormal.clear();
                     break;
                 case 6:
-                    activeGames.add(new GameHandler(currentGameId, true, fourPlayersExpert, this));
+                    activeGames.add(new GameHandler(/*currentGameId,*/ true, fourPlayersExpert, this));
                     fourPlayersExpert.clear();
                     break;
             }
-            currentGameId++;
+            //currentGameId++;
         } finally {
             lockGames.unlock();
         }
@@ -229,7 +229,6 @@ public class Server implements Runnable {
         Constants.clearScreen();
         //Constants.clearScreen();
         System.out.println(Constants.SERVER_STATUS);
-        //System.out.println("Inghilleri Riccardo - Maftei Daniela - Merlo Manuela\n");
         return "Queues' Status: \n" +
                 "1) TwoPlayersNormal: " + twoPlayersNormal.size() + " players\n" +
                 "2) TwoPlayersExpert: " + twoPlayersExpert.size() + " players\n" +

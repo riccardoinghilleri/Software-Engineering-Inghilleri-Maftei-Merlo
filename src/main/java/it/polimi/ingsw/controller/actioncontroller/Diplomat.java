@@ -35,18 +35,18 @@ public class Diplomat implements CharacterCardStrategy {
         //se nessuno controlla isola non faccio cambiamenti
         if (newOwner != -1) {
             //se l'isola non contiene torri sposto le torri dalla scuola all'isola
-            if (gameModel.getBoard().getIslands().get(actionMessage.getData()).getTowers().isEmpty()) {
+            if (oldOwner==-1) {
                 gameModel.getBoard().moveTower(newOwner, actionMessage.getData(), "island");
             }
             //altrimenti tolgo le tower presenti e metto quelle del nuovo owner
             else if (newOwner != oldOwner) {
+                int towers_number = gameModel.getBoard().getIslands().get(actionMessage.getData()).getTowers().size();
+                int available_towers = gameModel.getBoard().getSchoolByOwnerId(newOwner).getTowersNumber();
                 gameModel.getBoard().moveTower(oldOwner, actionMessage.getData(), "school");
-                gameModel.getBoard().moveTower(newOwner, actionMessage.getData(), "island");
+                for (int i = 0; i < towers_number && i < available_towers; i++)
+                    gameModel.getBoard().moveTower(newOwner, actionMessage.getData(), "island");
             }
             gameModel.getBoard().checkNearIsland(actionMessage.getData(),true);
-            if (gameModel.getBoard().getIslands().size() == 3) {
-                //TODO controllare se c'è un vincitore
-            }
         }
     }
 }

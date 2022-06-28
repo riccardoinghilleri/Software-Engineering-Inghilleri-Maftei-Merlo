@@ -14,17 +14,16 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
 
-import java.util.stream.Collectors;
 
 /**
- *  This class that represents the actual Game.
- *  It receives from the server, after the latter accepts the connections and put each connection in the correct queue,
- *  a list of the players, the game id and the game mode.
- *  * Tha gameHandler can be found in different phases( SETUP_NICKNAME,SETUP_COLOR,SETUP_WIZARD,PIANIFICATION,ACTION)
- *  Since multiple games are allowed, each different game has its gameHandler.
+ * This class that represents the actual Game.
+ * It receives from the server, after the latter accepts the connections and put each connection in the correct queue,
+ * a list of the players, the game id and the game mode.
+ * * Tha gameHandler can be found in different phases( SETUP_NICKNAME,SETUP_COLOR,SETUP_WIZARD,PIANIFICATION,ACTION)
+ * Since multiple games are allowed, each different game has its gameHandler.
  */
 public class GameHandler implements PropertyChangeListener {
-    private final int gameId; //TODO non so se serve
+    //private final int gameId;
     private final int playersNumber;
     private int currentClientConnection;
     private final GameModel gameModel;
@@ -41,13 +40,14 @@ public class GameHandler implements PropertyChangeListener {
     private final Controller controller;
 
     private String error;
+
     /**
      * The constructor of the class.
      * It needs the gameID, expertMode,list of players and server
      **/
-    public GameHandler(int gameId, boolean expertMode, List<VirtualView> clients, Server server) {
-        this.gameId = gameId;
-        this.error=null;
+    public GameHandler(/*int gameId, */boolean expertMode, List<VirtualView> clients, Server server) {
+        //this.gameId = gameId;
+        this.error = null;
         this.playersNumber = clients.size();
         this.currentClientConnection = 0;
         this.clients = new ArrayList<>(clients);
@@ -63,9 +63,10 @@ public class GameHandler implements PropertyChangeListener {
         this.turnNumber = 0;
         this.availableColors = PlayerColor.getColors(playersNumber);
         this.availableWizards = Wizard.getWizards();
-        sendAll(new InfoMessage(">The match is started...",false));
+        sendAll(new InfoMessage(">The match is started...", false));
         setupGame();
     }
+
     /**
      * This method manages the messages from the client connection according to the phase in which it can be found.
      * If a player tries to make a move while it is not his turn, he will receive a message and be told to wait.
@@ -73,7 +74,7 @@ public class GameHandler implements PropertyChangeListener {
     //Gestisce i messaggi ricevuti dalla client connection
     public void manageMessage(VirtualView client, Message message) {
         if (currentClientConnection != client.getClientId()) {
-            client.sendMessage(new InfoMessage(">It is not your turn! Please wait.",false));
+            client.sendMessage(new InfoMessage(">It is not your turn! Please wait.", false));
         } else {
             if (phase == GameHandlerPhase.SETUP_NICKNAME) {
                 setupNickname((SetupMessage) message);
@@ -81,7 +82,7 @@ public class GameHandler implements PropertyChangeListener {
                 gameModel.getPlayerById(client.getClientId()).setColor(((SetupMessage) message).getString());
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
                         + gameModel.getPlayerById(currentClientConnection).getNickname()
-                        + " has chosen " + ((SetupMessage) message).getString(),false));
+                        + " has chosen " + ((SetupMessage) message).getString(), false));
                 availableColors.remove(PlayerColor.valueOf(((SetupMessage) message).getString().toUpperCase()));
                 phase = GameHandlerPhase.SETUP_WIZARD;
                 setupGame();
@@ -94,7 +95,7 @@ public class GameHandler implements PropertyChangeListener {
                     turnNumber = 1;
                     phase = GameHandlerPhase.PLANNING;
                     gameModel.createBoard();
-                    for(VirtualView view:clients){
+                    for (VirtualView view : clients) {
                         view.sendMessage(new ConnectionIdMessage(clients.indexOf(view)));
                     }
                     planningTurn(false);
@@ -109,8 +110,7 @@ public class GameHandler implements PropertyChangeListener {
                     boolean done = !controller.setAssistantCard((ActionMessage) message);
                     if (controller.getPhase() == Action.CHOOSE_ASSISTANT_CARD) {
                         planningTurn(done);
-                    }
-                    else if (controller.getPhase() == Action.DEFAULT_MOVEMENTS
+                    } else if (controller.getPhase() == Action.DEFAULT_MOVEMENTS
                             || controller.getPhase() == Action.CHOOSE_CHARACTER_CARD) {
                         phase = GameHandlerPhase.ACTION;
                         sendAll(new UpdateBoard(gameModel.getBoard()));
@@ -119,7 +119,7 @@ public class GameHandler implements PropertyChangeListener {
                 } else if (phase == GameHandlerPhase.ACTION) {
                     error = controller.nextAction((ActionMessage) message);
                     if (error != null) {
-                        clients.get(currentClientConnection).sendMessage(new InfoMessage(error,false));
+                        clients.get(currentClientConnection).sendMessage(new InfoMessage(error, false));
                     } else {
                         sendAll(new UpdateBoard(gameModel.getBoard()));
                     }
@@ -135,6 +135,7 @@ public class GameHandler implements PropertyChangeListener {
             }
         }
     }
+
     /**
      * This method manages the setting of the game parameters (nickname, color and magician) for each player,
      * according to their order connection to the server. Here the type of message sent from the client is a 'SetUpMessage'.
@@ -144,20 +145,21 @@ public class GameHandler implements PropertyChangeListener {
         if (phase == GameHandlerPhase.SETUP_NICKNAME) {
             clients.get(currentClientConnection).sendMessage(new NicknameMessage(false));
             sendAllExcept(currentClientConnection, new InfoMessage(">The player #"
-                    + (currentClientConnection + 1) + " is choosing his nickname...",false));
+                    + (currentClientConnection + 1) + " is choosing his nickname...", false));
         } else if (phase == GameHandlerPhase.SETUP_COLOR) {
-            clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(availableColors,true));
-            if (availableColors.stream().distinct().collect(Collectors.toList()).size() > 1) {
+            clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(availableColors, true));
+            if (availableColors.stream().distinct().count() > 1) {
                 //clients.get(currentClientConnection).sendMessage(new InfoMessage("Please choose your color:"));
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
-                        + gameModel.getPlayerById(currentClientConnection).getNickname() + " is choosing his color...",false));
+                        + gameModel.getPlayerById(currentClientConnection).getNickname() + " is choosing his color...", false));
             } else {
                 /*clients.get(currentClientConnection)
                         .sendMessage(new InfoMessage(">The Game has chosen the color for you.\n" +
                                 ">Your color is " + availableColors.get(0)));
-                */sendAllExcept(currentClientConnection, new InfoMessage(">The game assigned to "
+                */
+                sendAllExcept(currentClientConnection, new InfoMessage(">The game assigned to "
                         + gameModel.getPlayerById(currentClientConnection).getNickname() + " the last color: "
-                        + availableColors.get(0).toString(),false));
+                        + availableColors.get(0).toString(), false));
                 gameModel.getPlayerById(currentClientConnection).setColor(availableColors.get(0).toString());
                 availableColors.remove(0);
                 phase = GameHandlerPhase.SETUP_WIZARD;
@@ -168,18 +170,18 @@ public class GameHandler implements PropertyChangeListener {
             if (availableWizards.size() > 1) {
                 //clients.get(currentClientConnection).sendMessage(new InfoMessage("Please choose your wizard:"));
                 sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel
-                        .getPlayerById(currentClientConnection).getNickname() + " is choosing his wizard...",false));
+                        .getPlayerById(currentClientConnection).getNickname() + " is choosing his wizard...", false));
             } else {
                 sendAllExcept(currentClientConnection, new InfoMessage(">The game assigned to "
                         + gameModel.getPlayerById(currentClientConnection).getNickname() + " the last wizard: "
-                        + availableWizards.get(0).toString(),false));
+                        + availableWizards.get(0).toString(), false));
                 gameModel.getPlayerById(currentClientConnection).getDeck().setWizard(availableWizards.get(0).toString());
                 setClientIdOrder();
-                Collections.sort(clients, new IdComparator());
+                clients.sort(new IdComparator());
                 turnNumber = 1;
                 phase = GameHandlerPhase.PLANNING;
                 gameModel.createBoard();
-                for(VirtualView view:clients){
+                for (VirtualView view : clients) {
                     view.sendMessage(new ConnectionIdMessage(clients.indexOf(view)));
                 }
                 planningTurn(false);
@@ -188,7 +190,7 @@ public class GameHandler implements PropertyChangeListener {
     }
 
     /**
-     *Method planningTurn manages cloud filling and the selection of Assistant Card
+     * Method planningTurn manages cloud filling and the selection of Assistant Card
      */
     private void planningTurn(boolean askAgain) {
         if (controller.getPhase() == Action.SETUP_CLOUD) {
@@ -200,21 +202,22 @@ public class GameHandler implements PropertyChangeListener {
             //sendAllExcept(currentClientConnection, new TurnMessage(false));
             //clients.get(currentClientConnection).sendMessage(new TurnMessage(true));
             sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel
-                    .getCurrentPlayer().getNickname() + " is choosing the AssistantCard...",true));
+                    .getCurrentPlayer().getNickname() + " is choosing the AssistantCard...", true));
             clients.get(currentClientConnection)
                     .sendMessage(new AskActionMessage(controller.getPhase(), gameModel
                             .getCurrentPlayer().getDeck().getAssistantCards()));
         } else {
             clients.get(currentClientConnection)
                     .sendMessage(new InfoMessage(">You can not choose this assistant card. " +
-                            "Please choose another one.",false));
+                            "Please choose another one.", false));
             sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel
-                    .getCurrentPlayer().getNickname() + " chosen an invalid Assistant Card...",false));
+                    .getCurrentPlayer().getNickname() + " chosen an invalid Assistant Card...", false));
             clients.get(currentClientConnection)
                     .sendMessage(new AskActionMessage(controller.getPhase(), gameModel
                             .getCurrentPlayer().getDeck().getAssistantCards()));
         }
     }
+
     /**
      * Method actionTurn manages the actual game round
      */
@@ -226,9 +229,9 @@ public class GameHandler implements PropertyChangeListener {
             case CHOOSE_CHARACTER_CARD:
                 askActionMessage = new AskActionMessage(controller.getPhase(),
                         ((BoardExpert) gameModel.getBoard()).getCharacterCards());
-                if (error==null)
+                if (error == null)
                     sendAllExcept(currentClientConnection, new InfoMessage(">"
-                        + gameModel.getCurrentPlayer().getNickname() + " is deciding whether to use a card...",error==null));
+                            + gameModel.getCurrentPlayer().getNickname() + " is deciding whether to use a card...", error == null));
                 break;
             case USE_CHARACTER_CARD:
                 askActionMessage = new AskActionMessage(controller.getPhase(),
@@ -236,36 +239,43 @@ public class GameHandler implements PropertyChangeListener {
                         gameModel.getBoard().getIslands(), gameModel.getBoard()
                         .getSchoolByOwnerId(gameModel.getCurrentPlayer().getClientID()));
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
-                        + gameModel.getCurrentPlayer().getNickname() + " is using the card: "+ controller.getCharacterCardName(),error==null));
+                        + gameModel.getCurrentPlayer().getNickname() + " is using the card: " + controller.getCharacterCardName(), error == null));
                 break;
             case DEFAULT_MOVEMENTS:
                 askActionMessage = new AskActionMessage(controller.getPhase(), gameModel.getBoard()
                         .getSchoolByOwnerId(gameModel.getCurrentPlayer().getClientID()),
                         gameModel.getBoard().getIslands());
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
-                        + gameModel.getCurrentPlayer().getNickname() + " is moving a student from the Entrance...",error==null));
+                        + gameModel.getCurrentPlayer().getNickname() + " is moving a student from the Entrance...", error == null));
                 break;
             case MOVE_MOTHER_NATURE:
-                if (controller.getCharacterCardName() == null || !controller.getCharacterCardName().equalsIgnoreCase("POSTMAN"))
+                int increment = 0;
+                /*if (controller.getCharacterCardName() == null || !controller.getCharacterCardName().equalsIgnoreCase("POSTMAN"))
                     askActionMessage = new AskActionMessage(controller.getPhase(), gameModel
                             .getPlayerById(currentClientConnection)
                             .getChosenAssistantCard().getMotherNatureSteps());
                 else if (controller.getCharacterCardName().equalsIgnoreCase("POSTMAN"))
                     askActionMessage = new AskActionMessage(controller.getPhase(), gameModel
                             .getPlayerById(currentClientConnection)
-                            .getChosenAssistantCard().getMotherNatureSteps() + 2);
+                            .getChosenAssistantCard().getMotherNatureSteps() + 2);*/
+                if (controller.getCharacterCardName() != null && controller.getCharacterCardName().equalsIgnoreCase("POSTMAN"))
+                    increment = 2;
+                askActionMessage = new AskActionMessage(controller.getPhase(), gameModel
+                        .getPlayerById(currentClientConnection)
+                        .getChosenAssistantCard().getMotherNatureSteps() + increment);
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
-                        + gameModel.getCurrentPlayer().getNickname() + " is choosing where to move mother nature...",error==null));
+                        + gameModel.getCurrentPlayer().getNickname() + " is choosing where to move mother nature...", error == null));
                 break;
             case CHOOSE_CLOUD:
                 askActionMessage = new AskActionMessage(controller.getPhase(), gameModel
                         .getBoard().getClouds());
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
-                        + gameModel.getCurrentPlayer().getNickname() + " is choosing the cloud...",error==null));
+                        + gameModel.getCurrentPlayer().getNickname() + " is choosing the cloud...", error == null));
                 break;
         }
         clients.get(currentClientConnection).sendMessage(askActionMessage);
     }
+
     /**
      * This method is called when each player chooses his nickname,
      * telling the other players what name the current player has chosen.
@@ -279,20 +289,22 @@ public class GameHandler implements PropertyChangeListener {
             }
         }
         sendAllExcept(currentClientConnection, new InfoMessage(">The player #"
-                + (currentClientConnection + 1) + " has chosen his nickname: " + message.getString(),false));
+                + (currentClientConnection + 1) + " has chosen his nickname: " + message.getString(), false));
         gameModel.createPlayer(message.getString(), currentClientConnection);
         phase = GameHandlerPhase.SETUP_COLOR;
         setupGame();
     }
+
     /**
      * This method is called when a player wants to disconnect.
      * All the connections are closed and the server removes the gameHandler from the list of active games
+     *
      * @param disconnected the client id who wants to disconnect
      */
     public void endGame(int disconnected) {
         String player = gameModel.getPlayerById(disconnected) != null ? gameModel.getPlayerById(disconnected).getNickname() : "The client #" + (disconnected + 1);
         sendAllExcept(disconnected, new InfoMessage(">" + player
-                + " has disconnected, the match will now end" + "\nThanks for playing!",false,true));
+                + " has disconnected, the match will now end" + "\nThanks for playing!", false, true));
         clients.remove(clients.get(disconnected));
         for (VirtualView client : clients) {
             client.closeConnection(false, false);
@@ -300,6 +312,7 @@ public class GameHandler implements PropertyChangeListener {
         server.removeGameHandler(this);
         //TODO implementare il reset del game se vogliono rigiocare
     }
+
     /**
      * This method tells to all players the winner.
      * It notifies each player of the disconnection.
@@ -308,9 +321,9 @@ public class GameHandler implements PropertyChangeListener {
     public void endGame() {
         sendAll(new UpdateBoard(gameModel.getBoard()));
         String winner = gameModel.getWinner() != null ? gameModel.getWinner().getNickname() : "draw";
-        String result = !winner.equalsIgnoreCase("draw")? (">The winner is " + winner
+        String result = !winner.equalsIgnoreCase("draw") ? (">The winner is " + winner
                 + "!" + "\nThanks for playing!") : "There are no winners. The match ended in a draw!";
-        InfoMessage message = new InfoMessage(result,false,winner);
+        InfoMessage message = new InfoMessage(result, false, winner);
         sendAll(message);
         for (VirtualView client : clients) {
             client.closeConnection(false, false);
@@ -328,6 +341,7 @@ public class GameHandler implements PropertyChangeListener {
         this.gameModel.createBoard();
         planningTurn();
     }*/
+
     /**
      * This method sends the same message to all the clients
      */
@@ -336,6 +350,7 @@ public class GameHandler implements PropertyChangeListener {
             client.sendMessage(message);
         }
     }
+
     /**
      * This method sends the same message to all the clients, except the one specified in the parameter client id
      */
@@ -370,7 +385,7 @@ public class GameHandler implements PropertyChangeListener {
                 endGame();
                 break;
             case "set_assistantCard":
-                sendAllExcept(gameModel.getCurrentPlayer().getClientID(), new InfoMessage(">" + gameModel.getCurrentPlayer().getNickname() + " has chosen che AssistantCard with priority #" + ((ActionMessage) evt.getNewValue()).getData(),false));
+                sendAllExcept(gameModel.getCurrentPlayer().getClientID(), new InfoMessage(">" + gameModel.getCurrentPlayer().getNickname() + " has chosen che AssistantCard with priority #" + ((ActionMessage) evt.getNewValue()).getData(), false));
                 break;
             case "change_turn":
                 //clients.get((Integer)evt.getNewValue()).sendMessage(new TurnMessage(true));

@@ -55,10 +55,6 @@ public class Controller {
         availableActions = new ArrayList<>();
     }
 
-    public int getPlayerTurnNumber() {
-        return playerTurnNumber;
-    }
-
     /**
      * This method returns the character card name
      */
@@ -196,10 +192,15 @@ public class Controller {
                         actionController.useCharacterCardEffect(actionMessage);
                         characterCardMovements++;
                         if (characterCardName.equalsIgnoreCase("DIPLOMAT")) {
-                            for (School s : gameModel.getBoard().getSchools()) {
-                                if (s.getTowersNumber() == 0) {
-                                    gameModel.setWinner(gameModel.getPlayerById(s.getOwnerId()));
-                                    listeners.firePropertyChange("end_game", null, null);
+                            if (gameModel.getBoard().getIslands().size() == 3) {
+                                gameModel.getBoard().findWinner();
+                                listeners.firePropertyChange("end_game", null, null);
+                            } else {
+                                for (School s : gameModel.getBoard().getSchools()) {
+                                    if (s.getTowersNumber() == 0) {
+                                        gameModel.setWinner(gameModel.getPlayerById(s.getOwnerId()));
+                                        listeners.firePropertyChange("end_game", null, null);
+                                    }
                                 }
                             }
                         }

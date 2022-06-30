@@ -230,6 +230,12 @@ public class Cli implements View {
      */
     public synchronized void askAction(AskActionMessage message) {
         stopClearBuffer();
+        if (!displayedBoard) {
+            try {
+                wait();
+            } catch (InterruptedException e) {}
+        }
+        displayedBoard = false;
         String response;
         String temp;
         ActionMessage answer = new ActionMessage();
@@ -241,12 +247,6 @@ public class Cli implements View {
                     availablePriority.add(message.getAvailableAssistantCards().get(i).getPriority());
                 }
                 if (!alreadyAskedCard) {
-                    if (!displayedBoard) {
-                        try {
-                            wait();
-                        } catch (InterruptedException e) {}
-                    }
-                    displayedBoard=false;
                     System.out.println(">Please choose your assistant card priority\n");
                     for (int i = 0; i < message.getAvailableAssistantCards().size(); i++) {
                         if (i == 0)
@@ -436,7 +436,7 @@ public class Cli implements View {
                         if (inputStreamReader.ready()) {
                             result = scanner.nextLine();
                             if (result != null && result.equalsIgnoreCase("quit"))
-                                connection.send(new InfoMessage("QUIT",false));
+                                connection.send(new InfoMessage("QUIT", false));
                             else if (result != null && print)
                                 System.out.println("It is not your turn.Please wait.");
                         }

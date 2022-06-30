@@ -5,7 +5,6 @@ import it.polimi.ingsw.controller.actioncontroller.*;
 import it.polimi.ingsw.enums.Action;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
-import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.model.*;
 
 import java.beans.PropertyChangeSupport;

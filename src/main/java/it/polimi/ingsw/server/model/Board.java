@@ -367,7 +367,7 @@ public class Board implements Serializable {
      *
      * @param islandPosition the island whose neighboring islands need to be checked
      */
-    public void checkNearIsland(int islandPosition,boolean diplomat) {
+    public void checkNearIsland(int islandPosition, boolean diplomat) {
         if (islands.get(islandPosition).getTowers().isEmpty())
             return;
         //controllo che l'isola adiacente successiva abbia delle torri
@@ -382,9 +382,13 @@ public class Board implements Serializable {
                     islands.get(islandPosition).setNoEntryTile(true);
             islands.remove((islandPosition + 1) % islands.size());
             if (islandPosition == islands.size()) islandPosition--;
-            if(!diplomat || Math.abs(islandPosition-motherNaturePosition)==1){
+            if (!diplomat) {
                 islands.get(islandPosition).setMotherNature(true);
                 motherNaturePosition = islandPosition;
+            } else if (motherNaturePosition > islandPosition) { // se uso diplomat e mother nature è successiva all'isola che ho rimosso, la sposto indietro di 1
+                islands.get(motherNaturePosition).setMotherNature(false);
+                motherNaturePosition--;
+                islands.get(motherNaturePosition).setMotherNature(true);
             }
         }
         //if (islandPosition == islands.size()) islandPosition--;
@@ -401,21 +405,21 @@ public class Board implements Serializable {
                     islands.get(islandPosition).setNoEntryTile(true);
             islands.get(islandPosition).addTowers(islands.get(position).getTowers());
             islands.remove(position);
-            /*if(islands.size()>motherNaturePosition)
-                islands.get(motherNaturePosition).setMotherNature(false);*/
             if (position == islands.size())
                 position--;
             //posizione madre natura : 0 se islandPosition è 0 altrimenti position
-            if(!diplomat || Math.abs(islandPosition-motherNaturePosition)==1){
-            islands.get(islandPosition==0?islandPosition:position).setMotherNature(true);
-            motherNaturePosition = position;
+            if (!diplomat) {
+                islands.get(islandPosition == 0 ? islandPosition : position).setMotherNature(true);
+                motherNaturePosition = islandPosition == 0 ? islandPosition : position;
+            } else if (motherNaturePosition > position) {
+                if(motherNaturePosition<islands.size())
+                    islands.get(motherNaturePosition).setMotherNature(false);
+                motherNaturePosition--;
+                islands.get(islandPosition == 0 ? islandPosition : motherNaturePosition).setMotherNature(true);
+
+
             }
-        } /*else {
-            //nel caso in cui tolgo l'isola 0, index out of bound
-            //islands.get(motherNaturePosition).setMotherNature(false);
-            islands.get(islandPosition).setMotherNature(true);
-            motherNaturePosition = islandPosition;
-        }*/
+        }
     }
 
     /**

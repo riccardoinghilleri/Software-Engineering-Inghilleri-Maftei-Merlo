@@ -1,9 +1,10 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.enums.Action;
-import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.server.ConnectionMessage.*;
 import it.polimi.ingsw.enums.GameHandlerPhase;
+import it.polimi.ingsw.server.Server;
+import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.server.model.BoardExpert;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Player;
@@ -307,7 +308,7 @@ public class GameHandler implements PropertyChangeListener {
                 + " has disconnected, the match will now end" + "\nThanks for playing!", false, true));
         clients.remove(clients.get(disconnected));
         for (VirtualView client : clients) {
-            client.closeConnection(false, false);
+            client.closeConnection(false);
         }
         server.removeGameHandler(this);
         //TODO implementare il reset del game se vogliono rigiocare
@@ -326,7 +327,7 @@ public class GameHandler implements PropertyChangeListener {
         InfoMessage message = new InfoMessage(result, false, winner);
         sendAll(message);
         for (VirtualView client : clients) {
-            client.closeConnection(false, false);
+            client.closeConnection(false);
         }
         server.removeGameHandler(this);
     }

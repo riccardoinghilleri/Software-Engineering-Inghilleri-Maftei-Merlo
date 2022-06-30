@@ -92,6 +92,7 @@ public class ClientConnection implements Runnable {
 
     public synchronized void closeConnection() {
         active.set(false);
+        stopTimer();
         try {
             is.close();
             os.close();
@@ -131,6 +132,9 @@ public class ClientConnection implements Runnable {
                 Thread.sleep((long) 3 * 1000);
                 System.out.println("Your connection is unstable. You has been disconnected.\nThanks for playing!");
                 closeConnection();
+                if (view instanceof Cli) {
+                    System.exit(0);
+                }
             } catch (InterruptedException e) {
                 //e.printStackTrace();
             }

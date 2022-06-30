@@ -1,13 +1,12 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.controller.actioncontroller.*;
 import it.polimi.ingsw.enums.Action;
 import it.polimi.ingsw.enums.CharacterColor;
 import it.polimi.ingsw.enums.PlayerColor;
 import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
 import it.polimi.ingsw.server.VirtualView;
-import it.polimi.ingsw.server.model.BoardExpert;
-import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.Student;
+import it.polimi.ingsw.server.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -225,7 +224,7 @@ class ControllerTest {
             entrance_color = board.getSchoolByOwnerId(1).getEntrance().get(0).getColor();
             actionMessage.getParameters().clear();
             actionMessage.setParameter(entrance_color.toString().toUpperCase());
-            //aggiungo 1 studente di un colore nella diningroom per muovere le torri nelle isole 2/3
+            //aggiungo uno studente di un colore nella Dining Room per muovere le torri nelle isole 2/3
             board.getIslands().get(2).addStudent(new Student(entrance_color));
             board.getIslands().get(3).addStudent(new Student(entrance_color));
 
@@ -254,7 +253,7 @@ class ControllerTest {
         assertEquals("You can not move mother nature so far", controller.nextAction(actionMessage));
         assertEquals(0, board.getMotherNaturePosition());
         actionMessage.setData(2);
-        assertEquals(null, controller.nextAction(actionMessage));
+        assertNull(controller.nextAction(actionMessage));
         assertEquals(2, board.getMotherNaturePosition());
         assertFalse(board.getIslands().get(2).getTowers().isEmpty());
         assertEquals(gameModel.getPlayerById(1).getColor(), board.getIslands().get(2).getTowers().get(0).getColor());
@@ -307,7 +306,7 @@ class ControllerTest {
         assertEquals(Action.MOVE_MOTHER_NATURE, controller.getPhase());
         actionMessage.setAction(Action.MOVE_MOTHER_NATURE);
         actionMessage.setData(1);
-        assertEquals(null, controller.nextAction(actionMessage));
+        assertNull(controller.nextAction(actionMessage));
         assertEquals(2, board.getMotherNaturePosition());
         assertEquals(2, board.getIslands().get(2).getTowers().size());
         assertEquals(gameModel.getPlayerById(1).getColor(), board.getIslands().get(2).getTowers().get(0).getColor());
@@ -331,6 +330,113 @@ class ControllerTest {
         assertEquals(Action.SETUP_CLOUD, controller.getPhase());
         controller.setClouds();
         assertEquals(1, gameModel.getCurrentPlayer().getClientID());
+
+    }
+
+    @Test
+    public void testNextActionUseCharacterCard(){
+
+        ActionMessage actionMessage = new ActionMessage() ;
+
+        //USO LUMBERJACK - AGGIUNGO 2 MONETE AL PALYER CORRENTE
+        setUp();
+        set(controller, actionMessage);
+        BoardExpert board=(BoardExpert)gameModel.getBoard();
+        board.createThreeCharacterCards(4);
+        board.addCointoPlayer(1);
+        board.addCointoPlayer(1);
+        actionMessage.setAction(Action.CHOOSE_CHARACTER_CARD);
+        actionMessage.setCharacterCardName("LUMBERJACK");
+        assertNull(controller.nextAction(actionMessage));
+        assertTrue(controller.getActionController() instanceof Lumberjack);
+        assertEquals(Action.USE_CHARACTER_CARD, controller.getPhase());
+        actionMessage.setAction(Action.USE_CHARACTER_CARD);
+        actionMessage.setParameter("RED");
+        assertNull(controller.nextAction(actionMessage));
+        assertEquals(Action.DEFAULT_MOVEMENTS,controller.getPhase());
+
+        //USO CENTAUR - AGGIUNGO 2 MONETE AL PALYER CORRENTE
+        setUp();
+        set(controller, actionMessage);
+        board=(BoardExpert)gameModel.getBoard();
+        board.createThreeCharacterCards(3);
+        board.addCointoPlayer(1);
+        board.addCointoPlayer(1);
+        actionMessage.setAction(Action.CHOOSE_CHARACTER_CARD);
+        actionMessage.setCharacterCardName("CENTAUR");
+        assertNull(controller.nextAction(actionMessage));
+        assertTrue(controller.getActionController() instanceof Centaur);
+        assertEquals(Action.DEFAULT_MOVEMENTS,controller.getPhase());
+
+        //USO DINER - AGGIUNGO 2 MONETE AL PALYER CORRENTE
+        setUp();
+        set(controller, actionMessage);
+        board=(BoardExpert)gameModel.getBoard();
+        board.createThreeCharacterCards(4);
+        board.addCointoPlayer(1);
+        actionMessage.setAction(Action.CHOOSE_CHARACTER_CARD);
+        actionMessage.setCharacterCardName("DINER");
+        assertNull(controller.nextAction(actionMessage));
+        assertTrue(controller.getActionController() instanceof Diner);
+        assertEquals(Action.DEFAULT_MOVEMENTS,controller.getPhase());
+
+        //USO KNIGHT - AGGIUNGO 2 MONETE AL PALYER CORRENTE
+        setUp();
+        set(controller, actionMessage);
+        board=(BoardExpert)gameModel.getBoard();
+        board.createThreeCharacterCards(2);
+        board.addCointoPlayer(1);
+        actionMessage.setAction(Action.CHOOSE_CHARACTER_CARD);
+        actionMessage.setCharacterCardName("KNIGHT");
+        assertNull(controller.nextAction(actionMessage));
+        assertTrue(controller.getActionController() instanceof Knight);
+        assertEquals(Action.DEFAULT_MOVEMENTS,controller.getPhase());
+
+
+        //USO PERFORMER
+        setUp();
+        set(controller, actionMessage);
+        actionMessage.getParameters().clear();
+        board=(BoardExpert)gameModel.getBoard();
+        board.createThreeCharacterCards(4);
+        School school= board.getSchoolByOwnerId(1);
+        CharacterColor color1= school.getEntrance().get(0).getColor();
+        CharacterColor color2= school.getEntrance().get(1).getColor();
+        school.fromEntrancetoDiningRoom(color1);
+        school.fromEntrancetoDiningRoom(color2);
+        assertEquals(2,school.getNumDiningRoomStudents());
+        actionMessage.setAction(Action.CHOOSE_CHARACTER_CARD);
+        actionMessage.setCharacterCardName("PERFORMER");
+        assertNull(controller.nextAction(actionMessage));
+        assertEquals(Action.USE_CHARACTER_CARD, controller.getPhase());
+        actionMessage.setAction(Action.USE_CHARACTER_CARD);
+        actionMessage.setData(2);
+        assertNull(controller.nextAction(actionMessage));
+        actionMessage.setParameter(school.getEntrance().get(3).getColor().toString());
+        actionMessage.setParameter(color1.toString());
+        assertNull(controller.nextAction(actionMessage));
+        actionMessage.getParameters().clear();
+        actionMessage.setParameter(school.getEntrance().get(4).getColor().toString());
+        actionMessage.setParameter(color2.toString());
+        assertNull(controller.nextAction(actionMessage));
+        assertEquals(Action.DEFAULT_MOVEMENTS,controller.getPhase());
+
+        //USO IL DIPLOMAT
+        setUp();
+        set(controller, actionMessage);
+        board=(BoardExpert)gameModel.getBoard();
+        board.createThreeCharacterCards(2);
+        board.addCointoPlayer(1);
+        board.addCointoPlayer(1);
+        actionMessage.setAction(Action.CHOOSE_CHARACTER_CARD);
+        actionMessage.setCharacterCardName("DIPLOMAT");
+        assertNull(controller.nextAction(actionMessage));
+        assertEquals(Action.USE_CHARACTER_CARD, controller.getPhase());
+        actionMessage.setAction(Action.USE_CHARACTER_CARD);
+        actionMessage.setData(6);
+        assertNull(controller.nextAction(actionMessage));
+        assertEquals(Action.DEFAULT_MOVEMENTS,controller.getPhase());
+        assertEquals(0,board.getMotherNaturePosition());
 
     }
 

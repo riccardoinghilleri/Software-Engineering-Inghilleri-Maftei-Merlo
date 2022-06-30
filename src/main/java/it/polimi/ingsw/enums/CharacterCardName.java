@@ -8,9 +8,7 @@ public enum CharacterCardName {
     QUEEN,
     THIEF,
     KNIGHT,
-
     CLOWN,
-
     DIPLOMAT,
     POSTMAN,
     HERBOLARIA,
@@ -18,8 +16,4 @@ public enum CharacterCardName {
     LUMBERJACK,
     DINER,
     PERFORMER
-
-
-
-
 }

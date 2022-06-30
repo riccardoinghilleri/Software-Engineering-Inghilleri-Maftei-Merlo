@@ -73,6 +73,10 @@ public class Controller {
         return phase;
     }
 
+    public ActionController getActionController(){
+        return actionController;
+    }
+
     /**
      * This method calls the board to fill the clouds.
      * It moves the phase to the next one, that is CHOOSE_ASSISTANT_CARD

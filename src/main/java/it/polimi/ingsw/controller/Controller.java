@@ -9,6 +9,7 @@ import it.polimi.ingsw.server.model.*;
 
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -42,16 +43,21 @@ public class Controller {
     public Controller(GameModel gameModel, GameHandler gameHandler) {
         this.gameModel = gameModel;
         this.phase = Action.SETUP_CLOUD;
-        playerTurnNumber = 0;
-        characterCardMovements = -1;
-        defaultMovements = 0;
-        alreadyUsedCharacterCard = false;
+        this.playerTurnNumber = 0;
+        this.characterCardMovements = -1;
+        this.defaultMovements = 0;
+        this.alreadyUsedCharacterCard = false;
         this.maxCharacterCardsMovements = -1;
-        listeners = new PropertyChangeSupport(this);
-        listeners.addPropertyChangeListener("end_game", gameHandler);
-        listeners.addPropertyChangeListener("set_assistantCard", gameHandler);
-        listeners.addPropertyChangeListener("change_turn", gameHandler);
-        availableActions = new ArrayList<>();
+        this.listeners = new PropertyChangeSupport(this);
+        this.listeners.addPropertyChangeListener("end_game", gameHandler);
+        this.listeners.addPropertyChangeListener("set_assistantCard", gameHandler);
+        this.listeners.addPropertyChangeListener("change_turn", gameHandler);
+        this.availableActions = new ArrayList<>();
+        this.characterCardName = null;
+    }
+
+    public int getPlayerTurnNumber() {
+        return playerTurnNumber;
     }
 
     /**
@@ -144,6 +150,7 @@ public class Controller {
                 if (actionMessage.getCharacterCardName() == null) {
                     phase = availableActions.remove(0);
                 } else {
+                    if(((BoardExpert)gameModel.getBoard()).getCharacterCardbyName(actionMessage.getCharacterCardName())==null) return "This card is not on the Board!";
                     try {
                         checkCoins(actionMessage);
                     } catch (NotEnoughCoinsException e) {
@@ -154,32 +161,13 @@ public class Controller {
                     if (characterCardName.equalsIgnoreCase("PERFORMER") && gameModel.getBoard().getSchoolByOwnerId(gameModel.getCurrentPlayer().getClientID()).getNumDiningRoomStudents() == 0)
                         return "You can not choose this character card. You don't have enough students in your dining room!";
                     alreadyUsedCharacterCard = true;
-                    // if the strategy is not set and the character card's name is not 'lumberjack' or the name is  'postman'.
+                    // if the strategy is not set and the character card's name is not 'lumberjack' or the name is 'postman'.
                     if ((!setCharacterCardEffect(actionMessage) && !characterCardName.equalsIgnoreCase("LUMBERJACK")) || characterCardName.equalsIgnoreCase("POSTMAN")) {
                         phase = availableActions.remove(0);
                     } else phase = Action.USE_CHARACTER_CARD;
                 }
                 break;
-            case USE_CHARACTER_CARD: // in questo modo la specialcard si può usare in qualunque momento del proprio turno tranne dopo aver scelto la nuvola
-                /*if (!alreadyUsedCharacterCard && actionMessage.getCharacterCardName() == null) {
-                    phase = availableActions.remove(0);
-                } else if (!alreadyUsedCharacterCard) {
-                    try {
-                        checkCoins(actionMessage);
-                    } catch (NotEnoughCoinsException e) {
-                        System.out.println(e.getMessage());
-                        return "You have not got enough coins";
-                    }
-                    alreadyUsedCharacterCard = true;
-                    characterCardName = actionMessage.getCharacterCardName();
-                    if (!setCharacterCardEffect(actionMessage) && !characterCardName.equalsIgnoreCase("LUMBERJACK"))
-                        phase = availableActions.remove(0);
-                    characterCardName = actionMessage.getCharacterCardName();
-                } else {
-                    if (characterCardName.equalsIgnoreCase("LUMBERJACK")) {
-                        actionController = new Lumberjack(gameModel, actionMessage.getParameters().get(0));
-                        phase = availableActions.remove(0);
-                    } else*/
+            case USE_CHARACTER_CARD:
                 if (characterCardName.equalsIgnoreCase("LUMBERJACK")) {
                     ((Lumberjack) actionController).setColor(actionMessage.getParameters().get(0));
                     phase = availableActions.remove(0);
@@ -216,13 +204,13 @@ public class Controller {
                     checkPhase(actionMessage); //TODO sistemare
                     checkDefaultMovements(actionMessage);
                 } catch (IncorrectPhaseException e) {
-                    System.out.println(e.getMessage());
+                    //System.out.println(e.getMessage());
                     return "Invalid action!";
                 } catch (DefaultMovementsNumberException e) {
-                    System.out.println(e.getMessage());
+                    //System.out.println(e.getMessage());
                     return "You can not move another student from the entrance!";
                 } catch (DefaultMovementsColorException e) {
-                    System.out.println(e.getMessage());
+                    //System.out.println(e.getMessage());
                     return "There is not a student of this color in your entrance.";
                 }
                 if (actionMessage.getData() == -1) { // significa che non devo spostare studente da entrance a isola

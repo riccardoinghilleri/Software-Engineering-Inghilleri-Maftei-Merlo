@@ -182,7 +182,6 @@ public class School implements Serializable {
      * @return a student
      */
     public Student removeDiningRoomStudent(CharacterColor studentColor) {
-        //TODO  LANCIARE ECC SE NON è PRESENTE UNO STUDENTE DEL COLORE DESIDERATO
         Student student = null;
         if (diningRoom.containsKey(studentColor)) {
             student = diningRoom.get(studentColor).remove(0);
@@ -198,7 +197,6 @@ public class School implements Serializable {
      * @param studentColor color of the student
      */
     public void fromEntrancetoDiningRoom(CharacterColor studentColor)
-    //TODO  LANCIARE ECC SE NON è PRESENTE UNO STUDENTE DEL COLORE DESIDERATO
     {
         addDiningRoomStudent(removeEntranceStudent(studentColor));
     }

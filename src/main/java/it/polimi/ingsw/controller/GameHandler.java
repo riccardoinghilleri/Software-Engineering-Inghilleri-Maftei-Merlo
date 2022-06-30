@@ -68,6 +68,10 @@ public class GameHandler implements PropertyChangeListener {
         setupGame();
     }
 
+    public GameModel getGameModel() {
+        return gameModel;
+    }
+
     /**
      * This method manages the messages from the client connection according to the phase in which it can be found.
      * If a player tries to make a move while it is not his turn, he will receive a message and be told to wait.
@@ -277,6 +281,11 @@ public class GameHandler implements PropertyChangeListener {
      * telling the other players what name the current player has chosen.
      */
     private void setupNickname(SetupMessage message) {
+        if (message.getString().isEmpty() || message.getString().equalsIgnoreCase("")) {
+            clients.get(currentClientConnection)
+                    .sendMessage(new NicknameMessage(true));
+            return;
+        }
         for (Player p : gameModel.getPlayers()) {
             if (p.getNickname().equals(message.getString())) {
                 clients.get(currentClientConnection)

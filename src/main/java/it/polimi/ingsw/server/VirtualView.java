@@ -49,6 +49,22 @@ public class VirtualView implements Runnable {
         ping_response = new AtomicBoolean(false);
     }
 
+    /**
+     * For testing
+     */
+    public  VirtualView(){
+        this.socket = null;
+        this.clientId = -1;
+        this.inGame = false;
+        this.server = null;
+        this.alreadySettings = false;
+        active = new AtomicBoolean(false);
+        closed = new AtomicBoolean(false);
+        os = null;
+        is = null;
+        ping_response = new AtomicBoolean(false);
+    }
+
     public void setGameHandler(GameHandler gameHandler) {
         this.gameHandler = gameHandler;
     }

@@ -21,7 +21,26 @@ public class BoardExpert extends Board {
 
         boardCoins = 20;
 
-        characterCards = createThreeRandomCharacterCards();
+        characterCards = createThreeRandomCharacterCards(0);
+
+        playerCoins = new int[gameModel.getPlayersNumber()];
+        for (Player p : gameModel.getPlayers()) {
+            playerCoins[p.getClientID()] = 1;
+            boardCoins--;
+        }
+    }
+
+    /**
+     * For testing
+     * @param gameModel
+     * @param test
+     */
+    public BoardExpert(GameModel gameModel, int test) {
+        super(gameModel);
+
+        boardCoins = 20;
+
+        characterCards = createThreeRandomCharacterCards(test);
 
         playerCoins = new int[gameModel.getPlayersNumber()];
         for (Player p : gameModel.getPlayers()) {
@@ -103,21 +122,23 @@ public class BoardExpert extends Board {
     /**
      * This method creates randomly 3 CharacterCards,
      * calling the constructors of the 3 different types of cards, specifying the name, the coins and what the card can do.
+     * @param random if it is equals 0 it is used to create 3 random cards. In the other cases it creates 3 chosen cards for testing.
      * @return a list of 3 Cards
      */
-    protected CharacterCard[] createThreeRandomCharacterCards() {
+    public CharacterCard[] createThreeRandomCharacterCards(int random) {
         CharacterCard[] cards = new CharacterCard[3];
         CharacterCardName[] values = CharacterCardName.values();
         List<CharacterCardName> chosenNames = new ArrayList<>();
-        /*Random r = new Random();
-        while (chosenNames.size() < 3) {
-            CharacterCardName name = values[r.nextInt(values.length)];
-            if (!chosenNames.contains(name))
-                chosenNames.add(name);
-        }*/
-        chosenNames.add(CharacterCardName.KNIGHT);
-        chosenNames.add(CharacterCardName.DIPLOMAT);
-        chosenNames.add(CharacterCardName.POSTMAN);
+        if(random==0){
+            Random r = new Random();
+            while (chosenNames.size() < 3) {
+                CharacterCardName name = values[r.nextInt(values.length)];
+                if (!chosenNames.contains(name))
+                    chosenNames.add(name);
+            }
+        } else {
+            chosenNames.addAll(Arrays.asList(values).subList(3 * (random - 1), 3 * random));
+        }
         for (int i = 0; i < 3; i++) {
             switch (chosenNames.get(i)) {
                 case PRIEST:

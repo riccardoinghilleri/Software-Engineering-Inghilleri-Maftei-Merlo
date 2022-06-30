@@ -82,7 +82,7 @@ public class ActionController {
     }
 
     /**
-     * This method moves the students from the dining room to the entrance.
+     * This method moves the students from the entrance to the diningroom.
      * After each movement the professor's owner of that color is updated
      *
      * @param studentColor the color of the student to move
@@ -103,7 +103,7 @@ public class ActionController {
      * @param studentColor   the color of the student to move
      */
 
-    //metodo che muove gli studenti dalla sala di una scuola ad una isola
+    //metodo che muove gli studenti dalla sala di una scuola a una isola
     public void moveStudent(int islandPosition, String studentColor) {
 
         gameModel.getBoard().moveStudent(playerId, islandPosition, studentColor);

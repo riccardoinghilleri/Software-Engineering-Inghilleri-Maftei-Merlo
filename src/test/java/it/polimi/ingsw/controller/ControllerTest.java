@@ -74,24 +74,17 @@ class ControllerTest {
 
     @Test
     void testNextActionChooseCharacterCard() {
-        BoardExpert board = (BoardExpert) gameModel.getBoard();
-        controller.setClouds();
         ActionMessage actionMessage = new ActionMessage();
-        actionMessage.setData(5);
-        actionMessage.setAction(Action.CHOOSE_ASSISTANT_CARD);
-        controller.setAssistantCard(actionMessage);
-        actionMessage.setData(3);
-        actionMessage.setAction(Action.CHOOSE_ASSISTANT_CARD);
-        controller.setAssistantCard(actionMessage);
-        actionMessage=new ActionMessage();
-        actionMessage.setAction(Action.CHOOSE_CHARACTER_CARD);
+        set(controller,actionMessage);
         actionMessage.setCharacterCardName(null);
         controller.nextAction(actionMessage);
         assertEquals(Action.DEFAULT_MOVEMENTS, controller.getPhase());
         String[] names_0 = {"DINER", "DIPLOMAT", "HERBOLARIA", "CENTAUR", "KNIGHT", "THIEF", "LUMBERJACK", "QUEEN"};
         for (String name : names_0) {
+            setUp();
+            set(controller, actionMessage);
             actionMessage.setCharacterCardName(name);
-            if (board.getCharacterCardbyName(actionMessage.getCharacterCardName()) == null) {
+            if (((BoardExpert) gameModel.getBoard()).getCharacterCardbyName(actionMessage.getCharacterCardName()) == null) {
                 assertEquals("This card is not on the Board!", controller.nextAction(actionMessage));
             } else {
                 assertEquals("You have not got enough coins", controller.nextAction(actionMessage));
@@ -100,8 +93,10 @@ class ControllerTest {
 
         String[] names_1 = {"PRIEST", "POSTMAN", "CLOWN", "PERFORMER"};
         for (String name : names_1) {
+            setUp();
+            set(controller, actionMessage);
             actionMessage.setCharacterCardName(name);
-            if (board.getCharacterCardbyName(actionMessage.getCharacterCardName()) == null) {
+            if (((BoardExpert) gameModel.getBoard()).getCharacterCardbyName(actionMessage.getCharacterCardName()) == null) {
                 assertEquals("This card is not on the Board!", controller.nextAction(actionMessage));
             } else {
                 if (name.equals("PERFORMER"))
@@ -117,11 +112,11 @@ class ControllerTest {
                     }
                 }
             }
-            board.addCointoPlayer(1);
+            ((BoardExpert) gameModel.getBoard()).addCointoPlayer(1);
         }
-        board.getSchoolByOwnerId(1).addDiningRoomStudent(new Student(CharacterColor.RED));
+        gameModel.getBoard().getSchoolByOwnerId(1).addDiningRoomStudent(new Student(CharacterColor.RED));
         actionMessage.setCharacterCardName("PERFORMER");
-        if (board.getCharacterCardbyName(actionMessage.getCharacterCardName()) == null) {
+        if (((BoardExpert) gameModel.getBoard()).getCharacterCardbyName(actionMessage.getCharacterCardName()) == null) {
             assertEquals("This card is not on the Board!", controller.nextAction(actionMessage));
         } else {
             assertNull(controller.nextAction(actionMessage));
@@ -145,7 +140,7 @@ class ControllerTest {
         actionMessage.setCharacterCardName(null);
         controller.nextAction(actionMessage);
         assertEquals(Action.DEFAULT_MOVEMENTS, controller.getPhase());
-        actionMessage=new ActionMessage();
+        actionMessage = new ActionMessage();
         actionMessage.setAction(Action.DEFAULT_MOVEMENTS);
         List<Student> students = board.getSchoolByOwnerId(1).getEntrance();
         List<CharacterColor> colors = new ArrayList<>(Arrays.asList(CharacterColor.values()));
@@ -173,5 +168,17 @@ class ControllerTest {
         assertEquals(1, board.getIslands().get(0).getStudents().get(CharacterColor.valueOf(color)).size());
         assertEquals(4, board.getSchoolByOwnerId(1).getEntrance().size());
 
+    }
+
+    private void set(Controller controller, ActionMessage actionMessage){
+        controller.setClouds();
+        actionMessage.setData(5);
+        actionMessage.setAction(Action.CHOOSE_ASSISTANT_CARD);
+        controller.setAssistantCard(actionMessage);
+        actionMessage.setData(3);
+        actionMessage.setAction(Action.CHOOSE_ASSISTANT_CARD);
+        controller.setAssistantCard(actionMessage);
+        actionMessage.setData(-1);
+        actionMessage.setAction(Action.CHOOSE_CHARACTER_CARD);
     }
 }

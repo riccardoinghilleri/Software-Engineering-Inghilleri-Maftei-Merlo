@@ -9,7 +9,6 @@ import it.polimi.ingsw.server.model.*;
 
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -147,6 +146,11 @@ public class Controller {
     public String nextAction(ActionMessage actionMessage) {
         switch (actionMessage.getAction()) {
             case CHOOSE_CHARACTER_CARD:
+                try {
+                    checkPhase(actionMessage);
+                } catch (IncorrectPhaseException e) {
+                    return "Invalid action!";
+                }
                 if (actionMessage.getCharacterCardName() == null) {
                     phase = availableActions.remove(0);
                 } else {
@@ -168,6 +172,11 @@ public class Controller {
                 }
                 break;
             case USE_CHARACTER_CARD:
+                try {
+                    checkPhase(actionMessage);
+                } catch (IncorrectPhaseException e) {
+                    return "Invalid action!";
+                }
                 if (characterCardName.equalsIgnoreCase("LUMBERJACK")) {
                     ((Lumberjack) actionController).setColor(actionMessage.getParameters().get(0));
                     phase = availableActions.remove(0);
@@ -201,7 +210,7 @@ public class Controller {
                 break;
             case DEFAULT_MOVEMENTS:
                 try {
-                    checkPhase(actionMessage); //TODO sistemare
+                    checkPhase(actionMessage);
                     checkDefaultMovements(actionMessage);
                 } catch (IncorrectPhaseException e) {
                     //System.out.println(e.getMessage());

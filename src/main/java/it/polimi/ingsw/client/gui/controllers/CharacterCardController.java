@@ -19,7 +19,9 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.util.Objects;
-
+/**
+ * Class CharacterCardController displays the character card on GUI
+ */
 public class CharacterCardController implements GuiController {
 
     private Gui gui;
@@ -39,6 +41,9 @@ public class CharacterCardController implements GuiController {
     @FXML
     private TextField movements_textField;
 
+    /**
+     * Setters of the parameters.
+     */
     public void setAlreadyAskedMovements(boolean alreadyAskedMovements) {
         this.alreadyAskedMovements = alreadyAskedMovements;
     }
@@ -58,6 +63,9 @@ public class CharacterCardController implements GuiController {
         this.message = message;
     }
 
+    /**
+     * This method clear the pane of the characterCards
+     */
     public void clear() {
         for (int i = 1; i <= 12; i++) {
             studentsPane.getChildren().get(i).setVisible(false);
@@ -68,6 +76,12 @@ public class CharacterCardController implements GuiController {
         movements_textField.setDisable(false);
         right.setDisable(false);
     }
+
+    /**
+     * This method creates the characterCard node.
+     * According to the card,the text field changes.
+     *@param card instance of characterCard
+     */
 
     public void update(CharacterCard card) {
         message.setCharacterCardName(card.getName().toString().toUpperCase());
@@ -114,6 +128,11 @@ public class CharacterCardController implements GuiController {
         }
     }
 
+    /**
+     * This method manages part of the action which can be done with a card.
+     *
+     * @param event a mouse action on the object
+     */
     public void setColor(MouseEvent event) {
         message.setParameter(((Circle) event.getSource()).getId().toUpperCase());
         switch (message.getCharacterCardName().toUpperCase()) {
@@ -140,6 +159,10 @@ public class CharacterCardController implements GuiController {
         stage.close();
     }
 
+    /**
+     * This method receives the number of movements in the movements_textFiled, showing a message of inavlid
+     * input in case the player chooses more than 3 and less than 1 movements.
+     */
     public void setMovements() {
         int movements = -1;
         try {
@@ -164,11 +187,19 @@ public class CharacterCardController implements GuiController {
         }
     }
 
+    /**
+     * This method select the object when the mouse is on it, changing the glow of the node selected.
+     * @param event a mouse action on the object.
+     */
     public void select(MouseEvent event) {
         Object object = event.getSource();
         ((Node) object).setEffect(new Glow(0.8));
     }
 
+    /**
+     * This method unselect the object when the mouse is on it, changing the glow of the node selected.
+     * @param event a mouse action on the object.
+     */
     public void unselect(MouseEvent event) {
         Object object = event.getSource();
         ((Node) object).setEffect(null);
@@ -193,6 +224,7 @@ public class CharacterCardController implements GuiController {
         }
     }
 
+
     private void allColorsStudentsPane() {
         studentsPane.setVisible(true);
         for (int i = 1; i <= 5; i++) {
@@ -207,6 +239,10 @@ public class CharacterCardController implements GuiController {
         studentsPane.getChildren().get(12).setVisible(false);
     }
 
+    /**
+     * @see GuiController
+     * @param gui of type Gui- the main Gui class
+     */
     @Override
     public void setGui(Gui gui) {
         this.gui = gui;

@@ -8,7 +8,11 @@ import it.polimi.ingsw.server.model.*;
 public class ReducedModel {
 
     /**
-     * This method is used to display all the board on the screen
+     * This method is used to display all the board on the screen.
+     * It appends in the correct position all the different stringBuilder type which needs to be displayed in the Cli interface
+     * @param board instance of normal board
+     * @param x  position from which to start drawing
+     * @param y position from which to start drawing .
      */
     public static StringBuilder draw(Board board, int x, int y) {
         StringBuilder card = new StringBuilder();
@@ -117,6 +121,13 @@ public class ReducedModel {
         return card;
     }
 
+    /**
+     * This method is used to display the board on the screen, when mode Expert is on.
+     * @param boardExpert instance of board
+     * @param x position from which to start drawing
+     * @param y position from which to start drawing
+     * @return a string builder
+     */
     public static StringBuilder drawExpert(BoardExpert boardExpert, int x, int y) {
         StringBuilder card = new StringBuilder(draw(boardExpert, x, y));
         int distance;
@@ -141,7 +152,10 @@ public class ReducedModel {
         }
         return card;
     }
-
+    /**
+     * This method is used to display the assistantCard object on the screen.
+     * @return a string builder to append to the board stringBuilder.
+     */
     public static StringBuilder draw(AssistantCard assistantCard, int x, int y) {
         StringBuilder card = new StringBuilder();
         card.append(Constants.cursorUp(y));
@@ -163,7 +177,10 @@ public class ReducedModel {
         Constants.moveObject(card, x, bottom_wall);
         return card;
     }
-
+    /**
+     * This method is used to display the characterCard object on the screen.
+     * @return a string builder to append to the board stringBuilder.
+     */
     private static StringBuilder draw(CharacterCard characterCard, int x, int y) {
         StringBuilder card = new StringBuilder();
         card.append(Constants.cursorUp(y));
@@ -304,6 +321,11 @@ public class ReducedModel {
             return card;
         }
     */
+
+    /**
+     * This method is used to display the cloud object on the screen.
+     * @return a string builder to append to the board stringBuilder
+     */
     private static StringBuilder draw(Cloud cloud, int x, int y, int pos) {
         StringBuilder card = new StringBuilder();
         card.append(Constants.cursorUp(y));
@@ -336,7 +358,10 @@ public class ReducedModel {
         Constants.moveObject(card, x, bottom);
         return card;
     }
-
+    /**
+     * This method is used to display the island object on the screen.
+     * @return a string builder to append to the board stringBuilder
+     */
     private static StringBuilder draw(Island island, int x, int y, int pos) {
         StringBuilder card = new StringBuilder();
         card.append(Constants.cursorUp(y));
@@ -409,7 +434,11 @@ public class ReducedModel {
         }
         return card;
     }
-
+    /**
+     * This method is used to display the player object on the screen as a box.
+     * It contains the Current status: nickname,color and priority.
+     * @return a string builder to append to the board stringBuilder.
+     */
     private static StringBuilder draw(Player player, int x, int y, int coins, boolean currentPlayer) {
         StringBuilder box = new StringBuilder();
         box.append(Constants.cursorUp(y));

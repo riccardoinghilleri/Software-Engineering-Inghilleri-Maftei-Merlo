@@ -19,6 +19,9 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
+/**
+ * ShopController displays the shop of character Cards
+ */
 public class ShopController implements GuiController {
 
     private Stage stage;
@@ -38,22 +41,41 @@ public class ShopController implements GuiController {
 
     private boolean enableBuyBtn;
 
+    /**
+     * setter of CharacterCards
+     */
     public void setCharacterCards(CharacterCard[] characterCards) {
         this.characterCards = characterCards;
     }
 
+    /**
+     * Setter of stage
+     * @param stage of type Stage
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * It sets the label coins to the number of coins
+     * @param coins number of coins
+     */
     public void setCoinsLabel(int coins) {
         playerCoins.setText(String.valueOf(coins));
     }
 
+    /**
+     * It sets to enable the Buy button
+     * @param value
+     */
     public void setEnableBuyBtn(boolean value) {
         enableBuyBtn = value;
     }
 
+    /**
+     * @see GuiController
+     * @param gui of type Gui- the main Gui class
+     */
     @Override
     public void setGui(Gui gui) {
         this.gui = gui;
@@ -66,16 +88,25 @@ public class ShopController implements GuiController {
     public void setMessage(ActionMessage message) {
         this.message = message;
     }
-
+    /**
+     * Method pressButton detects when  a button of the winner stage is pressed
+     * @param event of type Mouse Event
+     */
     public void pressButton(MouseEvent event) {
         ((Button) event.getSource()).getStyleClass().add("buttonPressed");
     }
-
+    /**
+     * Method pressButton detects when  a button of the winner stage is released
+     * @param event of type Mouse Event
+     */
     public void releaseButton(MouseEvent event) {
         ((Button) event.getSource()).getStyleClass().clear();
         ((Button) event.getSource()).getStyleClass().add("button");
     }
 
+    /**
+     * This method manages the buy action of a CharacterCard.
+     */
     public void buy() {
         message.setCharacterCardName(characterCardName.getText().toUpperCase());
         gui.getConnection().send(message);
@@ -86,6 +117,10 @@ public class ShopController implements GuiController {
         stage.close();
     }
 
+    /**
+     * This method manages the switch between the available CharacterCards in the shop.
+     * @param event of type event
+     */
     public void changeCard(ActionEvent event) {
         if (((Button) event.getSource()).getId().equals("right")) {
             displayedCard = (displayedCard + 1) % characterCards.length;
@@ -97,6 +132,9 @@ public class ShopController implements GuiController {
         createCharacterCard();
     }
 
+    /**
+     * This method closes the Shop Stage, so it disables and makes not visible the buttons.
+     */
     public void close() {
         if (enableBuyBtn) {
             enableBuyBtn = false;
@@ -109,6 +147,9 @@ public class ShopController implements GuiController {
         stage.close();
     }
 
+    /**
+     * This method creates the CharacterCard on Gui interface.
+     */
     public void createCharacterCard() {
         cost.setText(String.valueOf(characterCards[displayedCard].getCost()));
         characterCardName.setText(characterCards[displayedCard].getName().toString().toUpperCase());
@@ -145,18 +186,27 @@ public class ShopController implements GuiController {
         }
     }
 
+    /**
+     * This method sets the visibility to false of all 12 CharacterCards
+     */
     public void clear() {
         for (int i = 0; i < 12; i++) {
             studentsPane.getChildren().get(i).setVisible(false);
         }
         studentsPane.setVisible(false);
     }
-
+    /**
+     * This method select the object when the mouse is on it, changing the glow of the node selected.
+     * @param event of type MouseEvent
+     */
     public void select(MouseEvent event) {
         Object object = event.getSource();
         ((Node) object).setEffect(new Glow(0.8));
     }
-
+    /**
+     * This method unselect the object when the mouse is on it, changing the glow of the node selected.
+     * @param event of type MouseEvent
+     */
     public void unselect(MouseEvent event) {
         Object object = event.getSource();
         ((Node) object).setEffect(null);

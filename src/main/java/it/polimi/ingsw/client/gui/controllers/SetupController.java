@@ -22,6 +22,9 @@ import javafx.scene.shape.Rectangle;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * SetUpController displays the initial Stage, when the client has to choose nickname, color and wizard
+ */
 public class SetupController implements GuiController {
     private Gui gui;
     @FXML
@@ -41,7 +44,9 @@ public class SetupController implements GuiController {
 
     private Object selectNode = null;
 
-
+    /**
+     * This method sends throw the connection the chosen nickname, after the player passes it in input
+     */
     //bottone checkNickname
     public void sendChoice() {
         if (nickname_pane.isVisible()) {
@@ -56,7 +61,10 @@ public class SetupController implements GuiController {
         return nickname_pane;
     }
 
-    //attiva anchor pane per la scelta del colore
+    /**
+     * This method activates the anchor pane for to color choice.
+     * @param colors list of string
+     */
     public void enablePlayerColors(List<String> colors) {
         right.setDisable(true);
         nickname_pane.setVisible(false);
@@ -74,17 +82,27 @@ public class SetupController implements GuiController {
             automaticChoiceAlert(colors.get(0));
         }
     }
-
+    /**
+     * This method select the object when the mouse is on it, changing the glow of the node selected.
+     * @param event a mouse action on the object.
+     */
     public void select(MouseEvent event) {
         Object object = event.getSource();
         ((Node) object).setEffect(new Glow(0.8));
     }
-
+    /**
+     * This method unselect the object when the mouse is on it, changing the glow of the node selected.
+     * @param event a mouse action on the object.
+     */
     public void unselect(MouseEvent event) {
         Object object = event.getSource();
         ((Node) object).setEffect(null);
     }
 
+    /**
+     * This method activates the anchor pane for to wizard choice.
+     * @param wizards list of string
+     */
     public void enableWizards(List<String> wizards) {
         right.setDisable(true);
         selectNode = null;
@@ -104,6 +122,10 @@ public class SetupController implements GuiController {
         }
     }
 
+    /**
+     * This method send an alert message of automatic choice( of color or wizard, depending on numplayers)
+     * @param choice
+     */
     public void automaticChoiceAlert(String choice) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Automatic Choice");
@@ -111,10 +133,18 @@ public class SetupController implements GuiController {
         alert.showAndWait();
     }
 
+    /**
+     * This set visible the nickname error label
+     * @param visible
+     */
     public void setNicknameNotAvailable(boolean visible) {
         error_label.setVisible(visible);
     }
 
+    /**
+     * This method manages the selection of the tower.
+     * @param event of type MouseEvent
+     */
     public void setChoiceTower(MouseEvent event) {
         right.setDisable(false);
         if (selectNode != null) {
@@ -128,6 +158,10 @@ public class SetupController implements GuiController {
         image.setOnMouseExited(null);
     }
 
+    /**
+     * This method manages the selection of the tower.
+     * @param event of ActionEvent type
+     */
     public void setChoice(ActionEvent event) {
         right.setDisable(false);
         if (selectNode != null) {
@@ -141,16 +175,26 @@ public class SetupController implements GuiController {
         ((Button) event.getSource()).setOnMouseExited(null);
     }
 
+    /**
+     * @see GuiController
+     * @param gui of type Gui- the main Gui class
+     */
     @Override
     public void setGui(Gui gui) {
         this.gui = gui;
     }
-
+    /**
+     * Method pressButton detects when  a button is pressed
+     * @param event of type Mouse Event
+     */
     public void pressButton(MouseEvent event) {
         ((Button) event.getSource()).getStyleClass().add("buttonPressed");
 
     }
-
+    /**
+     * Method pressButton detects when  a button  is released
+     * @param event of type Mouse Event
+     */
     public void releaseButton(MouseEvent event) {
         ((Button) event.getSource()).getStyleClass().clear();
         ((Button) event.getSource()).getStyleClass().add("button");

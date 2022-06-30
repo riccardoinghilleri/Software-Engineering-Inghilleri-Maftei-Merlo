@@ -18,6 +18,9 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
+/**
+ * Class AssistantCardController displays the assistant card on GUI
+ */
 public class AssistantCardsController implements GuiController {
     private Gui gui;
     private Stage stage;
@@ -32,6 +35,10 @@ public class AssistantCardsController implements GuiController {
         this.gui = gui;
     }
 
+    /**
+     * Method EnableCards creates a node for each assistant card available.
+     * @param cards list of AssistantCards
+     */
     public void enableCards(List<AssistantCard> cards) {
         for (AssistantCard card : cards) {
             ImageView imageFrame = (ImageView) mainPane.getChildren().get(card.getPriority() + 9);
@@ -42,6 +49,10 @@ public class AssistantCardsController implements GuiController {
         }
     }
 
+    /**
+     * Method that sets the priority on each assistantCard .
+     * @param event of type MouseEvent
+     */
     public void setPriority(MouseEvent event) {
         warning.setVisible(false);
         if (priority != -1) {
@@ -55,21 +66,36 @@ public class AssistantCardsController implements GuiController {
         image.setOnMouseExited(null);
     }
 
+    /**
+     * This method select the object when the mouse is on it, changing the glow of the node selected.
+     * @param event of tpe MouseEvent
+     */
     public void select(MouseEvent event) {
         Object object = event.getSource();
         ((Node) object).setEffect(new Glow(0.8));
     }
-
+    /**
+     * This method unselect the object when the mouse is on it, changing the glow of the node selected.
+     * @param event of tpe MouseEvent
+     */
     public void unselect(MouseEvent event) {
         Object object = event.getSource();
         ((Node) object).setEffect(null);
     }
 
+    /**
+     * This method shows an error message
+     */
     public void error() {
         warning.setText("You cannot choose this card. Please try again");
         warning.setVisible(true);
     }
 
+    /**
+     * This method allows to choose the assistant Card.
+     * It sends a message with the priority chosen to the server, throw clientConnection.
+     * When the player has already chosen the stage is closed.
+     */
     public void choose() {
         if (priority != -1) {
             ActionMessage message = new ActionMessage();
@@ -87,6 +113,9 @@ public class AssistantCardsController implements GuiController {
         }
     }
 
+    /**
+     * This method disables the ability to choose a card after being already chosen, by setting the visibility to false.
+     */
     private void disableAllCards() {
         priority=-1;
         for (Node node : mainPane.getChildren()) {
@@ -106,6 +135,10 @@ public class AssistantCardsController implements GuiController {
         ((Button)event.getSource()).getStyleClass().clear();
         ((Button)event.getSource()).getStyleClass().add("button");
     }
+
+    /**
+     * This method sets the stage of the assistant Card.
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }

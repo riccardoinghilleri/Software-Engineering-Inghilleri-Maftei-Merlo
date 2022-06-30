@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
+/**
+ * WinnerController displays the winner at the end of the game.
+ */
 public class WinnerController implements GuiController{
 
     private Gui gui;
@@ -25,32 +28,57 @@ public class WinnerController implements GuiController{
     @FXML
     ImageView winner_image;
 
+    /**
+     * This method sets the nickname of the winner to the nickname label
+     * @param nickname string of nickname
+     */
     public void setNickname(String nickname){
         nickname_label.setText(nickname);
     }
+
+    /**
+     * This method sets an image on the winner page
+     */
     public void setDrawImage(){
         winner_image.setImage(new Image(Objects.requireNonNull(getClass()
                 .getResourceAsStream("/graphics/no_winners.png"))));
     }
 
+    /**
+     @see GuiController
+     */
     @Override
     public void setGui(Gui gui) {
         this.gui=gui;
     }
 
+    /**
+     * Setter of the stage
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * This method closes the stage of the winner
+     */
     public void close(){
         this.stage.close();
         gui.close();
     }
+
+    /**
+     * Method pressButton detects when  a button is pressed
+     * @param event of type Mouse Event
+     */
     public void pressButton(MouseEvent event) {
         ((Button) event.getSource()).getStyleClass().add("buttonPressed");
 
     }
-
+    /**
+     * Method pressButton detects when  a button is released
+     * @param event of type Mouse Event
+     */
     public void releaseButton(MouseEvent event) {
         ((Button) event.getSource()).getStyleClass().clear();
         ((Button) event.getSource()).getStyleClass().add("button");

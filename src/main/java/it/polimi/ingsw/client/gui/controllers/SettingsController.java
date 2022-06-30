@@ -23,7 +23,9 @@ import java.security.Key;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+/**
+ * SettingsController displays the page of settngs( ip address and number port)
+ */
 public class SettingsController implements Initializable, GuiController {
 
     private Gui gui;
@@ -47,6 +49,9 @@ public class SettingsController implements Initializable, GuiController {
 
     //1550,4*830,4   1.867
 
+    /**
+     * This method sets the ip address and the port number and checks if they are correct.
+     */
     public void confirm() {
         boolean error = false;
         Pattern pattern = Pattern.compile("^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.(?!$)|$)){4}$");
@@ -89,10 +94,17 @@ public class SettingsController implements Initializable, GuiController {
         }
     }
 
+    /**
+     * Sets the Gui player Number
+     * @param event of type ActionEvent
+     */
     public void getPlayersNumberChoice(ActionEvent event) {
         gui.setPlayersNumber(playersNumber.getValue());
     }
 
+    /**
+     * This method sets the gameMode chosen
+     */
     public void getGameMode() {
         if (normal.isSelected()) {
             expertMode = false;
@@ -103,6 +115,11 @@ public class SettingsController implements Initializable, GuiController {
         }
     }
 
+    /**
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         playersNumber.getItems().addAll(numberOfPlayers);
@@ -114,11 +131,18 @@ public class SettingsController implements Initializable, GuiController {
     public void setGui(Gui gui) {
         this.gui = gui;
     }
-
+    /**
+     * Method pressButton detects when  a button of the winner stage is pressed
+     * @param event of type Mouse Event
+     */
     public void pressButton(MouseEvent event){
         ((Button)event.getSource()).getStyleClass().add("buttonPressed");
 
     }
+    /**
+     * Method pressButton detects when  a button of the winner stage is released
+     * @param event of type Mouse Event
+     */
     public void releaseButton(MouseEvent event){
         ((Button)event.getSource()).getStyleClass().clear();
         ((Button)event.getSource()).getStyleClass().add("button");

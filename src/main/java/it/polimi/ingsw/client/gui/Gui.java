@@ -17,6 +17,10 @@ import javafx.stage.*;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * GUI class starts the graphical user interface, mapping each scene to the specified phase.
+ *
+ */
 public class Gui extends Application implements View {
     private ClientConnection connection = null;
     private Stage stage;
@@ -31,40 +35,76 @@ public class Gui extends Application implements View {
 
     private boolean alreadyAskedAssistantCard = false;
 
+    /**
+     * Main class of the Gui,which is called from the 'Eriantys' class in case the player decides to play with this interface
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Method get connection returns the client connection
+     * @return the client connection
+     */
     public ClientConnection getConnection() {
         return connection;
     }
 
+    /**
+     * Method setExpertMode sets the mode of the game
+     * @param expertMode boolean
+     */
 
     public void setExpertMode(boolean expertMode) {
         this.expertMode = expertMode;
     }
 
+    /**
+     * Method getScenes returns an hashMap with string and scenes.
+     * @return an hashMap
+     */
     public HashMap<String, Scene> getScenes() {
         return scenes;
     }
 
+    /**
+     * This method sets the connection
+     * @param connection of type ClientConnection
+     */
     public void setConnection(ClientConnection connection) {
         if (this.connection == null)
             this.connection = connection;
     }
 
+    /**
+     * This method return the player numbers
+     * @return player numbers
+     */
     public Integer getPlayersNumber() {
         return playersNumber;
     }
-
+    /**
+     * This method sets the player numbers
+     */
     public void setPlayersNumber(Integer playersNumber) {
         this.playersNumber = playersNumber;
     }
 
+    /**
+     * This method returns a gui controller
+     * @param name string of the FXML file
+     * @return the corresponding Gui controller
+     */
     public GuiController getControllerByFxmlName(String name) {
         return controllers.get(name);
     }
 
+    /**
+     * This method returns a gui controller by using a scene.
+     * @param scene of type Scene
+     * @return a gui controller
+     */
     public GuiController getControllerByScene(Scene scene) {
         String currentSceneFxmlName = null;
         for (String s : scenes.keySet()) {
@@ -87,12 +127,20 @@ public class Gui extends Application implements View {
         this.port = port;
     }
 
+    /**
+     * This method sets the currentScene to a new scene and sets it to the stage.
+     * @param newScene of type Scene
+     */
     public void changeScene(String newScene) {
         currentScene = scenes.get(newScene);
         stage.setScene(currentScene);
         stage.show();
     }
 
+    /**
+     * This method creates all the stage phases which are updated in other methods.
+     * It sets the currentScene to the WelcomeScene.
+     */
     private void setup() {
         List<String> fxmlList = new ArrayList<>(Arrays.asList("welcome.fxml", "settings.fxml",
                 "waiting.fxml", "setup.fxml", "assistantCards.fxml", "mainScene.fxml", "shop.fxml", "characterCard.fxml", "winner.fxml"));
@@ -110,10 +158,17 @@ public class Gui extends Application implements View {
         currentScene = scenes.get("welcome.fxml");
     }
 
+    /**
+     * This method closes a stage
+     */
     public void close() {
         stage.close();
     }
 
+    /**
+     * This method sets the initialStage and calls the setup() method
+     * @param primaryStage of type Stage
+     */
     @Override
     public void start(Stage primaryStage) {
         setup();
@@ -126,6 +181,10 @@ public class Gui extends Application implements View {
         stage.show();
     }
 
+    /**
+     * This method manages the Quit option, when a player wants to disconnect in any moment during the game
+     * @param event of type WindowEvent
+     */
     private void closeRequestHandler(WindowEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Close");
@@ -140,6 +199,10 @@ public class Gui extends Application implements View {
         }
     }
 
+    /**
+     * This method creates the mainSceneController and manages the different phases of each turn
+     * @param message of type AskActionMessage
+     */
     @Override
     public void askAction(AskActionMessage message) {
         MainSceneController mainSceneController = (MainSceneController) getControllerByFxmlName("mainScene.fxml");
@@ -244,6 +307,10 @@ public class Gui extends Application implements View {
 
     }
 
+    /**
+     * This method displays the messages from server differently based on if the currentScene is a waitingController ot a mainSceneController
+     * @param message of type InfoMessage
+     */
     @Override
     public void displayInfo(InfoMessage message) {
         Platform.runLater(() -> {
@@ -254,6 +321,10 @@ public class Gui extends Application implements View {
         });
     }
 
+    /**
+     * This method set the availableChoices from the message multipleChoiceMessage
+     * @param message of type MultipleChoiceMessage
+     */
     @Override
     public void setupMultipleChoice(MultipleChoiceMessage message) {
         Platform.runLater(() -> {
@@ -265,7 +336,10 @@ public class Gui extends Application implements View {
             }
         });
     }
-
+    /**
+     * This method set the nickname of a player from the nickName message
+     * @param message of type NicknameMessage
+     */
     @Override
     public void setupNickname(NicknameMessage message) {
         Platform.runLater(() -> {
@@ -276,6 +350,10 @@ public class Gui extends Application implements View {
         });
     }
 
+    /**
+     * This method displays the updated Board
+     * @param message of type UpdateBoard
+     */
     @Override
     public void displayBoard(UpdateBoard message) {
         Platform.runLater(() -> {
@@ -295,6 +373,10 @@ public class Gui extends Application implements View {
         });
     }
 
+    /**
+     * This method displays the winner stage and the message inside it.
+     * @param message of type InfoMessage
+     */
     public void displayWinner(InfoMessage message) {
         Platform.runLater(() -> {
             Stage winnerStage = new Stage();
@@ -316,10 +398,18 @@ public class Gui extends Application implements View {
         });
     }
 
+    /**
+     * This method closes the stage
+     * @param event of type WindowEvent
+     */
     public void closeStage(WindowEvent event){
         stage.close();
     }
 
+    /**
+     * This method displays on the stage the disconnection message
+     * @param message of type InfoMessage
+     */
     public void displayDisconnectionAlert(InfoMessage message) {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

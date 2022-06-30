@@ -230,7 +230,7 @@ public class Cli implements View {
      */
     public synchronized void askAction(AskActionMessage message) {
         stopClearBuffer();
-        if (!displayedBoard) {
+        if (!displayedBoard && !message.isError()) {
             try {
                 wait();
             } catch (InterruptedException e) {}

@@ -120,6 +120,7 @@ public class VirtualView implements Runnable {
         if (!closed.get()) {
             inGame = false;
             closed.set(true);
+            sendMessage(new InfoMessage("CONNECTION_CLOSED", false));
             active.set(false);
             /*
             if (noPing) {
@@ -128,7 +129,6 @@ public class VirtualView implements Runnable {
             } //else stopTimer();*/
             if (quit && gameHandler != null)
                 gameHandler.endGame(clientId);
-            sendMessage(new InfoMessage("CONNECTION_CLOSED", false));
             //per non avere SocketException lato client se cerca d'inviare un messaggio dopo che
             //è stata chiusa la connessione
             try {

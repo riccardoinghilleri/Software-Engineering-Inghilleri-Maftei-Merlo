@@ -86,14 +86,15 @@ public class Controller {
      * @param actionMessage message to communicate the assistant card
      * @return false if another player has chosen the same assistant card before, true otherwise, setting the assistant card.
      */
-    public boolean setAssistantCard(ActionMessage actionMessage) {
+    public String setAssistantCard(ActionMessage actionMessage) {
         //TODO forse serve un'eccezione per il controllo del player giusto
         if (playerTurnNumber > 0) {
             try {
                 checkSameAssistantCard(actionMessage.getData());
             } catch (SameAssistantCardException e) {
                 //System.out.println(e.getMessage());
-                return false;
+                return ">You can not choose this assistant card. " +
+                        "Please choose another one.";
             }
         }
         gameModel.getCurrentPlayer().setAssistantCard(actionMessage.getData());
@@ -108,7 +109,7 @@ public class Controller {
             gameModel.setCurrentPlayer(gameModel.getPlayers().indexOf(nextPlayer));
             //gameModel.setCurrentPlayer(playerTurnNumber);
         }
-        return true;
+        return null;
     }
 
     /**

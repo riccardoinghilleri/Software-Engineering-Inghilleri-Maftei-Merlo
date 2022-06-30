@@ -22,13 +22,15 @@ public class AskActionMessage implements Message, ServerMessage {
 
     private final CharacterCard chosenCharacterCard;
 
+    private final boolean error;
+
     //CHOOSE_ASSISTANT_CARD
     /**
      * This constructor represents the action 'CHOOSE_ASSISTANT_CARD'
      * @param availability list of assistant Cards left in the decks
      */
 
-    public AskActionMessage(Action action, List<AssistantCard> availability) {
+    public AskActionMessage(Action action, List<AssistantCard> availability,boolean error) {
         this.action = action;
         this.data = -1;
         this.school = null;
@@ -37,13 +39,14 @@ public class AskActionMessage implements Message, ServerMessage {
         this.characterCards = null;
         this.islands = null;
         this.chosenCharacterCard=null;
+        this.error=error;
     }
     /**
      * This constructor represents the action 'CHOOSE_CHARACTER_CARD'
      * @param characterCards : list of character Cards left in the board
      */
 
-    public AskActionMessage(Action action, CharacterCard[] characterCards) {
+    public AskActionMessage(Action action, CharacterCard[] characterCards,boolean error) {
         this.action = action;
         this.data = -1;
         this.school = null;
@@ -52,6 +55,7 @@ public class AskActionMessage implements Message, ServerMessage {
         this.characterCards = characterCards.clone();
         this.islands = null;
         this.chosenCharacterCard=null;
+        this.error=error;
     }
     /**
      * This constructor asks how the player wants to use the character card,
@@ -60,7 +64,7 @@ public class AskActionMessage implements Message, ServerMessage {
      */
 
     //USE_CHARACTER_CARD
-    public AskActionMessage(Action action, CharacterCard characterCard, List<Island> islands, School school) {
+    public AskActionMessage(Action action, CharacterCard characterCard, List<Island> islands, School school,boolean error) {
         this.action = action;
         this.data = -1;
         this.school = new School(school);
@@ -69,6 +73,7 @@ public class AskActionMessage implements Message, ServerMessage {
         this.clouds = null;
         this.islands = new ArrayList<>(islands);
         this.characterCards=null;
+        this.error=error;
     }
 
     //DEFAULT_MOVEMENTS
@@ -80,7 +85,7 @@ public class AskActionMessage implements Message, ServerMessage {
      * @param school school involved in the choice
      */
 
-    public AskActionMessage(Action action, School school, List<Island> islands) {
+    public AskActionMessage(Action action, School school, List<Island> islands,boolean error) {
         this.action = action;
         this.data = -1;
         this.school = new School(school);
@@ -89,6 +94,7 @@ public class AskActionMessage implements Message, ServerMessage {
         this.characterCards = null;
         this.islands = new ArrayList<>(islands);
         this.chosenCharacterCard=null;
+        this.error=error;
     }
 
     //CHOOSE_CLOUD
@@ -99,7 +105,7 @@ public class AskActionMessage implements Message, ServerMessage {
      * @param availability array of clouds still available to chose from
      */
 
-    public AskActionMessage(Action action, Cloud[] availability) {
+    public AskActionMessage(Action action, Cloud[] availability,boolean error) {
         this.action = action;
         this.data = -1;
         this.school = null;
@@ -108,6 +114,7 @@ public class AskActionMessage implements Message, ServerMessage {
         this.characterCards = null;
         this.islands = null;
         this.chosenCharacterCard=null;
+        this.error=error;
     }
 
     //MOVE_MOTHER_NATURE
@@ -116,7 +123,7 @@ public class AskActionMessage implements Message, ServerMessage {
      * @param data : how many steps mothernature needs to be moved
      */
 
-    public AskActionMessage(Action action, int data) {
+    public AskActionMessage(Action action, int data,boolean error) {
         this.action = action;
         this.data = data;
         this.availableAssistantCards = null;
@@ -125,6 +132,7 @@ public class AskActionMessage implements Message, ServerMessage {
         this.characterCards = null;
         this.islands = null;
         this.chosenCharacterCard=null;
+        this.error=error;
     }
     /**
      * getters and setters for the parameters of the class
@@ -134,6 +142,9 @@ public class AskActionMessage implements Message, ServerMessage {
         return chosenCharacterCard;
     }
 
+    public boolean isError(){
+        return this.error;
+    }
     public Cloud[] getClouds() {
         return clouds;
     }

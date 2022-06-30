@@ -92,7 +92,6 @@ public class ClientConnection implements Runnable {
 
     public synchronized void closeConnection() {
         active.set(false);
-        stopTimer();
         try {
             is.close();
             os.close();
@@ -112,6 +111,7 @@ public class ClientConnection implements Runnable {
             } else {
                 manageMessage(message);
                 if (message instanceof InfoMessage && ((InfoMessage) message).getString().equalsIgnoreCase("CONNECTION_CLOSED")) {
+                    stopTimer();
                     closeConnection();
                     if (view instanceof Cli) {
                         System.exit(0);

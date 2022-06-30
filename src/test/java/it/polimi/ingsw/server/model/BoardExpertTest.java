@@ -6,9 +6,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardExpertTest {
@@ -84,11 +81,11 @@ class BoardExpertTest {
     }
 
     @Test
-    public void testCreateThreeRandomCharacterCards() {
+    public void testCreateThreeCharacterCards() {
         CharacterCardName[] values = CharacterCardName.values();
         CharacterCard[] cards;
         for (int i = 1; i < 5; i++) {
-            boardExpert = new BoardExpert(gameModel, i);
+            ((BoardExpert)boardExpert).createThreeCharacterCards(i);
             cards = ((BoardExpert) boardExpert).getCharacterCards();
             CharacterCardName name0 = cards[0].getName();
             CharacterCardName name1 = cards[1].getName();

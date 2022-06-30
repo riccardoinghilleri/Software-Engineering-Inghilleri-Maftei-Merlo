@@ -240,11 +240,11 @@ public class Controller {
                     checkPhase(actionMessage);
                     checkChosenSteps(actionMessage);
                 } catch (IncorrectPhaseException e) {
-                    System.out.println(e.getMessage());
-                    return "Invalid action";
+                    //System.out.println(e.getMessage());
+                    return "Invalid action!";
                 } catch (InvalidChosenStepsException e) {
-                    System.out.println(e.getMessage());
-                    return " You can not move mother nature so far";
+                    //System.out.println(e.getMessage());
+                    return "You can not move mother nature so far";
                 }
                 int newOwner = actionController.moveMotherNature(actionMessage);
                 if (newOwner != -1
@@ -262,13 +262,15 @@ public class Controller {
             case CHOOSE_CLOUD:
                 try {
                     checkPhase(actionMessage);
+                    if(actionMessage.getData()<0 || actionMessage.getData()> gameModel.getBoard().getClouds().length)
+                        return ("Invalid cloud Id.");
                     checkCloud(actionMessage);
                 } catch (IncorrectPhaseException e) {
-                    System.out.println(e.getMessage());
-                    return "Invalid action";
+                    //System.out.println(e.getMessage());
+                    return "Invalid action!";
                 } catch (EmptyCloudException e) {
-                    System.out.println(e.getMessage());
-                    return "You have chose an empty cloud.";
+                    //System.out.println(e.getMessage());
+                    return "You have chosen an empty cloud.";
                 }
                 actionController.moveStudent(actionMessage.getData());
                 endPlayerTurn(); // in questo modo dopo la scelta della nuvola non si può giocare la carta personaggio

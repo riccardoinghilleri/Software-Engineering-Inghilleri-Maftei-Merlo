@@ -160,7 +160,6 @@ public class VirtualView implements Runnable {
                     sendMessage(new InfoMessage("PING", false));
                     Thread.sleep((long) 2 * 1000);
                     if (ping_response.get()) {
-                        System.out.println("PING_OK_" + clientId);
                         ping_response.set(false);
                     } else closeConnection(true);
                 } catch (InterruptedException e) {

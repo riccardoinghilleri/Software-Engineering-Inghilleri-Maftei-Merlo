@@ -87,7 +87,6 @@ public class Controller {
      * @return false if another player has chosen the same assistant card before, true otherwise, setting the assistant card.
      */
     public String setAssistantCard(ActionMessage actionMessage) {
-        //TODO forse serve un'eccezione per il controllo del player giusto
         if (playerTurnNumber > 0) {
             try {
                 checkSameAssistantCard(actionMessage.getData());

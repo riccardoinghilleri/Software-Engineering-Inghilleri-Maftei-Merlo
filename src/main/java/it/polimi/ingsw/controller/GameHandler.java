@@ -120,7 +120,7 @@ public class GameHandler implements PropertyChangeListener {
                     error = controller.nextAction((ActionMessage) message);
                     if (error != null) {
                         clients.get(currentClientConnection).sendMessage(new InfoMessage(error, false));
-                    } else {
+                    } else if (controller.getPhase() != Action.SETUP_CLOUD) {
                         sendAll(new UpdateBoard(gameModel.getBoard()));
                     }
                     if (controller.getPhase() == Action.SETUP_CLOUD && turnNumber < 10) {
@@ -196,7 +196,7 @@ public class GameHandler implements PropertyChangeListener {
         if (controller.getPhase() == Action.SETUP_CLOUD) {
             controller.setClouds();
         }
-        if (error==null) {
+        if (error == null) {
             sendAll(new UpdateBoard(gameModel.getBoard()));
             currentClientConnection = gameModel.getCurrentPlayer().getClientID();
             //sendAllExcept(currentClientConnection, new TurnMessage(false));
@@ -211,7 +211,7 @@ public class GameHandler implements PropertyChangeListener {
         }
         clients.get(currentClientConnection)
                 .sendMessage(new AskActionMessage(controller.getPhase(), gameModel
-                        .getCurrentPlayer().getDeck().getAssistantCards(),error!=null));
+                        .getCurrentPlayer().getDeck().getAssistantCards(), error != null));
     }
 
     /**
@@ -224,7 +224,7 @@ public class GameHandler implements PropertyChangeListener {
         switch (controller.getPhase()) {
             case CHOOSE_CHARACTER_CARD:
                 askActionMessage = new AskActionMessage(controller.getPhase(),
-                        ((BoardExpert) gameModel.getBoard()).getCharacterCards(),error!=null);
+                        ((BoardExpert) gameModel.getBoard()).getCharacterCards(), error != null);
                 if (error == null)
                     sendAllExcept(currentClientConnection, new InfoMessage(">"
                             + gameModel.getCurrentPlayer().getNickname() + " is deciding whether to use a card...", error == null));
@@ -233,14 +233,14 @@ public class GameHandler implements PropertyChangeListener {
                 askActionMessage = new AskActionMessage(controller.getPhase(),
                         ((BoardExpert) gameModel.getBoard()).getCharacterCardbyName(controller.getCharacterCardName()),
                         gameModel.getBoard().getIslands(), gameModel.getBoard()
-                        .getSchoolByOwnerId(gameModel.getCurrentPlayer().getClientID()),error!=null);
+                        .getSchoolByOwnerId(gameModel.getCurrentPlayer().getClientID()), error != null);
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
                         + gameModel.getCurrentPlayer().getNickname() + " is using the card: " + controller.getCharacterCardName(), error == null));
                 break;
             case DEFAULT_MOVEMENTS:
                 askActionMessage = new AskActionMessage(controller.getPhase(), gameModel.getBoard()
                         .getSchoolByOwnerId(gameModel.getCurrentPlayer().getClientID()),
-                        gameModel.getBoard().getIslands(),error!=null);
+                        gameModel.getBoard().getIslands(), error != null);
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
                         + gameModel.getCurrentPlayer().getNickname() + " is moving a student from the Entrance...", error == null));
                 break;
@@ -258,13 +258,13 @@ public class GameHandler implements PropertyChangeListener {
                     increment = 2;
                 askActionMessage = new AskActionMessage(controller.getPhase(), gameModel
                         .getPlayerById(currentClientConnection)
-                        .getChosenAssistantCard().getMotherNatureSteps() + increment,error!=null);
+                        .getChosenAssistantCard().getMotherNatureSteps() + increment, error != null);
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
                         + gameModel.getCurrentPlayer().getNickname() + " is choosing where to move mother nature...", error == null));
                 break;
             case CHOOSE_CLOUD:
                 askActionMessage = new AskActionMessage(controller.getPhase(), gameModel
-                        .getBoard().getClouds(),error!=null);
+                        .getBoard().getClouds(), error != null);
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
                         + gameModel.getCurrentPlayer().getNickname() + " is choosing the cloud...", error == null));
                 break;

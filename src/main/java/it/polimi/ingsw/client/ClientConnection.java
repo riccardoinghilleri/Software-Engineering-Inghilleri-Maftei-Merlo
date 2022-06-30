@@ -56,7 +56,8 @@ public class ClientConnection implements Runnable {
     }
 
     /**
-     * The method run waits for a message until active is true, paying attention if the message is a ping message.
+     * The method run waits for a message until active is true.
+     * It receives the messages throw the input stream and calls the startMessageManager.
      */
     @Override
     public void run() {
@@ -90,6 +91,9 @@ public class ClientConnection implements Runnable {
         ((ServerMessage) message).forward(view);
     }
 
+    /**
+     * This method closes the connection, so the input and output stream
+     */
     public synchronized void closeConnection() {
         active.set(false);
         try {
@@ -101,7 +105,10 @@ public class ClientConnection implements Runnable {
             //e.printStackTrace();
         }
     }
-
+/**
+ * This method creates a thread, which checks if the message received is a ping message, or a connection closed message. If so, the timer is stopped.
+ *
+ */
     private void startMessageManager(Message message) {
         Thread t = new Thread(() -> {
             if (message instanceof InfoMessage && ((InfoMessage) message).getString().equalsIgnoreCase("PING")) {
@@ -124,13 +131,14 @@ public class ClientConnection implements Runnable {
 
     /**
      * This method creates and starts the Timer thread.
+     * If the thread "sleeps" for over an established period od time, the client is disconnected.
      */
 
     private void startTimer() {
         timer = new Thread(() -> {
             try {
                 Thread.sleep((long) 3 * 1000);
-                System.out.println("Your connection is unstable. You has been disconnected.\nThanks for playing!");
+                System.out.println("Your connection is unstable. You have been disconnected.\nThanks for playing!");
                 closeConnection();
                 if (view instanceof Cli) {
                     System.exit(0);
@@ -144,7 +152,7 @@ public class ClientConnection implements Runnable {
 
     /**
      * This method  interrupts the timer thread , after checking that the latter is alive.
-     * It is used when a client disconnects
+     * It is used when a client disconnects.
      */
 
     private void stopTimer() {

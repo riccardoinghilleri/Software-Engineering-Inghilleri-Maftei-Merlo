@@ -73,9 +73,10 @@ public class Cli implements View {
     }
 
     /**
-     * This method is called when a client instance has started. It asks player's nickname, Ip address and port.
+     * This method is called when a client instance has started. It asks the Ip address and port.
      * It tries to establish a connection to the server through a socket.
-     * If the connection fails, it displays a message on the CLI.
+     * It starts a thread with the new established connection.
+     * If the connection fails, it displays a message on the screen.
      */
     public void setupConnection() {
         System.out.println(">Insert the server IP address");
@@ -115,6 +116,10 @@ public class Cli implements View {
         }
     }
 
+    /**
+     * This method manages the cleaning of the buffer, according to the value of 'enable' from the message
+     * @param message type of message
+     */
     public void enable(TurnMessage message) {
         if (message.isEnable())
             stopClearBuffer();
@@ -187,8 +192,7 @@ public class Cli implements View {
     }
 
     /**
-     * Method used to print a message as a string on the CLI
-     *
+     * Method used to print the string of the infoMessage on the CLI.
      * @param message type of message to display.
      */
     public synchronized void displayInfo(InfoMessage message) {
@@ -205,7 +209,6 @@ public class Cli implements View {
 
     /**
      * Method used to display the board after being updated.
-     *
      * @param message : parameter of updateBoard type, used to return the board and to draw it.
      */
     public synchronized void displayBoard(UpdateBoard message) {
@@ -221,12 +224,10 @@ public class Cli implements View {
     }
 
     /**
-     * This method manages the actions that a player can do.
+     * This method asks and manages the actions that a player can do.
      * It uses a switch-case constructor according to the action contained in the
-     *
      * @param message -> type of message-> AskActionMessage.
-     *                <p>
-     *                After the player has chosen an element the boolean 'alreadyAsked' is set to false for the specified player.
+     * After the player has chosen an element the boolean 'alreadyAsked' is set to true for the specified player.
      */
     public synchronized void askAction(AskActionMessage message) {
         stopClearBuffer();
@@ -413,6 +414,10 @@ public class Cli implements View {
         return InputController.checkRange(1, islands.size());
     }
 
+    /**
+     * This method returns the color of the student chosen by the player, checking that the chosen color is available
+     * @return
+     */
     private String chooseStudentColor(List<Student> students, boolean enablePrint, String message) {
         List<String> availableStudentsColors = new ArrayList<>();
         for (Student s : students) {
@@ -425,6 +430,9 @@ public class Cli implements View {
     private Thread clearBuffer;
     private final InputStreamReader inputStreamReader = new InputStreamReader(System.in);
 
+    /**
+     * This method manages the cleaning of the buffer in input.
+     */
     private void startClearBuffer() {
         synchronized (this) {
             print = true;
@@ -449,6 +457,9 @@ public class Cli implements View {
         }
     }
 
+    /**
+     * This method stops the cleaning of the buffer
+     */
     private synchronized void stopClearBuffer() {
         if (clearBuffer != null && clearBuffer.isAlive()) {
             clearBuffer.interrupt();

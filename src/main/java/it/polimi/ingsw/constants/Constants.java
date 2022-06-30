@@ -84,29 +84,48 @@ public class Constants {
         return "\033[" + y + ";" + x + "H";
     }
 
+    /**
+     * Static method to move the cursor up of y positions
+     */
     //quando si sale utilizzare una posizione in meno
     public static String cursorUp(int y) {
         return "\033[" + y + "A";
     }
 
+    /**
+     * Static method to move the cursor down of y position
+     */
     //usare una posizione in piu quando si scende
     public static String cursorDown(int y) {
         return "\033[" + y + "B";
     }
-
+    /**
+     * Static method to move the  cursor to right of x position
+     */
     public static String cursorRight(int x) {
         return "\033[" + x + "C";
     }
-
+    /**
+     * Static method to move the  cursor to left of x position
+     */
     public static String cursorLeft(int x) {
         return "\033[" + x + "D";
     }
 
+    /**
+     * This method add a new string To the StringBuilder
+     * @param stringBuilder an instance of this object (mutable sequence of characters)
+     * @param x number of position
+     * @param string to add
+     */
     public static void moveObject(StringBuilder stringBuilder, int x, String string) {
         stringBuilder.append(cursorRight(x));
         stringBuilder.append(string);
     }
 
+    /**
+     * This method refresh the screen
+     */
     public static void clearScreen() {
         try {
             String operatingSystem = System.getProperty("os.name"); //Check the current operating system
@@ -125,6 +144,11 @@ public class Constants {
         }
     }
 
+    /**
+     * This method creates the external board of the screen saw by the player in Cli interface.
+     * Inside this frame there are displayed all the other objects
+     * @return a string Builder
+     */
     public static StringBuilder boardFrame(int x, int y, boolean expertMode, int playersNumber) {
         StringBuilder frame = new StringBuilder();
         frame.append(Constants.cursorDown(y));

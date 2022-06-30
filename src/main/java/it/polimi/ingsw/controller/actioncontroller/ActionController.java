@@ -57,6 +57,10 @@ public class ActionController {
         boardExpert.moveCoin(playerId, boardExpert.getCharacterCardbyName(actionMessage.getCharacterCardName()));
     }
 
+    /**
+     * This method uses the effect of the character card performer, queen, thief which requires to update the professor eventually after using them.
+     * @param actionMessage type of message sent by the client
+     */
     public void useCharacterCardEffect(ActionMessage actionMessage) {
         this.strategy.useEffect(actionMessage);
         if (actionMessage.getCharacterCardName().equalsIgnoreCase("PERFORMER")
@@ -70,8 +74,8 @@ public class ActionController {
      * This method upon an action message request returns the player with the highest influence
      * on the specified island
      *
-     * @param index
-     * @return
+     * @param index id of island
+     * @return the player with highest influence
      */
     public int getInfluence(int index) {
         return gameModel.getBoard().getTotalInfluence(index);
@@ -117,10 +121,10 @@ public class ActionController {
     }
 
     /**
-     * This method moves mother nature.
+     * This method moves mother nature upon request.
      * It moves automatically the towers
      *
-     * @param actionMessage
+     * @param actionMessage type of message
      * @return the new owner
      */
     //TODO il movimento delle tower è atomico con lo spostamento di madre natura o deve essere il client a farlo cosi possiamo usare una specialCard dopo il movimento di madre natura  e prima d i muovere le torri
@@ -164,7 +168,8 @@ public class ActionController {
     }
 
     /**
-     * This method updates the owner's professor using as a paragon '>', calling the updateProfessor method of the board
+     * This method updates the owner's professor , calling the updateProfessor method of the board
+     * @param color color of the professor
      */
 
     public void updateProfessor(String color) {

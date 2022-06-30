@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.ConnectionMessage;
 /**
- * This class represents the message sent at the begging of the game.
+ * This class represents the message sent at the begging of the game by the client.
  * Every player is asked if he wants to play in expert mode and how many competitors wants in the game.
  */
 

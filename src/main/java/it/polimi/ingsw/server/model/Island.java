@@ -49,7 +49,6 @@ public class Island implements Serializable {
         students.get(firstStudent.getColor()).add(firstStudent);
     }
 
-    //---GETTER---//
 
     /**
      * This method return true is there is the MotherNature on the island , false vice-versa
@@ -73,13 +72,13 @@ public class Island implements Serializable {
     /**
      * This method returns true if there the island is marked as locked, false vice-versa
      */
-    public boolean hasNoEntryTile() {  //forse da cambiare nome al metodo
+    public boolean hasNoEntryTile() {
         if (noEntryTile == 0) return false;
         else return true;
     } //prima era isLocked
 
     /**
-     * This method return the tower color, which is a instance of the PlayerColor.
+     * This method return the tower color, which is an instance of the PlayerColor.
      * (Player and tower have the same color)
      */
     public PlayerColor getColorTower() {
@@ -87,7 +86,6 @@ public class Island implements Serializable {
         return null;
     }
 
-    //---SETTER---//
 
     /** This method sets the boolean hasMotherNature*/
     public void setMotherNature(boolean hasMotherNature) {
@@ -98,7 +96,7 @@ public class Island implements Serializable {
         if(locked)
             noEntryTile++;
         else noEntryTile--;
-    } //forse da cambiare nome al metodo
+    }
 
     public int getNoEntryTile(){
         return noEntryTile;

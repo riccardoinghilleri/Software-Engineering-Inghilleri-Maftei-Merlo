@@ -19,7 +19,6 @@ public class Knight extends ActionController {
      */
     public Knight(GameModel gameModel) {
         super(gameModel);
-        //TODO da finire
     }
 
     /**
@@ -28,7 +27,7 @@ public class Knight extends ActionController {
      * @param index of the island
      * @return the player with the highest influence.
      */
-    //metodo che calcola l'influenza aggiungenddo due punti addizionali al currentPlayer
+
     @Override
     public int getInfluence(int index) {
         int[] influence = new int[getGameModel().getPlayers().size()];

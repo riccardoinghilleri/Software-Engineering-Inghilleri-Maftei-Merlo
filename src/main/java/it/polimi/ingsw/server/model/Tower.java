@@ -21,10 +21,16 @@ public class Tower implements Serializable {
         this.color = color;
     }
 
+    /**
+     * @return the tower's owner
+     */
     public int getOwner() {
         return ownerId;
     }
 
+    /**
+     * @return the color of the tower
+     */
     public PlayerColor getColor() {
         return color;
     }

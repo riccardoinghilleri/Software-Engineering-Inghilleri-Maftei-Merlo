@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * This class represents the element 'student'.
- * It has a color and it will be displayed as a colorful circle on the screen.
+ * It has a color, and it will be displayed as a colorful circle on the screen(ClI version).
  */
 public class Student implements Serializable {
     private final CharacterColor color;

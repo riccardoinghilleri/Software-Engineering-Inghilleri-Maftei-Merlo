@@ -28,7 +28,7 @@ public class Lumberjack extends ActionController {
     /**
      * This method implements the 'super-power' of the card, overriding the method getInfluence from action controller.
      * Go to "model->boardExpert" to see the description
-     * @param actionMessage message with all the necessary parameter
+     * @param index of the island
      * @return the player with the highest influence.
      */
     @Override

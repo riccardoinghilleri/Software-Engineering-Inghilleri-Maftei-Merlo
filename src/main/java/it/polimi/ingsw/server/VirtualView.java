@@ -33,7 +33,8 @@ public class VirtualView implements Runnable {
 
     /**
      * The constructor of the class.
-     * It needs a socket and the server.
+     * @param server instance of server object
+     * @param socket instance of socket object
      */
     public VirtualView(Socket socket, Server server) throws IOException {
         this.socket = socket;
@@ -65,7 +66,7 @@ public class VirtualView implements Runnable {
     }
 
     /**
-     * This method opens an output and input stream. and forwards the messages.
+     * This method opens an output and input stream and forwards the messages to the GameHandler or to the server
      */
     @Override
     public void run() {
@@ -111,10 +112,10 @@ public class VirtualView implements Runnable {
     }
 
     /**
-     * This method closes a connection after waiting for several seconds and not receiving an answer.
+     * This method closes a connection when a client wants to disconnect at any moment during the game.
      * This method is called by the gameHandler to disconnects a client
      *
-     * @param quit boolean that tells if the ping message is not arrived or if the client has sent a quit message.
+     * @param quit boolean that tells  if the client has sent a quit message.
      */
     public synchronized void closeConnection(boolean quit) {
         if (!closed.get()) {
@@ -148,7 +149,10 @@ public class VirtualView implements Runnable {
 
     }
 
-
+    /**
+     * This method start the Ping thread.
+     * If a client doesn't send an answer before the period of time established , the connection is closed
+     */
     private void startPinger() {
         Thread pinger = new Thread(() -> {
             while (active.get()) {

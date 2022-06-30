@@ -19,7 +19,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * -Enter clients in different queues depending on the game mode chosen
  * -Create Games once reached enough clients;
  * -Remove a game from the list of active Games once it is finished.
- * It implements runnable, has a port and a currentGameId, 4 queue of connections depending on the game mode chosen.
+ * It implements runnable, has a port, 4 queue of connections depending on the game mode chosen.
  * It also manages the list of active games.
  */
 public class Server implements Runnable {
@@ -113,7 +113,7 @@ public class Server implements Runnable {
     }
 
     /**
-     * The method creates the queue according the game mode and number of players chosen by each client.
+     * The method creates the queue according to the game mode and number of players chosen by each client.
      * @param client connection with the client
      * @param playersNumber number of players involved in the specified game
      * @param expertMode chosen game mode
@@ -168,9 +168,8 @@ public class Server implements Runnable {
     }
 
     /**
-     * This method removes the connections from the server and gives them to the GameHandler and updates
-     * the currentGameID.
-     * From this point all the games are managed by each gameHandler, and the server losts them.
+     * This method removes the connections from the server and gives them to the GameHandler.
+     * From this point all the games are managed by each gameHandler, and the server lost them.
      * @param queue parameter that tells from which queue to remove the connections
      */
     public void createGameHandler(int queue) {
@@ -225,6 +224,11 @@ public class Server implements Runnable {
         }
     }
 
+    /**
+     * Override of the toString method.
+     * It shows the status of the server.
+     * @return
+     */
     @Override
     public String toString() {
         Constants.clearScreen();

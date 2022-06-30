@@ -25,7 +25,7 @@ public class Centaur extends ActionController {
      * This method is an override of the general method getInfluence.
      * It, in fact, gets the influence without counting the towers on the island.
      * Go to "model->boardExpert" to see the complete description
-     * @param index
+     * @param index id of the island.
      * @return the player with the highest influence.
      */
     //metodo che calcola l'inlfuenza senza tenere conto delle torri

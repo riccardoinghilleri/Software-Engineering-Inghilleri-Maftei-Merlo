@@ -5,7 +5,7 @@ import it.polimi.ingsw.enums.Action;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * This class represents the messages shared about
+ * This class represents the messages sent by the client side about
  * all the possible actions that a player can do during his turn:
  *  CHOOSE_ASSISTANT_CARD,
  *  CHOOSE_CHARACTER_CARD,
@@ -61,7 +61,7 @@ public class ActionMessage implements Message{
         return characterCardName;
     }
     /**
-     * Method setAction sets the action chosen by th player in the message
+     * Method setCharacterCardName sets the name chosen by th player in the message
      */
 
     public void setCharacterCardName(String characterCardName) {

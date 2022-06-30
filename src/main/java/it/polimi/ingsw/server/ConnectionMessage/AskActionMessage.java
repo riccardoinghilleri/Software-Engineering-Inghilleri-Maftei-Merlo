@@ -7,8 +7,8 @@ import it.polimi.ingsw.server.model.*;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * This class presents the concrete action asked the player.
- * It has a different method for each move allowed.
+ * This class presents the concrete action asked the player by the server.
+ * It has a different method for each movement allowed, according to the parameters
  */
 
 public class AskActionMessage implements Message, ServerMessage {

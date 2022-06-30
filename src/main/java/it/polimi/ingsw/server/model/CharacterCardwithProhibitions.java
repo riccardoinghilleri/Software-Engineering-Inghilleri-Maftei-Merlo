@@ -12,6 +12,10 @@ public class CharacterCardwithProhibitions extends CharacterCard {
 
     /**
      * Constructor calling the super constructor of the CharacterCard class
+     * @param name: name of the card
+     * @param cost : usual cost of the characterCard to be played
+     * @param description: since there different cards with this extension, the description is essential for the player.
+     * @param prohibitionsNumber : number of prohibitions
      */
     public CharacterCardwithProhibitions(CharacterCardName name, int cost, String description, int prohibitionsNumber) {
         super(name,cost,description);

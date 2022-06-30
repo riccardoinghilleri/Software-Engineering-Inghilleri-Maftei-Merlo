@@ -14,15 +14,15 @@ public class BoardExpert extends Board {
 
     /**
      * The constructor of the boardExpert: it creates the coins, chooses randomly 3 characterCard and gives to each player a coin.
-     * @param gameModel it needs the gameModel such as the basic Board
+     * @param gameModel it needs the gameModel as the basic Board.
      */
     public BoardExpert(GameModel gameModel) {
         super(gameModel);
-        //--CREO LE MONETE--
+
         boardCoins = 20;
-        //--ESTRAGGO 3 CARTE PERSONAGGIO CASUALI--
+
         characterCards = createThreeRandomCharacterCards();
-        //--ASSEGNO AD OGNI PLAYER UNA MONETA--
+
         playerCoins = new int[gameModel.getPlayersNumber()];
         for (Player p : gameModel.getPlayers()) {
             playerCoins[p.getClientID()] = 1;
@@ -30,6 +30,9 @@ public class BoardExpert extends Board {
         }
     }
 
+    /**
+     * @return and array with the coins of each player
+     */
     public int[] getCoins() {
         return playerCoins;
     }
@@ -50,7 +53,7 @@ public class BoardExpert extends Board {
     }
 
     /**
-     * @return a list of the all the CharacterCard randomly chosen
+     * @return a list of all the CharacterCard randomly chosen
      */
     public CharacterCard[] getCharacterCards() {
         return characterCards;
@@ -72,7 +75,7 @@ public class BoardExpert extends Board {
     }
 
     /**
-     * After a player uses a CharacterCard this method removes the coins from the player and put the cost at -1
+     * After a player uses a CharacterCard this method removes the coins from the player and put subtract from the cost 1.
      * It adds a coin to the CharacterCard
      * @param clientId the player who uses the Card
      * @param card: the card chosen
@@ -88,7 +91,6 @@ public class BoardExpert extends Board {
      * It adds a coin to a specified player removing them from the Board
      * @param clientId the client to who coins are added.
      */
-    //Aggiunge una moneta al player
     public void addCointoPlayer(int clientId) {
         playerCoins[clientId] += 1;
         boardCoins--;

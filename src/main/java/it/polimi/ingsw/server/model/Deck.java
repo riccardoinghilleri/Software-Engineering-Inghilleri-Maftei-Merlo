@@ -9,7 +9,7 @@ import java.util.*;
  * This class represents the deck associated to a player.
  * Each deck has a magician, which is chosen by the player.
  * After a student has played a specified card, the card will be removed from the deck,
- * so the number of cards available will decrease
+ * so the number of cards available will decrease.
  */
 
 public class Deck implements Serializable {
@@ -47,7 +47,7 @@ public class Deck implements Serializable {
     /**
      * After the player chooses the wizard that wants to play , the wizard Name is set to te deck,
      * if only the given name is one of the list of enum Wizard
-     * @param wizard
+     * @param wizard string of the wizard
      */
     public void setWizard(String wizard) {
         this.wizard = Wizard.valueOf(wizard.toUpperCase());

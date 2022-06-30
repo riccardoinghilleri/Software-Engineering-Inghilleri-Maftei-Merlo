@@ -28,8 +28,8 @@ public class School implements Serializable {
     /**
      * This method is the constructor.
      * It initializes the entrance with the correct number of towers according
-     * to the nummber of players.
-     * It initializes the diningRoom
+     * to the number of players.
+     * It initializes the diningRoom.
      */
     public School(Player owner, PlayerColor playerColor, int playersNumber) {
         this.owner = owner;
@@ -51,8 +51,9 @@ public class School implements Serializable {
     }
 
     /**
-     * //TODO a cosa serve questo metodo? asked by dani
-     * @param school
+     * Method of the class which requires a instance of the school itself.
+     * It collects all the data of an already existing school
+     * @param school instance of school.
      */
     public School(School school) { //TODO forse meglio implementare Cloneable
         this.owner = school.getOwner();
@@ -64,7 +65,6 @@ public class School implements Serializable {
         this.numDiningRoomStudents= school.getNumDiningRoomStudents();
     }
 
-    //---GETTER---//
 
     /**
      * @return a list of all professors in the school.
@@ -140,10 +140,8 @@ public class School implements Serializable {
         return false;
     }
 
-    //---STUDENTSMOVEMENT---//
-
     /**
-     * This method adds a students to the map of students of the dining room
+     * This method adds a student to the map of students of the dining room
      * @param student is the instance of the student that is about to be added
      */
 
@@ -160,7 +158,7 @@ public class School implements Serializable {
     }
     /**
      * This method adds an entire list of students to the entrance
-     * @param students is the instance of students list
+     * @param students is the instance of students list.
      */
     public void addEntranceStudents(List<Student> students) {
         entrance.addAll(students);
@@ -194,18 +192,16 @@ public class School implements Serializable {
     }
 
     /**
-     * This method moves a student from the entrance to the diningroom,
+     * This method moves a student from the entrance to the diningRoom,
      * throw the use of 'removeEntranceStudent' and 'addDiningRoomStudent'.
      * It throws an exception if there is not a student of that color.
-     * @param studentColor
+     * @param studentColor color of the student
      */
     public void fromEntrancetoDiningRoom(CharacterColor studentColor)
     //TODO  LANCIARE ECC SE NON è PRESENTE UNO STUDENTE DEL COLORE DESIDERATO
     {
         addDiningRoomStudent(removeEntranceStudent(studentColor));
     }
-
-    //---TOWERSMOVEMENT---//
 
     /**
      * This method removes a tower from the list of towers in the school.
@@ -225,7 +221,7 @@ public class School implements Serializable {
     }
 
     /**
-     * This method adds the professor passed as parameter to the list of professor
+     * This method adds the professor passed as parameter to the list of professor.
      */
     public void addProfessor(Professor professor) {
         professors.add(professor);
@@ -244,8 +240,7 @@ public class School implements Serializable {
     }
 
     /**
-     * This methods finds the first professor in the list of professors
-     * with the specified color
+     * This method finds the first professor in the list of professors with the specified color.
      */
     public Professor getProfessorByColor(CharacterColor color) {
         for (Professor professor : professors) {

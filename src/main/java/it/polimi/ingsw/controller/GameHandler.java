@@ -19,7 +19,7 @@ import java.util.*;
 /**
  * This class that represents the actual Game.
  * It receives from the server, after the latter accepts the connections and put each connection in the correct queue,
- * a list of the players, the game id and the game mode.
+ * a list of the players and the game mode.
  * * Tha gameHandler can be found in different phases( SETUP_NICKNAME,SETUP_COLOR,SETUP_WIZARD,PIANIFICATION,ACTION)
  * Since multiple games are allowed, each different game has its gameHandler.
  */
@@ -44,7 +44,7 @@ public class GameHandler implements PropertyChangeListener {
 
     /**
      * The constructor of the class.
-     * It needs the gameID, expertMode,list of players and server
+     * It needs the expertMode,list of players and server
      **/
     public GameHandler(/*int gameId, */boolean expertMode, List<VirtualView> clients, Server server) {
         //this.gameId = gameId;
@@ -72,7 +72,7 @@ public class GameHandler implements PropertyChangeListener {
      * This method manages the messages from the client connection according to the phase in which it can be found.
      * If a player tries to make a move while it is not his turn, he will receive a message and be told to wait.
      */
-    //Gestisce i messaggi ricevuti dalla client connection
+
     public void manageMessage(VirtualView client, Message message) {
         if (currentClientConnection != client.getClientId()) {
             client.sendMessage(new InfoMessage(">It is not your turn! Please wait.", false));
@@ -139,7 +139,7 @@ public class GameHandler implements PropertyChangeListener {
     /**
      * This method manages the setting of the game parameters (nickname, color and magician) for each player,
      * according to their order connection to the server. Here the type of message sent from the client is a 'SetUpMessage'.
-     * while the messages sent by the server are 'infoMessage', 'nicknameMessage' and 'MultipleChoiceMessage'
+     * while the messages sent by the server are 'infoMessage', 'nicknameMessage' and 'MultipleChoiceMessage' and 'connectionIdMessage'
      */
     public void setupGame() {
         if (phase == GameHandlerPhase.SETUP_NICKNAME) {
@@ -215,7 +215,7 @@ public class GameHandler implements PropertyChangeListener {
     }
 
     /**
-     * Method actionTurn manages the actual game round
+     * Method actionTurn manages the actual game round for a player.
      */
     private void actionTurn() {
         //sendAll(new UpdateBoard(gameModel.getBoard()));
@@ -357,6 +357,11 @@ public class GameHandler implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Method for the game mode '4 players'.
+     * It set the clientId of playery to 0 if White and to 1 if black for the first two players, and then add 2 for the last 2 players.
+     */
+
     //Serve per 4 giocatori. In questo modo il primo è bianco con torri e il secondo nero con torri
     private void setClientIdOrder() {
         int whiteIndex = 0, blackIndex = 1;
@@ -373,6 +378,10 @@ public class GameHandler implements PropertyChangeListener {
         }
     }
 
+    /**
+     * @param evt A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -391,6 +400,10 @@ public class GameHandler implements PropertyChangeListener {
     }
 }
 
+/**
+ * class that implements the virtualView throw comparator.
+ * It is used to compare 2 client id and used in the setUpGame() method when the turn begin.
+ */
 class IdComparator implements Comparator<VirtualView> {
     @Override
     public int compare(VirtualView v1, VirtualView v2) {

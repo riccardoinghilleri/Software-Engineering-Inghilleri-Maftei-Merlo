@@ -5,7 +5,7 @@ import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.gui.Gui;
 
 /**
- * This class represents the message sent by the server to be displayed by the view.
+ * This class represents the message to be displayed by the view during the different phases of the game.
  */
 public class InfoMessage implements Message,ServerMessage{
     private final String string;
@@ -14,12 +14,19 @@ public class InfoMessage implements Message,ServerMessage{
 
     private boolean waitBoard;
 
+    /**
+     * Constructor of the class
+     */
     public InfoMessage(String string, boolean waitBoard) {
         this.string = string;
         this.winner=null;
         this.disconnection=false;
         this.waitBoard=waitBoard;
     }
+
+    /**
+     * Message sent at the end of a game with the winner
+     */
     public InfoMessage(String string,boolean waitBoard, String winner){
         this.string = string;
         this.winner=winner;
@@ -27,6 +34,9 @@ public class InfoMessage implements Message,ServerMessage{
         this.waitBoard=waitBoard;
     }
 
+    /**
+     * Message sent at the end of the game, when the client disconnect
+     */
     public InfoMessage(String string,boolean waitBoard, boolean disconnection){
         this.string = string;
         this.winner=null;

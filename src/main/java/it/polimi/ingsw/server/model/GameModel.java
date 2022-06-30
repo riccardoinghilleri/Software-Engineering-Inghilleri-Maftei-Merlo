@@ -33,7 +33,7 @@ public class GameModel implements Serializable {
 
     /**
      * Method createBoard creates a Bord, according to the value of the parameter
-     * isExpertGame, passing the list of player and the gameModel itself
+     * isExpertGame, passing the gameModel itself.
      */
     //---CREAZIONE OGGETTI---//
     public void createBoard() {
@@ -135,7 +135,7 @@ public class GameModel implements Serializable {
     }
 
     /**
-     * MethodSetPlayerDeck is called when the player chooses the wizard that want to play
+     * MethodSetPlayerDeck is called when the player chooses the wizard that wants to play.
      * It sets the deck to the specified player, throw clientId
      * @param clientId The unique id the of player who has chosen the wizard
      * @param wizard the wizard chosen
@@ -154,7 +154,6 @@ public class GameModel implements Serializable {
     //Metodo che controlla se c'è un vincitore e ritorna il player
 
 }
-
 /**
  * As the name suggests the method PlayerComparator has in input 2 players and compare if the priorities of the 2 are equal,
  * the first major or minor than the second .

@@ -13,6 +13,9 @@ public class MultipleChoiceMessage implements Message,ServerMessage{
     private final List<String> availableChoices;
     private final boolean color;
 
+    /**
+     * Constructor of the class
+     */
     public MultipleChoiceMessage(List<?> availableChoices, boolean color) {
         this.color=color;
         this.availableChoices = new ArrayList<>();

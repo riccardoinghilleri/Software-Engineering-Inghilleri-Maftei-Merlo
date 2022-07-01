@@ -65,13 +65,13 @@ public class ReducedModel {
         //card.append(Constants.cursorRight(34));
         //111
         distance = (111 - (int) Math.ceil(((float) board.getIslands().size() - 2.0) / 2.0) * 21) / (1 + (int) Math.ceil(((float) board.getIslands().size() - 2.0) / 2.0)); //TODO potrebbe non essere divisibile e avere un resto
-        //stampa prima fila di isole
+        //stampa prima fila d'isole
         for (int i = 0; i < Math.ceil(((float) board.getIslands().size() - 2.0) / 2.0); i++) {
             card.append(draw(board.getIslands().get(i + 1), x + 36 + distance * (i + 1) + i * 21, 0, i + 2));
             card.append(Constants.cursorUp(5));
         }
         card.append(Constants.cursorDown(6));
-        card.append(draw(board.getIslands().get(0), x + 19, 0, 1)); //stampo isola 0
+        card.append(draw(board.getIslands().get(0), x + 19, 0, 1)); //stampo isola zero
         card.append(Constants.cursorUp(4));
         //103 larghezza nuvole
         distance = ((103 - board.getPlayersNumber() * 11) / (board.getPlayersNumber() + 1));
@@ -84,7 +84,7 @@ public class ReducedModel {
         card.append(Constants.cursorDown(1));
         distance = (111 - (int) Math.floor(((float) board.getIslands().size() - 2.0) / 2.0) * 21)
                 / (1 + (int) Math.floor(((float) board.getIslands().size() - 2.0) / 2.0));
-        //stampo ultima fila di isole
+        //stampo ultima fila d'isole
         for (int i = board.getIslands().size() - 1; i >= Math.ceil(((float) board.getIslands().size() - 2.0) / 2.0) + 2; i--) {
             card.append(draw(board.getIslands().get(i), x + 37 + distance * (count + 1) + count * 21, 0, i + 1));
             card.append(Constants.cursorUp(5));
@@ -238,90 +238,6 @@ public class ReducedModel {
         return card;
     }
 
-    /*
-        private static StringBuilder draw(CharacterCardwithProhibitions characterCardwithProhibitions, int x, int y) {
-            StringBuilder card = new StringBuilder();
-            card.append(Constants.cursorUp(y));
-            String top_wall = "╒════════════╕\n";//14
-            String middle_wall = "├────────────┤\n";
-            String bottom_wall = "╘════════════╛\n";
-            String vertical = "│";
-            String cost;
-            if (characterCardwithProhibitions.getCost() < 10)
-                cost = vertical + "  COST: " + characterCardwithProhibitions.getCost() + "   " + vertical + "\n";
-            else
-                cost = vertical + "  COST: " + characterCardwithProhibitions.getCost() + "  " + vertical + "\n";
-            int name_index = 0;
-            int noEntryTiles_index = 0;
-            Constants.moveObject(card, x, top_wall);
-            card.append(Constants.cursorRight(x));
-            for (int j = 0; j < 14; j++) {
-                if (j == 0 || j == 13) card.append(vertical);
-                else if (j > (12 - characterCardwithProhibitions.getName().toString().length()) / 2 && name_index < characterCardwithProhibitions.getName().toString().length()) {
-                    card.append(characterCardwithProhibitions.getName().toString().charAt(name_index));
-                    name_index++;
-                } else card.append(" ");
-            }
-            card.append("\n");
-            Constants.moveObject(card, x, middle_wall);
-            Constants.moveObject(card, x, cost);
-            Constants.moveObject(card, x, middle_wall);
-            card.append(Constants.cursorRight(x));
-            for (int j = 0; j < 14; j++) {
-                if (j == 0 || j == 13) card.append(vertical);
-                else if (((j % 2 != 0 && ((12 - characterCardwithProhibitions.getProhibitionsNumber() * 2 - 1) / 2) % 2 == 0) || (j % 2 == 0 && ((12 - characterCardwithProhibitions.getProhibitionsNumber() * 2 - 1) / 2) % 2 != 0))
-                        && j > (12 - characterCardwithProhibitions.getProhibitionsNumber() * 2 - 1) / 2 && noEntryTiles_index < characterCardwithProhibitions.getProhibitionsNumber()) {
-                    card.append("X");
-                    noEntryTiles_index++;
-                } else card.append(" ");
-            }
-            card.append("\n");
-            Constants.moveObject(card, x, bottom_wall);
-            return card;
-        }
-
-        private static StringBuilder draw(CharacterCardwithStudents characterCardwithStudents, int x, int y) {
-            StringBuilder card = new StringBuilder();
-            card.append(Constants.cursorUp(y));
-            String top_wall = "╒════════════╕\n";//14
-            String middle_wall = "├────────────┤\n";
-            String bottom_wall = "╘════════════╛\n";
-            String vertical = "│";
-            String cost;
-            if (characterCardwithStudents.getCost() < 10)
-                cost = vertical + "  COST: " + characterCardwithStudents.getCost() + "   " + vertical + "\n";
-            else
-                cost = vertical + "  COST: " + characterCardwithStudents.getCost() + "  " + vertical + "\n";
-            int name_index = 0;
-            int students_index = 0;
-            Constants.moveObject(card, x, top_wall);
-            card.append(Constants.cursorRight(x));
-            for (int j = 0; j < 14; j++) {
-                if (j == 0 || j == 13) card.append(vertical);
-                else if (j > (12 - characterCardwithStudents.getName().toString().length()) / 2 && name_index < characterCardwithStudents.getName().toString().length()) {
-                    card.append(characterCardwithStudents.getName().toString().charAt(name_index));
-                    name_index++;
-                } else card.append(" ");
-            }
-            card.append("\n");
-            Constants.moveObject(card, x, middle_wall);
-            Constants.moveObject(card, x, cost);
-            Constants.moveObject(card, x, middle_wall);
-            card.append(Constants.cursorRight(x));
-            for (int j = 0; j < 14; j++) {
-                if (j == 0 || j == 13) card.append(vertical);
-                else if (((j % 2 != 0 && ((12 - characterCardwithStudents.getStudents().size() * 2 - 1) / 2) % 2 == 0) || (j % 2 == 0 && ((12 - characterCardwithStudents.getStudents().size() * 2 - 1) / 2) % 2 != 0))
-                        && j > (12 - characterCardwithStudents.getStudents().size() * 2 - 1) / 2 && students_index < characterCardwithStudents.getStudents().size()) {
-                    card.append(characterCardwithStudents.getStudents().get(students_index));
-                    students_index++;
-                } else card.append(" ");
-            }
-            card.append("\n");
-            Constants.moveObject(card, x, bottom_wall);
-            return card;
-        }
-    */
-
     /**
      * This method is used to display the cloud object on the screen.
      * @return a string builder to append to the board stringBuilder
@@ -416,17 +332,17 @@ public class ReducedModel {
                         card.append(Constants.ANSI_RESET);
                     } else card.append(" ");
                 } else if (i == 3) {
-                    if (j > 4 && ((j % 2 != 0 && ((21 - island.getTowers().size() * 2 - 1) / 2) % 2 == 0)
+                    if (j > 2 && ((j % 2 != 0 && ((21 - island.getTowers().size() * 2 - 1) / 2) % 2 == 0)
                             || (j % 2 == 0 && ((21 - island.getTowers().size() * 2 - 1) / 2) % 2 != 0))
                             && j > (21 - island.getTowers().size() * 2 - 1) / 2 && towers_index < island.getTowers().size()) {
                         card.append(island.getTowers().get(towers_index));
                         towers_index++;
                     } else card.append(" ");
-                } else if (i == 4) {
+                } else {
                     if (j == 8 && island.hasMotherNature()) card.append("M");
                     else if (j == 11 && island.hasNoEntryTile()) {
-                        card.append(island.getNoEntryTile() + "X");
-                        j = 13;
+                        card.append(island.getNoEntryTile()).append("X");
+                        j = 12;
                     } else card.append(" ");
                 }
             }

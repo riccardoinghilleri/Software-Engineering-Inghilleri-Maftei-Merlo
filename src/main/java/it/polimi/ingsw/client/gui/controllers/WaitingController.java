@@ -4,12 +4,12 @@ import it.polimi.ingsw.client.gui.Gui;
 import it.polimi.ingsw.constants.Constants;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 
 /**
  * Waiting Controller displays the waiting page, while the other players are choosing the parameters.
  */
 public class WaitingController implements GuiController {
+
     private Gui gui;
 
     @FXML

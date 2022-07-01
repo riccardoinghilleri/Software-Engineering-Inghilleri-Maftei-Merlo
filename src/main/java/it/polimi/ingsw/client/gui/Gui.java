@@ -37,7 +37,7 @@ public class Gui extends Application implements View {
 
     /**
      * Main class of the Gui,which is called from the "Eriantys" class in case the player decides to play with this interface.
-     * @param args
+     * @param args main arguments
      */
     public static void main(String[] args) {
         launch(args);
@@ -160,7 +160,7 @@ public class Gui extends Application implements View {
                 controllers.put(s, controller);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         currentScene = scenes.get("welcome.fxml");
     }
@@ -276,7 +276,6 @@ public class Gui extends Application implements View {
                                 characterCard.setAlwaysOnTop(true);
                                 characterCard.setScene(scenes.get("characterCard.fxml"));
                                 characterCard.initModality(Modality.APPLICATION_MODAL);
-                                //characterCard.setOnCloseRequest(Event::consume);
                                 CharacterCardController controller =
                                         (CharacterCardController) getControllerByFxmlName("characterCard.fxml");
                                 controller.setStage(characterCard);
@@ -376,7 +375,6 @@ public class Gui extends Application implements View {
                 }
             }
             controller = (MainSceneController) getControllerByScene(currentScene);
-            //controller.setAction(null);
             controller.update(message);
             controller.setSchool(message.getBoard().getSchools());
         });
@@ -432,11 +430,6 @@ public class Gui extends Application implements View {
                 stage.close();
             }
         });
-    }
-
-    @Override
-    public void setupConnection() {
-
     }
 
     @Override

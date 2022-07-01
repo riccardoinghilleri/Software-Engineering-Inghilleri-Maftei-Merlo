@@ -72,7 +72,7 @@ public class Cli implements View {
     /**
      * This method is called when a client instance has started. It asks the Ip address and port.
      * It tries to establish a connection with the server through a socket.
-     * If the connection fails, it displays a error message on the screen.
+     * If the connection fails, it displays an error message on the screen.
      */
     public void setupConnection() {
         System.out.println(">Insert the server IP address");
@@ -135,10 +135,9 @@ public class Cli implements View {
     /**
      * This method manages the choice of the player's nickname, parsing the player's input
      * and forwarding the message through the established clientConnection.
-     * If the nickname has been already chosen, it ask the nickname again.
+     * If the nickname has been already chosen, it asks the nickname again.
      */
     public void setupNickname(NicknameMessage message) {
-        clearSystemIn();
         Constants.clearScreen();
         System.out.println(Constants.SETUP_GAME);
         String response;
@@ -454,20 +453,8 @@ public class Cli implements View {
             clearBuffer = null;
             print = false;
         }
-        clearSystemIn();
     }
 
-
-    /**
-     * This method clears the System.in
-     */
-    private void clearSystemIn(){
-        try {
-            System.in.read(new byte[System.in.available()]); //TODO DA TESTARE
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
 
 

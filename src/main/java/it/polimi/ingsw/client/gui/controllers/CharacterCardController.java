@@ -97,7 +97,7 @@ public class CharacterCardController implements GuiController {
 
     /**
      * This method handles the characterCard nodes and sets the actions that can be done with each card.
-     * Baesd on the card,the text field changes.
+     * Based on the card,the text field changes.
      *@param card instance of characterCard
      */
 

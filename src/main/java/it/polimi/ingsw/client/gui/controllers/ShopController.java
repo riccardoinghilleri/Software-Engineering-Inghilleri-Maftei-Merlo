@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.gui.Gui;
 import it.polimi.ingsw.enums.CharacterCardName;
 import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
 import it.polimi.ingsw.server.model.CharacterCard;
+import it.polimi.ingsw.server.model.CharacterCardwithProhibitions;
 import it.polimi.ingsw.server.model.CharacterCardwithStudents;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,7 +28,7 @@ public class ShopController implements GuiController {
     private Stage stage;
     private Gui gui;
     private CharacterCard[] characterCards;
-    private int displayedCard = 0,diningRoomStudents;
+    private int displayedCard = 0;
 
     private ActionMessage message;
     @FXML
@@ -79,10 +80,6 @@ public class ShopController implements GuiController {
     @Override
     public void setGui(Gui gui) {
         this.gui = gui;
-    }
-
-    public Button getBuyBtn() {
-        return buyBtn;
     }
 
     public void setMessage(ActionMessage message) {
@@ -181,6 +178,9 @@ public class ShopController implements GuiController {
                 buyBtn.setDisable(true);
             else if(characterCards[displayedCard].getName()== CharacterCardName.PERFORMER) {
                 buyBtn.setDisable(((MainSceneController)gui.getControllerByFxmlName("mainScene.fxml")).getDiningroomStudents()<1);
+            }
+            else if(characterCards[displayedCard].getName()== CharacterCardName.HERBOLARIA){
+                buyBtn.setDisable(((CharacterCardwithProhibitions)characterCards[displayedCard]).getProhibitionsNumber()==0);
             }
             else buyBtn.setDisable(false);
         }

@@ -16,7 +16,7 @@ public class StrategyFactory {
      * @return a character card strategy
      */
     public static CharacterCardStrategy strategyFactory(String characterCardName, GameModel gameModel) {
-        CharacterCardStrategy strategy = null; //TODO non so se è giusto inizializzarla a null
+        CharacterCardStrategy strategy = null;
         switch (characterCardName){
             case "CLOWN" :
                 strategy= new Clown(gameModel);

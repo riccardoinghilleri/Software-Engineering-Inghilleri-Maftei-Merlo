@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.gui.controllers;
 
-import com.sun.scenario.effect.Color4f;
 import it.polimi.ingsw.client.gui.Gui;
 import it.polimi.ingsw.server.ConnectionMessage.SetupMessage;
 import javafx.event.ActionEvent;
@@ -12,15 +11,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 /**
  * SetUpController displays the initial Stage, when the client has to choose nickname, color and wizard.

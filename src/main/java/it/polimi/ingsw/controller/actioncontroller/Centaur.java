@@ -1,13 +1,10 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
-import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
+
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.enums.CharacterColor;
-
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * This class represents the Centaur card and contains the specific method of the card.
@@ -28,7 +25,7 @@ public class Centaur extends ActionController {
      * @param index id of the island.
      * @return the player with the highest influence.
      */
-    //metodo che calcola l'inlfuenza senza tenere conto delle torri
+    //metodo che calcola l'influenza senza tenere conto delle torri
     @Override
     public int getInfluence(int index) { //da aggiungere un getModel in actionController
         int[] influence = new int[getGameModel().getPlayers().size()];

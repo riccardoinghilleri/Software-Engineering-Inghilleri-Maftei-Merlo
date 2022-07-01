@@ -11,7 +11,6 @@ public interface View {
     void setupMultipleChoice(MultipleChoiceMessage message);
     void setupNickname(NicknameMessage message);
     void displayBoard(UpdateBoard message);
-    void setupConnection(); //TODO dato ceh viene usato solo nella cli, si potrebbe togliere da questa interfaccia
     String getAddress();
     int getPort();
 

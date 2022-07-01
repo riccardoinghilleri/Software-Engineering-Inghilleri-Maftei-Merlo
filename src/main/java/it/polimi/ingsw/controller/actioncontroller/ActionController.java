@@ -75,7 +75,7 @@ public class ActionController {
      * on the specified island
      *
      * @param index id of island
-     * @return the player with highest influence
+     * @return the player with the highest influence
      */
     public int getInfluence(int index) {
         return gameModel.getBoard().getTotalInfluence(index);

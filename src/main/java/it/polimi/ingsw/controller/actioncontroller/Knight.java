@@ -1,14 +1,11 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
 import it.polimi.ingsw.enums.PlayerColor;
-import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.enums.CharacterColor;
-
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+
 
 /**
  * This class represents the Lumberjack card and contains the specific method of the card.

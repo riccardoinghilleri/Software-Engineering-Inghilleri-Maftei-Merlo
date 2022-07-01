@@ -10,8 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -102,7 +100,7 @@ public class AssistantCardsController implements GuiController {
             message.setAction(Action.CHOOSE_CHARACTER_CARD);
             message.setData(priority);
             gui.getConnection().send(message);
-            ImageView image = (ImageView) mainPane.getChildren().get(priority+9);//serve a disattivare glow e a risettare exited nella carta che non è una scelta valida
+            ImageView image = (ImageView) mainPane.getChildren().get(priority+9);//serve a disattivare glow e a resettare exited nella carta che non è una scelta valida
             image.setEffect(null);
             image.setOnMouseExited(this::unselect);
             disableAllCards();

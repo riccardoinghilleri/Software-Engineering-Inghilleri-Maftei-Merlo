@@ -32,13 +32,6 @@ public class Constants {
                     " ███████║ ███████╗ ██║  ██║    ╚██╔╝    ███████╗ ██║  ██║       ███████║    ██║    ██║  ██║    ██║    ╚█████╔╝ ███████║\n" +
                     " ╚══════╝ ╚══════╝ ╚═╝  ╚═╝     ╚═╝     ╚══════╝ ╚═╝  ╚═╝       ╚══════╝    ╚═╝    ╚═╝  ╚═╝    ╚═╝     ╚════╝  ╚══════╝\n";
 
-    public static final String CONNECTION =
-                    " ███████╗  ██████╗  ██╗   ██╗ ██╗   ██╗ ███████╗ ███████╗ ████████╗ ██╗  ██████╗  ██╗   ██╗\n" +
-                    " ██╔════╝ ██╔═══██╗ ███╗  ██║ ███╗  ██║ ██╔════╝ ██╔════╝ ╚══██╔══╝ ██║ ██╔═══██╗ ███╗  ██║\n" +
-                    " ██║      ██║   ██║ ██╔██╗██║ ██╔██╗██║ ███████╗ ██║         ██║    ██║ ██║   ██║ ██╔██╗██║\n" +
-                    " ██║      ██║   ██║ ██║╚═███║ ██║╚═███║ ██╔════╝ ██║         ██║    ██║ ██║   ██║ ██║╚═███║\n" +
-                    " ███████╗ ╚██████╔╝ ██║  ╚██║ ██║  ╚██║ ███████╗ ███████╗    ██║    ██║ ╚██████╔╝ ██║  ╚██║\n" +
-                    " ╚══════╝  ╚═════╝  ╚═╝   ╚═╝ ╚═╝   ╚═╝ ╚══════╝ ╚══════╝    ╚═╝    ╚═╝  ╚═════╝  ╚═╝   ╚═╝\n";
     public static final String SETUP_GAME =
                     " ███████╗ ███████╗ ████████╗ ██╗  ██╗ ███████╗       ███████╗  █████╗  ██╗   ██╗ ███████╗\n" +
                     " ██╔════╝ ██╔════╝ ╚══██╔══╝ ██║  ██║ ██╔══██║       ██╔════╝ ██╔══██╗ ███╗ ███║ ██╔════╝\n" +
@@ -80,9 +73,6 @@ public class Constants {
         else return null;
     }
 
-    public static String moveCursor(int y, int x) {
-        return "\033[" + y + ";" + x + "H";
-    }
 
     /**
      * Static method to move the cursor up of y positions
@@ -99,18 +89,14 @@ public class Constants {
     public static String cursorDown(int y) {
         return "\033[" + y + "B";
     }
+
     /**
      * Static method to move the  cursor to right of x position
      */
     public static String cursorRight(int x) {
         return "\033[" + x + "C";
     }
-    /**
-     * Static method to move the  cursor to left of x position
-     */
-    public static String cursorLeft(int x) {
-        return "\033[" + x + "D";
-    }
+
 
     /**
      * This method add a new string To the StringBuilder
@@ -140,7 +126,7 @@ public class Constants {
                 startProcess.waitFor();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -183,8 +169,4 @@ public class Constants {
         return frame;
     }
 
-    public static void clearRowBelow(int y) {
-        System.out.println(cursorUp(y));
-        System.out.print("\033[H\033[0J");
-    }
 }

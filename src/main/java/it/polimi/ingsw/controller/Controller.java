@@ -173,6 +173,9 @@ public class Controller {
                     characterCardName = actionMessage.getCharacterCardName();
                     if (characterCardName.equalsIgnoreCase("PERFORMER") && gameModel.getBoard().getSchoolByOwnerId(gameModel.getCurrentPlayer().getClientID()).getNumDiningRoomStudents() == 0)
                         return "You can not choose this character card. You don't have enough students in your dining room!";
+                    else if( characterCardName.equalsIgnoreCase("HERBOLARIA") &&
+                            ((CharacterCardwithProhibitions)((BoardExpert)gameModel.getBoard()).getCharacterCardbyName("HERBOLARIA")).getProhibitionsNumber()==0)
+                        return "You can not choose this character card. There are no more noEntryTiles!";
                     alreadyUsedCharacterCard = true;
                     // if the strategy is not set and the character card's name is not 'lumberjack' or the name is 'postman'.
                     if ((!setCharacterCardEffect(actionMessage) && !characterCardName.equalsIgnoreCase("LUMBERJACK")) || characterCardName.equalsIgnoreCase("POSTMAN")) {
@@ -406,7 +409,6 @@ public class Controller {
      * @throws EmptyCloudException type of exception
      */
     private void checkCloud(ActionMessage actionMessage) throws EmptyCloudException {
-        //TODO conviene usare un'array di cloud? Meglio una lista??
         Cloud[] cloud = gameModel.getBoard().getClouds();
         if (cloud[actionMessage.getData()].getStudents().isEmpty()) {
             throw new EmptyCloudException();

@@ -28,8 +28,6 @@ public class VirtualView implements Runnable {
     private final ObjectInputStream is;
     private final ObjectOutputStream os;
 
-    //private Thread timer;
-
     /**
      * Constructor of the class.
      * @param server instance of server object

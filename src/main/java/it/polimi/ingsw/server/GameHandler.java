@@ -321,11 +321,12 @@ public class GameHandler implements PropertyChangeListener {
         InfoMessage message = new InfoMessage(result, false, winner);
         sendAll(message);
         for (VirtualView client : clients) {
-            client.closeConnection(false);
+            //client.closeConnection(false);
+            Thread t = new Thread(() -> client.closeConnection(false));
+            t.start();
         }
         server.removeGameHandler(this);
     }
-
 
     /**
      * This method sends the same message to all the clients.
@@ -355,7 +356,7 @@ public class GameHandler implements PropertyChangeListener {
      * FIRST_CLIENT_WHITE:0   SECOND_CLIENT_WHITE:2
      * FIRST_CLIENT_BLACK.1   FIRST_CLIENT_BLACK:3
      */
-    //Serve per 4 giocatori. In questo modo il primo è bianco con torri e il secondo nero con torri
+    //Serve per quattro giocatori. In questo modo il primo è bianco con torri e il secondo nero con torri
     private void setClientIdOrder() {
         int whiteIndex = 0, blackIndex = 1;
         for (int i = 0; i < 4; i++) {

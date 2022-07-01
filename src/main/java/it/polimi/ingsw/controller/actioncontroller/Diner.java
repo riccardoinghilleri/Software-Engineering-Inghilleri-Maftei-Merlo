@@ -21,23 +21,7 @@ public class Diner extends ActionController {
      * @param color : color of the student to be considered
      */
     @Override
-    public void updateProfessor(String color) /*{
-        CharacterColor c = CharacterColor.valueOf(color);
-        int owner = getGameModel().getBoard().getProfessorByColor(c).getOwner();
-        int max=0;
-        if(owner!=-1) {
-            max = getGameModel().getBoard().getSchoolByOwnerId(owner).getDiningRoom().get(CharacterColor.valueOf(color)).size();
-        }
-        for(School s: getGameModel().getBoard().getSchools()){
-            if(max<s.getDiningRoom().get(c).size()){
-                max=s.getDiningRoom().get(c).size();
-                owner=s.getOwnerId();
-            }
-            else if (max<=s.getDiningRoom().get(c).size() && s.getOwner().equals(getGameModel().getCurrentPlayer().getNickname()))
-                owner=getGameModel().getCurrentPlayer().getClientID();
-        }
-        getGameModel().getBoard().getProfessorByColor(c).setOwner(owner);
-    }*/
+    public void updateProfessor(String color)
     {
         CharacterColor c = CharacterColor.valueOf(color);
         int oldOwner = getGameModel().getBoard().getProfessorByColor(c).getOwner();

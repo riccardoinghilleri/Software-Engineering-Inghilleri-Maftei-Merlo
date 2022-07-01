@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -82,6 +83,8 @@ public class Server implements Runnable {
             } catch (NumberFormatException e) {
                 System.out.println(">Invalid input: you have to insert a number. Please try again.");
                 error = true;
+            } catch(NoSuchElementException e){
+                error=true;
             }
         } while (error);
         System.out.println(">Waiting for players...");

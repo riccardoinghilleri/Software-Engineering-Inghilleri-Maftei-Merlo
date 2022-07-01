@@ -3,7 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.server.ConnectionMessage.*;
 
 /**
- * Interface implemented by the Cli.
+ * Interface implemented by the Cli and GUI.
  */
 public interface View {
     void askAction(AskActionMessage message);

@@ -432,11 +432,17 @@ public class Gui extends Application implements View {
         });
     }
 
+    /**
+     * @return the address String
+     */
     @Override
     public String getAddress() {
         return address;
     }
 
+    /**
+     * @return the port
+     */
     @Override
     public int getPort() {
         return port;

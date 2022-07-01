@@ -131,7 +131,7 @@ public class ClientConnection implements Runnable {
 
     /**
      * This method creates and starts the Timer thread.
-     * If the thread "sleeps" for over an established period od time, the client is disconnected.
+     * If the thread "sleeps" for over an established period of time, the client is disconnected.
      */
 
     private void startTimer() {

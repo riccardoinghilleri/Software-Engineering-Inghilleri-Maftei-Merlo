@@ -99,7 +99,6 @@ public class Board implements Serializable {
     }
 
     /**
-     *
      * @return the number of students in the array.
      */
     public int getStudentsSize() {
@@ -262,6 +261,7 @@ public class Board implements Serializable {
 
     /**
      * It calculates the influence according to only the number of students on a specific island
+     *
      * @param islandPosition the Island considered in order to calculate the influence
      * @return an array with the influence of each player.
      */
@@ -359,9 +359,10 @@ public class Board implements Serializable {
      * If so, it moves all the students of the near islands on the one considered throw islandPosition
      *
      * @param islandPosition the island whose neighboring islands need to be checked
-     * @param diplomat boolean to checks if nobody has chosen this island when playing the diplomat card.
+     * @param diplomat       boolean to checks if someone has chosen this island when playing the diplomat card.
      */
     public void checkNearIsland(int islandPosition, boolean diplomat) {
+        boolean move = false;
         if (islands.get(islandPosition).getTowers().isEmpty())
             return;
         if (!(islands.get((islandPosition + 1) % islands.size()).getTowers().isEmpty()) &&
@@ -374,16 +375,23 @@ public class Board implements Serializable {
                 for (int i = 0; i < islands.get((islandPosition + 1) % islands.size()).getNoEntryTile(); i++)
                     islands.get(islandPosition).setNoEntryTile(true);
             islands.remove((islandPosition + 1) % islands.size());
-            if (islandPosition == islands.size()) islandPosition--;
+
+            if (islandPosition == islands.size()) {
+                if (motherNaturePosition == 0 && diplomat)
+                    move = true;
+                islandPosition--;
+            }
             if (!diplomat) {
                 islands.get(islandPosition).setMotherNature(true);
                 motherNaturePosition = islandPosition;
-            } else if (motherNaturePosition > islandPosition) { // se uso diplomat e mother nature è successiva all'isola che ho rimosso, la sposto indietro di 1
-                islands.get(motherNaturePosition).setMotherNature(false);
-                motherNaturePosition--;
+            } else if (motherNaturePosition > islandPosition || move) { // se uso diplomat e mother nature è successiva all'isola che ho rimosso, la sposto indietro di 1
+                if (motherNaturePosition < islands.size())
+                    islands.get(motherNaturePosition).setMotherNature(false);
+                motherNaturePosition = move ? islandPosition : motherNaturePosition - 1;
                 islands.get(motherNaturePosition).setMotherNature(true);
             }
         }
+        move = false;
         //if (islandPosition == islands.size()) islandPosition--;
         int position = islandPosition - 1;
         if (position == -1)
@@ -398,19 +406,19 @@ public class Board implements Serializable {
                     islands.get(islandPosition).setNoEntryTile(true);
             islands.get(islandPosition).addTowers(islands.get(position).getTowers());
             islands.remove(position);
-            if (position == islands.size())
+            if (position == islands.size()) {
+                move = (motherNaturePosition == position);
                 position--;
+            }
             //posizione madre natura : 0 se islandPosition è 0 altrimenti position
             if (!diplomat) {
                 islands.get(islandPosition == 0 ? islandPosition : position).setMotherNature(true);
                 motherNaturePosition = islandPosition == 0 ? islandPosition : position;
             } else if (motherNaturePosition > position) {
-                if(motherNaturePosition<islands.size())
+                if (motherNaturePosition < islands.size())
                     islands.get(motherNaturePosition).setMotherNature(false);
-                motherNaturePosition--;
-                islands.get(islandPosition == 0 ? islandPosition : motherNaturePosition).setMotherNature(true);
-
-
+                motherNaturePosition = move ? 0 : motherNaturePosition - 1;
+                islands.get(motherNaturePosition).setMotherNature(true);
             }
         }
     }

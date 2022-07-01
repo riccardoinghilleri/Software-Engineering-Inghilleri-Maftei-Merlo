@@ -119,6 +119,7 @@ public class CharacterCardController implements GuiController {
                     alreadyAskedMovements = true;
                     movements_textField.clear();
                     movements_textField.setDisable(false);
+                    movements_textField.setPromptText("");
                     right.setDisable(false);
                     movements_textField.setVisible(true);
                     right.setVisible(true);
@@ -138,6 +139,7 @@ public class CharacterCardController implements GuiController {
                     alreadyAskedMovements = true;
                     movements_textField.clear();
                     movements_textField.setDisable(false);
+                    movements_textField.setPromptText("");
                     right.setDisable(false);
                     movements_textField.setVisible(true);
                     right.setVisible(true);
@@ -187,13 +189,13 @@ public class CharacterCardController implements GuiController {
             movements = Integer.parseInt(movements_textField.getText());
         } catch (NumberFormatException e) {
             movements_textField.clear();
-            movements_textField.setPromptText("Invalid Input");//TODO sistemare perchè non si vede
+            movements_textField.setPromptText("Invalid Input");
         }
         if (((movements < 1 || movements > 3) && cardName.getText().equalsIgnoreCase("CLOWN"))
                 || ((movements < 1 || movements > Math.min(2,mainSceneController.getDiningroomStudents()))
                 && cardName.getText().equalsIgnoreCase("PERFORMER"))) {
             movements_textField.clear();
-            movements_textField.setPromptText("Invalid Input"); //TODO sistemare perchè non si vede
+            movements_textField.setPromptText("Invalid Input");
         }
         else {
             movements_textField.setDisable(true);

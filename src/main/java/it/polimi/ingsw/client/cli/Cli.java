@@ -202,7 +202,6 @@ public class Cli implements View {
      */
     public synchronized void displayBoard(UpdateBoard message) {
         Constants.clearScreen();
-        //System.out.println(message.getBoard().draw(1, 1));
         if (message.getBoard().getGameModel().isExpertGame()) {
             System.out.println(ReducedModel.drawExpert((BoardExpert) message.getBoard(), 1, 1));
         } else {
@@ -215,8 +214,7 @@ public class Cli implements View {
     /**
      * This method asks and manages the actions that a player can do.
      * It uses a switch-case constructor according to the action contained in the message.
-     * @param message message with contains the action.
-     * After the player has chosen an element the boolean 'alreadyAsked' is set to true for the specified player.
+     * @param message message with contains the asked action.
      */
     public synchronized void askAction(AskActionMessage message) {
         stopClearBuffer();
@@ -326,9 +324,10 @@ public class Cli implements View {
     }
 
     /**
-     * This method manages all the parameters that need to be set according to the character Card(
-     * e.g. island, student color.)
-     * It saves the answer in an Action message and forwards it.
+     * This method manages all the parameters that need to be set according to
+     * the character Card(* e.g. island, student color.)
+     * It saves the answer in an Action message and sends it.
+     * @param message message with the necessary parameters for choosing a CharacterCard
      */
     //Gestisce i parametri da settare in base alla character card
     private void manageCharacterCardChoice(AskActionMessage message) {
@@ -353,7 +352,6 @@ public class Cli implements View {
                     alreadyAskedMovements = true;
                     answer.setData(InputController.checkRange(1, 3));
                 }
-                //System.out.println(">Students on the Character Card: ");
                 else {
                     answer.setParameter(chooseStudentColor(((CharacterCardwithStudents) characterCard).getStudents(),
                              ">Please choose the color of the student that you want to move from the Card [green/red/yellow/pink/blue]:"));
@@ -380,8 +378,6 @@ public class Cli implements View {
                     while (message.getSchool().getDiningRoom().get(CharacterColor.valueOf(parameter)).size() < 1) {
                         System.out.println(">Invalid input. Please try again");
                         parameter = reader.nextLine().toUpperCase();
-                    /*if (message.getSchool().getDiningRoom().get(CharacterColor.valueOf(parameter)).size() < 1)
-                        Constants.clearRowBelow(2);*/
                     }
                     answer.setParameter(parameter);
                 }
@@ -394,10 +390,11 @@ public class Cli implements View {
     }
 
     /**
-     * This method returns the id of the chosen island, checking that the input is in the established range
+     * This method returns the id of the chosen island, checking that the
+     * input is in the established range
      *
      * @param islands list of island from which to choose the desired one
-     * @return the island id
+     * @return the chosen island id
      */
     private int chooseIsland(List<Island> islands) {
         System.out.println(">Choose an island: ");
@@ -405,7 +402,8 @@ public class Cli implements View {
     }
 
     /**
-     * This method returns the color of the student chosen by the player, checking that the chosen color is available
+     * This method returns the color of the student chosen by the player,
+     * checking that the chosen color is available
      * @return string with chosen student's color
      */
     private String chooseStudentColor(List<Student> students,String message) {
@@ -421,7 +419,7 @@ public class Cli implements View {
     private final InputStreamReader inputStreamReader = new InputStreamReader(System.in);
 
     /**
-     * This method manages the cleaning of the buffer in input.
+     * This method manages the buffer input when it is not the player's turn.
      */
     private void startClearBuffer() {
         synchronized (this) {
@@ -459,6 +457,10 @@ public class Cli implements View {
         clearSystemIn();
     }
 
+
+    /**
+     * This method clears the System.in
+     */
     private void clearSystemIn(){
         try {
             System.in.read(new byte[System.in.available()]); //TODO DA TESTARE

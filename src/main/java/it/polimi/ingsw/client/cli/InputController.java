@@ -12,14 +12,15 @@ public class InputController {
     private static PrintStream printer;
 
     /**
-     * This method sets the scanner, class that simply can parse
+     * This method sets the scanner.
      * @param scanner instance of Scanner class
      */
     public static void setScanner(Scanner scanner) {
         reader = scanner;
     }
+
     /**
-     * This method sets the printer, that simply format the data to the output stream
+     * This method sets the printer.
      * @param printStream instance of PrintStream class
      */
     public static void setPrinter(PrintStream printStream) {
@@ -46,50 +47,44 @@ public class InputController {
     }
 
     /**
-     * This method checks the input when the client is asked about his name choice.
-     * If the input is not 'y' or 'n' it is invalid.
-     * @return
+     * This method checks the input when the client has to answer [y/n]
+     * @return the answer given by the client
      */
     public static String checkYNInput() {
         String response = reader.nextLine();
         while (!response.equalsIgnoreCase("y") && !response.equalsIgnoreCase("n")) {
             printer.println(">Invalid input.Please try again.");
-            //printer.println(">Are you sure about your choice? [y/n]: ");
             response = reader.nextLine();
-            /*if(!response.equalsIgnoreCase("y") && !response.equalsIgnoreCase("n"))
-                Constants.clearRowBelow(2);*/
         }
         return response;
     }
 
     /**
-     *This method check is the input insert by the client, correspond to one of the values of the list
-     * @param values available numbers that can be passed in input
-     * @return the data
+     *This method check if the input inserted by the client, corresponds to one
+     * of the values of the list
+     * @param values available numbers
+     * @return the chosen number
      */
     public static int checkInt(List<Integer> values) {
         int data = InputController.checkParseInt();
         while (!values.contains(data)) {
             printer.println(">Invalid input. Please try again.");
             data = InputController.checkParseInt();
-            /*if(!values.contains(data))
-                Constants.clearRowBelow(2);*/
         }
         return data;
     }
 
     /**
-     * This method check is the input insert by the client, correspond to one of the values of the list
+     * This method check if the input inserted by the client, corresponds to one
+     * of the values of the list
      * @param values available string that can be passed in input
-     * @return the parameter
+     * @return the chosen parameter
      */
     public static String checkString(List<String> values) {
         String parameter = reader.nextLine().toUpperCase();
         while (!values.contains(parameter)) {
             printer.println(">Invalid input. Please try again");
             parameter = reader.nextLine().toUpperCase();
-            /*if(!values.contains(parameter))
-                Constants.clearRowBelow(2);*/
         }
         return parameter;
     }
@@ -103,8 +98,6 @@ public class InputController {
         while (data < min || data > max) {
             printer.println(">Invalid input. Please try again.");
             data = checkParseInt();
-            /*if(data < min || data > max)
-                Constants.clearRowBelow(2);*/
         }
         return data;
     }

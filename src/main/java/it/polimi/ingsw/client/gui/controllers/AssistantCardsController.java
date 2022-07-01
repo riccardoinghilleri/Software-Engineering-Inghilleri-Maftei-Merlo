@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import java.util.List;
 
 /**
- * Class AssistantCardController displays the assistant card on GUI
+ * Class AssistantCardController displays the assistant card stage on GUI
  */
 public class AssistantCardsController implements GuiController {
     private Gui gui;

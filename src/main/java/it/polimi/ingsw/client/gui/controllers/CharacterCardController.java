@@ -43,7 +43,9 @@ public class CharacterCardController implements GuiController {
 
     /**
      * This method sets the parameter alreadyAskedMovements
-     * @param alreadyAskedMovements of type boolean
+     * @param alreadyAskedMovements boolean whose value is true if the number
+     * of movements has been already asked. (e.g. when using the "PERFORMER")
+     *
      */
     public void setAlreadyAskedMovements(boolean alreadyAskedMovements) {
         this.alreadyAskedMovements = alreadyAskedMovements;
@@ -74,7 +76,7 @@ public class CharacterCardController implements GuiController {
     }
 
     /**
-     * This method sets the message
+     * This method sets the message to be sent to the server.
      * @param message of type Action message
      */
     public void setMessage(ActionMessage message) {
@@ -82,7 +84,8 @@ public class CharacterCardController implements GuiController {
     }
 
     /**
-     * This method clear the nodes with the characterCards
+     * This method removes from the stage the elements that has to be displayed
+     * only if the Card is a CharacterCardWithStudents.
      */
     public void clear() {
         for (int i = 1; i <= 12; i++) {
@@ -96,9 +99,8 @@ public class CharacterCardController implements GuiController {
     }
 
     /**
-     * This method handles the characterCard nodes and sets the actions that can be done with each card.
-     * Based on the card,the text field changes.
-     *@param card instance of characterCard
+     * This method manages the parameters setting for the use of a special card.
+     *@param card character card chosen by the player
      */
 
     public void update(CharacterCard card) {
@@ -149,7 +151,9 @@ public class CharacterCardController implements GuiController {
     }
 
     /**
-     * This method manages part of the actions which can be done with Priest,Clown and Thief.
+     * This method manages the mouse Event associated to the choice of a student.
+     * (e.g. when using priest, after choosing the student, the player has
+     * to choose the island)
      *
      * @param event of type Mouse Event
      */
@@ -180,8 +184,9 @@ public class CharacterCardController implements GuiController {
     }
 
     /**
-     * This method receives the number of movements(how many students) in the movements_textFiled, showing a message of invalid
-     * input in case the player chooses more than 3 or less than 1 movements for the Clown Card and Performer.
+     * This method parses the input of the movements_textField, showing an error message
+     * if the input is not valid.
+     * PERFORMER [1-min(2,number of students in the diningroom)] CLOWN [1-3]
      */
     public void setMovements() {
         int movements = -1;
@@ -208,7 +213,8 @@ public class CharacterCardController implements GuiController {
     }
 
     /**
-     * This method selects the object when the mouse is on it, changing the glow of the node selected.
+     * This method selects the object when the mouse is on it, changing the glow
+     * of the selected node.
      * @param event a mouse action on the object.
      */
     public void select(MouseEvent event) {
@@ -217,7 +223,8 @@ public class CharacterCardController implements GuiController {
     }
 
     /**
-     * This method unselects the object when the mouse is on it, changing the glow of the node selected.
+     * This method deselect the object when the mouse is on it,
+     * changing the glow of the deselected node.
      * @param event a mouse action on the object.
      */
     public void unselect(MouseEvent event) {
@@ -226,7 +233,8 @@ public class CharacterCardController implements GuiController {
     }
 
     /**
-     * This method manages the students on the CharacterCards with students
+     * This method manages the display of students owned by a CharacterCharacterCards
+     * with students.
      * @param card of type CharacterCard
      */
     private void enableStudentsPane(CharacterCard card) {
@@ -248,6 +256,10 @@ public class CharacterCardController implements GuiController {
         }
     }
 
+    /**
+     * This method displays a pane with a student of each color, for the use
+     * of the Character Card "THIEF".
+     */
     private void allColorsStudentsPane() {
         studentsPane.setVisible(true);
         for (int i = 1; i <= 5; i++) {

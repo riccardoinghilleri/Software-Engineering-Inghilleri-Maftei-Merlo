@@ -36,7 +36,8 @@ public class Gui extends Application implements View {
     private boolean alreadyAskedAssistantCard = false;
 
     /**
-     * Main class of the Gui,which is called from the "Eriantys" class in case the player decides to play with this interface.
+     * Main class of the Gui,which is called from the "Eriantys" class in case
+     * the player decides to play with this interface.
      * @param args main arguments
      */
     public static void main(String[] args) {
@@ -55,7 +56,6 @@ public class Gui extends Application implements View {
      * Method setExpertMode sets the game mode
      * @param expertMode boolean
      */
-
     public void setExpertMode(boolean expertMode) {
         this.expertMode = expertMode;
     }
@@ -78,12 +78,13 @@ public class Gui extends Application implements View {
     }
 
     /**
-     *Method getPlayersNumber return the player numbers
+     *Method getPlayersNumber return the player numbers.
      * @return player numbers
      */
     public Integer getPlayersNumber() {
         return playersNumber;
     }
+
     /**
      * method  SetPlayersNumber sets the player numbers
      */
@@ -116,19 +117,23 @@ public class Gui extends Application implements View {
     }
 
     /**
-     * isExpertMode returns the game mode
+     * @return the game mode
      */
     public boolean isExpertMode() {
         return expertMode;
     }
+
     /**
-     * setAddress sets the ip address
+     * Method that sets the ip address
+     * @param address Ip Address.
      */
     public void setAddress(String address) {
         this.address = address;
     }
+
     /**
-     * setPort sets the port
+     * Method that sets the port
+     * @param port server port
      */
     public void setPort(int port) {
         this.port = port;
@@ -136,7 +141,7 @@ public class Gui extends Application implements View {
 
     /**
      * Method changeScene sets the currentScene to a new scene and sets it to the stage.
-     * @param newScene of type Scene
+     * @param newScene name of the new scene to be displayed.
      */
     public void changeScene(String newScene) {
         currentScene = scenes.get(newScene);
@@ -145,7 +150,7 @@ public class Gui extends Application implements View {
     }
 
     /**
-     * This method creates all the stage phases which are updated in other methods.
+     * this method associates each .fxml file with a Controller and a Scene.
      * It also sets the currentScene to the WelcomeScene.
      */
     private void setup() {
@@ -189,7 +194,7 @@ public class Gui extends Application implements View {
     }
 
     /**
-     * Method closeRequestHandler manages the Quit option, when a player wants to disconnect in any moment during the game
+     * Method closeRequestHandler handles the closure request from the client.
      * @param event of type WindowEvent
      */
     private void closeRequestHandler(WindowEvent event) {
@@ -207,7 +212,7 @@ public class Gui extends Application implements View {
     }
 
     /**
-     * Method askAction creates the mainSceneController,bound to the FXML scene of board
+     * Method askAction creates the mainSceneController,bound to the FXML scene mainScene.fxml
      * and manages the different phases of each turn during the game.
      * @param message of type AskActionMessage
      */
@@ -315,7 +320,8 @@ public class Gui extends Application implements View {
     }
 
     /**
-     * This method displays the messages from server differently based on if the currentScene is a waitingController ot a mainSceneController
+     * This method displays the messages from server differently based on if the
+     * currentScene is a waitingController ot a mainSceneController
      * @param message of type InfoMessage
      */
     @Override
@@ -329,7 +335,7 @@ public class Gui extends Application implements View {
     }
 
     /**
-     * This method sets the available choices of wizards and playerColors on the setUpController ,from the message multipleChoiceMessage
+     * This method is used to handle the choice of the color and the wizard foreach client
      * @param message of type MultipleChoiceMessage
      */
     @Override
@@ -343,8 +349,9 @@ public class Gui extends Application implements View {
             }
         });
     }
+
     /**
-     * This method sets the nickname of a player from the nickName message
+     * This method is used for asking a player to choose his nickname.
      * @param message of type NicknameMessage
      */
     @Override
@@ -358,8 +365,8 @@ public class Gui extends Application implements View {
     }
 
     /**
-     * This method displays the updated Board, paying attention if the current scene is a waitingController and the connection
-     * corresponds to the last player in the game.
+     * This method displays the updated Board, paying attention if the current
+     * scene is a waitingController or the connection corresponds to the last player in the game.
      * @param message of type UpdateBoard
      */
     @Override
@@ -414,7 +421,7 @@ public class Gui extends Application implements View {
     }
 
     /**
-     * This method displays on the stage the disconnection message
+     * This method displays on the stage the disconnection alert
      * @param message of type InfoMessage
      */
     public void displayDisconnectionAlert(InfoMessage message) {
@@ -432,8 +439,9 @@ public class Gui extends Application implements View {
         });
     }
 
+
     /**
-     * @return the address String
+     * @return IP Address
      */
     @Override
     public String getAddress() {
@@ -441,7 +449,7 @@ public class Gui extends Application implements View {
     }
 
     /**
-     * @return the port
+     * @return server port
      */
     @Override
     public int getPort() {

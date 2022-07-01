@@ -57,10 +57,9 @@ public class MainSceneController implements GuiController {
     private ActionMessage message = new ActionMessage();
 
     /**
-     * SetAction method sets the action to an action message.
+     * SetAction method sets the action to the action message.
      * @param action type of action
      */
-    //TODO CONTROLLA L'USO DEL DISABLESCHOOLBUTTONS
     public void setAction(Action action) {
         this.message = new ActionMessage();
         this.message.setAction(action);
@@ -74,7 +73,7 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * Sets the text to the infoText label
+     * Sets the text of the infoText label
      * @param text of type String
      */
     public void setInfoText(String text) {
@@ -97,7 +96,7 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * This method manages the creation of the schools
+     * This method updates the school displayed on the mainScene.
      */
     public void setSchool(School[] school) {
         this.school = school;
@@ -122,7 +121,7 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * This method disable the buttons right and left on the school.
+     * This method disables the right and left buttons of the school.
      */
     public void disableSchoolButtons(boolean disable){
         right.setDisable(disable);
@@ -130,7 +129,8 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * This method manages the sending of messages from the gui throw the connection( of type ClientConnection)
+     * This method sends the actionMessages through the connection
+     * and disables the enabled elements.
      * @param event of type MouseEvent
      */
     public void sendMessage(MouseEvent event) {
@@ -152,8 +152,8 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * This method is used when a player has to choose a student from the entrance.
-     * All available students are highlighted.
+     * This method is used to glow e unglow the entrance of the current player's school.
+     * @param value  if true, all available students are highlighted
      */
     public void glowEntrance(boolean value) {
         if (value)
@@ -166,13 +166,12 @@ public class MainSceneController implements GuiController {
         }
     }
 
-
-
     /**
-     * This method is used when a player has to choose a student from the entrance to move it to the diningRoom.
-     * All available places are highlighted.
+     * This method is used when a player has to choose a student from the
+     * entrance to move it to the diningRoom.
      * @param color of type String
-     * @param visible of type boolean
+     * @param visible if true, the first available place of the chosen color in
+     *                the dining room is highlighted.
      */
     public void glowDiningroom(String color, boolean visible) {
         int size;
@@ -189,7 +188,8 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * This method is used when a player has to choose a student from the entrance to move it to the diningRoom.
+     * This method is used to highlight the first available place for each color
+     * in the dining room of the school of the current Player.
      * @param visible of type boolean
      */
     public void glowDiningroom(boolean visible) {
@@ -207,7 +207,7 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * This method manages the selection of different types of mouseEvent.
+     * This method manages the selection of different types of elements.
      * @param event a mouse action on the object.
      */
     public void select(MouseEvent event) {
@@ -223,8 +223,9 @@ public class MainSceneController implements GuiController {
             ((Circle) entrance.getChildren().get(id)).setStroke(Color.BLACK);
         }
     }
+
     /**
-     * This method manages the deselection of different types of mouseEvent.
+     * This method manages the deselection of different types elements.
      * @param event a mouse action on the object.
      */
     public void unselect(MouseEvent event) {
@@ -242,7 +243,7 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * Method setStudentColor
+     * This method handles the enabling of elements after a student is selected.
      * @param event type of MouseEvent
      */
     public void setStudentColor(MouseEvent event) {
@@ -259,7 +260,7 @@ public class MainSceneController implements GuiController {
             message.getParameters().clear();
             glowDiningroom(true);
             infoText.setText("Choose the Dining Room Student");
-        } else if (message.getAction() == Action.USE_CHARACTER_CARD) { //TODO in teoria serve solo per il clown
+        } else if (message.getAction() == Action.USE_CHARACTER_CARD) {
             glowEntrance(false);
         }
         message.setParameter(studentColor.toUpperCase());
@@ -288,8 +289,8 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * This method creates the school for each player.
-     * It has the image of the assistant card, the entrance and the diningRoom.
+     * This method displays the school specified as a parameter.
+     * It shows the entrance, the diningroom, the towers and the chosen assistant Card.
      * @param school instance of School
      */
     public void createPlayer(School school) {
@@ -351,7 +352,7 @@ public class MainSceneController implements GuiController {
 
     /**
      * This method manages the update of the board.
-     * It fills the clouds, updates the islands arrangement and fills the islands.
+     * It fills the clouds, updates the islands' elements and position.
      * @param message type of UpdateBoard message
      */
     public void update(UpdateBoard message) {
@@ -497,8 +498,8 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * This method allows to choose the cloud and send the id of the cloud throw the connection.
-     * Moreover, after choosing the cloud it enables the shop.
+     * This method sets the in of the chosen cloud in the action message
+     *      * and send it through the connection.
      * @param event of type MouseEvent
      */
     public void chooseCloud(MouseEvent event) {
@@ -510,7 +511,8 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * This method manages the actions which can be done on an island.
+     * This method sets the index of the chosen island in the action message
+     * and send it through the connection.
      * @param event a type of MouseEvent.
      */
     public void setIsland(MouseEvent event) {
@@ -531,7 +533,7 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * This method enable all the islands to set the student
+     * This method highlight all the islands.
      */
     public void enableAllIslandsBroke() {
         for (Node node : islandsPane.getChildren()) {
@@ -541,7 +543,7 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * This method disable all the island nodes from the IslandPane.
+     * This method disable all the island.
      */
     public void disableAllIslandsBroke() {
         for (Node node : islandsPane.getChildren()) {
@@ -550,8 +552,8 @@ public class MainSceneController implements GuiController {
         }
     }
     /**
-     * This method makes enable all the island from the current island of mother nature
-     * to the maximum number of steps of motherNature.
+     * This method highlight the islands that the player can choose to move mother nature.
+     * @param motherNatureSteps step that mother nature can do.
      */
     public void enableIslandsBroke(int motherNatureSteps) {
         for (int i = 0; i < motherNatureSteps; i++) {
@@ -563,7 +565,7 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * Getting the number of clouds from the message, this method enable and makes visible the clouds.
+     * This method highlight the clouds that the player can choose.
      * @param message type of askActionMessage
      */
     public void enableClouds(AskActionMessage message) {
@@ -577,7 +579,7 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * This method disable the clouds and the node cloud can't be pressed anymore.
+     * This method disable the clouds.
      */
     public void disableClouds() {
         for (Node node : cloudsPane.getChildren()) {
@@ -587,9 +589,10 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * This method returns the cloud requested throw the id
+     * This method returns the AnchorPane that corresponds to the cloud specified
+     * by the id.
      * @param index id of cloud
-     * @return the anchor pane type cloud
+     * @return AnchorPane that corresponds to the cloud.
      */
     private AnchorPane getCloudById(int index) {
         for (Node cloud : cloudsPane.getChildren()) {
@@ -602,7 +605,8 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * This method displays the image of the cloud without students after being chosen by a player.
+     * This method displays the image of the cloud without students after being
+     * chosen by a player.
      * @param cloud anchorPane of type cloud
      */
     private void emptyCloud(AnchorPane cloud) {
@@ -612,7 +616,7 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * This method manages the visibility of the objects on the island( students, tower and no entry tiles)
+     * This method set the visibility of the objects on all the island to false.
      */
     private void clearAllIslands() {
         for (Node node : islandsPane.getChildren()) {
@@ -653,7 +657,7 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * This method displays the stage shop, which contains the 3 character cards.
+     * This method displays the shop, which contains the 3 character cards.
      */
     public void openShop() {
         Platform.runLater(() -> {
@@ -682,8 +686,8 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * This method sets the characterCardName to null and sends the message throw the connection.
-     * The shop becomes not visible anymore.
+     * This method sets the characterCardName to null and sends the message through
+     * the connection.
      */
     public void noCharacterCard() {
         message.setCharacterCardName(null);

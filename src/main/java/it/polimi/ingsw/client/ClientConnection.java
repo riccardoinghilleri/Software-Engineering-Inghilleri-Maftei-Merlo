@@ -24,7 +24,7 @@ public class ClientConnection implements Runnable {
     private Thread timer;
 
     /**
-     * The constructor of the class. It creates a new ClientConnection instance.
+     * Constructor of the class.
      *
      * @param view of type View - View reference.
      * @throws IOException exception thrown if an error occurs
@@ -76,10 +76,18 @@ public class ClientConnection implements Runnable {
         }
     }
 
+
+    /**
+     * @return the clientId associated to this connection.
+     */
     public int getClientId() {
         return clientId;
     }
 
+    /**
+     * @return boolean whose value is true if the connection is associated with
+     * the last connected client
+     */
     public boolean isLastPlayer() {
         return this.lastPlayer;
     }
@@ -92,7 +100,7 @@ public class ClientConnection implements Runnable {
     }
 
     /**
-     * This method closes the connection, so the input and output stream
+     * This method closes the connection, the input and output stream.
      */
     public synchronized void closeConnection() {
         active.set(false);
@@ -106,7 +114,8 @@ public class ClientConnection implements Runnable {
         }
     }
 /**
- * This method creates a thread, which checks if the message received is a ping message, or a connection closed message. If so, the timer is stopped.
+ * This method creates a thread, which checks if the message received is a ping message,
+ * or a connection closed message. If so, the timer is stopped.
  *
  */
     private void startMessageManager(Message message) {
@@ -133,12 +142,11 @@ public class ClientConnection implements Runnable {
      * This method creates and starts the Timer thread.
      * If the thread "sleeps" for over an established period of time, the client is disconnected.
      */
-
     private void startTimer() {
         timer = new Thread(() -> {
             try {
                 Thread.sleep((long) 3 * 1000);
-                System.out.println("Your connection is unstable. You have been disconnected.\nThanks for playing!");
+                System.out.println("You have been disconnected.\nThanks for playing!");
                 closeConnection();
                 if (view instanceof Cli) {
                     System.exit(0);
@@ -152,9 +160,7 @@ public class ClientConnection implements Runnable {
 
     /**
      * This method  interrupts the timer thread , after checking that the latter is alive.
-     * It is used when a client disconnects.
      */
-
     private void stopTimer() {
         if (timer != null && timer.isAlive()) {
             timer.interrupt();

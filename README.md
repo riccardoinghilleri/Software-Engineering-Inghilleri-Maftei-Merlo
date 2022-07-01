@@ -21,13 +21,17 @@ The final version includes:
 * source code of unity tests.
 ## Running
 Once you have installed [Java SE 17](https://docs.oracle.com/en/java/javase/17/), open a terminal and go to the project deliveries/jar directory. Once there, execute this command:
+* To Run the server
 ```bash
-java -jar PSP35-1.0-SNAPSHOT.jar
+java -jar EriantysServer.jar
+```
+* To Run the client
+```bash
+java -jar EriantysClient.jar
 ```
 
-* You'll have to choose if you want to launch server, CLI client or GUI client by typing the option number on your keyboard.
+* You'll have to choose if you want to launch a CLI client or a GUI client by typing the option number on your keyboard.
 * In order to play, you'll have to launch at least one server and two clients.
-* In order to play multiplayer from different locations port forwarding is needed.
 
 ## Implemented Functionalities
 | Functionality                |                                                                        Status                                                                        |

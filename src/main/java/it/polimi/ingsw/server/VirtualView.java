@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.controller.GameHandler;
 import it.polimi.ingsw.server.ConnectionMessage.*;
 
 import java.io.IOException;

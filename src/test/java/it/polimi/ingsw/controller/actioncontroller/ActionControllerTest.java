@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller.actioncontroller;
 
 import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.controller.GameHandler;
+import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.enums.Action;
 import it.polimi.ingsw.enums.CharacterColor;
 import it.polimi.ingsw.enums.PlayerColor;
@@ -108,11 +108,7 @@ class ActionControllerTest {
         actionMessage.setParameter("RED");
         controller.nextAction(actionMessage);
         assertEquals(gameModel.getCurrentPlayer().getClientID(),gameModel.getBoard().getProfessorByColor(CharacterColor.RED).getOwner());
-        actionMessage.getParameters().clear();
-        actionMessage.setParameter("RED");
         controller.nextAction(actionMessage);
-        actionMessage.getParameters().clear();
-        actionMessage.setParameter("RED");
         controller.nextAction(actionMessage);
         assertEquals(Action.MOVE_MOTHER_NATURE, controller.getPhase());
         actionMessage = new ActionMessage();

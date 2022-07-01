@@ -5,6 +5,7 @@ import it.polimi.ingsw.enums.Action;
 import it.polimi.ingsw.enums.CharacterColor;
 import it.polimi.ingsw.enums.PlayerColor;
 import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
+import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.server.model.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -334,12 +335,11 @@ class ControllerTest {
     }
 
     @Test
-
-    void testLumberjack(){
+    void testLumberjack() {
         ActionMessage actionMessage = new ActionMessage();
         //USO IL LUMBERJACK IN UNA SITAZIONE DI MINORANZA (escluso il colore)
         //[CLIENT0 - YELLOW-RED-TOWER] [CLIENT1 GREEN]
-        BoardExpert board=chooseLumberjack(actionMessage);
+        BoardExpert board = chooseLumberjack(actionMessage);
         board.getSchoolByOwnerId(0).addDiningRoomStudent(new Student(CharacterColor.RED));
         board.getIslands().get(6).addStudent(new Student(CharacterColor.RED));
         board.getProfessorByColor(CharacterColor.RED).setOwner(0);
@@ -349,30 +349,30 @@ class ControllerTest {
         board.getSchoolByOwnerId(1).addDiningRoomStudent(new Student(CharacterColor.GREEN));
         board.getIslands().get(6).addStudent(new Student(CharacterColor.GREEN));
         board.getProfessorByColor(CharacterColor.GREEN).setOwner(1);
-        board.moveTower(0,6,"island");
+        board.moveTower(0, 6, "island");
         actionMessage.setAction(Action.MOVE_MOTHER_NATURE);
         actionMessage.setData(6);
         controller.getActionController().moveMotherNature(actionMessage);
-        assertEquals(0,board.getIslands().get(6).getTowers().get(0).getOwner());
+        assertEquals(0, board.getIslands().get(6).getTowers().get(0).getOwner());
 
         //USO IL LUMBERJACK IN UNA SITAZIONE DI PAREGGIO  (escluso il colore)
         //[CLIENT0 - RED-TOWER] [CLIENT1 GREEN]
-        board=chooseLumberjack(actionMessage);
+        board = chooseLumberjack(actionMessage);
         board.getSchoolByOwnerId(0).addDiningRoomStudent(new Student(CharacterColor.RED));
         board.getIslands().get(6).addStudent(new Student(CharacterColor.RED));
         board.getProfessorByColor(CharacterColor.RED).setOwner(0);
         board.getSchoolByOwnerId(1).addDiningRoomStudent(new Student(CharacterColor.GREEN));
         board.getIslands().get(6).addStudent(new Student(CharacterColor.GREEN));
         board.getProfessorByColor(CharacterColor.GREEN).setOwner(1);
-        board.moveTower(0,6,"island");
+        board.moveTower(0, 6, "island");
         actionMessage.setAction(Action.MOVE_MOTHER_NATURE);
         actionMessage.setData(6);
         controller.getActionController().moveMotherNature(actionMessage);
-        assertEquals(0,board.getIslands().get(6).getTowers().get(0).getOwner());
+        assertEquals(0, board.getIslands().get(6).getTowers().get(0).getOwner());
 
         //USO IL LUMBERJACK IN UNA SITAZIONE DI MAGGIORANZA  (escluso il colore)
         //[CLIENT0 - RED] [CLIENT1 GREEN]
-        board=chooseLumberjack(actionMessage);
+        board = chooseLumberjack(actionMessage);
         board.getSchoolByOwnerId(0).addDiningRoomStudent(new Student(CharacterColor.RED));
         board.getIslands().get(6).addStudent(new Student(CharacterColor.RED));
         board.getProfessorByColor(CharacterColor.RED).setOwner(0);
@@ -382,11 +382,11 @@ class ControllerTest {
         actionMessage.setAction(Action.MOVE_MOTHER_NATURE);
         actionMessage.setData(6);
         controller.getActionController().moveMotherNature(actionMessage);
-        assertEquals(1,board.getIslands().get(6).getTowers().get(0).getOwner());
-
+        assertEquals(1, board.getIslands().get(6).getTowers().get(0).getOwner());
 
 
     }
+
     private BoardExpert chooseLumberjack(ActionMessage actionMessage) {
         //USO LUMBERJACK - AGGIUNGO 2 MONETE AL PALYER CORRENTE
         setUp();
@@ -408,45 +408,46 @@ class ControllerTest {
     }
 
     @Test
-    void testCentaur(){
+    void testCentaur() {
         ActionMessage actionMessage = new ActionMessage();
         //USO IL CENTAURO QUANDO NON CI SONO TORRI E UNO STUDENTE AVVERSARIO
-        BoardExpert board=chooseCentaur(actionMessage);
+        BoardExpert board = chooseCentaur(actionMessage);
         board.getSchoolByOwnerId(0).addDiningRoomStudent(new Student(CharacterColor.RED));
         board.getIslands().get(6).addStudent(new Student(CharacterColor.RED));
         board.getProfessorByColor(CharacterColor.RED).setOwner(0);
         actionMessage.setAction(Action.MOVE_MOTHER_NATURE);
         actionMessage.setData(6);
         controller.getActionController().moveMotherNature(actionMessage);
-        assertEquals(0,board.getIslands().get(6).getTowers().get(0).getOwner());
+        assertEquals(0, board.getIslands().get(6).getTowers().get(0).getOwner());
 
         //USO IL CENTAURA CON 1 TORRE AVVERSARIA E UNO STUDENTE PROPRIO
-        board=chooseCentaur(actionMessage);
+        board = chooseCentaur(actionMessage);
         board.getSchoolByOwnerId(1).addDiningRoomStudent(new Student(CharacterColor.RED));
         board.getIslands().get(6).addStudent(new Student(CharacterColor.RED));
         board.getProfessorByColor(CharacterColor.RED).setOwner(1);
-        board.moveTower(0,6,"island");
+        board.moveTower(0, 6, "island");
         actionMessage.setAction(Action.MOVE_MOTHER_NATURE);
         actionMessage.setData(6);
         controller.getActionController().moveMotherNature(actionMessage);
-        assertEquals(1,board.getIslands().get(6).getTowers().get(0).getOwner());
+        assertEquals(1, board.getIslands().get(6).getTowers().get(0).getOwner());
 
         //USO IL CENTAURO CON UNA TORRE AVVERSARIA + 1 STUDENTE AVVERSARIO E UNO STUDENTE PROPRIO
-        board=chooseCentaur(actionMessage);
+        board = chooseCentaur(actionMessage);
         board.getSchoolByOwnerId(1).addDiningRoomStudent(new Student(CharacterColor.RED));
         board.getIslands().get(6).addStudent(new Student(CharacterColor.RED));
         board.getProfessorByColor(CharacterColor.RED).setOwner(1);
         board.getSchoolByOwnerId(0).addDiningRoomStudent(new Student(CharacterColor.GREEN));
         board.getIslands().get(6).addStudent(new Student(CharacterColor.GREEN));
         board.getProfessorByColor(CharacterColor.GREEN).setOwner(0);
-        board.moveTower(0,6,"island");
+        board.moveTower(0, 6, "island");
         actionMessage.setAction(Action.MOVE_MOTHER_NATURE);
         actionMessage.setData(6);
         controller.getActionController().moveMotherNature(actionMessage);
-        assertEquals(0,board.getIslands().get(6).getTowers().get(0).getOwner());
+        assertEquals(0, board.getIslands().get(6).getTowers().get(0).getOwner());
 
     }
-    private BoardExpert chooseCentaur(ActionMessage actionMessage){
+
+    private BoardExpert chooseCentaur(ActionMessage actionMessage) {
         //USO CENTAUR - AGGIUNGO 2 MONETE AL PLAYER CORRENTE
         setUp();
         set(controller, actionMessage);
@@ -463,38 +464,38 @@ class ControllerTest {
     }
 
     @Test
-    void testDiner(){
+    void testDiner() {
         ActionMessage actionMessage = new ActionMessage();
         //USO IL DINER IN SITUAZIONE DI PAREGGIO
-        BoardExpert board=chooseDiner(actionMessage);
+        BoardExpert board = chooseDiner(actionMessage);
         board.getSchoolByOwnerId(0).addDiningRoomStudent(new Student(CharacterColor.RED));
         board.getProfessorByColor(CharacterColor.RED).setOwner(0);
         assertNull(controller.nextAction(actionMessage));
-        assertEquals(0,board.getCoins()[1]);
+        assertEquals(0, board.getCoins()[1]);
         assertTrue(controller.getActionController() instanceof Diner);
         assertEquals(Action.DEFAULT_MOVEMENTS, controller.getPhase());
         board.getSchoolByOwnerId(1).getEntrance().add(new Student(CharacterColor.RED));
         controller.getActionController().moveStudent("RED");
-        assertEquals(1,board.getProfessorByColor(CharacterColor.RED).getOwner());
+        assertEquals(1, board.getProfessorByColor(CharacterColor.RED).getOwner());
 
         //USO IL DINER IN UNA SITUAZIONE DI MINORANZA
 
-        board=chooseDiner(actionMessage);
+        board = chooseDiner(actionMessage);
         board.getSchoolByOwnerId(0).addDiningRoomStudent(new Student(CharacterColor.RED));
         board.getSchoolByOwnerId(0).addDiningRoomStudent(new Student(CharacterColor.RED));
         board.getProfessorByColor(CharacterColor.RED).setOwner(0);
         assertNull(controller.nextAction(actionMessage));
-        assertEquals(0,board.getCoins()[1]);
+        assertEquals(0, board.getCoins()[1]);
         assertTrue(controller.getActionController() instanceof Diner);
         assertEquals(Action.DEFAULT_MOVEMENTS, controller.getPhase());
         board.getSchoolByOwnerId(1).getEntrance().add(new Student(CharacterColor.RED));
         controller.getActionController().moveStudent("RED");
-        assertEquals(0,board.getProfessorByColor(CharacterColor.RED).getOwner());
+        assertEquals(0, board.getProfessorByColor(CharacterColor.RED).getOwner());
 
 
     }
 
-    private BoardExpert chooseDiner(ActionMessage actionMessage){
+    private BoardExpert chooseDiner(ActionMessage actionMessage) {
         //USO DINER - AGGIUNGO 1 MONETA AL PALYER CORRENTE
         setUp();
         set(controller, actionMessage);
@@ -507,7 +508,7 @@ class ControllerTest {
     }
 
     @Test
-    void testPriest(){
+    void testPriest() {
         ActionMessage actionMessage = new ActionMessage();
         setUp();
         set(controller, actionMessage);
@@ -517,46 +518,46 @@ class ControllerTest {
         actionMessage.setCharacterCardName("PRIEST");
         assertNull(controller.nextAction(actionMessage));
         actionMessage.setAction(Action.USE_CHARACTER_CARD);
-        CharacterColor color= ((CharacterCardwithStudents)board.getCharacterCardbyName("PRIEST")).getStudents().get(0).getColor();
+        CharacterColor color = ((CharacterCardwithStudents) board.getCharacterCardbyName("PRIEST")).getStudents().get(0).getColor();
         actionMessage.setParameter(color.toString());
         actionMessage.setData(0);
-        assertEquals(4,((CharacterCardwithStudents)board.getCharacterCardbyName("PRIEST")).getStudents().size());
+        assertEquals(4, ((CharacterCardwithStudents) board.getCharacterCardbyName("PRIEST")).getStudents().size());
         assertNull(controller.nextAction(actionMessage));
-        assertEquals(1,board.getIslands().get(0).getStudents().get(color).size());
-        assertEquals(4,((CharacterCardwithStudents)board.getCharacterCardbyName("PRIEST")).getStudents().size());
+        assertEquals(1, board.getIslands().get(0).getStudents().get(color).size());
+        assertEquals(4, ((CharacterCardwithStudents) board.getCharacterCardbyName("PRIEST")).getStudents().size());
     }
 
     @Test
-    void testKnight(){
+    void testKnight() {
         //USO IL KNIGHT IN UNA SITUAZIONE DI PAREGGIO
         ActionMessage actionMessage = new ActionMessage();
-        BoardExpert board =chooseKnight(actionMessage);
-        board.moveTower(0,6,"Island");
-        board.moveTower(0,6,"Island");
+        BoardExpert board = chooseKnight(actionMessage);
+        board.moveTower(0, 6, "Island");
+        board.moveTower(0, 6, "Island");
         actionMessage.setAction(Action.MOVE_MOTHER_NATURE);
         actionMessage.setData(6);
         controller.getActionController().moveMotherNature(actionMessage);
-        assertEquals(0,board.getIslands().get(6).getTowers().get(0).getOwner());
-        assertEquals(2,board.getIslands().get(6).getTowers().size());
-        assertEquals(0,board.getCoins()[1]);
+        assertEquals(0, board.getIslands().get(6).getTowers().get(0).getOwner());
+        assertEquals(2, board.getIslands().get(6).getTowers().size());
+        assertEquals(0, board.getCoins()[1]);
 
         //USO IL KNIGHT CONQUISTANDO L'ISOLA GRAZIE AI DUE PUNTI IN PIU'
         board = chooseKnight(actionMessage);
-        board.moveTower(0,6,"Island");
-        board.moveTower(0,6,"Island");
+        board.moveTower(0, 6, "Island");
+        board.moveTower(0, 6, "Island");
         board.getSchoolByOwnerId(1).addDiningRoomStudent(new Student(CharacterColor.RED));
         board.getIslands().get(6).addStudent(new Student(CharacterColor.RED));
         board.getProfessorByColor(CharacterColor.RED).setOwner(1);
-        board.moveTower(1,0,"Island");
+        board.moveTower(1, 0, "Island");
         actionMessage.setAction(Action.MOVE_MOTHER_NATURE);
         actionMessage.setData(6);
         controller.getActionController().moveMotherNature(actionMessage);
-        assertEquals(1,board.getIslands().get(6).getTowers().get(0).getOwner());
-        assertEquals(2,board.getIslands().get(6).getTowers().size());
-        assertEquals(0,board.getCoins()[1]);
+        assertEquals(1, board.getIslands().get(6).getTowers().get(0).getOwner());
+        assertEquals(2, board.getIslands().get(6).getTowers().size());
+        assertEquals(0, board.getCoins()[1]);
     }
 
-    private BoardExpert chooseKnight(ActionMessage actionMessage){
+    private BoardExpert chooseKnight(ActionMessage actionMessage) {
         //USO KNIGHT - AGGIUNGO 2 MONETE AL PALYER CORRENTE
         setUp();
         set(controller, actionMessage);
@@ -570,9 +571,10 @@ class ControllerTest {
         assertEquals(Action.DEFAULT_MOVEMENTS, controller.getPhase());
         return board;
     }
+
     @Test
-    void testPerformer(){
-        ActionMessage actionMessage=new ActionMessage();
+    void testPerformer() {
+        ActionMessage actionMessage = new ActionMessage();
         //USO PERFORMER
         setUp();
         set(controller, actionMessage);
@@ -600,13 +602,13 @@ class ControllerTest {
         actionMessage.setParameter(color2.toString());
         assertNull(controller.nextAction(actionMessage));
         assertEquals(Action.DEFAULT_MOVEMENTS, controller.getPhase());
-        assertEquals(0,board.getCoins()[1]);
+        assertEquals(0, board.getCoins()[1]);
     }
 
     @Test
-    void testThief(){
+    void testThief() {
         //USO THIEF [CLIENT 0 - 4 STUDENTI] [CLIENT 1 - 2 STUDENTI]
-        ActionMessage actionMessage=new ActionMessage();
+        ActionMessage actionMessage = new ActionMessage();
         Student student = new Student(CharacterColor.PINK);
         setUp();
         set(controller, actionMessage);
@@ -627,18 +629,19 @@ class ControllerTest {
         actionMessage.setAction(Action.CHOOSE_CHARACTER_CARD);
         actionMessage.setCharacterCardName("THIEF");
         assertNull(controller.nextAction(actionMessage));
-        assertEquals(0,board.getCoins()[1]);
+        assertEquals(0, board.getCoins()[1]);
         actionMessage.setAction(Action.USE_CHARACTER_CARD);
         actionMessage.setParameter("PINK");
         assertNull(controller.nextAction(actionMessage));
-        assertEquals(1,board.getSchoolByOwnerId(0).getDiningRoom().get(CharacterColor.PINK).size());
-        assertEquals(0,board.getSchoolByOwnerId(1).getDiningRoom().get(CharacterColor.PINK).size());
-        assertEquals(0,board.getProfessorByColor(CharacterColor.PINK).getOwner());
+        assertEquals(1, board.getSchoolByOwnerId(0).getDiningRoom().get(CharacterColor.PINK).size());
+        assertEquals(0, board.getSchoolByOwnerId(1).getDiningRoom().get(CharacterColor.PINK).size());
+        assertEquals(0, board.getProfessorByColor(CharacterColor.PINK).getOwner());
 
     }
+
     @Test
     void testQueen() {
-        ActionMessage actionMessage=new ActionMessage();
+        ActionMessage actionMessage = new ActionMessage();
         setUp();
         set(controller, actionMessage);
         BoardExpert board = (BoardExpert) gameModel.getBoard();
@@ -648,19 +651,19 @@ class ControllerTest {
         actionMessage.setCharacterCardName("QUEEN");
         assertNull(controller.nextAction(actionMessage));
         actionMessage.setAction(Action.USE_CHARACTER_CARD);
-        assertEquals(4,((CharacterCardwithStudents)board.getCharacterCardbyName("QUEEN")).getStudents().size());
-        CharacterColor color = ((CharacterCardwithStudents)board.getCharacterCardbyName("QUEEN")).getStudents().get(0).getColor();
+        assertEquals(4, ((CharacterCardwithStudents) board.getCharacterCardbyName("QUEEN")).getStudents().size());
+        CharacterColor color = ((CharacterCardwithStudents) board.getCharacterCardbyName("QUEEN")).getStudents().get(0).getColor();
         actionMessage.setParameter(color.toString());
         assertNull(controller.nextAction(actionMessage));
-        assertEquals(1,board.getSchoolByOwnerId(1).getDiningRoom().get(color).size());
-        assertEquals(1,board.getSchoolByOwnerId(1).getNumDiningRoomStudents());
-        assertEquals(4,((CharacterCardwithStudents)board.getCharacterCardbyName("QUEEN")).getStudents().size());
+        assertEquals(1, board.getSchoolByOwnerId(1).getDiningRoom().get(color).size());
+        assertEquals(1, board.getSchoolByOwnerId(1).getNumDiningRoomStudents());
+        assertEquals(4, ((CharacterCardwithStudents) board.getCharacterCardbyName("QUEEN")).getStudents().size());
 
     }
 
     @Test
-    void testClown(){
-        ActionMessage actionMessage=new ActionMessage();
+    void testClown() {
+        ActionMessage actionMessage = new ActionMessage();
         setUp();
         set(controller, actionMessage);
         actionMessage.getParameters().clear();
@@ -669,8 +672,8 @@ class ControllerTest {
         School school = board.getSchoolByOwnerId(1);
         CharacterColor color1 = school.getEntrance().get(0).getColor();
         CharacterColor color2 = school.getEntrance().get(1).getColor();
-        CharacterColor color3 = ((CharacterCardwithStudents)board.getCharacterCardbyName("CLOWN")).getStudents().get(0).getColor();
-        CharacterColor color4 = ((CharacterCardwithStudents)board.getCharacterCardbyName("CLOWN")).getStudents().get(1).getColor();
+        CharacterColor color3 = ((CharacterCardwithStudents) board.getCharacterCardbyName("CLOWN")).getStudents().get(0).getColor();
+        CharacterColor color4 = ((CharacterCardwithStudents) board.getCharacterCardbyName("CLOWN")).getStudents().get(1).getColor();
         actionMessage.setAction(Action.CHOOSE_CHARACTER_CARD);
         actionMessage.setCharacterCardName("CLOWN");
         assertNull(controller.nextAction(actionMessage));
@@ -681,14 +684,13 @@ class ControllerTest {
         actionMessage.setParameter(color3.toString());
         actionMessage.setParameter(color1.toString());
         assertNull(controller.nextAction(actionMessage));
-        assertEquals(6,((CharacterCardwithStudents)board.getCharacterCardbyName("CLOWN")).getStudents().size());
-        assertEquals(7,board.getSchoolByOwnerId(1).getEntrance().size());
+        assertEquals(6, ((CharacterCardwithStudents) board.getCharacterCardbyName("CLOWN")).getStudents().size());
+        assertEquals(7, board.getSchoolByOwnerId(1).getEntrance().size());
         actionMessage.getParameters().clear();
         actionMessage.setParameter(color4.toString());
         actionMessage.setParameter(color2.toString());
-        assertEquals(6,((CharacterCardwithStudents)board.getCharacterCardbyName("CLOWN")).getStudents().size());
-        assertEquals(7,board.getSchoolByOwnerId(1).getEntrance().size());
-
+        assertEquals(6, ((CharacterCardwithStudents) board.getCharacterCardbyName("CLOWN")).getStudents().size());
+        assertEquals(7, board.getSchoolByOwnerId(1).getEntrance().size());
 
 
     }
@@ -696,7 +698,7 @@ class ControllerTest {
     @Test
     void testDiplomat() {
         ActionMessage actionMessage = new ActionMessage();
-        BoardExpert board = chooseDiplomat(actionMessage,0);
+        BoardExpert board = chooseDiplomat(actionMessage, 0);
         assertNull(controller.nextAction(actionMessage));
         assertEquals(Action.USE_CHARACTER_CARD, controller.getPhase());
         actionMessage.setAction(Action.USE_CHARACTER_CARD);
@@ -709,112 +711,259 @@ class ControllerTest {
 
         //USO IL DIPLOMAT SULL'ISOLA 11 - MN[0] + TORRE
         actionMessage = new ActionMessage();
-        board = chooseDiplomat(actionMessage,0);
+        board = chooseDiplomat(actionMessage, 0);
         assertNull(controller.nextAction(actionMessage));
         actionMessage.setAction(Action.USE_CHARACTER_CARD);
         actionMessage.setData(11);
         board.getSchoolByOwnerId(1).addDiningRoomStudent(new Student(CharacterColor.RED));
         board.getIslands().get(11).addStudent(new Student(CharacterColor.RED));
         board.getProfessorByColor(CharacterColor.RED).setOwner(1);
-        board.moveTower(1,0,"Island");
+        board.moveTower(1, 0, "Island");
         assertNull(controller.nextAction(actionMessage));
         assertEquals(Action.DEFAULT_MOVEMENTS, controller.getPhase());
         assertEquals(10, board.getMotherNaturePosition());
-        assertEquals(PlayerColor.BLACK,board.getIslands().get(10).getTowers().get(0).getColor());
-        assertEquals(2,board.getIslands().get(10).getTowers().size());
-        assertEquals(11,board.getIslands().size());
+        assertEquals(PlayerColor.BLACK, board.getIslands().get(10).getTowers().get(0).getColor());
+        assertEquals(2, board.getIslands().get(10).getTowers().size());
+        assertEquals(11, board.getIslands().size());
 
         //USO IL DIPLOMAT SULL'ISOLA 1 - MN[5] - TORRI IN [0,2]
         actionMessage = new ActionMessage();
-        board = chooseDiplomat(actionMessage,5);
+        board = chooseDiplomat(actionMessage, 5);
         assertNull(controller.nextAction(actionMessage));
         actionMessage.setAction(Action.USE_CHARACTER_CARD);
         actionMessage.setData(1);
         board.getSchoolByOwnerId(1).addDiningRoomStudent(new Student(CharacterColor.RED));
         board.getIslands().get(1).addStudent(new Student(CharacterColor.RED));
         board.getProfessorByColor(CharacterColor.RED).setOwner(1);
-        board.moveTower(1,0,"Island");
-        board.moveTower(1,2,"Island");
+        board.moveTower(1, 0, "Island");
+        board.moveTower(1, 2, "Island");
         assertNull(controller.nextAction(actionMessage));
         assertEquals(Action.DEFAULT_MOVEMENTS, controller.getPhase());
         assertEquals(3, board.getMotherNaturePosition());
-        assertEquals(PlayerColor.BLACK,board.getIslands().get(0).getTowers().get(0).getColor());
-        assertEquals(3,board.getIslands().get(0).getTowers().size());
-        assertEquals(10,board.getIslands().size());
+        assertEquals(PlayerColor.BLACK, board.getIslands().get(0).getTowers().get(0).getColor());
+        assertEquals(3, board.getIslands().get(0).getTowers().size());
+        assertEquals(10, board.getIslands().size());
 
         //USO IL DIPLOMAT SULL'ISOLA 8 - MN[5] - TORRI IN [7]
         actionMessage = new ActionMessage();
-        board = chooseDiplomat(actionMessage,5);
+        board = chooseDiplomat(actionMessage, 5);
         assertNull(controller.nextAction(actionMessage));
         actionMessage.setAction(Action.USE_CHARACTER_CARD);
         actionMessage.setData(8);
         board.getSchoolByOwnerId(1).addDiningRoomStudent(new Student(CharacterColor.RED));
         board.getIslands().get(8).addStudent(new Student(CharacterColor.RED));
         board.getProfessorByColor(CharacterColor.RED).setOwner(1);
-        board.moveTower(1,7,"Island");
+        board.moveTower(1, 7, "Island");
         assertNull(controller.nextAction(actionMessage));
         assertEquals(Action.DEFAULT_MOVEMENTS, controller.getPhase());
         assertEquals(5, board.getMotherNaturePosition());
-        assertEquals(PlayerColor.BLACK,board.getIslands().get(7).getTowers().get(0).getColor());
-        assertEquals(2,board.getIslands().get(7).getTowers().size());
-        assertEquals(11,board.getIslands().size());
+        assertEquals(PlayerColor.BLACK, board.getIslands().get(7).getTowers().get(0).getColor());
+        assertEquals(2, board.getIslands().get(7).getTowers().size());
+        assertEquals(11, board.getIslands().size());
 
         //USO IL DIPLOMAT SULL'ISOLA 0 - MN[11] - TORRI IN [11]
         actionMessage = new ActionMessage();
-        board = chooseDiplomat(actionMessage,11);
+        board = chooseDiplomat(actionMessage, 11);
         assertNull(controller.nextAction(actionMessage));
         actionMessage.setAction(Action.USE_CHARACTER_CARD);
         actionMessage.setData(0);
         board.getSchoolByOwnerId(1).addDiningRoomStudent(new Student(CharacterColor.RED));
         board.getIslands().get(0).addStudent(new Student(CharacterColor.RED));
         board.getProfessorByColor(CharacterColor.RED).setOwner(1);
-        board.moveTower(1,11,"Island");
+        board.moveTower(1, 11, "Island");
         assertNull(controller.nextAction(actionMessage));
         assertEquals(Action.DEFAULT_MOVEMENTS, controller.getPhase());
         assertEquals(0, board.getMotherNaturePosition());
-        assertEquals(PlayerColor.BLACK,board.getIslands().get(0).getTowers().get(0).getColor());
-        assertEquals(2,board.getIslands().get(0).getTowers().size());
-        assertEquals(11,board.getIslands().size());
+        assertEquals(PlayerColor.BLACK, board.getIslands().get(0).getTowers().get(0).getColor());
+        assertEquals(2, board.getIslands().get(0).getTowers().size());
+        assertEquals(11, board.getIslands().size());
 
         //USO IL DIPLOMAT SULL'ISOLA 11 - MN[11] - TORRI IN [0,11]
         actionMessage = new ActionMessage();
-        board = chooseDiplomat(actionMessage,11);
+        board = chooseDiplomat(actionMessage, 11);
         assertNull(controller.nextAction(actionMessage));
         actionMessage.setAction(Action.USE_CHARACTER_CARD);
         actionMessage.setData(11);
         board.getSchoolByOwnerId(1).addDiningRoomStudent(new Student(CharacterColor.RED));
         board.getIslands().get(11).addStudent(new Student(CharacterColor.RED));
         board.getProfessorByColor(CharacterColor.RED).setOwner(1);
-        board.moveTower(1,0,"Island");
-        board.moveTower(1,10,"Island");
+        board.moveTower(1, 0, "Island");
+        board.moveTower(1, 10, "Island");
         assertNull(controller.nextAction(actionMessage));
         assertEquals(Action.DEFAULT_MOVEMENTS, controller.getPhase());
         assertEquals(9, board.getMotherNaturePosition());
-        assertEquals(PlayerColor.BLACK,board.getIslands().get(9).getTowers().get(0).getColor());
-        assertEquals(3,board.getIslands().get(9).getTowers().size());
-        assertEquals(10,board.getIslands().size());
+        assertEquals(PlayerColor.BLACK, board.getIslands().get(9).getTowers().get(0).getColor());
+        assertEquals(3, board.getIslands().get(9).getTowers().size());
+        assertEquals(10, board.getIslands().size());
 
         //USO IL DIPLOMAT SULL'ISOLA 8 - MN[5] - TORRI IN [7] - OLDOWNER[8]
         actionMessage = new ActionMessage();
-        board = chooseDiplomat(actionMessage,5);
+        board = chooseDiplomat(actionMessage, 5);
         assertNull(controller.nextAction(actionMessage));
         actionMessage.setAction(Action.USE_CHARACTER_CARD);
         actionMessage.setData(8);
         board.getSchoolByOwnerId(1).addDiningRoomStudent(new Student(CharacterColor.RED));
         board.getIslands().get(8).addStudent(new Student(CharacterColor.RED));
         board.getIslands().get(8).addStudent(new Student(CharacterColor.RED));
-        board.moveTower(0,8,"Island");
+        board.moveTower(0, 8, "Island");
         board.getProfessorByColor(CharacterColor.RED).setOwner(1);
-        board.moveTower(1,7,"Island");
+        board.moveTower(1, 7, "Island");
         assertNull(controller.nextAction(actionMessage));
         assertEquals(Action.DEFAULT_MOVEMENTS, controller.getPhase());
         assertEquals(5, board.getMotherNaturePosition());
-        assertEquals(PlayerColor.BLACK,board.getIslands().get(7).getTowers().get(0).getColor());
-        assertEquals(2,board.getIslands().get(7).getTowers().size());
-        assertEquals(11,board.getIslands().size());
+        assertEquals(PlayerColor.BLACK, board.getIslands().get(7).getTowers().get(0).getColor());
+        assertEquals(2, board.getIslands().get(7).getTowers().size());
+        assertEquals(11, board.getIslands().size());
     }
 
-    private BoardExpert chooseDiplomat(ActionMessage actionMessage, int motherNPosition){
+    @Test
+    void testFinishedStudents() {
+        ActionMessage actionMessage1 = new ActionMessage();
+        gameModel.getBoard().removeStudentsForTesting(2);
+        gameModel_normal.getBoard().removeStudentsForTesting(3);
+        set(controller, actionMessage1, 5, 3);
+        gameModel.getBoard().getSchoolByOwnerId(1).getEntrance().remove(0);
+        gameModel.getBoard().getSchoolByOwnerId(1).getEntrance().remove(0);
+        gameModel.getBoard().getSchoolByOwnerId(1).getEntrance().remove(0);
+        gameModel.getBoard().getSchoolByOwnerId(1).addEntranceStudent(new Student(CharacterColor.RED));
+        gameModel.getBoard().getSchoolByOwnerId(1).addEntranceStudent(new Student(CharacterColor.RED));
+        gameModel.getBoard().getSchoolByOwnerId(1).addEntranceStudent(new Student(CharacterColor.RED));
+        gameModel.getBoard().getIslands().get(1).getStudents().get(CharacterColor.RED).clear(); //Così nell'isola uno non ho studenti rossi
+        actionMessage1.setCharacterCardName(null);
+        controller.nextAction(actionMessage1);
+        assertEquals(Action.DEFAULT_MOVEMENTS, controller.getPhase());
+        actionMessage1 = new ActionMessage();
+        actionMessage1.setAction(Action.DEFAULT_MOVEMENTS);
+        actionMessage1.setParameter("RED");
+        assertNull(controller.nextAction(actionMessage1));
+        actionMessage1.setData(1);
+        assertNull(controller.nextAction(actionMessage1));
+        assertNull(controller.nextAction(actionMessage1));
+        actionMessage1.getParameters().clear();
+        assertEquals(2, gameModel.getBoard().getIslands().get(1).getStudents().get(CharacterColor.RED).size());
+        assertEquals(1, gameModel.getBoard().getSchoolByOwnerId(1).getDiningRoom().get(CharacterColor.RED).size());
+        assertEquals(0, gameModel.getBoard().getMotherNaturePosition());
+        actionMessage1.setAction(Action.CHOOSE_CHARACTER_CARD);
+        actionMessage1.setCharacterCardName(null);
+        assertNull(controller.nextAction(actionMessage1));
+        actionMessage1 = new ActionMessage();
+        actionMessage1.setAction(Action.MOVE_MOTHER_NATURE);
+        actionMessage1.setData(1);
+        assertNull(controller.nextAction(actionMessage1)); //Muovo madre natura di 1
+        assertEquals(1, gameModel.getBoard().getMotherNaturePosition());
+        assertEquals(3, gameModel.getBoard().getClouds()[0].getStudents().size());
+        actionMessage1 = new ActionMessage();
+        actionMessage1.setAction(Action.CHOOSE_CHARACTER_CARD);
+        actionMessage1.setCharacterCardName(null);
+        assertNull(controller.nextAction(actionMessage1));
+        actionMessage1 = new ActionMessage();
+        actionMessage1.setAction(Action.CHOOSE_CLOUD);
+        actionMessage1.setData(0);
+        assertNull(controller.nextAction(actionMessage1));
+        assertEquals(0, gameModel.getBoard().getClouds()[0].getStudents().size());
+
+
+        actionMessage1 = new ActionMessage();
+        actionMessage1.setAction(Action.CHOOSE_CHARACTER_CARD);
+        actionMessage1.setCharacterCardName(null);
+        assertNull(controller.nextAction(actionMessage1));
+        assertEquals(Action.DEFAULT_MOVEMENTS, controller.getPhase());
+        actionMessage1 = new ActionMessage();
+        actionMessage1.setAction(Action.DEFAULT_MOVEMENTS);
+        actionMessage1.setData(0);
+        actionMessage1.setParameter(gameModel.getBoard().getSchoolByOwnerId(0).getEntrance().get(0).getColor().toString().toUpperCase());
+        assertNull(controller.nextAction(actionMessage1));
+        actionMessage1.getParameters().clear();
+        actionMessage1.setParameter(gameModel.getBoard().getSchoolByOwnerId(0).getEntrance().get(0).getColor().toString().toUpperCase());
+        assertNull(controller.nextAction(actionMessage1));
+        actionMessage1.getParameters().clear();
+        actionMessage1.setParameter(gameModel.getBoard().getSchoolByOwnerId(0).getEntrance().get(0).getColor().toString().toUpperCase());
+        assertNull(controller.nextAction(actionMessage1));
+        actionMessage1 = new ActionMessage();
+        actionMessage1.setAction(Action.CHOOSE_CHARACTER_CARD);
+        actionMessage1.setCharacterCardName(null);
+        assertNull(controller.nextAction(actionMessage1));
+        assertEquals(Action.MOVE_MOTHER_NATURE, controller.getPhase());
+        actionMessage1 = new ActionMessage();
+        actionMessage1.setAction(Action.MOVE_MOTHER_NATURE);
+        actionMessage1.setData(1);
+        assertNull(controller.nextAction(actionMessage1)); //Muovo madre natura di 1
+        actionMessage1 = new ActionMessage();
+        actionMessage1.setAction(Action.CHOOSE_CHARACTER_CARD);
+        actionMessage1.setCharacterCardName(null);
+        assertNull(controller.nextAction(actionMessage1));
+        actionMessage1 = new ActionMessage();
+        actionMessage1.setAction(Action.CHOOSE_CLOUD);
+        actionMessage1.setData(1);
+        assertNull(controller.nextAction(actionMessage1));
+
+        actionMessage1 = new ActionMessage();
+        set(controller, actionMessage1, 7, 2);
+        assertEquals(Action.CHOOSE_CHARACTER_CARD, controller.getPhase());
+        assertEquals(7,gameModel.getBoard().getSchoolByOwnerId(0).getEntrance().size());
+        assertEquals(7,gameModel.getBoard().getSchoolByOwnerId(1).getEntrance().size());
+        assertEquals(0,gameModel.getBoard().getClouds()[0].getStudents().size());
+        assertEquals(0,gameModel.getBoard().getClouds()[1].getStudents().size());
+        assertEquals(5,gameModel.getBoard().getStudentsSize());
+
+        actionMessage1.setCharacterCardName(null);
+        assertNull(controller.nextAction(actionMessage1));
+        assertEquals(Action.DEFAULT_MOVEMENTS, controller.getPhase());
+        actionMessage1 = new ActionMessage();
+        actionMessage1.setAction(Action.DEFAULT_MOVEMENTS);
+        actionMessage1.setData(0);
+        actionMessage1.setParameter(gameModel.getBoard().getSchoolByOwnerId(0).getEntrance().get(0).getColor().toString().toUpperCase());
+        assertNull(controller.nextAction(actionMessage1));
+        actionMessage1.getParameters().clear();
+        actionMessage1.setParameter(gameModel.getBoard().getSchoolByOwnerId(0).getEntrance().get(0).getColor().toString().toUpperCase());
+        assertNull(controller.nextAction(actionMessage1));
+        actionMessage1.getParameters().clear();
+        actionMessage1.setParameter(gameModel.getBoard().getSchoolByOwnerId(0).getEntrance().get(0).getColor().toString().toUpperCase());
+        assertNull(controller.nextAction(actionMessage1));
+        actionMessage1 = new ActionMessage();
+        actionMessage1.setAction(Action.CHOOSE_CHARACTER_CARD);
+        actionMessage1.setCharacterCardName(null);
+        assertNull(controller.nextAction(actionMessage1));
+        assertEquals(Action.MOVE_MOTHER_NATURE, controller.getPhase());
+        actionMessage1 = new ActionMessage();
+        actionMessage1.setAction(Action.MOVE_MOTHER_NATURE);
+        actionMessage1.setData(1);
+        assertNull(controller.nextAction(actionMessage1)); //Muovo madre natura di 1
+        actionMessage1 = new ActionMessage();
+        actionMessage1.setAction(Action.CHOOSE_CHARACTER_CARD);
+        actionMessage1.setCharacterCardName(null);
+        assertNull(controller.nextAction(actionMessage1));
+        assertEquals(Action.CHOOSE_CHARACTER_CARD,controller.getPhase());
+        assertNull(controller.nextAction(actionMessage1));
+
+        assertEquals(Action.DEFAULT_MOVEMENTS, controller.getPhase());
+        actionMessage1 = new ActionMessage();
+        actionMessage1.setAction(Action.DEFAULT_MOVEMENTS);
+        actionMessage1.setData(0);
+        actionMessage1.setParameter(gameModel.getBoard().getSchoolByOwnerId(1).getEntrance().get(0).getColor().toString().toUpperCase());
+        assertNull(controller.nextAction(actionMessage1));
+        actionMessage1.getParameters().clear();
+        actionMessage1.setParameter(gameModel.getBoard().getSchoolByOwnerId(1).getEntrance().get(0).getColor().toString().toUpperCase());
+        assertNull(controller.nextAction(actionMessage1));
+        actionMessage1.getParameters().clear();
+        actionMessage1.setParameter(gameModel.getBoard().getSchoolByOwnerId(1).getEntrance().get(0).getColor().toString().toUpperCase());
+        assertNull(controller.nextAction(actionMessage1));
+        actionMessage1 = new ActionMessage();
+        actionMessage1.setAction(Action.CHOOSE_CHARACTER_CARD);
+        actionMessage1.setCharacterCardName(null);
+        assertNull(controller.nextAction(actionMessage1));
+        assertEquals(Action.MOVE_MOTHER_NATURE, controller.getPhase());
+        actionMessage1 = new ActionMessage();
+        actionMessage1.setAction(Action.MOVE_MOTHER_NATURE);
+        actionMessage1.setData(1);
+        assertNull(controller.nextAction(actionMessage1)); //Muovo madre natura di 1
+        assertEquals(Action.CHOOSE_CHARACTER_CARD,controller.getPhase());
+        assertNull(gameModel.getWinner());
+        controller.endPlayerTurnTesting();
+        assertEquals(1,gameModel.getWinner().getClientID());
+    }
+
+    private BoardExpert chooseDiplomat(ActionMessage actionMessage, int motherNPosition) {
         setUp();
         set(controller, actionMessage);
         BoardExpert board = (BoardExpert) gameModel.getBoard();
@@ -840,4 +989,27 @@ class ControllerTest {
         actionMessage.setData(-1);
         actionMessage.setAction(Action.CHOOSE_CHARACTER_CARD);
     }
+
+    private void set(Controller controller, ActionMessage actionMessage, int a, int b) {
+        controller.setClouds();
+        actionMessage.setData(a);
+        actionMessage.setAction(Action.CHOOSE_ASSISTANT_CARD);
+        controller.setAssistantCard(actionMessage);
+        actionMessage.setData(b);
+        actionMessage.setAction(Action.CHOOSE_ASSISTANT_CARD);
+        controller.setAssistantCard(actionMessage);
+        actionMessage.setData(-1);
+        actionMessage.setAction(Action.CHOOSE_CHARACTER_CARD);
+    }
+
+    private void setEntrance(GameModel gameModel) {
+        gameModel.getBoard().getSchoolByOwnerId(1).getEntrance().remove(0);
+        gameModel.getBoard().getSchoolByOwnerId(1).getEntrance().remove(0);
+        gameModel.getBoard().getSchoolByOwnerId(1).getEntrance().remove(0);
+        gameModel.getBoard().getSchoolByOwnerId(1).addEntranceStudent(new Student(CharacterColor.RED));
+        gameModel.getBoard().getSchoolByOwnerId(1).addEntranceStudent(new Student(CharacterColor.RED));
+        gameModel.getBoard().getSchoolByOwnerId(1).addEntranceStudent(new Student(CharacterColor.RED));
+    }
+
+
 }

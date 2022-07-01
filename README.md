@@ -22,7 +22,7 @@ The final version includes:
 ## Running
 Once you have installed [Java SE 17](https://docs.oracle.com/en/java/javase/17/), open a terminal and go to the project deliveries/jar directory. Once there, execute this command:
 ```bash
-java -jar Eriantys.jar
+java -jar PSP35-1.0-SNAPSHOT.jar
 ```
 
 * You'll have to choose if you want to launch server, CLI client or GUI client by typing the option number on your keyboard.
@@ -44,7 +44,7 @@ java -jar Eriantys.jar
 | Resilience to Disconnections |                                                                        [⛔]()                                                                         |
 
 #### Legend
-[⛔]() Not Implemented &nbsp;&nbsp;&nbsp;&nbsp;[⚠️]() Implementing&nbsp;&nbsp;&nbsp;&nbsp;[✅]() Implemented
+[⛔]() Not Implemented &nbsp;<!--&nbsp;&nbsp;&nbsp;[⚠️]() Implementing&nbsp;-->&nbsp;&nbsp;&nbsp;[✅]() Implemented
 
 
 <!--
@@ -56,15 +56,12 @@ java -jar Eriantys.jar
 ## Test cases
 All tests in model and controller has a classes' coverage at 100%.
 
-**Coverage criteria: code lines.**
 
-| Package     | Tested Class           |   Coverage    |
-|:------------|:-----------------------|:-------------:|
-| Controller  | ActionController       | 115/135 (85%) |
-| Controller  | Controller             |               |
-| Controller  | GodSelectionController |               |
-| Controller  | TurnControllerTest     |               |
-| Model       | Board Expert           |               |
+| Package    | Classes      |    Methods     | Lines          |
+|:-----------|:-------------|:--------------:|:---------------|
+| Model      | 100% (17/17) | 100% (137/137) | 100% (484/484) |
+| Controller | 100% (15/15) |  100% (55/55)  | 92% (363/394)  |
+
 
 ## The Team
 * [Riccardo Inghilleri](https://github.com/riccardoinghilleri)

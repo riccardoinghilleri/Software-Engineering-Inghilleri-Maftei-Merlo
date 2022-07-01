@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.actioncontroller.*;
 import it.polimi.ingsw.enums.Action;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.server.ConnectionMessage.ActionMessage;
+import it.polimi.ingsw.server.GameHandler;
 import it.polimi.ingsw.server.model.*;
 
 import java.beans.PropertyChangeSupport;
@@ -24,6 +25,7 @@ public class Controller {
     private int characterCardMovements;
     private int defaultMovements;
     private boolean alreadyUsedCharacterCard;
+    private boolean filled;
     private Action phase;
     private List<Action> availableActions;
     private String characterCardName;
@@ -46,6 +48,7 @@ public class Controller {
         this.characterCardMovements = -1;
         this.defaultMovements = 0;
         this.alreadyUsedCharacterCard = false;
+        this.filled = true;
         this.maxCharacterCardsMovements = -1;
         this.listeners = new PropertyChangeSupport(this);
         this.listeners.addPropertyChangeListener("end_game", gameHandler);
@@ -67,13 +70,13 @@ public class Controller {
     }
 
     /**
-     * This method returns the phase name ( enum Action)
+     * This method returns the phase name (enum Action)
      */
     public Action getPhase() {
         return phase;
     }
 
-    public ActionController getActionController(){
+    public ActionController getActionController() {
         return actionController;
     }
 
@@ -83,9 +86,10 @@ public class Controller {
      * Moreover sets the current player through the gameModel.
      */
     public void setClouds() {
-        gameModel.getBoard().setStudentsonClouds();
+        filled = gameModel.getBoard().setStudentsonClouds();
         phase = Action.CHOOSE_ASSISTANT_CARD;
         gameModel.setCurrentPlayer(playerTurnNumber);
+
     }
 
     /**
@@ -156,9 +160,12 @@ public class Controller {
                     return "Invalid action!";
                 }
                 if (actionMessage.getCharacterCardName() == null) {
-                    phase = availableActions.remove(0);
+                    if(availableActions.size()==1 && !filled){
+                        endPlayerTurn();
+                    }else phase = availableActions.remove(0);
                 } else {
-                    if(((BoardExpert)gameModel.getBoard()).getCharacterCardbyName(actionMessage.getCharacterCardName())==null) return "This card is not on the Board!";
+                    if (((BoardExpert) gameModel.getBoard()).getCharacterCardbyName(actionMessage.getCharacterCardName()) == null)
+                        return "This card is not on the Board!";
                     try {
                         checkCoins(actionMessage);
                     } catch (NotEnoughCoinsException e) {
@@ -171,7 +178,9 @@ public class Controller {
                     alreadyUsedCharacterCard = true;
                     // if the strategy is not set and the character card's name is not 'lumberjack' or the name is 'postman'.
                     if ((!setCharacterCardEffect(actionMessage) && !characterCardName.equalsIgnoreCase("LUMBERJACK")) || characterCardName.equalsIgnoreCase("POSTMAN")) {
-                        phase = availableActions.remove(0);
+                        if(availableActions.size()==1 && !filled){
+                            endPlayerTurn();
+                        } else phase = availableActions.remove(0);
                     } else phase = Action.USE_CHARACTER_CARD;
                 }
                 break;
@@ -183,7 +192,9 @@ public class Controller {
                 }
                 if (characterCardName.equalsIgnoreCase("LUMBERJACK")) {
                     ((Lumberjack) actionController).setColor(actionMessage.getParameters().get(0));
-                    phase = availableActions.remove(0);
+                    if(availableActions.size()==1 && !filled){
+                        endPlayerTurn();
+                    }else phase = availableActions.remove(0);
                 } else {
                     if ((characterCardName.equalsIgnoreCase("PERFORMER") || characterCardName.equalsIgnoreCase("CLOWN")) && characterCardMovements == -1) {
                         maxCharacterCardsMovements = actionMessage.getData();
@@ -207,7 +218,9 @@ public class Controller {
                         try {//TODO usare direttamente if dentro metodo check
                             checkAlreadyUsedCharacterCard(characterCardName);
                         } catch (AlreadyUsedCharacterCardException e) {
-                            phase = availableActions.remove(0);
+                            if(availableActions.size()==1 && !filled){
+                                endPlayerTurn();
+                            } else phase = availableActions.remove(0);
                         }
                     }
                 }
@@ -261,23 +274,28 @@ public class Controller {
                 }
                 if (gameModel.isExpertGame() && !alreadyUsedCharacterCard)
                     phase = Action.CHOOSE_CHARACTER_CARD;
-                else phase = availableActions.remove(0);
+                else {
+                    if(availableActions.size()==1 && !filled){
+                        endPlayerTurn();
+                    }
+                    phase = availableActions.remove(0);
+                }
                 break;
             case CHOOSE_CLOUD:
-                try {
-                    checkPhase(actionMessage);
-                    if(actionMessage.getData()<0 || actionMessage.getData()> gameModel.getBoard().getClouds().length)
-                        return ("Invalid cloud Id.");
-                    checkCloud(actionMessage);
-                } catch (IncorrectPhaseException e) {
-                    //System.out.println(e.getMessage());
-                    return "Invalid action!";
-                } catch (EmptyCloudException e) {
-                    //System.out.println(e.getMessage());
-                    return "You have chosen an empty cloud.";
-                }
-                actionController.moveStudent(actionMessage.getData());
-                endPlayerTurn(); // in questo modo dopo la scelta della nuvola non si può giocare la carta personaggio
+                    try {
+                        checkPhase(actionMessage);
+                        if (actionMessage.getData() < 0 || actionMessage.getData() > gameModel.getBoard().getClouds().length)
+                            return ("Invalid cloud Id.");
+                        checkCloud(actionMessage);
+                    } catch (IncorrectPhaseException e) {
+                        //System.out.println(e.getMessage());
+                        return "Invalid action!";
+                    } catch (EmptyCloudException e) {
+                        //System.out.println(e.getMessage());
+                        return "You have chosen an empty cloud.";
+                    }
+                    actionController.moveStudent(actionMessage.getData());
+                    endPlayerTurn(); // in questo modo dopo la scelta della nuvola non si può giocare la carta personaggio
                 break;
         }
         return null;
@@ -290,8 +308,28 @@ public class Controller {
         playerTurnNumber++;
         characterCardName = null;
         if (playerTurnNumber == gameModel.getPlayersNumber()) {
-            playerTurnNumber = 0;
-            phase = Action.SETUP_CLOUD;
+            if(filled) {
+                playerTurnNumber = 0;
+                phase = Action.SETUP_CLOUD;
+            } else {
+                gameModel.getBoard().findWinner();
+                listeners.firePropertyChange("end_game",null,null);
+            }
+        } else {
+            startPlayerTurn();
+        }
+    }
+
+    public void endPlayerTurnTesting(){
+        playerTurnNumber++;
+        characterCardName = null;
+        if (playerTurnNumber == gameModel.getPlayersNumber()) {
+            if(filled) {
+                playerTurnNumber = 0;
+                phase = Action.SETUP_CLOUD;
+            } else {
+                gameModel.getBoard().findWinner();
+            }
         } else {
             startPlayerTurn();
         }
@@ -304,10 +342,10 @@ public class Controller {
      * @param actionMessage message containing the action to be done
      * @return the value of the strategy.
      */
-    private boolean setCharacterCardEffect(ActionMessage actionMessage) //setta la strategy oppure crea l'action controller giusto
+    private boolean setCharacterCardEffect(ActionMessage actionMessage)
     {
         boolean strategy = false;
-        switch (actionMessage.getCharacterCardName().toUpperCase()) { //TODO ormai il current player è nel gamemodel quindi nel costruttore dell'actioncontroller e dello strategyfactory il player non serve più
+        switch (actionMessage.getCharacterCardName().toUpperCase()) {
             case "CENTAUR":
                 actionController = new Centaur(gameModel);
                 break;
@@ -336,16 +374,11 @@ public class Controller {
      * @throws SameAssistantCardException type of exception.
      */
     private void checkSameAssistantCard(int priority) throws SameAssistantCardException {
-        //TODO forse sarebbe utile avere una lista con le assistantcards scelte nel turno corrente nella board e non nel player
-        List<Integer> chosenAssistantCards = new ArrayList<>(); //lista contenente le assistantcards già scelte nel turno corrente
+        List<Integer> chosenAssistantCards = new ArrayList<>(); //lista contenente le assistant cards già scelte nel turno corrente
         for (int i = 0; i < gameModel.getPlayersNumber(); i++) {
             if (gameModel.getPlayers().get(i).getChosenAssistantCard() != null)
                 chosenAssistantCards.add(gameModel.getPlayers().get(i).getChosenAssistantCard().getPriority());
         }
-        /*if(chosenAssistantCards.contains(priority)
-                && !chosenAssistantCards.containsAll(gameModel.getCurrentPlayer().getDeck().getAssistantCards())) {
-            throw new SameAssistantCardException();
-        }*/
         if (chosenAssistantCards.contains(priority)) { //casting automatico da int a integer
             for (AssistantCard assistantCard : gameModel.getCurrentPlayer().getDeck().getAssistantCards()) {
                 if (!chosenAssistantCards.contains(assistantCard.getPriority()))

@@ -10,16 +10,17 @@ import java.io.Serializable;
 
 public class AssistantCard implements Serializable {
     int priority;
-    int natureMotherSteps;
+    int motherNatureSteps;
+
     /**
      * Constructor AssistantCard creates a new AssistantCard instance.
-     * @param priority  the number according to which players receive their turn.
+     * @param priority  The number according to which players receive their turn.
      *                  The one who chooses the lowest number is the first who starts the game.
-     * @param natureMotherSteps The maximum number of steps which can be done by MotherNature.
+     * @param motherNatureSteps The maximum number of steps which can be done by MotherNature.
      */
-    public AssistantCard(int priority, int natureMotherSteps) {
+    public AssistantCard(int priority, int motherNatureSteps) {
         this.priority = priority;
-        this.natureMotherSteps = natureMotherSteps;
+        this.motherNatureSteps = motherNatureSteps;
     }
 
     /**
@@ -28,10 +29,11 @@ public class AssistantCard implements Serializable {
     public int getPriority() {
         return priority;
     }
+
     /**
-     * @return  the Assistant Card's MotherNature steps
+     * @return the Assistant Card's MotherNature steps
      */
     public int getMotherNatureSteps() {
-        return natureMotherSteps;
+        return motherNatureSteps;
     }
 }

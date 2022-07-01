@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.controller.GameHandler;
 import it.polimi.ingsw.server.ConnectionMessage.ConnectionIdMessage;
 import it.polimi.ingsw.server.ConnectionMessage.InfoMessage;
 

@@ -1,10 +1,9 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.enums.Action;
 import it.polimi.ingsw.server.ConnectionMessage.*;
 import it.polimi.ingsw.enums.GameHandlerPhase;
-import it.polimi.ingsw.server.Server;
-import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.server.model.BoardExpert;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Player;
@@ -37,9 +36,8 @@ public class GameHandler implements PropertyChangeListener {
 
     private GameHandlerPhase phase;
     private final List<VirtualView> clients;
-    private final Server server;//TODO forse meglio listener
+    private final Server server;
     private final Controller controller;
-
     private String error;
 
     /**
@@ -389,7 +387,7 @@ public class GameHandler implements PropertyChangeListener {
 
     /**
      * @param evt A PropertyChangeEvent object describing the event source
-     *          and the property that has changed.
+     *            and the property that has changed.
      */
 
     @Override

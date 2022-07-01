@@ -20,13 +20,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 /**
- * SettingsController displays the page of settings( ip address and number port)
+ * SettingsController displays the page of settings(ip address and number port)
  */
 public class SettingsController implements Initializable, GuiController {
-
     private Gui gui;
     private boolean expertMode;
+    private final Integer[] numberOfPlayers = {2, 3, 4};
     @FXML
     AnchorPane connection_pane,settings_pane;
     @FXML
@@ -42,13 +43,10 @@ public class SettingsController implements Initializable, GuiController {
     @FXML
     private Label warningIp, warningPort, warningConnection,subtitle;
 
-    private final Integer[] numberOfPlayers = {2, 3, 4};
-
-    //1550,4*830,4   1.867
-
     /**
      * This method sets the ip address and the port number and checks if they are correct.
-     * Then changes the scene to the 'waiting' scene
+     * Then the player chooses the number of players and the game mode.
+     * If there are no errors it also changes the scene to the 'waiting' scene
      */
     public void confirm() {
         boolean error = false;
@@ -83,7 +81,6 @@ public class SettingsController implements Initializable, GuiController {
                     warningConnection.setVisible(true);
                     address.clear();
                     port.clear();
-
                 }
             }
         } else {
@@ -93,7 +90,7 @@ public class SettingsController implements Initializable, GuiController {
     }
 
     /**
-     * Sets the Gui player Number
+     * It sets the players Number chosen
      * @param event of type ActionEvent
      */
     public void getPlayersNumberChoice(ActionEvent event) {
@@ -101,7 +98,7 @@ public class SettingsController implements Initializable, GuiController {
     }
 
     /**
-     * This method sets the gameMode chosen
+     * It sets the gameMode chosen
      */
     public void getGameMode() {
         if (normal.isSelected()) {
@@ -125,6 +122,10 @@ public class SettingsController implements Initializable, GuiController {
         playersNumber.setOnAction(this::getPlayersNumberChoice);
     }
 
+    /**
+     * @param gui of type Gui- the main Gui class
+     * @see GuiController
+     */
     @Override
     public void setGui(Gui gui) {
         this.gui = gui;

@@ -405,7 +405,7 @@ public class ReducedModel {
     }
 
     /**
-     *This method is used to display the island object on the screen.
+     *This method is used to display the school object on the screen.
      * @return a string builder to append to the board stringBuilder
      */
     private static StringBuilder draw(School school, int x, int y) {

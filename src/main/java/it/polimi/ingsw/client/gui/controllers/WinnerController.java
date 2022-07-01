@@ -7,7 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -15,12 +14,9 @@ import java.util.Objects;
 /**
  * WinnerController displays the winner at the end of the game.
  */
-public class WinnerController implements GuiController{
-
+public class WinnerController implements GuiController {
     private Gui gui;
-
     private Stage stage;
-
     @FXML
     Label nickname_label;
     @FXML
@@ -30,26 +26,27 @@ public class WinnerController implements GuiController{
 
     /**
      * This method sets the nickname of the winner to the nickname label
-     * @param nickname string of nickname
+     *
+     * @param nickname string of winner's nickname
      */
-    public void setNickname(String nickname){
+    public void setNickname(String nickname) {
         nickname_label.setText(nickname);
     }
 
     /**
-     * This method sets an image on the winner page
+     * This method sets a particular image if there is a draw
      */
-    public void setDrawImage(){
+    public void setDrawImage() {
         winner_image.setImage(new Image(Objects.requireNonNull(getClass()
                 .getResourceAsStream("/graphics/no_winners.png"))));
     }
 
     /**
-     @see GuiController
+     * @see GuiController
      */
     @Override
     public void setGui(Gui gui) {
-        this.gui=gui;
+        this.gui = gui;
     }
 
     /**
@@ -60,23 +57,25 @@ public class WinnerController implements GuiController{
     }
 
     /**
-     * This method closes the stage of the winner
+     * This method closes the stage of the winner and close the gui
      */
-    public void close(){
+    public void close() {
         this.stage.close();
         gui.close();
     }
 
     /**
-     * Method pressButton detects when  a button is pressed
+     * Method pressButton detects when a button is pressed
+     *
      * @param event of type Mouse Event
      */
     public void pressButton(MouseEvent event) {
         ((Button) event.getSource()).getStyleClass().add("buttonPressed");
-
     }
+
     /**
-     * Method pressButton detects when  a button is released
+     * Method pressButton detects when a button is released
+     *
      * @param event of type Mouse Event
      */
     public void releaseButton(MouseEvent event) {

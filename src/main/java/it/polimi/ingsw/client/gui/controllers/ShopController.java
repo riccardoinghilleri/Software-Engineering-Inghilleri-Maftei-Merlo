@@ -24,13 +24,12 @@ import java.util.Objects;
  * ShopController displays the shop of character Cards
  */
 public class ShopController implements GuiController {
-
     private Stage stage;
     private Gui gui;
     private CharacterCard[] characterCards;
     private int displayedCard = 0;
-
     private ActionMessage message;
+    private boolean enableBuyBtn;
     @FXML
     private Label characterCardName, characterCardDescription, playerCoins, cost;
     @FXML
@@ -40,10 +39,8 @@ public class ShopController implements GuiController {
     @FXML
     private ImageView characterCardImg;
 
-    private boolean enableBuyBtn;
-
     /**
-     * setter of CharacterCards
+     * Setter of CharacterCards
      */
     public void setCharacterCards(CharacterCard[] characterCards) {
         this.characterCards = characterCards;
@@ -58,8 +55,8 @@ public class ShopController implements GuiController {
     }
 
     /**
-     * It sets the label coins to the number of coins
-     * @param coins number of coins
+     * It sets the coins label to the number of coins of the player
+     * @param coins number of available coins
      */
     public void setCoinsLabel(int coins) {
         playerCoins.setText(String.valueOf(coins));
@@ -74,26 +71,22 @@ public class ShopController implements GuiController {
     }
 
     /**
-     * @see GuiController
-     * @param gui of type Gui- the main Gui class
+     * @param message of type ActionMessage, it is the message set in the MainScene
      */
-    @Override
-    public void setGui(Gui gui) {
-        this.gui = gui;
-    }
-
     public void setMessage(ActionMessage message) {
         this.message = message;
     }
+
     /**
-     * Method pressButton detects when  a button is pressed
+     * Method pressButton detects when a button is pressed
      * @param event of type Mouse Event
      */
     public void pressButton(MouseEvent event) {
         ((Button) event.getSource()).getStyleClass().add("buttonPressed");
     }
+
     /**
-     * Method pressButton detects when  a button  is released
+     * Method pressButton detects when a button is released
      * @param event of type Mouse Event
      */
     public void releaseButton(MouseEvent event) {
@@ -130,7 +123,7 @@ public class ShopController implements GuiController {
     }
 
     /**
-     * This method closes the Shop Stage, so it disables and makes not visible the buttons.
+     * This method closes the Shop Stage, and it disables the buy button if it was enabled
      */
     public void close() {
         if (enableBuyBtn) {
@@ -145,7 +138,8 @@ public class ShopController implements GuiController {
     }
 
     /**
-     * This method creates the CharacterCard on Gui interface.
+     * This method displays a character card with his cost, description and elements that it has.
+     * It also handles the enabling of the buy button, which cannot be used in case the card cannot be nought
      */
     public void createCharacterCard() {
         cost.setText(String.valueOf(characterCards[displayedCard].getCost()));
@@ -187,7 +181,7 @@ public class ShopController implements GuiController {
     }
 
     /**
-     * This method sets the visibility to false of all 12 CharacterCards
+     * This method sets the visibility to false of all elements of the students' pane
      */
     public void clear() {
         for (int i = 0; i < 12; i++) {
@@ -195,6 +189,7 @@ public class ShopController implements GuiController {
         }
         studentsPane.setVisible(false);
     }
+
     /**
      * This method selects the object when the mouse is on it, changing the glow of the node selected.
      * @param event of type MouseEvent
@@ -203,6 +198,7 @@ public class ShopController implements GuiController {
         Object object = event.getSource();
         ((Node) object).setEffect(new Glow(0.8));
     }
+
     /**
      * This method unselects the object when the mouse is on it, changing the glow of the node selected.
      * @param event of type MouseEvent
@@ -212,4 +208,12 @@ public class ShopController implements GuiController {
         ((Node) object).setEffect(null);
     }
 
+    /**
+     * @see GuiController
+     * @param gui of type Gui - the main Gui class
+     */
+    @Override
+    public void setGui(Gui gui) {
+        this.gui = gui;
+    }
 }

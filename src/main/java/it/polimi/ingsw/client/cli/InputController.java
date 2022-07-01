@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.cli;
 
 import java.io.PrintStream;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -31,7 +32,7 @@ public class InputController {
      * This method checks , parsing the input, that the insert input is a number.
      * If no, it asks the player to try again and insert a number.
      */
-    public static int checkParseInt() {
+    public static int checkParseInt(){
         int result = -1;
         boolean error;
         do {
@@ -41,6 +42,9 @@ public class InputController {
             } catch (NumberFormatException e) {
                 System.out.println(">Invalid input: you have to insert a number. Please try again.");
                 error = true;
+            }
+            catch(NoSuchElementException e){
+                error=true;
             }
         } while (error);
         return result;

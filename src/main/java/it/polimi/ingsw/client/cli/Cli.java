@@ -66,7 +66,10 @@ public class Cli implements View {
         System.out.println(Constants.ERIANTYS);
         System.out.println("Inghilleri Riccardo - Maftei Daniela - Merlo Manuela\n");
         Cli cli = new Cli();
-        cli.setupConnection();
+        try {
+            cli.setupConnection();
+        } catch (NoSuchElementException ignored) {
+        }
     }
 
     /**
@@ -74,7 +77,7 @@ public class Cli implements View {
      * It tries to establish a connection with the server through a socket.
      * If the connection fails, it displays an error message on the screen.
      */
-    public void setupConnection() {
+    public void setupConnection() throws NoSuchElementException {
         System.out.println(">Insert the server IP address");
         address = reader.nextLine();
         Pattern pattern = Pattern.compile("^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.(?!$)|$)){4}$");
@@ -137,7 +140,7 @@ public class Cli implements View {
      * and forwarding the message through the established clientConnection.
      * If the nickname has been already chosen, it asks the nickname again.
      */
-    public void setupNickname(NicknameMessage message) {
+    public void setupNickname(NicknameMessage message) throws NoSuchElementException {
         Constants.clearScreen();
         System.out.println(Constants.SETUP_GAME);
         String response;
@@ -181,6 +184,7 @@ public class Cli implements View {
 
     /**
      * Method used to print the message in the infoMessage on the CLI.
+     *
      * @param message message with the string that has to be displayed.
      */
     public synchronized void displayInfo(InfoMessage message) {
@@ -197,6 +201,7 @@ public class Cli implements View {
 
     /**
      * Method used to display the board after being updated.
+     *
      * @param message : message that contains the updated board.
      */
     public synchronized void displayBoard(UpdateBoard message) {
@@ -213,6 +218,7 @@ public class Cli implements View {
     /**
      * This method asks and manages the actions that a player can do.
      * It uses a switch-case constructor according to the action contained in the message.
+     *
      * @param message message with contains the asked action.
      */
     public synchronized void askAction(AskActionMessage message) {
@@ -275,7 +281,10 @@ public class Cli implements View {
                 connection.send(answer);
                 break;
             case USE_CHARACTER_CARD:
-                manageCharacterCardChoice(message);
+                try {
+                    manageCharacterCardChoice(message);
+                } catch (NoSuchElementException ignored) {
+                }
                 break;
             case DEFAULT_MOVEMENTS:
                 alreadyAskedCard = false;
@@ -326,10 +335,11 @@ public class Cli implements View {
      * This method manages all the parameters that need to be set according to
      * the character Card(* e.g. island, student color.)
      * It saves the answer in an Action message and sends it.
+     *
      * @param message message with the necessary parameters for choosing a CharacterCard
      */
     //Gestisce i parametri da settare in base alla character card
-    private void manageCharacterCardChoice(AskActionMessage message) {
+    private void manageCharacterCardChoice(AskActionMessage message) throws NoSuchElementException {
         ActionMessage answer = new ActionMessage();
         CharacterCard characterCard = message.getChosenCharacterCard();
         answer.setAction(Action.USE_CHARACTER_CARD);
@@ -338,7 +348,7 @@ public class Cli implements View {
         switch (characterCard.getName()) {
             case PRIEST: //isole e colore dello studente sulla carta
                 answer.setParameter(chooseStudentColor(((CharacterCardwithStudents) characterCard).getStudents(),
-                         ">Please choose the color of the student that you want to move from the Card [green/red/yellow/pink/blue]:"));
+                        ">Please choose the color of the student that you want to move from the Card [green/red/yellow/pink/blue]:"));
                 answer.setData(chooseIsland(message.getIslands()) - 1);
                 break;
             case DIPLOMAT: //Isole
@@ -350,10 +360,9 @@ public class Cli implements View {
                     System.out.println("How many students do you want to change?");
                     alreadyAskedMovements = true;
                     answer.setData(InputController.checkRange(1, 3));
-                }
-                else {
+                } else {
                     answer.setParameter(chooseStudentColor(((CharacterCardwithStudents) characterCard).getStudents(),
-                             ">Please choose the color of the student that you want to move from the Card [green/red/yellow/pink/blue]:"));
+                            ">Please choose the color of the student that you want to move from the Card [green/red/yellow/pink/blue]:"));
                     answer.setParameter(chooseStudentColor(message.getSchool().getEntrance(),
 
                             ">Please choose the color of the student that you want to move from your Entrance [green/red/yellow/pink/blue]:"));
@@ -403,9 +412,10 @@ public class Cli implements View {
     /**
      * This method returns the color of the student chosen by the player,
      * checking that the chosen color is available
+     *
      * @return string with chosen student's color
      */
-    private String chooseStudentColor(List<Student> students,String message) {
+    private String chooseStudentColor(List<Student> students, String message) {
         List<String> availableStudentsColors = new ArrayList<>();
         for (Student s : students) {
             availableStudentsColors.add(s.getColor().toString());

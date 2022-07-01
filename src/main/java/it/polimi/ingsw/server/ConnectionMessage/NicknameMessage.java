@@ -1,6 +1,9 @@
 package it.polimi.ingsw.server.ConnectionMessage;
 
 import it.polimi.ingsw.client.View;
+
+import java.util.NoSuchElementException;
+
 /**
  *  The only parameter of the class is a boolean: alreadyAsked.
  *  Based on this parameter, the view changes the request to the player.
@@ -30,6 +33,9 @@ public class NicknameMessage implements Message,ServerMessage{
      */
     @Override
     public void forward(View view) {
-        view.setupNickname(this);
+        try {
+            view.setupNickname(this);
+        } catch (NoSuchElementException ignored) {
+        }
     }
 }

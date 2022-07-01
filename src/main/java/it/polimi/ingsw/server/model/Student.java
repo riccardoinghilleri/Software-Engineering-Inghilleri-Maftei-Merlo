@@ -13,7 +13,8 @@ public class Student implements Serializable {
     private final CharacterColor color;
 
     /**
-     * The constructor of the class
+     * Constructor of the class.
+     * @param color color of the student.
      */
     public Student(CharacterColor color) {
         this.color = color;
@@ -25,7 +26,8 @@ public class Student implements Serializable {
     }
 
     /**
-     Override of the toString method: the student will be presented as a colorful circle on the screen.
+     Override of the toString method: the student will be presented as a
+     colorful circle on the screen.
      */
     @Override
     public String toString(){

@@ -14,7 +14,9 @@ public class Player implements Serializable {
     AssistantCard chosenAssistantCard;
 
     /**
-     * The constructor of the class
+     * The constructor of the class Player
+     * @param nickname nickname chosen by the player
+     * @param clientID id assigned by the gameHandler to the player
      */
     public Player(String nickname, int clientID) {
         this.nickname = nickname;
@@ -23,48 +25,60 @@ public class Player implements Serializable {
     }
 
     /**
-     * @return the nickname of the player considered
+     * @return the nickname of the player
      */
     public String getNickname() {
         return nickname;
     }
+
     /**
-     * @return the ID of the player considered
+     * @return the ID of the player
      */
     public int getClientID() {
         return clientID;
     }
+
     /**
-     * @return an instance of the enum PlayerColor, corresponding to the player considered
+     * @return the PlayerColor chosen by the player.
      */
     public PlayerColor getColor() {
         return color;
     }
+
     /**
-     * @return player's deck
+     * @return player's deck.
      */
     public Deck getDeck() {
         return deck;
     }
+
     /**
-     * @return the assistant card chosen by the player
+     * @return the assistant card chosen by the player.
      */
     public AssistantCard getChosenAssistantCard() {
         return chosenAssistantCard;
     }
 
+    /**
+     * This method set the player's id
+     * @param clientID id to be assigned to the player.
+     */
     public void setClientID(int clientID) {
         this.clientID = clientID;
     }
+
     /**
      * Method setColor sets the color chosen to the player.
+     * @param color color chosen by the player.
      */
     public void setColor(String color) {
         this.color = PlayerColor.valueOf(color.toUpperCase());
     }
+
     /**
-     * Method setAssistantCard, receiving in input a priority, assigns the card to the player,
-     * by removing it from the player's deck.
+     * Method setAssistantCard assigns the card to the player ,by removing it
+     * from the player's deck.
+     * @param priority priority of the chosen AssistantCard.
      */
     public void setAssistantCard(int priority) {
         chosenAssistantCard = deck.removeAssistantCard(priority);

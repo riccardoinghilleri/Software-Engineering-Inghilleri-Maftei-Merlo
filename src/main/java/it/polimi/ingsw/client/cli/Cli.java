@@ -15,17 +15,16 @@ import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.enums.CharacterColor;
 
 /**
- * Main CLI client class manages the game if the player decides to play with Command Line Interface.
+ * Main CLI client class manages the game if the player decides to play with
+ * Command Line Interface.
  *
  * @author Riccardo Inghilleri, Manuela Merlo
  */
 public class Cli implements View {
-    //private final PrintStream printer;
     private final Scanner reader;
     private static int port;
     private static String address;
     private ClientConnection connection;
-    private boolean expertMode;
     private boolean alreadyAskedCard;
     private boolean alreadyAskedMovements;
     private boolean print, displayedBoard;
@@ -37,7 +36,6 @@ public class Cli implements View {
         print = false;
         displayedBoard = false;
         reader = new Scanner(System.in);
-        //printer = new PrintStream(System.out);
         alreadyAskedCard = false;
         alreadyAskedMovements = false;
         InputController.setPrinter(System.out);
@@ -45,27 +43,26 @@ public class Cli implements View {
     }
 
     /**
-     * Getter which returns the port chosen by the client for the connection
+     * Getter which returns the port chosen by the client for the connection.
      */
     public int getPort() {
         return port;
     }
 
     /**
-     * Getter which returns the address chosen by the client for the connection
+     * Getter which returns the IP address chosen by the client for the connection.
      */
     public String getAddress() {
         return address;
     }
 
     /**
-     * The main class of CLI client. It instantiates a new CLI class, running it.
+     * The main class of CLI client. It instantiates a new CLI class and runs it.
      *
      * @param args of type String[] - the standard java main parameters.
      */
     public static void main(String[] args) {
         Constants.clearScreen();
-        //PrintStream printer = new PrintStream(System.out);
         System.out.println(Constants.ERIANTYS);
         System.out.println("Inghilleri Riccardo - Maftei Daniela - Merlo Manuela\n");
         Cli cli = new Cli();
@@ -74,9 +71,8 @@ public class Cli implements View {
 
     /**
      * This method is called when a client instance has started. It asks the Ip address and port.
-     * It tries to establish a connection to the server through a socket.
-     * It starts a thread with the new established connection.
-     * If the connection fails, it displays a message on the screen.
+     * It tries to establish a connection with the server through a socket.
+     * If the connection fails, it displays a error message on the screen.
      */
     public void setupConnection() {
         System.out.println(">Insert the server IP address");
@@ -117,18 +113,9 @@ public class Cli implements View {
     }
 
     /**
-     * This method manages the cleaning of the buffer, according to the value of 'enable' from the message
-     * @param message type of message
-     */
-    public void enable(TurnMessage message) {
-        if (message.isEnable())
-            stopClearBuffer();
-        else startClearBuffer();
-    }
-
-    /**
-     * This method manages the choice of the players number and expert game, parsing the player's input
-     * and forwarding the message through the established clientConnection
+     * This method manages the choice of the players number and expert game,
+     * by parsing the player's input and forwarding the message through the
+     * established clientConnection.
      */
     private void setupGameSetting() {
         System.out.println(">Choose number of players [2/3/4]: ");
@@ -139,18 +126,19 @@ public class Cli implements View {
         }
         System.out.println(">Do you want to play in ExpertMode? [y/n]: ");
         String response = InputController.checkYNInput();
-        this.expertMode = response.equalsIgnoreCase("y");
+        boolean expertMode = response.equalsIgnoreCase("y");
         Constants.clearScreen();
-        connection.send(new SettingsMessage(playersNumber, this.expertMode));
+        connection.send(new SettingsMessage(playersNumber, expertMode));
 
     }
 
     /**
      * This method manages the choice of the player's nickname, parsing the player's input
      * and forwarding the message through the established clientConnection.
-     * If the nickname has been already chosen , it displays a message on the CLI.
+     * If the nickname has been already chosen, it ask the nickname again.
      */
     public void setupNickname(NicknameMessage message) {
+        clearSystemIn();
         Constants.clearScreen();
         System.out.println(Constants.SETUP_GAME);
         String response;
@@ -167,7 +155,8 @@ public class Cli implements View {
     }
 
     /**
-     * This method is used to display the available colors and wizards from which the player can choose.
+     * This method is used to display the available colors and wizards from
+     * which the player can choose.
      *
      * @param message parameter used to send the list of colors and wizards.
      */
@@ -192,15 +181,15 @@ public class Cli implements View {
     }
 
     /**
-     * Method used to print the string of the infoMessage on the CLI.
-     * @param message type of message to display.
+     * Method used to print the message in the infoMessage on the CLI.
+     * @param message message with the string that has to be displayed.
      */
     public synchronized void displayInfo(InfoMessage message) {
         if (!displayedBoard && message.waitBoard()) {
             try {
                 wait();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
         System.out.println(message.getString());
@@ -209,7 +198,7 @@ public class Cli implements View {
 
     /**
      * Method used to display the board after being updated.
-     * @param message : parameter of updateBoard type, used to return the board and to draw it.
+     * @param message : message that contains the updated board.
      */
     public synchronized void displayBoard(UpdateBoard message) {
         Constants.clearScreen();
@@ -225,8 +214,8 @@ public class Cli implements View {
 
     /**
      * This method asks and manages the actions that a player can do.
-     * It uses a switch-case constructor according to the action contained in the
-     * @param message -> type of message-> AskActionMessage.
+     * It uses a switch-case constructor according to the action contained in the message.
+     * @param message message with contains the action.
      * After the player has chosen an element the boolean 'alreadyAsked' is set to true for the specified player.
      */
     public synchronized void askAction(AskActionMessage message) {
@@ -234,7 +223,9 @@ public class Cli implements View {
         if (!displayedBoard && !message.isError()) {
             try {
                 wait();
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {
+                //e.printStackTrace();
+            }
         }
         displayedBoard = false;
         String response;
@@ -294,7 +285,7 @@ public class Cli implements View {
                 String parameter;
                 answer.setAction(Action.DEFAULT_MOVEMENTS);
                 do {
-                    parameter = chooseStudentColor(message.getSchool().getEntrance(), true,
+                    parameter = chooseStudentColor(message.getSchool().getEntrance(),
                             ">Please choose the color of the student that you want to move from your Entrance [green/red/yellow/pink/blue]:");
                     answer.setParameter(parameter);
                     System.out.println(">Do you want to move your student to your DiningRoom" +
@@ -349,7 +340,7 @@ public class Cli implements View {
         switch (characterCard.getName()) {
             case PRIEST: //isole e colore dello studente sulla carta
                 answer.setParameter(chooseStudentColor(((CharacterCardwithStudents) characterCard).getStudents(),
-                        false, ">Please choose the color of the student that you want to move from the Card [green/red/yellow/pink/blue]:"));
+                         ">Please choose the color of the student that you want to move from the Card [green/red/yellow/pink/blue]:"));
                 answer.setData(chooseIsland(message.getIslands()) - 1);
                 break;
             case DIPLOMAT: //Isole
@@ -365,8 +356,8 @@ public class Cli implements View {
                 //System.out.println(">Students on the Character Card: ");
                 else {
                     answer.setParameter(chooseStudentColor(((CharacterCardwithStudents) characterCard).getStudents(),
-                            true, ">Please choose the color of the student that you want to move from the Card [green/red/yellow/pink/blue]:"));
-                    answer.setParameter(chooseStudentColor(message.getSchool().getEntrance(), true,
+                             ">Please choose the color of the student that you want to move from the Card [green/red/yellow/pink/blue]:"));
+                    answer.setParameter(chooseStudentColor(message.getSchool().getEntrance(),
 
                             ">Please choose the color of the student that you want to move from your Entrance [green/red/yellow/pink/blue]:"));
                 }
@@ -382,7 +373,7 @@ public class Cli implements View {
                     answer.setData(InputController.checkRange(1, Math.min(message.getSchool().getNumDiningRoomStudents(), 2)));
                     alreadyAskedMovements = true;
                 } else {
-                    answer.setParameter(chooseStudentColor(message.getSchool().getEntrance(), false,
+                    answer.setParameter(chooseStudentColor(message.getSchool().getEntrance(),
                             ">Choose the student that you want to move from your Entrance to your Dining Room [green/red/yellow/pink/blue]:"));
                     System.out.println(">Choose the student that you want to move from your Dining Room to your Entrance [green/red/yellow/pink/blue]:");
                     parameter = reader.nextLine().toUpperCase();
@@ -396,8 +387,7 @@ public class Cli implements View {
                 }
                 break;
             case QUEEN: //colori carta
-                answer.setParameter(chooseStudentColor(((CharacterCardwithStudents) characterCard).getStudents(),
-                        false, ">Please choose the color of the student that you want to move from the Card [green/red/yellow/pink/blue]:"));
+                answer.setParameter(chooseStudentColor(((CharacterCardwithStudents) characterCard).getStudents(), ">Please choose the color of the student that you want to move from the Card [green/red/yellow/pink/blue]:"));
                 break;
         }
         connection.send(answer);
@@ -416,9 +406,9 @@ public class Cli implements View {
 
     /**
      * This method returns the color of the student chosen by the player, checking that the chosen color is available
-     * @return
+     * @return string with chosen student's color
      */
-    private String chooseStudentColor(List<Student> students, boolean enablePrint, String message) {
+    private String chooseStudentColor(List<Student> students,String message) {
         List<String> availableStudentsColors = new ArrayList<>();
         for (Student s : students) {
             availableStudentsColors.add(s.getColor().toString());
@@ -465,6 +455,15 @@ public class Cli implements View {
             clearBuffer.interrupt();
             clearBuffer = null;
             print = false;
+        }
+        clearSystemIn();
+    }
+
+    private void clearSystemIn(){
+        try {
+            System.in.read(new byte[System.in.available()]); //TODO DA TESTARE
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

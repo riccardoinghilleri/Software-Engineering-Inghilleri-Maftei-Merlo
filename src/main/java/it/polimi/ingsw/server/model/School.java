@@ -10,10 +10,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class represents the element 'school' on the board.
- * It has a map of students in the diningRoom, a list of towers left on the class , list of professors
- * and also a list of students in the entrance.
- * It manages all the possible movements that students, towers and professors can do in the school.
+ * This class represents the element 'School' on the board.
+ * It has a map of students representing the one's in the diningRoom,
+ * a list of students representing the one's in the entrance,
+ * a list of towers and a list of professors owned by the school's owner.
+ * It manages all the possible movements that students, towers and professors
+ * can do in the school.
  */
 public class School implements Serializable {
     private final Player owner;
@@ -27,9 +29,12 @@ public class School implements Serializable {
 
     /**
      * This method is the constructor.
-     * It initializes the entrance with the correct number of towers according
+     * It initializes the entrance's students number and the towers' number according
      * to the number of players.
-     * It initializes the diningRoom.
+     * It initializes the diningRoom without filling it.
+     * @param owner owner of the school.
+     * @param playerColor color chosen by the owner of the school.
+     * @param playersNumber number of player in the game.
      */
     public School(Player owner, PlayerColor playerColor, int playersNumber) {
         this.owner = owner;
@@ -51,11 +56,10 @@ public class School implements Serializable {
     }
 
     /**
-     * Method of the class which requires a instance of the school itself.
-     * It collects all the data of an already existing school
+     * Constructor that build a school from another school instance.
      * @param school instance of school.
      */
-    public School(School school) { //TODO forse meglio implementare Cloneable
+    public School(School school) {
         this.owner = school.getOwner();
         this.playerColor = school.getTowerColor();
         this.entrance = new ArrayList<>(school.getEntrance());
@@ -67,7 +71,7 @@ public class School implements Serializable {
 
 
     /**
-     * @return a list of all professors in the school.
+     * @return list of professors in the school.
      */
     public List<Professor> getProfessors() {
         return professors;
@@ -81,39 +85,42 @@ public class School implements Serializable {
     }
 
     /**
-     * @return the owner of the school, so a Player.
+     * @return the Player that owns the school.
      */
     public Player getOwner(){
         return owner;
     }
 
     /**
-     * @return the owner of the school, throw the ClientId.
+     * @return Id of the school's owner.
      */
     public int getOwnerId() {
         return owner.getClientID();
     }
 
+    /**
+     * @return number of all the students in the Dining Room.
+     */
     public int getNumDiningRoomStudents(){
         return numDiningRoomStudents;
     }
 
     /**
-     * @return the list of the students left in the entrance.
+     * @return the list of the students in the entrance.
      */
     public List<Student> getEntrance() {
         return entrance;
     }
 
     /**
-     * @return the map of the students in the dining room
+     * @return the map of the students which corresponds to the Dining Room.
      */
     public Map<CharacterColor, List<Student>> getDiningRoom() {
         return diningRoom;
     }
 
     /**
-     * @return the number of the towers left in the school
+     * @return the number of the towers left in the school.
      */
     public int getTowersNumber() {
         return towers.size();
@@ -128,8 +135,10 @@ public class School implements Serializable {
     }
 
     /**
-     * Method hasEntranceStudentColor checks if the entrance has a student of the specified color
-     * @return true if there is a student as required, false vice-versa
+     * Method hasEntranceStudentColor checks if the entrance has a student
+     * of the specified color
+     * @param color name of the color to check
+     * @return true if there is a student, false vice-versa
      */
     public boolean hasEntranceStudentColor(String color) {
         for (Student s : entrance) {
@@ -142,30 +151,33 @@ public class School implements Serializable {
 
     /**
      * This method adds a student to the map of students of the dining room
-     * @param student is the instance of the student that is about to be added
+     * @param student is the instance of the student that has to be added.
      */
-
     public void addDiningRoomStudent(Student student) {
         diningRoom.get(student.getColor()).add(student);
         numDiningRoomStudents++;
     }
+
     /**
      * This method adds a single student to the list of students of the entrance
-     * @param student is the instance of the student that is about to be moved
+     * @param student is the instance of the student that has to be added.
      */
     public void addEntranceStudent(Student student) {
         entrance.add(student);
     }
+
     /**
      * This method adds an entire list of students to the entrance
-     * @param students is the instance of students list.
+     * @param students list of students to be added.
      */
     public void addEntranceStudents(List<Student> students) {
         entrance.addAll(students);
     }
+
     /**
-     * This method removes a student of the specified color in the parameter 'studentColor' from the entrance.
-     * @return a student
+     * This method removes a student of the specified color from the entrance.
+     * @param studentColor color of the student that has to be removed.
+     * @return the removed student.
      */
     public Student removeEntranceStudent(CharacterColor studentColor) {
         Student student = null;
@@ -176,10 +188,12 @@ public class School implements Serializable {
         }
         return student;
     }
+
     /**
-     * This method removes a student of the specified color in the parameter 'studentColor' from the dining room.
-     * It throws an exception if there is not a student of that color.
-     * @return a student
+     * This method removes a student of the specified color
+     * from the dining room.
+     * @param studentColor color of the student that has to be removed.
+     * @return the removed student.
      */
     public Student removeDiningRoomStudent(CharacterColor studentColor) {
         Student student = null;
@@ -192,8 +206,7 @@ public class School implements Serializable {
 
     /**
      * This method moves a student from the entrance to the diningRoom,
-     * throw the use of 'removeEntranceStudent' and 'addDiningRoomStudent'.
-     * It throws an exception if there is not a student of that color.
+     * through the use of 'removeEntranceStudent' and 'addDiningRoomStudent'.
      * @param studentColor color of the student
      */
     public void fromEntrancetoDiningRoom(CharacterColor studentColor)
@@ -203,30 +216,33 @@ public class School implements Serializable {
 
     /**
      * This method removes a tower from the list of towers in the school.
-     * @return a tower
+     * @return the removed tower.
      */
     public Tower removeTower() {
         return towers.remove(towers.size() - 1);
     }
 
     /**
-     * This method refills the school with a list of towers.
+     * This method refills the school's list of tower.
+     * @param towers list of towers to be added.
      */
     public void restockTower(List<Tower> towers) {
-        //TODO se towers.isEmpty() c'è un vincitore
         this.towers.addAll(towers);
 
     }
 
     /**
      * This method adds the professor passed as parameter to the list of professor.
+     * @param professor professor to be added.
      */
     public void addProfessor(Professor professor) {
         professors.add(professor);
     }
 
     /**
-     * This method remove the first professor of the specified color in the input from the list of professors.
+     * This method remove the professor of the specified color
+     * from the list of professors.
+     * @param color color of the professor that has to be removed.
      */
     public Professor removeProfessor(CharacterColor color) {
         for (int i = 0; i < professors.size(); i++) {
@@ -238,7 +254,10 @@ public class School implements Serializable {
     }
 
     /**
-     * This method finds the first professor in the list of professors with the specified color.
+     * This method return the professor in the list of professors
+     * with the specified color, if there is one.
+     * @param color color of the professor that has to be return
+     * @return the chosen professor, without removing it from the school.
      */
     public Professor getProfessorByColor(CharacterColor color) {
         for (Professor professor : professors) {

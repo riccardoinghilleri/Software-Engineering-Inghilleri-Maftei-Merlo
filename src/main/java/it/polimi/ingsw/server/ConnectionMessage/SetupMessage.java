@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.ConnectionMessage;
 /**
- * This message,from the client, contains a string-type attribute to which can be assigned a nickname,a color and a magician
+ * This message is used by the client and contains an attribute of type string.
+ * It is used to communicate the choice of nickname, color and wizard
  * during the setup phase.
  */
 
@@ -14,6 +15,9 @@ public class SetupMessage implements Message{
         this.string = string;
     }
 
+    /**
+     * @return the string with the value of choice.
+     */
     public String getString() {
         return this.string;
     }

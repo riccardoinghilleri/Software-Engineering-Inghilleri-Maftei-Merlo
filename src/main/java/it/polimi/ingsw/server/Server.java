@@ -12,18 +12,18 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * The server class has 4 different aims and tasks:
  * -Accept connections from client
  * -Enter clients in different queues depending on the game mode chosen
  * -Create Games once reached enough clients;
  * -Remove a game from the list of active Games once it is finished.
- * It implements runnable, has a port, 4 queue of connections depending on the game mode chosen.
+ * It implements runnable, has a port, 6 queue of connections depending on the game mode chosen.
  * It also manages the list of active games.
  */
 public class Server implements Runnable {
     private static int port;
-    //private int currentGameId;
 
     private ServerSocket serverSocket;
 
@@ -38,13 +38,13 @@ public class Server implements Runnable {
     //pool di thread che gestisce le connessioni dei client
     private final ExecutorService executor;
 
-    //TODO per accedere alle code e alla lista dei Game potrebbe essere necessario lock
     //un client potrebbe chiamare il metodo addClientConnection che accede ad una coda e il server potrebbe chiamare createGame
     ReentrantLock lockQueue = new ReentrantLock(true);
     ReentrantLock lockGames = new ReentrantLock(true);
+
     /**
-     * The constructor of the class.
-     * It creates also a pool of concurrent thread.
+     * Constructor of the class.
+     * It creates a pool of concurrent thread and the 6 queues.
      */
     public Server() {
         this.executor = Executors.newCachedThreadPool(); //creo pool di thread concorrenti
@@ -57,8 +57,9 @@ public class Server implements Runnable {
         this.fourPlayersNormal = new ArrayList<>();
         this.fourPlayersExpert = new ArrayList<>();
     }
+
     /**
-     * This method is the main server. Using this method the server can be run.
+     * Main method od the server.
      * It allows the client to insert the Ip address and port, throwing an exception
      * if the client inserts a non-existent port.
      */
@@ -88,8 +89,9 @@ public class Server implements Runnable {
         Thread t = new Thread(server);
         t.start();
     }
+
     /**
-     * Method Run creates a socket between the server and the virtualView.
+     * Method Run establishes connections with clients.
      */
     @Override
     public void run() {
@@ -105,17 +107,18 @@ public class Server implements Runnable {
                 try {
                     serverSocket.close();
                 } catch (IOException passBy) {
-                    passBy.printStackTrace();
+                    //passBy.printStackTrace();
                 }
             }
         }
     }
 
     /**
-     * The method creates the queue according to the game mode and number of players chosen by each client.
-     * @param client connection with the client
-     * @param playersNumber number of players involved in the specified game
-     * @param expertMode chosen game mode
+     * This method creates the queue according to the game mode and number of
+     * players chosen by each client.
+     * @param client connection with the client.
+     * @param playersNumber number of players involved in the specified game.
+     * @param expertMode chosen game mode.
      */
     public void addClientConnectionToQueue(VirtualView client, int playersNumber, boolean expertMode) {
         lockQueue.lock();
@@ -167,9 +170,9 @@ public class Server implements Runnable {
     }
 
     /**
-     * This method removes the connections from the server and gives them to the GameHandler.
-     * From this point all the games are managed by each gameHandler, and the server lost them.
-     * @param queue parameter that tells from which queue to remove the connections
+     * This method removes the connections from the server and gives them to
+     * a new GameHandler.
+     * @param queue represents the queue from which to remove connections
      */
     public void createGameHandler(int queue) {
         lockGames.lock();
@@ -209,8 +212,9 @@ public class Server implements Runnable {
         //aggiorna il currentGameId
     }
     /**
-     * This method removes the specified gameHandler from the activeGames( e.g. when a game ends)
-     * @param gameHandler the game wanted to be done.
+     * This method removes the specified gameHandler from the activeGames
+     * ( e.g. when a game ends)
+     * @param gameHandler the game that has to be removed
      */
     public void removeGameHandler(GameHandler gameHandler) {
         lockGames.lock();
@@ -226,7 +230,6 @@ public class Server implements Runnable {
     /**
      * Override of the toString method.
      * It shows the status of the server.
-     * @return
      */
     @Override
     public String toString() {

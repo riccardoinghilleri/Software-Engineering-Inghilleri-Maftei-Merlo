@@ -5,14 +5,14 @@ import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.gui.Gui;
 
 /**
- * This class represents the message to be displayed by the view during the different phases of the game.
+ * This class represents the message to be displayed by the view during the
+ * different phases of the game.
  */
 public class InfoMessage implements Message,ServerMessage{
     private final String string;
-    private String winner;
-    private boolean disconnection;
-
-    private boolean waitBoard;
+    private final String winner;
+    private final boolean disconnection;
+    private final boolean waitBoard;
 
     /**
      * Constructor of the class
@@ -25,7 +25,7 @@ public class InfoMessage implements Message,ServerMessage{
     }
 
     /**
-     * Message sent at the end of a game with the winner
+     * Message sent at the end of a game with the name of winner
      */
     public InfoMessage(String string,boolean waitBoard, String winner){
         this.string = string;
@@ -35,7 +35,7 @@ public class InfoMessage implements Message,ServerMessage{
     }
 
     /**
-     * Message sent at the end of the game, when the client disconnect
+     * Message sent at the end of the game, when a client disconnect
      */
     public InfoMessage(String string,boolean waitBoard, boolean disconnection){
         this.string = string;
@@ -43,18 +43,33 @@ public class InfoMessage implements Message,ServerMessage{
         this.waitBoard=waitBoard;
         this.disconnection=disconnection;
     }
+
+    /**
+     * @return the String with the message
+     */
     public String getString() {
         return this.string;
     }
 
+    /**
+     * @return the name of the winner
+     */
     public String getWinner(){
         return winner;
     }
 
+    /**
+     * @return boolean whose value is true if the view has to wait the board
+     * to be displayed before display the message
+     */
     public boolean waitBoard(){
         return waitBoard;
     }
 
+    /**
+     * This method calls the correct view method to handle the message.
+     * @param view view that has to handle the message.
+     */
     @Override
     public void forward(View view) {
         if(view instanceof Cli || (this.winner == null && !this.disconnection ))

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class represents a cloud on the boardGame. It has different number of students on it,
+ * This class represents a cloud on the boardGame. It can have a different number of students,
  * according to the playersNumber.
  */
 
@@ -38,8 +38,8 @@ public class Cloud implements Serializable {
 
     /**
      * Method removeStudents is called when a player chooses the cloud.
-     * It removes all the students on the cloud and
-     * @return a list of them
+     * It removes all the students from the cloud.
+     * @return the list of students on the cloud.
      */
     public List<Student> removeStudents() {
 

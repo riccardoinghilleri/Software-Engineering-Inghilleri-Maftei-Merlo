@@ -11,7 +11,7 @@ import java.util.*;
 public class BoardExpert extends Board {
     private int boardCoins;
     private final int[] playerCoins;
-    private CharacterCard[] characterCards;
+    private final CharacterCard[] characterCards;
 
     /**
      * The constructor of the boardExpert: it creates the coins, chooses randomly 3 characterCard and gives to each player a coin.
@@ -57,20 +57,19 @@ public class BoardExpert extends Board {
     }
 
     /**
-     * @return a list of all the CharacterCard randomly chosen
+     * @return a list of all the randomly chosen CharacterCards
      */
     public CharacterCard[] getCharacterCards() {
         return characterCards;
     }
 
     /**
-     * This method is able to return the CharacterCard whose name is passed as parameter of the method
+     * This method return the CharacterCard whose name is passed as a parameter of the method
      *
      * @param name of the CharacterCard requested
      * @return a CharacterCard
      */
     public CharacterCard getCharacterCardbyName(String name) {
-        //TODO forse bisogna lanciare eccezione se non si trova la carta
         CharacterCard characterCard = null;
         for (CharacterCard card : characterCards) {
             if (name.equals(card.getName().toString()))
@@ -80,14 +79,14 @@ public class BoardExpert extends Board {
     }
 
     /**
-     * After a player uses a CharacterCard this method removes the coins from the player and put subtract from the cost 1.
-     * It adds a coin to the CharacterCard
+     * After a player uses a CharacterCard, this method removes the coins from the player and put them subtract 1 into the board.
+     * It updates the cost of the CharacterCard.
      *
      * @param clientId the player who uses the Card
-     * @param card:    the card chosen
+     * @param card:    the chosen card
      */
-    //Rimuove le monete dal player e ne mette il costo - 1 nella board, aggiunge una moneta alla carta personaggio
     public void moveCoin(int clientId, CharacterCard card) {
+        //Rimuove le monete dal player e ne mette il costo - 1 nella board, aggiunge una moneta alla carta personaggio
         playerCoins[clientId] -= card.getCost();
         boardCoins += (card.getCost()) - 1;
         card.updateCost();
@@ -96,7 +95,7 @@ public class BoardExpert extends Board {
     /**
      * It adds a coin to a specified player removing them from the Board
      *
-     * @param clientId the client to who coins are added.
+     * @param clientId client id of the player to which the coin is added
      */
     public void addCointoPlayer(int clientId) {
         playerCoins[clientId] += 1;
@@ -111,7 +110,7 @@ public class BoardExpert extends Board {
      * This method creates randomly 3 CharacterCards,
      * calling the constructors of the 3 different types of cards, specifying the name, the coins and what the card can do.
      *
-     * @return a list of 3 Cards
+     * @return an array of 3 Cards
      */
     private CharacterCard[] createThreeRandomCharacterCards() {
         CharacterCard[] cards = new CharacterCard[3];
@@ -186,6 +185,10 @@ public class BoardExpert extends Board {
         return cards;
     }
 
+    /**
+     * This method is used only for tests.
+     * It overrides the 3 randomly chosen characterCards, whit 3 chosen CharacterCards.
+     */
     public void createThreeCharacterCards(int index) {
         CharacterCardName[] values = CharacterCardName.values();
         List<CharacterCardName> chosenNames = new ArrayList<>(Arrays.asList(values).subList(3 * (index - 1), 3 * index));

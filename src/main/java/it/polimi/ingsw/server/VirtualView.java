@@ -9,9 +9,9 @@ import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * This class  communicates with the ClientConnection through the socket created by the server.
+ * This class communicates with the ClientConnection through the socket created by the server.
  * It forwards messages based on the value of an inGame attribute either to the server or gameHandler.
- * if inGame == false, the messages are forwarded to the server, else to the gameHandler.
+ * if inGame == false, the messages are forwarded to the server, otherwise to the gameHandler.
  */
 public class VirtualView implements Runnable {
     private int clientId;
@@ -31,7 +31,7 @@ public class VirtualView implements Runnable {
     //private Thread timer;
 
     /**
-     * The constructor of the class.
+     * Constructor of the class.
      * @param server instance of server object
      * @param socket instance of socket object
      */
@@ -68,20 +68,33 @@ public class VirtualView implements Runnable {
         this.gameHandler = gameHandler;
     }
 
+    /**
+     * @return the clientId associated with the client.
+     */
     public int getClientId() {
         return clientId;
     }
 
+    /**
+     * The method set the clientId.
+     * @param clientId id that has to be associated to the client.
+     */
     public void setClientId(int clientId) {
         this.clientId = clientId;
     }
 
+
+    /**
+     * This method set the attributed that specifies if the virtualView
+     * has been already added to a game.
+     */
     public void setInGame(boolean inGame) {
         this.inGame = inGame;
     }
 
     /**
-     * This method opens an output and input stream and forwards the messages to the GameHandler or to the server
+     * This method opens an output and input stream and
+     * forwards the messages to the GameHandler or to the server.
      */
     @Override
     public void run() {
@@ -110,11 +123,9 @@ public class VirtualView implements Runnable {
     }
 
     /**
-     * Method to send a message throw the output stream
+     * Method that sends a message through the output stream.
      */
     public synchronized void sendMessage(Message message) {
-            /*if (message instanceof AskActionMessage)
-                startTimer();*/
         if (active.get()) {
             try {
                 os.writeObject(message);
@@ -127,10 +138,11 @@ public class VirtualView implements Runnable {
     }
 
     /**
-     * This method closes a connection when a client wants to disconnect at any moment during the game.
-     * This method is called by the gameHandler to disconnects a client
+     * This method closes a connection when the current client wants to disconnect from
+     * the game or when another client decided to  leave  the match, and when the
+     * game end.
      *
-     * @param quit boolean that tells  if the client has sent a quit message.
+     * @param quit boolean that tells if the current client decided to quit game.
      */
     public synchronized void closeConnection(boolean quit) {
         if (!closed.get()) {
@@ -138,11 +150,7 @@ public class VirtualView implements Runnable {
             closed.set(true);
             sendMessage(new InfoMessage("CONNECTION_CLOSED", false));
             active.set(false);
-            /*
-            if (noPing) {
-                //sendMessage(new InfoMessage("TIMER_ENDED",false));
-                gameHandler.endGame(clientId);
-            } //else stopTimer();*/
+
             if (quit && gameHandler != null)
                 gameHandler.endGame(clientId);
             //per non avere SocketException lato client se cerca d'inviare un messaggio dopo che
@@ -166,7 +174,8 @@ public class VirtualView implements Runnable {
 
     /**
      * This method start the Ping thread.
-     * If a client doesn't send an answer before the period of time established , the connection is closed
+     * If a client does not send a response before the predetermined time period
+     * expires, the connection is closed.
      */
     private void startPinger() {
         Thread pinger = new Thread(() -> {
@@ -184,5 +193,4 @@ public class VirtualView implements Runnable {
         });
         pinger.start();
     }
-
 }

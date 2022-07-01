@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * This class represents the deck associated to a player.
  * Each deck has a magician, which is chosen by the player.
- * After a student has played a specified card, the card will be removed from the deck,
+ * After a student has played a specified Assistant card, the card will be removed from the deck,
  * so the number of cards available will decrease.
  */
 
@@ -18,7 +18,7 @@ public class Deck implements Serializable {
 
     /**
      * Constructor Deck creates a new Deck instance.
-     * The AssistantCard array is initialized and creates 10 different cards for each deck
+     * The AssistantCard array is initialized with 10 different AssistantCard with increasing priority.
      */
     public Deck() {
         assistantCards = new ArrayList<>();
@@ -31,35 +31,32 @@ public class Deck implements Serializable {
     }
 
     /**
-     * @return a Wizard Enum which corresponds to the card
+     * @return the Wizard associated to the deck.
      */
     public Wizard getWizard() {
         return wizard;
     }
 
     /**
-     *  @return the list of assistant card of the deck
+     *  @return the list of assistant card of the deck.
      */
     public List<AssistantCard> getAssistantCards() {
         return assistantCards;
     }
 
     /**
-     * After the player chooses the wizard that wants to play , the wizard Name is set to te deck,
-     * if only the given name is one of the list of enum Wizard
-     * @param wizard string of the wizard
+     * This method set the name of the Wizard associated to the deck.
+     * @param wizard name of the chosen wizard
      */
     public void setWizard(String wizard) {
         this.wizard = Wizard.valueOf(wizard.toUpperCase());
     }
 
     /**
-     * Method removeAssistantCard removes the played Chard with the specified priority,
-     * given throw the 'priority' parameter.
-     * @param priority the priority of the card already use
-     * @return an assistant card, which is not anymore on the deck
+     * Method removeAssistantCard removes the chosen Card with the specified priority.
+     * @param priority the priority of the chosen card.
+     * @return the chosen assistant card, removed from rhe deck.
      */
-    //TODO ECCEZIONE SE LA PRIORITA' NON PUO' ESSERE SCELTA
     public AssistantCard removeAssistantCard(int priority) {
         AssistantCard result = null;
         for (int i = 0; i < assistantCards.size() && result == null; i++)

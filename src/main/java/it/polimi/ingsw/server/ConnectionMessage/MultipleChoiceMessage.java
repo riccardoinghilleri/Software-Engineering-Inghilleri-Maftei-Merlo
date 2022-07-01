@@ -5,10 +5,8 @@ import it.polimi.ingsw.client.View;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * This message contains a List of parameters declaring the availability of the latter ( e.g. colors or magician)
+ * This message is used during the Setup to make the players choose the Color and the Wizard.
  */
-
-
 public class MultipleChoiceMessage implements Message,ServerMessage{
     private final List<String> availableChoices;
     private final boolean color;
@@ -24,14 +22,25 @@ public class MultipleChoiceMessage implements Message,ServerMessage{
         }
     }
 
+
+    /**
+     @return boolean whose value is true if the gameHandler is asking for the color.
+     */
     public boolean isColor() {
         return color;
     }
 
+    /**
+     @return list of available choices
+     */
     public List<String> getAvailableChoices() {
         return this.availableChoices;
     }
 
+    /**
+     * This method calls the correct view method to handle the message.
+     * @param view view that has to handle the message.
+     */
     @Override
     public void forward(View view) {
         view.setupMultipleChoice(this);

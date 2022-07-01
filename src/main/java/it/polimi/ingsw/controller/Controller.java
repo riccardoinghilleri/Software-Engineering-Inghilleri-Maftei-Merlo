@@ -53,7 +53,6 @@ public class Controller {
         this.listeners = new PropertyChangeSupport(this);
         this.listeners.addPropertyChangeListener("end_game", gameHandler);
         this.listeners.addPropertyChangeListener("set_assistantCard", gameHandler);
-        this.listeners.addPropertyChangeListener("change_turn", gameHandler);
         this.availableActions = new ArrayList<>();
         this.characterCardName = null;
     }
@@ -131,7 +130,6 @@ public class Controller {
      */
     private void startPlayerTurn() {
         gameModel.setCurrentPlayer(playerTurnNumber);
-        listeners.firePropertyChange("change_turn", null, playerTurnNumber);
         characterCardMovements = -1;
         defaultMovements = 0;
         characterCardName = null;

@@ -43,8 +43,11 @@ public class GameHandler implements PropertyChangeListener {
     /**
      * The constructor of the class.
      * It needs the expertMode,list of players and server
+     * @param expertMode specifies if the game is in expert Mode
+     * @param clients list of the virtualViews of the clients
+     * @param server who handle the active games
      **/
-    public GameHandler(/*int gameId, */boolean expertMode, List<VirtualView> clients, Server server) {
+    public GameHandler(boolean expertMode, List<VirtualView> clients, Server server) {
         //this.gameId = gameId;
         this.error = null;
         this.playersNumber = clients.size();
@@ -66,15 +69,19 @@ public class GameHandler implements PropertyChangeListener {
         setupGame();
     }
 
+    /**
+     * @return the gameModel
+     */
     public GameModel getGameModel() {
         return gameModel;
     }
 
     /**
-     * This method manages the messages from the client connection according to the phase in which it can be found.
-     * If a player tries to make a move while it is not his turn, he will receive a message and be told to wait.
+     * This method manages the messages from the client connection according to
+     * his phase.
+     * If a player tries to make a move while it is not his turn, he will receive
+     * a message and be told to wait.
      */
-
     public void manageMessage(VirtualView client, Message message) {
         if (currentClientConnection != client.getClientId()) {
             client.sendMessage(new InfoMessage(">It is not your turn! Please wait.", false));
@@ -102,7 +109,6 @@ public class GameHandler implements PropertyChangeListener {
                         view.sendMessage(new ConnectionIdMessage(clients.indexOf(view)));
                     }
                     planningTurn(null);
-                    //TODO forse si deve fare il display della board
                 } else {
                     phase = GameHandlerPhase.SETUP_NICKNAME;
                     setupGame();
@@ -139,9 +145,8 @@ public class GameHandler implements PropertyChangeListener {
     }
 
     /**
-     * This method manages the setting of the game parameters (nickname, color and magician) for each player,
-     * according to their order connection to the server. Here the type of message sent from the client is a 'SetUpMessage'.
-     * while the messages sent by the server are 'infoMessage', 'nicknameMessage' and 'MultipleChoiceMessage' and 'connectionIdMessage'
+     * This method manages the setting of the game parameters (nickname, color
+     * and magician) for each player, according to their order connection to the server.
      */
     public void setupGame() {
         if (phase == GameHandlerPhase.SETUP_NICKNAME) {
@@ -151,14 +156,9 @@ public class GameHandler implements PropertyChangeListener {
         } else if (phase == GameHandlerPhase.SETUP_COLOR) {
             clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(availableColors, true));
             if (availableColors.stream().distinct().count() > 1) {
-                //clients.get(currentClientConnection).sendMessage(new InfoMessage("Please choose your color:"));
                 sendAllExcept(currentClientConnection, new InfoMessage(">"
                         + gameModel.getPlayerById(currentClientConnection).getNickname() + " is choosing his color...", false));
             } else {
-                /*clients.get(currentClientConnection)
-                        .sendMessage(new InfoMessage(">The Game has chosen the color for you.\n" +
-                                ">Your color is " + availableColors.get(0)));
-                */
                 sendAllExcept(currentClientConnection, new InfoMessage(">The game assigned to "
                         + gameModel.getPlayerById(currentClientConnection).getNickname() + " the last color: "
                         + availableColors.get(0).toString(), false));
@@ -170,7 +170,6 @@ public class GameHandler implements PropertyChangeListener {
         } else if (phase == GameHandlerPhase.SETUP_WIZARD) {
             clients.get(currentClientConnection).sendMessage(new MultipleChoiceMessage(availableWizards, false));
             if (availableWizards.size() > 1) {
-                //clients.get(currentClientConnection).sendMessage(new InfoMessage("Please choose your wizard:"));
                 sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel
                         .getPlayerById(currentClientConnection).getNickname() + " is choosing his wizard...", false));
             } else {
@@ -193,6 +192,9 @@ public class GameHandler implements PropertyChangeListener {
 
     /**
      * Method planningTurn manages cloud filling and the selection of Assistant Card
+     * for each player
+     * @param  error specifies if the gameHandler has to ask again for an AssistantCard
+     *               or if it is the first time.
      */
     private void planningTurn(String error) {
         if (controller.getPhase() == Action.SETUP_CLOUD) {
@@ -201,8 +203,6 @@ public class GameHandler implements PropertyChangeListener {
         if (error == null) {
             sendAll(new UpdateBoard(gameModel.getBoard()));
             currentClientConnection = gameModel.getCurrentPlayer().getClientID();
-            //sendAllExcept(currentClientConnection, new TurnMessage(false));
-            //clients.get(currentClientConnection).sendMessage(new TurnMessage(true));
             sendAllExcept(currentClientConnection, new InfoMessage(">" + gameModel
                     .getCurrentPlayer().getNickname() + " is choosing the AssistantCard...", true));
         } else {
@@ -220,7 +220,6 @@ public class GameHandler implements PropertyChangeListener {
      * Method actionTurn manages the actual game round for a player.
      */
     private void actionTurn() {
-        //sendAll(new UpdateBoard(gameModel.getBoard()));
         currentClientConnection = gameModel.getCurrentPlayer().getClientID();
         AskActionMessage askActionMessage = null;
         switch (controller.getPhase()) {
@@ -248,14 +247,6 @@ public class GameHandler implements PropertyChangeListener {
                 break;
             case MOVE_MOTHER_NATURE:
                 int increment = 0;
-                /*if (controller.getCharacterCardName() == null || !controller.getCharacterCardName().equalsIgnoreCase("POSTMAN"))
-                    askActionMessage = new AskActionMessage(controller.getPhase(), gameModel
-                            .getPlayerById(currentClientConnection)
-                            .getChosenAssistantCard().getMotherNatureSteps());
-                else if (controller.getCharacterCardName().equalsIgnoreCase("POSTMAN"))
-                    askActionMessage = new AskActionMessage(controller.getPhase(), gameModel
-                            .getPlayerById(currentClientConnection)
-                            .getChosenAssistantCard().getMotherNatureSteps() + 2);*/
                 if (controller.getCharacterCardName() != null && controller.getCharacterCardName().equalsIgnoreCase("POSTMAN"))
                     increment = 2;
                 askActionMessage = new AskActionMessage(controller.getPhase(), gameModel
@@ -275,8 +266,10 @@ public class GameHandler implements PropertyChangeListener {
     }
 
     /**
-     * This method is called when each player chooses his nickname,
-     * telling the other players what name the current player has chosen.
+     * This method is called when a player chooses a nickname.
+     * It checks the availability of the nickname and notify the other players the
+     * chosen nickname.
+     * @param message message with the chosen nickname
      */
     private void setupNickname(SetupMessage message) {
         if (message.getString().isEmpty() || message.getString().equalsIgnoreCase("")) {
@@ -300,9 +293,9 @@ public class GameHandler implements PropertyChangeListener {
 
     /**
      * This method is called when a player wants to disconnect.
-     * All the connections are closed and the server removes the gameHandler from the list of active games
-     *
-     * @param disconnected the client id who wants to disconnect
+     * All the connections are closed and the server removes the gameHandler
+     * from the list of active games.
+     * @param disconnected id of the client who wants to disconnect
      */
     public void endGame(int disconnected) {
         String player = gameModel.getPlayerById(disconnected) != null ? gameModel.getPlayerById(disconnected).getNickname() : "The client #" + (disconnected + 1);
@@ -313,11 +306,10 @@ public class GameHandler implements PropertyChangeListener {
             client.closeConnection(false);
         }
         server.removeGameHandler(this);
-        //TODO implementare il reset del game se vogliono rigiocare
     }
 
     /**
-     * This method tells to all players the winner.
+     * This method notify to all players the winner.
      * It notifies each player of the disconnection.
      * It notifies the server which removes it from the list of active Games.
      */
@@ -333,20 +325,10 @@ public class GameHandler implements PropertyChangeListener {
         }
         server.removeGameHandler(this);
     }
-    /*
-    public void resetGame() { //Solo se vogliono rigiocare tutti, altrimenti chi vuole rigiocare dovrebbe andare nelle code del server
-        this.currentClientConnection = 0;
-        this.phase = GameHandlerPhase.SETUP_NICKNAME;
-        this.gameModel = new GameModel(expertMode);
-        this.controller = new Controller(this.gameModel,this);
-        this.turnNumber = 1;
-        this.phase = GameHandlerPhase.PLANNING;
-        this.gameModel.createBoard();
-        planningTurn();
-    }*/
+
 
     /**
-     * This method sends the same message to all the clients
+     * This method sends the same message to all the clients.
      */
     public void sendAll(Message message) {
         for (VirtualView client : clients) {
@@ -355,7 +337,10 @@ public class GameHandler implements PropertyChangeListener {
     }
 
     /**
-     * This method sends the same message to all the clients, except the one specified in the parameter client id
+     * This method sends the same message to all the clients,
+     * except the one specified in the parameter client id
+     * @param clientId id of the player who should not receive the message.
+     * @param message message to be sent.
      */
     public void sendAllExcept(int clientId, Message message) { //TODO non so se serve
         for (VirtualView client : clients) {
@@ -366,9 +351,10 @@ public class GameHandler implements PropertyChangeListener {
 
     /**
      * Method for the game mode '4 players'.
-     * It set the clientId of playery to 0 if White and to 1 if black for the first two players, and then add 2 for the last 2 players.
+     * It set the clientId of players :
+     * FIRST_CLIENT_WHITE:0   SECOND_CLIENT_WHITE:2
+     * FIRST_CLIENT_BLACK.1   FIRST_CLIENT_BLACK:3
      */
-
     //Serve per 4 giocatori. In questo modo il primo è bianco con torri e il secondo nero con torri
     private void setClientIdOrder() {
         int whiteIndex = 0, blackIndex = 1;
@@ -389,7 +375,6 @@ public class GameHandler implements PropertyChangeListener {
      * @param evt A PropertyChangeEvent object describing the event source
      *            and the property that has changed.
      */
-
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
@@ -399,17 +384,12 @@ public class GameHandler implements PropertyChangeListener {
             case "set_assistantCard":
                 sendAllExcept(gameModel.getCurrentPlayer().getClientID(), new InfoMessage(">" + gameModel.getCurrentPlayer().getNickname() + " has chosen che AssistantCard with priority #" + ((ActionMessage) evt.getNewValue()).getData(), false));
                 break;
-            case "change_turn":
-                //clients.get((Integer)evt.getNewValue()).sendMessage(new TurnMessage(true));
-                //sendAllExcept((Integer)evt.getNewValue(), new TurnMessage(false));
-                break;
         }
     }
 }
 
 /**
- * class that implements the virtualView through comparator.
- * It is used to compare 2 client id and used in the setUpGame() method when the turn begin.
+ * Class that override the comparator method to sort virtualViews according to the clientId.
  */
 class IdComparator implements Comparator<VirtualView> {
     @Override

@@ -3,19 +3,19 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.enums.CharacterCardName;
 
 /**
- * This class extends the basic CharacterCard.
- * These types of cards have several prohibition tiles, presented  in the
+ * This class extends the CharacterCard class.
+ * These type of card has prohibition tiles, saved in the
  * parameter 'prohibitionsNumber'
  */
 public class CharacterCardwithProhibitions extends CharacterCard {
     private int prohibitionsNumber;
 
     /**
-     * Constructor calling the super constructor of the CharacterCard class
+     * Constructor that call the super constructor of the CharacterCard class.
      * @param name: name of the card
-     * @param cost : usual cost of the characterCard to be played
-     * @param description: since there different cards with this extension, the description is essential for the player.
-     * @param prohibitionsNumber : number of prohibitions
+     * @param cost : standard cost of the characterCard
+     * @param description: description of the CharacterCard power.
+     * @param prohibitionsNumber : number of prohibitions.
      */
     public CharacterCardwithProhibitions(CharacterCardName name, int cost, String description, int prohibitionsNumber) {
         super(name,cost,description);
@@ -23,7 +23,7 @@ public class CharacterCardwithProhibitions extends CharacterCard {
     }
 
     /**
-     * @return the number of the prohibitions tiles available on the card
+     * @return the number of prohibitions tiles available on the card.
      */
     public int getProhibitionsNumber() {
         return prohibitionsNumber;
@@ -34,13 +34,11 @@ public class CharacterCardwithProhibitions extends CharacterCard {
      * It throws an exception if the player wants to use a prohibition tiles when they are run out
      */
     public void subProhibitionCard() {
-        //TODO lanciare un'eccezione se sono finite le tessere divieto e il client vuole usarne una
         if(prohibitionsNumber>0) prohibitionsNumber--;
     }
 
     /**
-     * This method refreshes the initial number of prohibitions on the Card,
-     * adding tiles until their number is not equal to 4.
+     * This method add a prohibition on the Card, whether the number of prohibition is less than  4.
      */
     public void restockProhibitionsNumber() {
         if(prohibitionsNumber<4) prohibitionsNumber++;

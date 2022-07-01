@@ -2,25 +2,24 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.enums.CharacterColor;
 import it.polimi.ingsw.enums.PlayerColor;
-import it.polimi.ingsw.constants.Constants;
 
 import java.io.Serializable;
 import java.util.*;
-import java.lang.*;
 
 /**
  * This class represents the element 'island' on the board.
- * It can contain students, towers or motherNature.
+ * It can contain students, towers, motherNature or noEntryTiles when the game
+ * is in Expert mode.
  */
 public class Island implements Serializable {
     private boolean hasMotherNature;
-    private Map<CharacterColor, List<Student>> students;
-    private List<Tower> towers;
+    private final Map<CharacterColor, List<Student>> students;
+    private final List<Tower> towers;
     private int noEntryTile; // prima c'era isLocked
 
     /**
      This is the constructor of the first and sixth island,
-     which respectively is initialized with only MotherNature and is empty.
+     which respectively are initialized with only MotherNature and with nothing on it.
      * @param hasMotherNature boolean which specifies if on the island there is motherNature or not.
      */
     public Island(boolean hasMotherNature) {
@@ -34,8 +33,9 @@ public class Island implements Serializable {
     }
 
     /**
-     * This is the constructor of the other islands, which are initialized with one random student,
+     * Constructor of all island, except for 0 and 6.Each one is initialized with one random student,
      * specified in the parameter firstStudent.
+     * @param firstStudent firstStudent to add to the island.
      */
     public Island(Student firstStudent) {
         this.hasMotherNature = false;
@@ -51,31 +51,32 @@ public class Island implements Serializable {
 
 
     /**
-     * This method return true is there is the MotherNature on the island , false vice-versa
+     * This method return true is there is MotherNature on the island , false vice-versa.
      */
     public boolean hasMotherNature() {
         return hasMotherNature;
     }
 
     /**
-     * This method returns the map of students
+     * This method returns the map of students on the island.
      */
     public Map<CharacterColor, List<Student>> getStudents() {
         return students;
     }
+
     /**
-     * This method returns the list of towers
+     * This method returns the list of towers on the island.
      */
     public List<Tower> getTowers() {
         return towers;
     }
+
     /**
-     * This method returns true if there the island is marked as locked, false vice-versa
+     * This method returns true if the island is marked as locked, false vice-versa.
      */
     public boolean hasNoEntryTile() {
-        if (noEntryTile == 0) return false;
-        else return true;
-    } //prima era isLocked
+        return noEntryTile != 0;
+    }
 
     /**
      * This method return the tower color, which is an instance of the PlayerColor.
@@ -87,36 +88,46 @@ public class Island implements Serializable {
     }
 
 
-    /** This method sets the boolean hasMotherNature*/
+    /** This method sets the boolean hasMotherNature
+     * @param hasMotherNature specifies if motherNature is on the island or not.
+     * */
+
     public void setMotherNature(boolean hasMotherNature) {
         this.hasMotherNature = hasMotherNature;
     }
-    /** This method sets the boolean locked*/
+
+    /** This method sets the boolean locked
+     * @param locked specifies whether to add or remove a noEntryTile from the island.
+     * */
     public void setNoEntryTile(boolean locked) {
         if(locked)
             noEntryTile++;
         else noEntryTile--;
     }
 
+    /** This method return the number of noEntryTiles on the island*/
     public int getNoEntryTile(){
         return noEntryTile;
     }
+
     /** This method adds a single tower to the list of towers*/
     public void addTower(Tower tower) {
         towers.add(tower);
     }
 
-    /** This method adds a tower to the previous list of towers, which already exists*/
+    /** This method adds a list of towers to the previous list of towers.*/
     public void addTowers(List<Tower> towers) {
         this.towers.addAll(towers);
     }
 
-    /** This method adds a single tower to the list of towers*/
+    /** This method adds a single student to the list of students.
+     * @param student student to add to the list.
+     * */
     public void addStudent(Student student) {
         this.students.get(student.getColor()).add(student);
     }
 
-    /** This method adds a list student to the previous list of students, which already exists*/
+    /** This method adds a list student to the previous list of students*/
     public void addStudents(List<Student> students) {
         for (Student s : students) {
             addStudent(s);

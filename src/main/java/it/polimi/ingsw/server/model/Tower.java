@@ -6,7 +6,7 @@ import it.polimi.ingsw.enums.PlayerColor;
 import java.io.Serializable;
 
 /**
- * This class implements the element 'tower' in the board.
+ * This class represents the element 'tower' in the board.
  * It has a color and an owner.
  */
 public class Tower implements Serializable {
@@ -14,7 +14,7 @@ public class Tower implements Serializable {
     private final int ownerId;
 
     /**
-     * The constructor of the class
+     * Constructor of the class
      */
     public Tower(int ownerId, PlayerColor color) {
         this.ownerId = ownerId;
@@ -22,21 +22,22 @@ public class Tower implements Serializable {
     }
 
     /**
-     * @return the tower's owner
+     * @return the id of the tower's owner.
      */
     public int getOwner() {
         return ownerId;
     }
 
     /**
-     * @return the color of the tower
+     * @return the color of the tower.
      */
     public PlayerColor getColor() {
         return color;
     }
 
     /**
-     * The tower will be displayed on the screen as a colorful symbol from the AnsiCode
+     * Override of the toString method.
+     * The tower will be displayed on the screen as a colorful symbol from the AnsiCode.
      */
     @Override
     public String toString() {

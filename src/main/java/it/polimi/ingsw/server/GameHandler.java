@@ -303,7 +303,9 @@ public class GameHandler implements PropertyChangeListener {
                 + " has disconnected, the match will now end" + "\nThanks for playing!", false, true));
         clients.remove(clients.get(disconnected));
         for (VirtualView client : clients) {
-            client.closeConnection(false);
+            //client.closeConnection(false);
+            Thread t = new Thread(() -> client.closeConnection(false));
+            t.start();
         }
         server.removeGameHandler(this);
     }

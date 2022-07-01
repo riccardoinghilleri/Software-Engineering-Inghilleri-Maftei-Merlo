@@ -160,7 +160,7 @@ public class Board implements Serializable {
     }
 
     /**
-     * It fills the Entrance of each school with the needed students number.
+     * It fills with the needed students number the Entrance of each school.
      */
     private void setInitialEntrance() {
         for (School school : schools) {
@@ -347,7 +347,6 @@ public class Board implements Serializable {
 
     public Student removeRandomStudent() {
         return students.remove(students.size() - 1);
-        //TODO se gli studenti non sono abbastanza le nuvole devono rimanere vuote
     }
 
     /**

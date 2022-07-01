@@ -114,6 +114,41 @@ public class Server implements Runnable {
     }
 
     /**
+     * This method remove a client from queue
+     * @param client connection with the client.
+     * @param playersNumber number of players involved in the specified game.
+     * @param expertMode chosen game mode.
+     */
+    public void removeClientConnection(VirtualView client, int playersNumber, boolean expertMode){
+        lockQueue.lock();
+        try {
+            if (playersNumber == 2) {
+                if (!expertMode) {
+                    twoPlayersNormal.remove(client);
+                } else {
+                    twoPlayersExpert.remove(client);
+                }
+            } else if (playersNumber == 3) {
+                if (!expertMode) {
+                    threePlayersNormal.remove(client);
+                } else {
+                    threePlayersExpert.remove(client);
+                }
+            } else {
+                if (!expertMode) {
+                    fourPlayersNormal.remove(client);
+                } else {
+                    fourPlayersExpert.remove(client);
+                }
+            }
+        } finally {
+            System.out.println(this);
+            lockQueue.unlock();
+        }
+
+    }
+
+    /**
      * This method creates the queue according to the game mode and number of
      * players chosen by each client.
      * @param client connection with the client.

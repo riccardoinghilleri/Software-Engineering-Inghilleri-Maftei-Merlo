@@ -18,6 +18,8 @@ public class VirtualView implements Runnable {
     private boolean inGame;
 
     private boolean alreadySettings;
+    private int playersNumber;
+    private boolean isExpertMode;
 
     private final AtomicBoolean active, closed;
     private final AtomicBoolean ping_response;
@@ -108,7 +110,9 @@ public class VirtualView implements Runnable {
                     else if (inGame)
                         gameHandler.manageMessage(this, (Message) clientMessage);
                     else if (!alreadySettings && clientMessage instanceof SettingsMessage) {
-                        server.addClientConnectionToQueue(this, ((SettingsMessage) clientMessage).getPlayersNumber(), ((SettingsMessage) clientMessage).isExpertMode());
+                        this.playersNumber=((SettingsMessage) clientMessage).getPlayersNumber();
+                        this.isExpertMode=((SettingsMessage) clientMessage).isExpertMode();
+                        server.addClientConnectionToQueue(this,playersNumber ,isExpertMode);
                         this.alreadySettings = true;
                     }
                 } else {
@@ -151,6 +155,8 @@ public class VirtualView implements Runnable {
 
             if (quit && gameHandler != null)
                 gameHandler.endGame(clientId);
+            else if(!inGame)
+                server.removeClientConnection(this,playersNumber,isExpertMode);
             //per non avere SocketException lato client se cerca d'inviare un messaggio dopo che
             //è stata chiusa la connessione
             try {

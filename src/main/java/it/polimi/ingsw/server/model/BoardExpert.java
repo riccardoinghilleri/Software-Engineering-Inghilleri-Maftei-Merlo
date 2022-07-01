@@ -24,7 +24,6 @@ public class BoardExpert extends Board {
         boardCoins = 20;
 
         characterCards = createThreeRandomCharacterCards();
-        createThreeCharacterCards(4);
 
         playerCoins = new int[gameModel.getPlayersNumber()];
         for (Player p : gameModel.getPlayers()) {

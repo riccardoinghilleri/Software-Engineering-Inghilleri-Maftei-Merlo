@@ -88,7 +88,9 @@ public class Controller {
         filled = gameModel.getBoard().setStudentsonClouds();
         phase = Action.CHOOSE_ASSISTANT_CARD;
         gameModel.setCurrentPlayer(playerTurnNumber);
-
+        for(Player player: gameModel.getPlayers()){
+            player.setAssistantCard(-1);
+        }
     }
 
     /**
@@ -422,7 +424,6 @@ public class Controller {
      * @param actionMessage message containing the action to be done
      * @throws InvalidChosenStepsException type of exception thrown
      */
-    //TODO controllare se usare characterCardName e i suoi metodi
     private void checkChosenSteps(ActionMessage actionMessage) throws InvalidChosenStepsException {
         int steps = gameModel.getCurrentPlayer().getChosenAssistantCard().getMotherNatureSteps();
         if (characterCardName != null && characterCardName.equalsIgnoreCase("POSTMAN")) {

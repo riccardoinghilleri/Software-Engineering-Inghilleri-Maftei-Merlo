@@ -66,7 +66,7 @@ public class ShopController implements GuiController {
 
     /**
      * It sets to enable the Buy button
-     * @param value
+     * @param value of type boolean
      */
     public void setEnableBuyBtn(boolean value) {
         enableBuyBtn = value;
@@ -89,14 +89,14 @@ public class ShopController implements GuiController {
         this.message = message;
     }
     /**
-     * Method pressButton detects when  a button of the winner stage is pressed
+     * Method pressButton detects when  a button is pressed
      * @param event of type Mouse Event
      */
     public void pressButton(MouseEvent event) {
         ((Button) event.getSource()).getStyleClass().add("buttonPressed");
     }
     /**
-     * Method pressButton detects when  a button of the winner stage is released
+     * Method pressButton detects when  a button  is released
      * @param event of type Mouse Event
      */
     public void releaseButton(MouseEvent event) {
@@ -196,7 +196,7 @@ public class ShopController implements GuiController {
         studentsPane.setVisible(false);
     }
     /**
-     * This method select the object when the mouse is on it, changing the glow of the node selected.
+     * This method selects the object when the mouse is on it, changing the glow of the node selected.
      * @param event of type MouseEvent
      */
     public void select(MouseEvent event) {
@@ -204,7 +204,7 @@ public class ShopController implements GuiController {
         ((Node) object).setEffect(new Glow(0.8));
     }
     /**
-     * This method unselect the object when the mouse is on it, changing the glow of the node selected.
+     * This method unselects the object when the mouse is on it, changing the glow of the node selected.
      * @param event of type MouseEvent
      */
     public void unselect(MouseEvent event) {

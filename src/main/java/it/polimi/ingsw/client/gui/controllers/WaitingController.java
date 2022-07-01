@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
 /**
- * Waiting Controller displays the page waiting, while the other players are choosing the parameters
+ * Waiting Controller displays the waiting page, while the other players are choosing the parameters.
  */
 public class WaitingController implements GuiController {
     private Gui gui;
@@ -26,7 +26,7 @@ public class WaitingController implements GuiController {
 
     /**
      * This method sets the infoText label to the constants 'Waiting'
-     * @param text
+     * @param text of type String
      */
     public void setInfoText(String text) {
         if(!text.equalsIgnoreCase(Constants.WAITING)){

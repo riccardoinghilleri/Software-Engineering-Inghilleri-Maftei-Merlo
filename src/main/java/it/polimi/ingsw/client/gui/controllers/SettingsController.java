@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 /**
- * SettingsController displays the page of settngs( ip address and number port)
+ * SettingsController displays the page of settings( ip address and number port)
  */
 public class SettingsController implements Initializable, GuiController {
 
@@ -51,6 +51,7 @@ public class SettingsController implements Initializable, GuiController {
 
     /**
      * This method sets the ip address and the port number and checks if they are correct.
+     * Then changes the scene to the 'waiting' scene
      */
     public void confirm() {
         boolean error = false;
@@ -116,9 +117,9 @@ public class SettingsController implements Initializable, GuiController {
     }
 
     /**
-     *
-     * @param url
-     * @param resourceBundle
+     * This method initializes the playersNumber
+     * @param url of type URl
+     * @param resourceBundle of type ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -132,7 +133,7 @@ public class SettingsController implements Initializable, GuiController {
         this.gui = gui;
     }
     /**
-     * Method pressButton detects when  a button of the winner stage is pressed
+     * Method pressButton detects when  a button is pressed
      * @param event of type Mouse Event
      */
     public void pressButton(MouseEvent event){
@@ -140,7 +141,7 @@ public class SettingsController implements Initializable, GuiController {
 
     }
     /**
-     * Method pressButton detects when  a button of the winner stage is released
+     * Method pressButton detects when  a button is released
      * @param event of type Mouse Event
      */
     public void releaseButton(MouseEvent event){

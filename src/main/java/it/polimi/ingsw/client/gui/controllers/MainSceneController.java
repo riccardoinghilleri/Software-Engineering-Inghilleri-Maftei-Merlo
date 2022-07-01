@@ -29,8 +29,8 @@ import javafx.util.Duration;
 import java.util.Objects;
 
 /**
- * MainSceneController displays the counterpart of the board on Gui.
- * It handles the mainScene.fxml by executing commands form the GUI
+ * MainSceneController displays the counterpart of the board on Gui, and it is the principal scene,always visible when game starts. .
+ * It handles the mainScene.fxml by executing commands from the GUI
  */
 public class MainSceneController implements GuiController {
     private Gui gui;
@@ -57,7 +57,7 @@ public class MainSceneController implements GuiController {
     private ActionMessage message;
 
     /**
-     * SetAction method sets the action of the message
+     * SetAction method sets the action to an action message.
      * @param action type of action
      */
     //TODO CONTROLLA L'USO DEL DISABLESCHOOLBUTTONS
@@ -75,7 +75,7 @@ public class MainSceneController implements GuiController {
 
     /**
      * Sets the text to the infoText label
-     * @param text string to
+     * @param text of type String
      */
     public void setInfoText(String text) {
         infoText.setText(text);
@@ -88,12 +88,16 @@ public class MainSceneController implements GuiController {
         return message;
     }
 
+    /**
+     * This method sets the message
+     * @param message of type Action Message
+     */
     public void setMessage(ActionMessage message) {
         this.message = message;
     }
 
     /**
-     * This method creates the school
+     * This method manages the creation of the schools
      */
     public void setSchool(School[] school) {
         this.school = school;
@@ -101,10 +105,18 @@ public class MainSceneController implements GuiController {
         displayedSchool = gui.getConnection().getClientId();
     }
 
+    /**
+     * Getter of button noBtn
+     * @return a button
+     */
     public Button getNoBtn() {
         return noBtn;
     }
 
+    /**
+     * Getter of button shopBtn
+     * @return a button
+     */
     public Button getShopBtn() {
         return shopBtn;
     }
@@ -118,7 +130,8 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * This method sends
+     * This method manages the sending of messages from the gui throw the connection( of type ClientConnection)
+     * @param event of type MouseEvent
      */
     public void sendMessage(MouseEvent event) {
         if (event.getSource() instanceof Circle) {
@@ -196,6 +209,8 @@ public class MainSceneController implements GuiController {
     /**
      * This method is used when a player has to choose a student from the entrance to move it to the diningRoom.
      * All available places are highlighted.
+     * @param color of type String
+     * @param visible of type boolean
      */
     public void glowDiningroom(String color, boolean visible) {
         int size;
@@ -212,8 +227,8 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     *
-     * @param visible
+     * This method is used when a player has to choose a student from the entrance to move it to the diningRoom.
+     * @param visible of type boolean
      */
     public void glowDiningroom(boolean visible) {
         int size;
@@ -230,7 +245,7 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     *
+     * This method manages the selection of different types of mouseEvent.
      * @param event a mouse action on the object.
      */
     public void select(MouseEvent event) {
@@ -246,7 +261,10 @@ public class MainSceneController implements GuiController {
             ((Circle) entrance.getChildren().get(id)).setStroke(Color.BLACK);
         }
     }
-
+    /**
+     * This method manages the unselection of different types of mouseEvent.
+     * @param event a mouse action on the object.
+     */
     public void unselect(MouseEvent event) {
         if (event.getSource() instanceof Circle) {
             ((Circle) event.getSource()).setStroke(Color.rgb(255, 223, 0));
@@ -262,8 +280,8 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     *
-     * @param event type of event
+     * Method setStudentColor
+     * @param event type of MouseEvent
      */
     public void setStudentColor(MouseEvent event) {
         if (studentColor != null) {
@@ -616,7 +634,7 @@ public class MainSceneController implements GuiController {
     /**
      * This method allows to choose the cloud and send the id of the cloud throw the connection.
      * Moreover, after choosing the cloud it enables the shop.
-     * @param event
+     * @param event of type MouseEvent
      */
     public void chooseCloud(MouseEvent event) {
         int index = Integer.parseInt(((ImageView) event.getSource()).getId().split("_")[0]);
@@ -628,8 +646,8 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     *
-     * @param event a mouse action on the object island.
+     * This method manages the actions which can be done on an island.
+     * @param event a type of MouseEvent.
      */
     public void setIsland(MouseEvent event) {
         int index = Integer.parseInt(((ImageView) event.getSource()).getId().split("_")[0]);
@@ -700,7 +718,7 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * This method disable the clouds and the node cloud can't be anymore pressed.
+     * This method disable the clouds and the node cloud can't be pressed anymore.
      */
     public void disableClouds() {
         for (Node node : cloudsPane.getChildren()) {
@@ -710,7 +728,7 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * This method return the cloud requested throw the id
+     * This method returns the cloud requested throw the id
      * @param index id of cloud
      * @return the anchor pane type cloud
      */
@@ -735,7 +753,7 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     * This method sets the visibility of the objects on the island( students, tower and no entry tiles)
+     * This method manages the visibility of the objects on the island( students, tower and no entry tiles)
      */
     private void clearAllIslands() {
         for (Node node : islandsPane.getChildren()) {
@@ -806,7 +824,8 @@ public class MainSceneController implements GuiController {
     }
 
     /**
-     *
+     * This method sets the characterCardName to null and sends the message throw the connection.
+     * The shop becomes not visible anymore.
      * @param event of type ActionEvent
      */
     public void noCharacterCard(ActionEvent event) {
@@ -858,15 +877,15 @@ public class MainSceneController implements GuiController {
     }*/
 
     /**
-     * This method return the number of the students in the diningRoomStudent
-     * @return
+     * This method returns the number of the students in the diningRoom.
      */
     public int getDiningroomStudents() {
         return school[gui.getConnection().getClientId()].getNumDiningRoomStudents();
     }
 
     /**
-     * setter of Gui
+     * @see GuiController
+     * @param gui of type Gui- the main Gui class
      */
     @Override
     public void setGui(Gui gui) {

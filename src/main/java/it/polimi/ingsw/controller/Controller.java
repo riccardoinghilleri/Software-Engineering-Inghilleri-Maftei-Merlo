@@ -80,7 +80,7 @@ public class Controller {
     /**
      * This method calls the board to fill the clouds.
      * It moves the phase to the next one, that is CHOOSE_ASSISTANT_CARD
-     * Moreover sets the current player throw the gameModel.
+     * Moreover sets the current player through the gameModel.
      */
     public void setClouds() {
         gameModel.getBoard().setStudentsonClouds();
@@ -298,7 +298,7 @@ public class Controller {
     }
 
     /**
-     * This method sets the strategy and use the effect or creates the correct action controller, throw the name of character card,
+     * This method sets the strategy and use the effect or creates the correct action controller, through the name of character card,
      * gotten from the action message.
      *
      * @param actionMessage message containing the action to be done

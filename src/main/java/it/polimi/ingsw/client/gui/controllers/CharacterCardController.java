@@ -42,29 +42,47 @@ public class CharacterCardController implements GuiController {
     private TextField movements_textField;
 
     /**
-     * Setters of the parameters.
+     * This method sets the parameter alreadyAskedMovements
+     * @param alreadyAskedMovements of type boolean
      */
     public void setAlreadyAskedMovements(boolean alreadyAskedMovements) {
         this.alreadyAskedMovements = alreadyAskedMovements;
     }
+
+    /**
+     * This method returns the boolean alreadyAskedMovements
+     * @return a boolean
+     */
     public boolean isAlreadyAskedMovements() {
         return alreadyAskedMovements;
     }
 
+    /**
+     * This method sets the stage
+     * @param stage of type Stage
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * This method sets the MainSceneController
+     * @param mainSceneController of type MainSceneController
+     */
     public void setMainSceneController(MainSceneController mainSceneController) {
         this.mainSceneController = mainSceneController;
     }
 
+    /**
+     * This method sets the message
+     * @param message of type Action message
+     */
     public void setMessage(ActionMessage message) {
         this.message = message;
     }
 
     /**
-     * This method clear the pane of the characterCards
+     * This method clear the nodes with the characterCards
      */
     public void clear() {
         for (int i = 1; i <= 12; i++) {
@@ -78,8 +96,8 @@ public class CharacterCardController implements GuiController {
     }
 
     /**
-     * This method creates the characterCard node.
-     * According to the card,the text field changes.
+     * This method handles the characterCard nodes and sets the actions that can be done with each card.
+     * Baesd on the card,the text field changes.
      *@param card instance of characterCard
      */
 
@@ -129,9 +147,9 @@ public class CharacterCardController implements GuiController {
     }
 
     /**
-     * This method manages part of the action which can be done with a card.
+     * This method manages part of the actions which can be done with Priest,Clown and Thief.
      *
-     * @param event a mouse action on the object
+     * @param event of type Mouse Event
      */
     public void setColor(MouseEvent event) {
         message.setParameter(((Circle) event.getSource()).getId().toUpperCase());
@@ -160,8 +178,8 @@ public class CharacterCardController implements GuiController {
     }
 
     /**
-     * This method receives the number of movements in the movements_textFiled, showing a message of inavlid
-     * input in case the player chooses more than 3 and less than 1 movements.
+     * This method receives the number of movements(how many students) in the movements_textFiled, showing a message of invalid
+     * input in case the player chooses more than 3 or less than 1 movements for the Clown Card and Performer.
      */
     public void setMovements() {
         int movements = -1;
@@ -188,7 +206,7 @@ public class CharacterCardController implements GuiController {
     }
 
     /**
-     * This method select the object when the mouse is on it, changing the glow of the node selected.
+     * This method selects the object when the mouse is on it, changing the glow of the node selected.
      * @param event a mouse action on the object.
      */
     public void select(MouseEvent event) {
@@ -197,7 +215,7 @@ public class CharacterCardController implements GuiController {
     }
 
     /**
-     * This method unselect the object when the mouse is on it, changing the glow of the node selected.
+     * This method unselects the object when the mouse is on it, changing the glow of the node selected.
      * @param event a mouse action on the object.
      */
     public void unselect(MouseEvent event) {
@@ -205,6 +223,10 @@ public class CharacterCardController implements GuiController {
         ((Node) object).setEffect(null);
     }
 
+    /**
+     * This method manages the students on the CharacterCards with students
+     * @param card of type CharacterCard
+     */
     private void enableStudentsPane(CharacterCard card) {
         studentsPane.setVisible(true); //cambiamento
         for (int i = 1; i <= 6; i++) {
@@ -223,7 +245,6 @@ public class CharacterCardController implements GuiController {
             }
         }
     }
-
 
     private void allColorsStudentsPane() {
         studentsPane.setVisible(true);

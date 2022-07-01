@@ -128,7 +128,7 @@ public class Cli implements View {
 
     /**
      * This method manages the choice of the players number and expert game, parsing the player's input
-     * and forwarding the message throw the established clientConnection
+     * and forwarding the message through the established clientConnection
      */
     private void setupGameSetting() {
         System.out.println(">Choose number of players [2/3/4]: ");
@@ -147,7 +147,7 @@ public class Cli implements View {
 
     /**
      * This method manages the choice of the player's nickname, parsing the player's input
-     * and forwarding the message throw the established clientConnection.
+     * and forwarding the message through the established clientConnection.
      * If the nickname has been already chosen , it displays a message on the CLI.
      */
     public void setupNickname(NicknameMessage message) {

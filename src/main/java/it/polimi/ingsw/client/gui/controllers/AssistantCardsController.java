@@ -36,7 +36,7 @@ public class AssistantCardsController implements GuiController {
     }
 
     /**
-     * Method EnableCards creates a node for each assistant card available.
+     * Method EnableCards creates a node for each assistant card available and makes them enable
      * @param cards list of AssistantCards
      */
     public void enableCards(List<AssistantCard> cards) {
@@ -50,7 +50,7 @@ public class AssistantCardsController implements GuiController {
     }
 
     /**
-     * Method that sets the priority on each assistantCard .
+     * Method setPriority sets the priority on each assistantCard .
      * @param event of type MouseEvent
      */
     public void setPriority(MouseEvent event) {
@@ -67,7 +67,7 @@ public class AssistantCardsController implements GuiController {
     }
 
     /**
-     * This method select the object when the mouse is on it, changing the glow of the node selected.
+     * This method selects the object when the mouse is on it, changing the glow of the node selected.
      * @param event of tpe MouseEvent
      */
     public void select(MouseEvent event) {
@@ -75,7 +75,7 @@ public class AssistantCardsController implements GuiController {
         ((Node) object).setEffect(new Glow(0.8));
     }
     /**
-     * This method unselect the object when the mouse is on it, changing the glow of the node selected.
+     * This method unselects the object when the mouse is on it, changing the glow of the node selected.
      * @param event of tpe MouseEvent
      */
     public void unselect(MouseEvent event) {
@@ -93,7 +93,7 @@ public class AssistantCardsController implements GuiController {
 
     /**
      * This method allows to choose the assistant Card.
-     * It sends a message with the priority chosen to the server, throw clientConnection.
+     * It sends a message with the priority chosen to the server, throw clientConnection in an ActionMessage.
      * When the player has already chosen the stage is closed.
      */
     public void choose() {
@@ -114,7 +114,7 @@ public class AssistantCardsController implements GuiController {
     }
 
     /**
-     * This method disables the ability to choose a card after being already chosen, by setting the visibility to false.
+     * This method disables all the cards except the parts with labels and buttons
      */
     private void disableAllCards() {
         priority=-1;
@@ -126,18 +126,25 @@ public class AssistantCardsController implements GuiController {
             warning.setVisible(false);
         }
     }
-
+    /**
+     * Method pressButton detects when  a button is pressed
+     * @param event of type Mouse Event
+     */
     public void pressButton(MouseEvent event){
         ((Button)event.getSource()).getStyleClass().add("buttonPressed");
 
     }
+    /**
+     * Method pressButton detects when  a button is released
+     * @param event of type Mouse Event
+     */
     public void releaseButton(MouseEvent event){
         ((Button)event.getSource()).getStyleClass().clear();
         ((Button)event.getSource()).getStyleClass().add("button");
     }
 
     /**
-     * This method sets the stage of the assistant Card.
+     * This method sets the stage .
      */
     public void setStage(Stage stage) {
         this.stage = stage;

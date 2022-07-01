@@ -410,7 +410,7 @@ public class GameHandler implements PropertyChangeListener {
 }
 
 /**
- * class that implements the virtualView throw comparator.
+ * class that implements the virtualView through comparator.
  * It is used to compare 2 client id and used in the setUpGame() method when the turn begin.
  */
 class IdComparator implements Comparator<VirtualView> {

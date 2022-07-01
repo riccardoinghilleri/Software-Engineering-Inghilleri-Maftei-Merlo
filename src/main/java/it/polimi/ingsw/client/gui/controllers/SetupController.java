@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * SetUpController displays the initial Stage, when the client has to choose nickname, color and wizard
+ * SetUpController displays the initial Stage, when the client has to choose nickname, color and wizard.
  */
 public class SetupController implements GuiController {
     private Gui gui;
@@ -45,7 +45,7 @@ public class SetupController implements GuiController {
     private Object selectNode = null;
 
     /**
-     * This method sends throw the connection the chosen nickname, after the player passes it in input
+     * This method sends throw the connection the chosen nickname or the choice of color and wizard, after the player puts in input
      */
     //bottone checkNickname
     public void sendChoice() {
@@ -62,7 +62,7 @@ public class SetupController implements GuiController {
     }
 
     /**
-     * This method activates the anchor pane for to color choice.
+     * This method activates the anchor pane for the color choice(which corresponds to the tower).
      * @param colors list of string
      */
     public void enablePlayerColors(List<String> colors) {
@@ -84,7 +84,7 @@ public class SetupController implements GuiController {
     }
     /**
      * This method select the object when the mouse is on it, changing the glow of the node selected.
-     * @param event a mouse action on the object.
+     * @param event of type MouseEvent
      */
     public void select(MouseEvent event) {
         Object object = event.getSource();
@@ -92,7 +92,7 @@ public class SetupController implements GuiController {
     }
     /**
      * This method unselect the object when the mouse is on it, changing the glow of the node selected.
-     * @param event a mouse action on the object.
+     * @param event of Type Mouse Event.
      */
     public void unselect(MouseEvent event) {
         Object object = event.getSource();
@@ -123,8 +123,8 @@ public class SetupController implements GuiController {
     }
 
     /**
-     * This method send an alert message of automatic choice( of color or wizard, depending on numplayers)
-     * @param choice
+     * This method shows a scene with an automatic choice( wizard or color)
+     * @param choice of type String
      */
     public void automaticChoiceAlert(String choice) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -135,14 +135,14 @@ public class SetupController implements GuiController {
 
     /**
      * This set visible the nickname error label
-     * @param visible
+     * @param visible of type Boolean
      */
     public void setNicknameNotAvailable(boolean visible) {
         error_label.setVisible(visible);
     }
 
     /**
-     * This method manages the selection of the tower.
+     * This method manages the selection of the image tower.
      * @param event of type MouseEvent
      */
     public void setChoiceTower(MouseEvent event) {

@@ -36,7 +36,7 @@ public class Gui extends Application implements View {
     private boolean alreadyAskedAssistantCard = false;
 
     /**
-     * Main class of the Gui,which is called from the 'Eriantys' class in case the player decides to play with this interface
+     * Main class of the Gui,which is called from the "Eriantys" class in case the player decides to play with this interface.
      * @param args
      */
     public static void main(String[] args) {
@@ -52,7 +52,7 @@ public class Gui extends Application implements View {
     }
 
     /**
-     * Method setExpertMode sets the mode of the game
+     * Method setExpertMode sets the game mode
      * @param expertMode boolean
      */
 
@@ -61,7 +61,7 @@ public class Gui extends Application implements View {
     }
 
     /**
-     * Method getScenes returns an hashMap with string and scenes.
+     * Method getScenes returns an hashMap which connects strings to scenes.
      * @return an hashMap
      */
     public HashMap<String, Scene> getScenes() {
@@ -69,7 +69,7 @@ public class Gui extends Application implements View {
     }
 
     /**
-     * This method sets the connection
+     *Method setConnection sets the connection
      * @param connection of type ClientConnection
      */
     public void setConnection(ClientConnection connection) {
@@ -78,14 +78,14 @@ public class Gui extends Application implements View {
     }
 
     /**
-     * This method return the player numbers
+     *Method getPlayersNumber return the player numbers
      * @return player numbers
      */
     public Integer getPlayersNumber() {
         return playersNumber;
     }
     /**
-     * This method sets the player numbers
+     * method  SetPlayersNumber sets the player numbers
      */
     public void setPlayersNumber(Integer playersNumber) {
         this.playersNumber = playersNumber;
@@ -101,7 +101,7 @@ public class Gui extends Application implements View {
     }
 
     /**
-     * This method returns a gui controller by using a scene.
+     * This method returns a gui controller by using a scene and a hashmap.
      * @param scene of type Scene
      * @return a gui controller
      */
@@ -115,20 +115,27 @@ public class Gui extends Application implements View {
         return getControllerByFxmlName(currentSceneFxmlName);
     }
 
+    /**
+     * isExpertMode returns the game mode
+     */
     public boolean isExpertMode() {
         return expertMode;
     }
-
+    /**
+     * setAddress sets the ip address
+     */
     public void setAddress(String address) {
         this.address = address;
     }
-
+    /**
+     * setPort sets the port
+     */
     public void setPort(int port) {
         this.port = port;
     }
 
     /**
-     * This method sets the currentScene to a new scene and sets it to the stage.
+     * Method changeScene sets the currentScene to a new scene and sets it to the stage.
      * @param newScene of type Scene
      */
     public void changeScene(String newScene) {
@@ -139,7 +146,7 @@ public class Gui extends Application implements View {
 
     /**
      * This method creates all the stage phases which are updated in other methods.
-     * It sets the currentScene to the WelcomeScene.
+     * It also sets the currentScene to the WelcomeScene.
      */
     private void setup() {
         List<String> fxmlList = new ArrayList<>(Arrays.asList("welcome.fxml", "settings.fxml",
@@ -166,7 +173,7 @@ public class Gui extends Application implements View {
     }
 
     /**
-     * This method sets the initialStage and calls the setup() method
+     * This method calls the setup() method and sets the initialStage.
      * @param primaryStage of type Stage
      */
     @Override
@@ -182,7 +189,7 @@ public class Gui extends Application implements View {
     }
 
     /**
-     * This method manages the Quit option, when a player wants to disconnect in any moment during the game
+     * Method closeRequestHandler manages the Quit option, when a player wants to disconnect in any moment during the game
      * @param event of type WindowEvent
      */
     private void closeRequestHandler(WindowEvent event) {
@@ -200,7 +207,8 @@ public class Gui extends Application implements View {
     }
 
     /**
-     * This method creates the mainSceneController and manages the different phases of each turn
+     * Method askAction creates the mainSceneController,bound to the FXML scene of board
+     * and manages the different phases of each turn during the game.
      * @param message of type AskActionMessage
      */
     @Override
@@ -322,7 +330,7 @@ public class Gui extends Application implements View {
     }
 
     /**
-     * This method set the availableChoices from the message multipleChoiceMessage
+     * This method sets the available choices of wizards and playerColors on the setUpController ,from the message multipleChoiceMessage
      * @param message of type MultipleChoiceMessage
      */
     @Override
@@ -337,7 +345,7 @@ public class Gui extends Application implements View {
         });
     }
     /**
-     * This method set the nickname of a player from the nickName message
+     * This method sets the nickname of a player from the nickName message
      * @param message of type NicknameMessage
      */
     @Override
@@ -351,7 +359,8 @@ public class Gui extends Application implements View {
     }
 
     /**
-     * This method displays the updated Board
+     * This method displays the updated Board, paying attention if the current scene is a waitingController and the connection
+     * corresponds to the last player in the game.
      * @param message of type UpdateBoard
      */
     @Override

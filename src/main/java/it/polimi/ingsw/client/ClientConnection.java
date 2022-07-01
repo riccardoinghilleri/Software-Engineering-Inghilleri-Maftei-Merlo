@@ -41,7 +41,7 @@ public class ClientConnection implements Runnable {
     }
 
     /**
-     * Method used to send a message throw the OutStream.
+     * Method used to send a message through the OutStream.
      */
     public synchronized void send(Message message) {
         if (active.get()) {
@@ -57,7 +57,7 @@ public class ClientConnection implements Runnable {
 
     /**
      * The method run waits for a message until active is true.
-     * It receives the messages throw the input stream and calls the startMessageManager.
+     * It receives the messages through the input stream and calls the startMessageManager.
      */
     @Override
     public void run() {

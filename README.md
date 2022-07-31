@@ -1,6 +1,6 @@
 # Eriantys Board Game
-<!--[![License: MIT][license-image]][license]
-![latest commit](https://img.shields.io/github/last-commit/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino?color=red)
+[![License: MIT][license-image]][license]
+<!--![latest commit](https://img.shields.io/github/last-commit/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino?color=red)
 ![latest release](https://img.shields.io/github/v/release/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino?color=green)-->
 
 <img src="https://img.dungeondice.it/49229-large_default/eriantys.jpg" width=190px height=190px align="right" />
@@ -76,17 +76,17 @@ All tests in model and controller has a classes' coverage at 100%.
 **Draw.io** - UML diagrams and sequence diagrams
 
 **Intellij IDEA Ultimate** - main IDE
-<!--
+
 ## Copyright and license
 
 Eriantys Board Game is copyrighted 2022.
 
-Licensed under the **[MIT License](https://github.com/riccardoinghilleri/ing-sw-2022-inghilleri-maftei-merlo/blob/main/LICENSE)** ;
+Licensed under the **[MIT License](https://github.com/riccardoinghilleri/ing-sw-2022-inghilleri-maftei-merlo/blob/main/LICENSE)**;
 you may not use this software except in compliance with the License.
 
-
-[license]: https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/blob/master/LICENSE
+[license]: https://github.com/riccardoinghilleri/ing-sw-2022-inghilleri-maftei-merlo/blob/main/LICENSE
 [license-image]: https://img.shields.io/badge/License-MIT-blue.svg
+<!--
 [javadocs-image]: github/Artboard%202.png
 [javadocs]: https://s0nn1.github.io/santorini-javadocs/
 [installation-link]: https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/wiki/Installation

@@ -8,6 +8,7 @@
 Eriantys Board Game is the final test of **"Software Engineering"**, course of [Computer Science and Engineering](https://ccs-informatica.elet.polimi.it/) held at Politecnico di Milano (2021/2022).
 
 **Teacher** Pierluigi San Pietro
+**Grade** 30/30 cum Laude
 
 
 ## Project specification

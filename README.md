@@ -1,7 +1,5 @@
 # Eriantys Board Game
 [![License: MIT][license-image]][license]
-<!--![latest commit](https://img.shields.io/github/last-commit/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino?color=red)
-![latest release](https://img.shields.io/github/v/release/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino?color=green)-->
 
 <img src="https://img.dungeondice.it/49229-large_default/eriantys.jpg" width=190px height=190px align="right" />
 
@@ -52,13 +50,6 @@ java -jar EriantysClient.jar
 #### Legend
 [⛔]() Not Implemented &nbsp;<!--&nbsp;&nbsp;&nbsp;[⚠️]() Implementing&nbsp;-->&nbsp;&nbsp;&nbsp;[✅]() Implemented
 
-
-<!--
-[![RED](http://placehold.it/15/f03c15/f03c15)](#)
-[![YELLOW](http://placehold.it/15/ffdd00/ffdd00)](#)
-[![GREEN](http://placehold.it/15/44bb44/44bb44)](#)
--->
-
 ## Test cases
 All tests in model and controller has a classes' coverage at 100%.
 
@@ -88,14 +79,3 @@ you may not use this software except in compliance with the License.
 
 [license]: https://github.com/riccardoinghilleri/ing-sw-2022-inghilleri-maftei-merlo/blob/main/LICENSE
 [license-image]: https://img.shields.io/badge/License-MIT-blue.svg
-<!--
-[javadocs-image]: github/Artboard%202.png
-[javadocs]: https://s0nn1.github.io/santorini-javadocs/
-[installation-link]: https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/wiki/Installation
-[installation-image]: github/Artboard%201.png
-[compiling-image]: github/Artboard%203.png
-[compiling-link]: https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/wiki/Compiling
-[running-image]: github/Artboard%204.png
-[running-link]: https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/wiki/Running
-[troubleshooting-link]: https://github.com/S0NN1/ing-sw-2020-piemonti-pirovano-sonnino/wiki/Troubleshooting
-[troubleshooting-image]: github/Artboard%205.png-->

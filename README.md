@@ -85,14 +85,9 @@ All tests in model and controller has a classes' coverage at 100%.
 
 - Connection<div><img src="pics//gui_connection.jpg" alt="drawing" width="300"></div>
 
-- Setup Player<div><img src="pics//gui_setting.jpg" alt="drawing" width="300">
-<img src="pics//gui_tower.jpg" alt="drawing" width="300">
-<img src="pics//gui_wizards.jpg" alt="drawing" width="300">
-</div>
+- Setup Player <div> <img src="pics//gui_setting.jpg" alt="drawing" width="300"> <img src="pics//gui_tower.jpg" alt="drawing" width="300"> <img src="pics//gui_wizards.jpg" alt="drawing" width="300"> </div>
 
-- Assistant card choice <div>
-<img src="pics//gui_assistant_cards.jpg" alt="drawing" width="300">
-</div>
+- Assistant card choice <div> <img src="pics//gui_assistant_cards.jpg" alt="drawing" width="300"> </div>
 
 - Board<div><img src="pics//gui_board.jpg" alt="drawing" width="300">
 </div>

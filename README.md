@@ -70,6 +70,40 @@ All tests in model and controller has a classes' coverage at 100%.
 
 **Intellij IDEA Ultimate** - main IDE
 
+## Photos
+### CLI
+
+- Assistant card choice
+![](pics//cli_assistant_cards.jpg) 
+
+- Tower
+![](pics//cli_with_tower.jpg) 
+
+### GUI 
+
+- Welcome<div ><img src="pics//gui_welcome.jpg" alt="drawing" width="300"></div>
+
+- Connection<div><img src="pics//gui_connection.jpg" alt="drawing" width="300"></div>
+
+- Setup Player<div><img src="pics//gui_setting.jpg" alt="drawing" width="300">
+<img src="pics//gui_tower.jpg" alt="drawing" width="300">
+<img src="pics//gui_wizards.jpg" alt="drawing" width="300">
+</div>
+
+- Assistant card choice <div>
+<img src="pics//gui_assistant_cards.jpg" alt="drawing" width="300">
+</div>
+
+- Board<div><img src="pics//gui_board.jpg" alt="drawing" width="300">
+</div>
+
+- Tower <div><img src="pics//gui_tower_board.jpg" alt="drawing" width="300">
+</div>
+
+- Shop <div><img src="pics//gui_shop.jpg" alt="drawing" width="300">
+</div>
+
+
 ## Copyright and license
 
 Eriantys Board Game is copyrighted 2022.
